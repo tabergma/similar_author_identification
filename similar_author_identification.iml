@@ -16,48 +16,48 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit-4.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: mahout-core-0.9" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: mahout-math-0.9" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jackson-core-asl-1.9.12" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jackson-mapper-asl-1.9.12" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: slf4j-api-1.7.5" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-lang3-3.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: xstream-1.4.4" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: lucene-core-4.6.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: lucene-analyzers-common-4.6.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-cli-2.0-mahout" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-math3-3.2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: solr-commons-csv-3.5.0" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: hadoop-core-1.2.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: guava-16.0" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: xmlpull-1.1.3.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: xpp3_min-1.1.4c" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-cli-1.2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jersey-core-1.8" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jersey-json-1.8" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jersey-server-1.8" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-io-2.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-httpclient-3.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-codec-1.4" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-math-2.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-configuration-1.6" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-net-1.4.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-el-1.0" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jettison-1.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jaxb-impl-2.2.3-1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jackson-jaxrs-1.7.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jackson-xc-1.7.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: asm-3.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-collections-3.2.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-lang-2.4" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-digester-1.8" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-beanutils-core-1.8.0" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: stax-api-1.0.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: jaxb-api-2.2.2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-beanutils-1.7.0" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: stax-api-1.0-2" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: activation-1.1" level="project" />
-    <orderEntry type="library" exported="" scope="RUNTIME" name="Gradle: commons-logging-1.1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: mahout-core-0.9" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: mahout-math-0.9" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jackson-core-asl-1.9.12" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jackson-mapper-asl-1.9.12" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: slf4j-api-1.7.5" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-lang3-3.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: xstream-1.4.4" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: lucene-core-4.6.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: lucene-analyzers-common-4.6.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-cli-2.0-mahout" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-math3-3.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: solr-commons-csv-3.5.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: hadoop-core-1.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: guava-16.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: xmlpull-1.1.3.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: xpp3_min-1.1.4c" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-cli-1.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jersey-core-1.8" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jersey-json-1.8" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jersey-server-1.8" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-io-2.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-httpclient-3.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-codec-1.4" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-math-2.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-configuration-1.6" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-net-1.4.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-el-1.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jettison-1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jaxb-impl-2.2.3-1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jackson-jaxrs-1.7.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jackson-xc-1.7.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: asm-3.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-collections-3.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-lang-2.4" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-digester-1.8" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-beanutils-core-1.8.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: stax-api-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: jaxb-api-2.2.2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-beanutils-1.7.0" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: stax-api-1.0-2" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: activation-1.1" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: commons-logging-1.1.1" level="project" />
   </component>
 </module>
 
