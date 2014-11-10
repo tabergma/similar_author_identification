@@ -1,6 +1,6 @@
 from sklearn.feature_extraction.text import CountVectorizer
 
-vectorizer = CountVectorizer()
+vectorizer = CountVectorizer(token_pattern=u'(?u)\w+')
 
 def get_word_frequency(content):
 	X = vectorizer.fit_transform(content).toarray()[0]
