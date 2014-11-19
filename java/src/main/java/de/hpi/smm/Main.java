@@ -2,6 +2,7 @@ package de.hpi.smm;
 
 
 import de.hpi.smm.features.FeatureExtractor;
+import de.hpi.smm.helper.DatabaseAdapter;
 import de.hpi.smm.helper.FileWriter;
 
 import java.io.IOException;
@@ -33,7 +34,7 @@ public class Main {
 
     private static ResultSet getTestSet() {
         String statement = "SELECT POSTCONTENT FROM SYSTEM.WEBPAGE LIMIT 100000";
-        DatabaseAdapter dbAdapter = DatabaseAdapter.getSmaAdapter();
+        DatabaseAdapter dbAdapter = DatabaseAdapter.getSmaHanaAdapter();
         return dbAdapter.executeQuery(statement);
     }
 }
