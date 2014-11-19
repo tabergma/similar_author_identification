@@ -1,6 +1,5 @@
 *.class
 
-output/*
 /target
 .idea
 .gradle
