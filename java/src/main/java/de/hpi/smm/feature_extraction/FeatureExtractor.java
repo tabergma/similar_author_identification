@@ -1,4 +1,4 @@
-package de.hpi.smm.FeatureExtraction;
+package de.hpi.smm.feature_extraction;
 
 import java.util.ArrayList;
 import java.util.List;

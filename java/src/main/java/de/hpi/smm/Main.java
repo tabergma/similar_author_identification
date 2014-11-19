@@ -1,11 +1,14 @@
 package de.hpi.smm;
 
 
-import de.hpi.smm.FeatureExtraction.FeatureExtractor;
+import de.hpi.smm.feature_extraction.FeatureExtractor;
+import de.hpi.smm.helper.FileWriter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -16,6 +19,10 @@ public class Main {
         String line = reader.readLine();
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
-        System.out.println(featureExtractor.getFeatures(line));
+
+        ArrayList<List<Float>> list = new ArrayList<List<Float>>();
+        list.add(featureExtractor.getFeatures(line));
+
+        FileWriter.writeFeaturesToFile(list, "word");
     }
 }
