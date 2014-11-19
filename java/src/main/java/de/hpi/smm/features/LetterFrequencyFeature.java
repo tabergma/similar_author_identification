@@ -42,16 +42,19 @@ public class LetterFrequencyFeature {
 
     public void evaluateLetterFrequency(String text) {
         text = text.toUpperCase();
-        for (char c : text.toCharArray())
-            if (this.letterFrequencyMap.containsKey(c))
+        for (char c : text.toCharArray()) {
+            this.letterCount += 1;
+            if (this.letterFrequencyMap.containsKey(c)) {
                 this.letterFrequencyMap.put(c, this.letterFrequencyMap.get(c) + 1);
+            }
+        }
     }
 
     public List<Float> getLetterFrequency() {
         List<Float> letterFrequencyList = new ArrayList<Float>(this.letterFrequencyMap.values());
 
         for(int i = 0; i < letterFrequencyList.size(); i++) {
-            letterFrequencyList.add(i, letterFrequencyList.get(i) / this.letterCount);
+            letterFrequencyList.set(i, letterFrequencyList.get(i) / this.letterCount);
         }
 
         return letterFrequencyList;
