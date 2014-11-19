@@ -11,7 +11,7 @@ import java.util.List;
 public class FileWriter {
 
     public static String OUT_PATH = "";
-    public static String FEATURE_SEPERATOR = " ";
+    public static String FEATURE_SEPERATOR= " ";
 
     public static void writeFeaturesToFile(List<List<Float>> features, String fileName)
             throws FileNotFoundException, UnsupportedEncodingException {

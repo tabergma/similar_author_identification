@@ -5,24 +5,25 @@ import java.util.List;
 
 public class FeatureExtractor {
 
-    Boolean wordLengthFeature = true;
-
     public List<Float> getFeatures(String text) {
-        ArrayList<Float> features = new ArrayList<Float>();
+        // Initialize features
+        WordLengthFeature wordLengthFeature = new WordLengthFeature();
+        LetterFrequencyFeature letterFrequencyFeature = new LetterFrequencyFeature();
+
+        // Tokenize text
         String[] tokens = text.split("\\s");
-
-        Float wordCount = 0.f;
-        Float wordLength = 0.f;
-
         for (String token: tokens) {
-            wordCount += 1;
-            wordLength += token.length();
+            wordLengthFeature.addWordCount(1);
+            wordLengthFeature.addWordLength(token.length());
+
+            letterFrequencyFeature.evaluateLetterFrequency(token);
         }
 
-        if (wordLengthFeature)
-            features.add(wordLength / wordCount);
+        // Add features to feature list
+        ArrayList<Float> features = new ArrayList<Float>();
+        features.add(wordLengthFeature.getAvgWordLength());
+        features.addAll(letterFrequencyFeature.getLetterFrequency());
 
         return features;
     }
-
 }
