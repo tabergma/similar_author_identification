@@ -1,4 +1,4 @@
-package de.hpi.smm;
+package de.hpi.smm.FeatureExtraction;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;

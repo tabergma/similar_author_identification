@@ -1,6 +1,8 @@
 package de.hpi.smm;
 
 
+import de.hpi.smm.FeatureExtraction.Tokenizer;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
