@@ -2,6 +2,7 @@ package de.hpi.smm;
 
 
 import de.hpi.smm.features.FeatureExtractor;
+import de.hpi.smm.helper.DatabaseAdapter;
 import de.hpi.smm.helper.FileWriter;
 
 import java.io.IOException;
