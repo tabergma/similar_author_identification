@@ -1,4 +1,4 @@
-package de.hpi.smm.feature_extraction;
+package de.hpi.smm.features;
 
 
 public class WordLengthFeature {

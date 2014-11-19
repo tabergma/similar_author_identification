@@ -1,15 +1,12 @@
 package de.hpi.smm;
 
 
-import de.hpi.smm.feature_extraction.FeatureExtractor;
+import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.FileWriter;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.List;
 
