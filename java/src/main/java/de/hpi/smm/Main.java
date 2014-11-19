@@ -36,7 +36,7 @@ public class Main {
 
     private static ResultSet getTestSet() {
         String statement = "SELECT POSTCONTENT FROM SYSTEM.WEBPAGE LIMIT 100000";
-        DatabaseAdapter dbAdapter = DatabaseAdapter.getSmaAdapter();
+        DatabaseAdapter dbAdapter = DatabaseAdapter.getSmaHanaAdapter();
         return dbAdapter.executeQuery(statement);
     }
 }

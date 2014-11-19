@@ -16,7 +16,7 @@ public class DatabaseAdapter {
     DatabaseAdapter(){
     }
 
-    static DatabaseAdapter getSmaAdapter(){
+    static DatabaseAdapter getSmaHanaAdapter(){
         DatabaseAdapter databaseAdapter = new DatabaseAdapter();
 
         String ip = "141.89.225.134";
