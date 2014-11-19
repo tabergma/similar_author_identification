@@ -1,4 +1,4 @@
-package de.hpi.smm;
+package de.hpi.smm.helper;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -16,7 +16,7 @@ public class DatabaseAdapter {
     DatabaseAdapter(){
     }
 
-    static DatabaseAdapter getSmaHanaAdapter(){
+    public static DatabaseAdapter getSmaHanaAdapter() {
         DatabaseAdapter databaseAdapter = new DatabaseAdapter();
 
         String ip = "141.89.225.134";
