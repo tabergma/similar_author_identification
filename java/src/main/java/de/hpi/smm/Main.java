@@ -1,12 +1,17 @@
 package de.hpi.smm;
 
 
+import de.hpi.smm.feature_extraction.FeatureExtractor;
+import de.hpi.smm.helper.FileWriter;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
 
@@ -29,11 +34,11 @@ public class Main {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line = reader.readLine();
 
-        Tokenizer tokenizer = new Tokenizer();
-        Map<String, Integer> words = tokenizer.tokenizeText(line);
+        FeatureExtractor featureExtractor = new FeatureExtractor();
 
-        for (Map.Entry<String, Integer> word : words.entrySet()) {
-            System.out.println(word);
-        }
+        ArrayList<List<Float>> list = new ArrayList<List<Float>>();
+        list.add(featureExtractor.getFeatures(line));
+
+        FileWriter.writeFeaturesToFile(list, "word");
     }
 }
