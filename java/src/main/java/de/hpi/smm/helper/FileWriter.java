@@ -13,17 +13,30 @@ public class FileWriter {
     public static String OUT_PATH = "../output/";
     public static String FEATURE_SEPERATOR= " ";
 
-    public static void writeFeaturesToFile(List<List<Float>> features, String fileName)
-            throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter writer = new PrintWriter(OUT_PATH + fileName, "UTF-8");
+    private PrintWriter writer;
 
+    public FileWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
+        this.writer = new PrintWriter(OUT_PATH + fileName, "UTF-8");
+    }
+
+    public void writeFeaturesForAllDocuments(List<List<Float>> features) {
         for(List<Float> documentFeatures: features) {
             String line = StringUtils.join(documentFeatures, FEATURE_SEPERATOR);
-            writer.println(line);
+            this.writer.println(line);
         }
 
-        writer.close();
+        close();
     }
+
+    public void writeFeaturesForDocument(List<Float> features) {
+        String line = StringUtils.join(features, FEATURE_SEPERATOR);
+        this.writer.println(line);
+    }
+
+    public void close() {
+        this.writer.close();
+    }
+
 
 }
 
