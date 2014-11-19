@@ -17,28 +17,29 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        String statement = "SELECT POSTCONTENT FROM SYSTEM.WEBPAGE";
-        DatabaseAdapter dbAdapter = DatabaseAdapter.getSmaAdapter();
-        ResultSet rs = dbAdapter.executeQuery(statement);
+        ResultSet rs = getTestSet();
+
+        FeatureExtractor featureExtractor = new FeatureExtractor();
+
+        ArrayList<List<Float>> list = new ArrayList<List<Float>>();
+
         try {
-            if (rs.next()){
-                System.out.println(rs.getString("POSTCONTENT"));
+            while (rs.next()){
+                String content = rs.getString("POSTCONTENT");
+                if (content != null) {
+                    list.add(featureExtractor.getFeatures(content));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+        FileWriter.writeFeaturesToFile(list, "test");
+    }
 
-        String filePath = "test.txt";
-
-        BufferedReader reader = new BufferedReader(new FileReader(filePath));
-        String line = reader.readLine();
-
-        FeatureExtractor featureExtractor = new FeatureExtractor();
-
-        ArrayList<List<Float>> list = new ArrayList<List<Float>>();
-        list.add(featureExtractor.getFeatures(line));
-
-        FileWriter.writeFeaturesToFile(list, "word");
+    private static ResultSet getTestSet() {
+        String statement = "SELECT POSTCONTENT FROM SYSTEM.WEBPAGE LIMIT 100000";
+        DatabaseAdapter dbAdapter = DatabaseAdapter.getSmaAdapter();
+        return dbAdapter.executeQuery(statement);
     }
 }
