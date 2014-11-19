@@ -1,12 +1,11 @@
 package de.hpi.smm;
 
 
-import de.hpi.smm.FeatureExtraction.Tokenizer;
+import de.hpi.smm.FeatureExtraction.FeatureExtractor;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Map;
 
 public class Main {
 
@@ -16,11 +15,7 @@ public class Main {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line = reader.readLine();
 
-        Tokenizer tokenizer = new Tokenizer();
-        Map<String, Integer> words = tokenizer.tokenizeText(line);
-
-        for (Map.Entry<String, Integer> word : words.entrySet()) {
-            System.out.println(word);
-        }
+        FeatureExtractor featureExtractor = new FeatureExtractor();
+        System.out.println(featureExtractor.getFeatures(line));
     }
 }
