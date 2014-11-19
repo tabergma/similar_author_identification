@@ -7,6 +7,8 @@ build/
 *.iws
 workspace.xml
 tasks.xml
+/output
+/testdata
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
