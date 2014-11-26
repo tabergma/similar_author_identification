@@ -3,8 +3,9 @@ package de.hpi.smm;
 
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.features.FeatureExtractor;
+import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.DatabaseAdapter;
-import de.hpi.smm.helper.FileWriter;
+import de.hpi.smm.helper.FeatureWriter;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -13,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
 
@@ -21,26 +23,31 @@ public class Main {
         ResultSet rs = getTestSet();
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
-        FileWriter fileWriter = new FileWriter("features.txt");
+        FeatureWriter featureWriter = new FeatureWriter("features.txt");
 
         System.out.println("Extracting features...");
+        List<String> documentTexts = new ArrayList<String>();
         try {
             while (rs.next()){
                 String content = rs.getString("POSTCONTENT");
                 if (content != null) {
                     List<Float> features = featureExtractor.getFeatures(content);
-                    fileWriter.writeFeaturesForDocument(features);
+                    featureWriter.writeFeaturesForDocument(features);
+                    documentTexts.add(content);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        fileWriter.close();
+        featureWriter.close();
 
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
-        //System.out.println(kMeans.run(readFeatureFile()));
+        Map<Integer, List<String>> cluster2documents = kMeans.run(readFeatureFile());
+
+        System.out.println("Writing cluster files...");
+        ClusterWriter.writeClusterFiles(cluster2documents, documentTexts);
     }
 
     private static ResultSet getTestSet() {
