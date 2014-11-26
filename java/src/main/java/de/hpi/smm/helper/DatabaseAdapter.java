@@ -1,5 +1,7 @@
 package de.hpi.smm.helper;
 
+import de.hpi.smm.Config;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,10 +21,10 @@ public class DatabaseAdapter {
     public static DatabaseAdapter getSmaHanaAdapter() {
         DatabaseAdapter databaseAdapter = new DatabaseAdapter();
 
-        String ip = "141.89.225.134";
-        String instance = "03";
-        String user = "SMA1415";
-        String password = "Popcorn54";
+        String ip = Config.IP;
+        String instance = Config.INSTANCE;
+        String user = Config.USER;
+        String password = Config.PASSWORD;
 
         databaseAdapter.open(ip, instance, user, password);
         databaseAdapter.setSchema("SYSTEM");

@@ -66,6 +66,9 @@ public class Main {
 
         System.out.println("Writing cluster files...");
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
+
+        System.out.println("Clean up...");
+        kMeans.cleanUp();
     }
 
     private static ResultSet getTestSet() {

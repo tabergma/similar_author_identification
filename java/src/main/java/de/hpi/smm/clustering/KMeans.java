@@ -1,5 +1,6 @@
 package de.hpi.smm.clustering;
 
+import de.hpi.smm.Config;
 import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -22,24 +23,15 @@ import java.util.List;
 
 public class KMeans {
 
-    private final static String OUTPUT_PATH = "output/";
-    private final static String INPUT_PATH = "testdata/";
-    private final static String FEATURE_INPUT_PATH = INPUT_PATH + "points";
-    private final static String CLUSTER_INPUT_PATH = INPUT_PATH + "clusters";
-
-    private final static int k = 10;
-    private final static Configuration conf = new Configuration();
-    private final static Path input = new Path(FEATURE_INPUT_PATH);
-    private final static Path clusterIn = new Path(CLUSTER_INPUT_PATH);
-    private final static Path output = new Path(OUTPUT_PATH);
-    private final static double convergenceDelta = 0.001;
-    private final static int maxIterations = 10;
-    private final static boolean runClustering = true;
-    private final static double clusterClassificationThreshold = 0;
-    private final static boolean runSequential = false;
-
+    private static final String INPUT_PATH = Config.INPUT_PATH;
+    private static final String OUTPUT_PATH = Config.OUTPUT_PATH;
+    private static final String FEATURE_INPUT_PATH = Config.FEATURE_INPUT_PATH;
+    private static final String CLUSTER_INPUT_PATH = Config.CLUSTER_INPUT_PATH;
 
     public void run(List<List<Float>> documentFeatures) throws Exception {
+        Configuration conf = new Configuration();
+        FileSystem fs = FileSystem.get(conf);
+
         // set configuration
         //conf.addResource("$HADOOP_HOME/etc/hadoop/core-site.xml");
         //conf.addResource("$HADOOP_HOME/etc/hadoop/hdfs-site.xml");
@@ -47,29 +39,29 @@ public class KMeans {
         // check if all directories exists
         createDirectories();
 
-        FileSystem fs = FileSystem.get(conf);
 
         // convert list of document features to list of vectors
         List<Vector> vectors = getPoints(documentFeatures);
-        writePointsToFile(vectors, new Path(FEATURE_INPUT_PATH + "/file1"), fs);
+        writePointsToFile(vectors, new Path(FEATURE_INPUT_PATH + "/file1"), fs, conf);
 
         // write initial clusters
-        writeInitialClusters(vectors, new Path(CLUSTER_INPUT_PATH + "/part-00000"), fs);
+        writeInitialClusters(vectors, new Path(CLUSTER_INPUT_PATH + "/part-00000"), fs, conf);
 
         // create output path
+        Path output = new Path(Config.OUTPUT_PATH);
         HadoopUtil.delete(conf, output);
 
         // run k means
         KMeansDriver.run(
                 conf,
-                input,
-                clusterIn,
+                new Path(Config.FEATURE_INPUT_PATH),
+                new Path(Config.CLUSTER_INPUT_PATH),
                 output,
-                convergenceDelta,
-                maxIterations,
-                runClustering,
-                clusterClassificationThreshold,
-                runSequential
+                Config.CONVERGENCE_DELTA,
+                Config.MAX_ITERATIONS,
+                Config.RUN_CLUSTERING,
+                Config.CLUSTER_CLASSIFICATION_THRESHOLD,
+                Config.RUN_SEQUENTIAL
         );
     }
 
@@ -102,13 +94,13 @@ public class KMeans {
         }
     }
 
-    private void cleanUp() throws IOException {
+    public void cleanUp() throws IOException {
         FileUtils.deleteDirectory(new File(INPUT_PATH));
         FileUtils.deleteDirectory(new File(OUTPUT_PATH));
     }
 
 
-    public void writePointsToFile(List<Vector> points, Path path, FileSystem fs) throws IOException {
+    public void writePointsToFile(List<Vector> points, Path path, FileSystem fs, Configuration conf) throws IOException {
         SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path,
                 IntWritable.class, VectorWritable.class);
         int recNum = 0;
@@ -120,9 +112,9 @@ public class KMeans {
         writer.close();
     }
 
-    public void writeInitialClusters(List<Vector> vectors, Path path, FileSystem fs) throws IOException {
+    public void writeInitialClusters(List<Vector> vectors, Path path, FileSystem fs, Configuration conf) throws IOException {
         SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path, Text.class, Kluster.class);
-        for (int i = 0; i < k; i++) {
+        for (int i = 0; i < Config.K; i++) {
             Vector vec = vectors.get(i);
             Kluster cluster = new Kluster(vec, i, new EuclideanDistanceMeasure());
             writer.append(new Text(cluster.getIdentifier()), cluster);

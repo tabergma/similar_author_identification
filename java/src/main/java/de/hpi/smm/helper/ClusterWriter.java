@@ -1,6 +1,8 @@
 package de.hpi.smm.helper;
 
 
+import de.hpi.smm.Config;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -9,14 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ClusterWriter {
-    public static String PATH = "../output/clusters/";
 
     public static void writeClusterFiles(Map<Integer, List<Integer>> cluster2documents, List<String> documentTexts) throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter allFiles = new PrintWriter(PATH + "allFiles.html", "UTF-8");
+        PrintWriter allFiles = new PrintWriter(Config.CLUSTER_FILE + "allFiles.html", "UTF-8");
         allFiles.write(ClusterWriter.getStyle());
         for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
             // create directory for cluster
-            String clusterPath = PATH + c2d.getKey() + "/";
+            String clusterPath = Config.RESULT_CLUSTER_PATH + c2d.getKey() + "/";
             File dir = new File(clusterPath);
             if (!dir.exists()) {
                 dir.mkdirs();

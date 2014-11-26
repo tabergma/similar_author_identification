@@ -1,5 +1,6 @@
 package de.hpi.smm.clustering;
 
+import de.hpi.smm.Config;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -10,12 +11,13 @@ import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ClusterAnalyzer {
-
-    private final static String CLUSTER_FILE = "output/clusteredPoints/part-m-00000";
 
     private Map<Integer, List<Integer>> cluster2document = new HashMap<Integer, List<Integer>>();
     private List<Map<Integer, Double>> points = new ArrayList<Map<Integer, Double>>();
@@ -25,7 +27,7 @@ public class ClusterAnalyzer {
         FileSystem fs = FileSystem.get(conf);
 
         SequenceFile.Reader reader = new SequenceFile.Reader(fs,
-                new Path(CLUSTER_FILE), conf);
+                new Path(Config.CLUSTER_FILE), conf);
 
         IntWritable key = new IntWritable();
         WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
