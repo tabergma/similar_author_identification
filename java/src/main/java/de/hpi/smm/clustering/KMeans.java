@@ -7,7 +7,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
-import org.apache.mahout.clustering.classify.WeightedVectorWritable;
+import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
 import org.apache.mahout.clustering.kmeans.KMeansDriver;
 import org.apache.mahout.clustering.kmeans.Kluster;
 import org.apache.mahout.common.HadoopUtil;
@@ -80,13 +80,13 @@ public class KMeans {
         readClusters(fs);
     }
 
-    private void readClusters(FileSystem fs) throws IOException {
+    private void readClusters(FileSystem fs) throws IOException { 
         SequenceFile.Reader reader = new SequenceFile.Reader(fs,
                 new Path(OUTPUT_PATH + Kluster.CLUSTERED_POINTS_DIR
                         + "/part-m-00000"), conf);
 
         IntWritable key = new IntWritable();
-        WeightedVectorWritable value = new WeightedVectorWritable();
+        WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
         while (reader.next(key, value)) {
             System.out.println(value.toString() + " belongs to cluster "
                     + key.toString());
