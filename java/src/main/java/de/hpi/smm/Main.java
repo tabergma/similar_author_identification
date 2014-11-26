@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.DoubleSummaryStatistics;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +27,7 @@ public class Main {
         ResultSet rs = getTestSet();
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
-        FeatureWriter featureWriter = new FeatureWriter("features.txt");
+        FeatureWriter featureWriter = new FeatureWriter();
 
         System.out.println("Extracting features...");
         List<String> documentTexts = new ArrayList<String>();
@@ -58,8 +57,7 @@ public class Main {
         System.out.println("Draw image...");
         List<Map<Integer, Double>> points = analyzer.getPoints();
         List<Point> twoFeatures = new ArrayList<Point>();
-        for (Map<Integer, Double> mapping : points){
-            System.out.println(mapping);
+        for (Map<Integer, Double> mapping : points) {
             twoFeatures.add(new Point(mapping.get(0), mapping.get(351)));
         }
         Drawing.drawInWindow(twoFeatures);
@@ -80,7 +78,7 @@ public class Main {
     private static List<List<Float>> readFeatureFile() throws IOException {
         List<List<Float>> list = new ArrayList<List<Float>>();
 
-        BufferedReader br = new BufferedReader(new FileReader("../output/features.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(Config.FEATURE_FILE));
         try {
             String line = br.readLine();
 

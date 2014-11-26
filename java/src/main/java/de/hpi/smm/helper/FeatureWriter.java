@@ -14,12 +14,12 @@ public class FeatureWriter {
 
     private PrintWriter writer;
 
-    public FeatureWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
+    public FeatureWriter() throws FileNotFoundException, UnsupportedEncodingException {
         File dir = new File(Config.RESULT_PATH);
         if (!dir.exists())
             dir.mkdir();
 
-        this.writer = new PrintWriter(Config.RESULT_PATH + fileName, "UTF-8");
+        this.writer = new PrintWriter(Config.FEATURE_FILE, "UTF-8");
     }
 
     public void writeFeaturesForAllDocuments(List<List<Float>> features) {

@@ -20,6 +20,7 @@ public class Config {
     // Our output path
     public final static String RESULT_PATH = "result/";
     public final static String RESULT_CLUSTER_PATH = RESULT_PATH + "clusters/";
+    public final static String FEATURE_FILE = RESULT_PATH + "features.txt";
     public final static String FEATURE_SEPERATOR= " ";
 
     // Database config
