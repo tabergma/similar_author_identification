@@ -18,9 +18,9 @@ public class Drawing {
 
     public static void main (String[] args) {
         List<Point> points = new ArrayList<Point>();
-        points.add(new Point(-0.5, -0.5));
-        points.add(new Point(-0.5, 0.5));
-        points.add(new Point(0.5, -0.5));
+        points.add(new Point(0.6, 0.5));
+        points.add(new Point(0.5, 1.5));
+        points.add(new Point(0.5, 0.9));
         points.add(new Point(0.3, 0.6));
         drawInWindow(points);
     }

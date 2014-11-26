@@ -3,6 +3,8 @@ package de.hpi.smm;
 
 import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
+import de.hpi.smm.drawing.Drawing;
+import de.hpi.smm.drawing.Point;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.DatabaseAdapter;
@@ -14,7 +16,9 @@ import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.DoubleSummaryStatistics;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     public static final int minLength = 50;
@@ -50,6 +54,15 @@ public class Main {
         System.out.println("Analyze clusters...");
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         analyzer.analyze();
+
+        System.out.println("Draw image...");
+        List<Map<Integer, Double>> points = analyzer.getPoints();
+        List<Point> twoFeatures = new ArrayList<Point>();
+        for (Map<Integer, Double> mapping : points){
+            System.out.println(mapping);
+            twoFeatures.add(new Point(mapping.get(0), mapping.get(351)));
+        }
+        Drawing.drawInWindow(twoFeatures);
 
         System.out.println("Writing cluster files...");
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
