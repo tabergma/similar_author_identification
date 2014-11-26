@@ -40,7 +40,7 @@ public class Main {
 
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
-        kMeans.run(readFeatureFile());
+        System.out.println(kMeans.run(readFeatureFile()));
     }
 
     private static ResultSet getTestSet() {

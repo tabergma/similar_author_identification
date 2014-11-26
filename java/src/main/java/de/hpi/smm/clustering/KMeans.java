@@ -12,15 +12,17 @@ import org.apache.mahout.clustering.kmeans.KMeansDriver;
 import org.apache.mahout.clustering.kmeans.Kluster;
 import org.apache.mahout.common.HadoopUtil;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
+import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.RandomAccessSparseVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class KMeans {
 
@@ -41,7 +43,7 @@ public class KMeans {
     private final static boolean runSequential = false;
 
 
-    public void run(List<List<Float>> documentFeatures) throws Exception {
+    public Map<Integer, List<String>> run(List<List<Float>> documentFeatures) throws Exception {
         // set configuration
         //conf.addResource("$HADOOP_HOME/etc/hadoop/core-site.xml");
         //conf.addResource("$HADOOP_HOME/etc/hadoop/hdfs-site.xml");
@@ -53,18 +55,10 @@ public class KMeans {
 
         // convert list of document features to list of vectors
         List<Vector> vectors = getPoints(documentFeatures);
-        writePointsToFile(vectors, conf, new Path(FEATURE_INPUT_PATH + "/file1"), fs);
+        writePointsToFile(vectors, new Path(FEATURE_INPUT_PATH + "/file1"), fs);
 
-        Path path = new Path(CLUSTER_INPUT_PATH + "/part-00000");
-        SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path, Text.class, Kluster.class);
-
-        // create initial clusters
-        for (int i = 0; i < k; i++) {
-            Vector vec = vectors.get(i);
-            Kluster cluster = new Kluster(vec, i, new EuclideanDistanceMeasure());
-            writer.append(new Text(cluster.getIdentifier()), cluster);
-        }
-        writer.close();
+        // write initial clusters
+        writeInitialClusters(vectors, new Path(CLUSTER_INPUT_PATH + "/part-00000"), fs);
 
         // create output path
         HadoopUtil.delete(conf, output);
@@ -83,10 +77,17 @@ public class KMeans {
         );
 
         // read document cluster assignment
-        readClusters(fs);
+        Map<Integer, List<String>> cluster2document = readClusters(fs);
+
+        // delete directories
+        cleanUp();
+
+        return cluster2document;
     }
 
-    private void readClusters(FileSystem fs) throws IOException {
+    private Map<Integer, List<String>> readClusters(FileSystem fs) throws IOException {
+        Map<Integer, List<String>> cluster2document = new HashMap<Integer, List<String>>();
+
         SequenceFile.Reader reader = new SequenceFile.Reader(fs,
                 new Path(OUTPUT_PATH + Kluster.CLUSTERED_POINTS_DIR
                         + "/part-m-00000"), conf);
@@ -94,11 +95,23 @@ public class KMeans {
         IntWritable key = new IntWritable();
         WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
         while (reader.next(key, value)) {
-            System.out.println(value.toString() + " belongs to cluster "
-                    + key.toString());
+            String documentId = ((NamedVector) value.getVector()).getName();
+            int clusterId = key.get();
+
+            if (!cluster2document.containsKey(clusterId)) {
+                ArrayList<String> documents = new ArrayList<String>();
+                documents.add(documentId);
+                cluster2document.put(clusterId, documents);
+            } else {
+                List<String> documents = cluster2document.get(clusterId);
+                documents.add(documentId);
+                cluster2document.put(clusterId, documents);
+            }
         }
 
         reader.close();
+
+        return cluster2document;
     }
 
     private List<Vector> getPoints(List<List<Float>> documents) {
@@ -120,22 +133,23 @@ public class KMeans {
 
     private void createDirectories() throws IOException {
         File testData = new File(INPUT_PATH);
-        if (testData.exists()) {
-            FileUtils.deleteDirectory(testData);
+        if (!testData.exists()) {
+            testData.mkdir();
         }
-        testData.mkdir();
 
         testData = new File(FEATURE_INPUT_PATH);
         if (!testData.exists()) {
             testData.mkdir();
         }
+    }
 
-        testData = new File(OUTPUT_PATH);
-        FileUtils.deleteDirectory(testData);
+    private void cleanUp() throws IOException {
+        FileUtils.deleteDirectory(new File(INPUT_PATH));
+        FileUtils.deleteDirectory(new File(OUTPUT_PATH));
     }
 
 
-    public static void writePointsToFile(List<Vector> points, Configuration conf, Path path, FileSystem fs) throws IOException {
+    public void writePointsToFile(List<Vector> points, Path path, FileSystem fs) throws IOException {
         SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path,
                 IntWritable.class, VectorWritable.class);
         int recNum = 0;
@@ -143,6 +157,16 @@ public class KMeans {
         for (Vector point : points) {
             vec.set(point);
             writer.append(new IntWritable(recNum++), vec);
+        }
+        writer.close();
+    }
+
+    public void writeInitialClusters(List<Vector> vectors, Path path, FileSystem fs) throws IOException {
+        SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path, Text.class, Kluster.class);
+        for (int i = 0; i < k; i++) {
+            Vector vec = vectors.get(i);
+            Kluster cluster = new Kluster(vec, i, new EuclideanDistanceMeasure());
+            writer.append(new Text(cluster.getIdentifier()), cluster);
         }
         writer.close();
     }
