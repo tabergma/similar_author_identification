@@ -8,14 +8,14 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
-public class FileWriter {
+public class FeatureWriter {
 
     public static String OUT_PATH = "../output/";
     public static String FEATURE_SEPERATOR= " ";
 
     private PrintWriter writer;
 
-    public FileWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
+    public FeatureWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
         this.writer = new PrintWriter(OUT_PATH + fileName, "UTF-8");
     }
 
@@ -36,7 +36,6 @@ public class FileWriter {
     public void close() {
         this.writer.close();
     }
-
 
 }
 
