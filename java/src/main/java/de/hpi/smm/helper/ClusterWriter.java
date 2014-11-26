@@ -9,16 +9,18 @@ import java.util.List;
 import java.util.Map;
 
 public class ClusterWriter {
-
     public static String PATH = "../output/clusters/";
 
     public static void writeClusterFiles(Map<Integer, List<String>> cluster2documents, List<String> documentTexts) throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter allFiles = new PrintWriter(PATH + "allFiles.html", "UTF-8");
+        allFiles.write(ClusterWriter.getStyle());
+        allFiles.write("<table>\n");
         for (Map.Entry<Integer, List<String>> c2d : cluster2documents.entrySet()) {
             // create directory for cluster
             String clusterPath = PATH + c2d.getKey() + "/";
             File dir = new File(clusterPath);
             if (!dir.exists()) {
-                dir.mkdir();
+                dir.mkdirs();
             }
 
             // write all document texts to cluster dir
@@ -26,8 +28,18 @@ public class ClusterWriter {
                 PrintWriter writer = new PrintWriter(clusterPath + docId + ".txt", "UTF-8");
                 writer.write(documentTexts.get(Integer.parseInt(docId)));
                 writer.close();
+                allFiles.write(String.format("<tr><td>%s</td><td>%s</td><td>%s</td></tr>%n", c2d.getKey(), docId, documentTexts.get(Integer.parseInt(docId))));
             }
         }
+        allFiles.write("</table>\n");
     }
 
+    public static String getStyle() {
+        return "<style type=\"text/css\">\n" +
+                "td {\n" +
+                "    white-space: nowrap;\n" +
+                "    overflow: hidden;\n" +
+                "}\n" +
+                "</style>\n";
+    }
 }

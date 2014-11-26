@@ -31,7 +31,7 @@ public class KMeans {
     private final static String FEATURE_INPUT_PATH = INPUT_PATH + "points";
     private final static String CLUSTER_INPUT_PATH = INPUT_PATH + "clusters";
 
-    private final static int k = 6;
+    private final static int k = 10;
     private final static Configuration conf = new Configuration();
     private final static Path input = new Path(FEATURE_INPUT_PATH);
     private final static Path clusterIn = new Path(CLUSTER_INPUT_PATH);
