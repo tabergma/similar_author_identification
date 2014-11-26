@@ -18,6 +18,7 @@ import org.apache.mahout.math.VectorWritable;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,10 @@ public class KMeans {
 
 
     public void run(List<List<Float>> documentFeatures) throws Exception {
+        // set configuration
+        //conf.addResource("$HADOOP_HOME/etc/hadoop/core-site.xml");
+        //conf.addResource("$HADOOP_HOME/etc/hadoop/hdfs-site.xml");
+
         // check if all directories exists
         createDirectories();
 
@@ -49,6 +54,7 @@ public class KMeans {
         writePointsToFile(vectors, conf, new Path(FEATURE_INPUT_PATH + "/file1"));
 
         FileSystem fs = FileSystem.get(conf);
+        System.out.println(fs.getWorkingDirectory());
         Path path = new Path(CLUSTER_INPUT_PATH + "/part-00000");
         SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path, Text.class, Kluster.class);
 
