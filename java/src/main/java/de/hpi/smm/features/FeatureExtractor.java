@@ -13,6 +13,7 @@ public class FeatureExtractor {
         LetterFrequencyFeature letterFrequencyFeature = new LetterFrequencyFeature();
         FunctionWordFeature functionWordFeature = new FunctionWordFeature();
         CapitalLetterFrequencyFeature capitalLetterFrequencyFeature = new CapitalLetterFrequencyFeature();
+        WordFrequencyFeature wordfrequencyFeature = new WordFrequencyFeature();
 
         // Tokenize text
         String[] tokens = text.split("\\s");
@@ -23,6 +24,7 @@ public class FeatureExtractor {
             letterFrequencyFeature.evaluateLetterFrequency(token);
             functionWordFeature.evaluateFunctionWord(token);
             capitalLetterFrequencyFeature.evaluateCapitalLetterFrequency(token);
+            wordfrequencyFeature.evaluateWordFrequency(token);
         }
 
         // Add features to feature list
@@ -31,6 +33,7 @@ public class FeatureExtractor {
         features.addAll(letterFrequencyFeature.getLetterFrequency());
         features.addAll(functionWordFeature.getFunctionWordFrequency());
         features.add(capitalLetterFrequencyFeature.getCapitalLetterFrequency());
+        features.addAll(wordfrequencyFeature.getWordFrequency());
 
         return features;
     }
