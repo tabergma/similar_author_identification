@@ -12,8 +12,8 @@ public class ClusterWriter {
 
     public static String PATH = "../output/clusters/";
 
-    public static void writeClusterFiles(Map<Integer, List<String>> cluster2documents, List<String> documentTexts) throws FileNotFoundException, UnsupportedEncodingException {
-        for (Map.Entry<Integer, List<String>> c2d : cluster2documents.entrySet()) {
+    public static void writeClusterFiles(Map<Integer, List<Integer>> cluster2documents, List<String> documentTexts) throws FileNotFoundException, UnsupportedEncodingException {
+        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
             // create directory for cluster
             String clusterPath = PATH + c2d.getKey() + "/";
             File dir = new File(clusterPath);
@@ -22,9 +22,9 @@ public class ClusterWriter {
             }
 
             // write all document texts to cluster dir
-            for (String docId : c2d.getValue()) {
+            for (Integer docId : c2d.getValue()) {
                 PrintWriter writer = new PrintWriter(clusterPath + docId + ".txt", "UTF-8");
-                writer.write(documentTexts.get(Integer.parseInt(docId)));
+                writer.write(documentTexts.get(docId));
                 writer.close();
             }
         }

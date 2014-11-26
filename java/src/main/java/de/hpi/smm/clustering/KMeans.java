@@ -7,12 +7,10 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
-import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
 import org.apache.mahout.clustering.kmeans.KMeansDriver;
 import org.apache.mahout.clustering.kmeans.Kluster;
 import org.apache.mahout.common.HadoopUtil;
 import org.apache.mahout.common.distance.EuclideanDistanceMeasure;
-import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.RandomAccessSparseVector;
 import org.apache.mahout.math.Vector;
 import org.apache.mahout.math.VectorWritable;
@@ -20,9 +18,7 @@ import org.apache.mahout.math.VectorWritable;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class KMeans {
 
@@ -43,7 +39,7 @@ public class KMeans {
     private final static boolean runSequential = false;
 
 
-    public Map<Integer, List<String>> run(List<List<Float>> documentFeatures) throws Exception {
+    public void run(List<List<Float>> documentFeatures) throws Exception {
         // set configuration
         //conf.addResource("$HADOOP_HOME/etc/hadoop/core-site.xml");
         //conf.addResource("$HADOOP_HOME/etc/hadoop/hdfs-site.xml");
@@ -75,43 +71,6 @@ public class KMeans {
                 clusterClassificationThreshold,
                 runSequential
         );
-
-        // read document cluster assignment
-        Map<Integer, List<String>> cluster2document = readClusters(fs);
-
-        // delete directories
-        cleanUp();
-
-        return cluster2document;
-    }
-
-    private Map<Integer, List<String>> readClusters(FileSystem fs) throws IOException {
-        Map<Integer, List<String>> cluster2document = new HashMap<Integer, List<String>>();
-
-        SequenceFile.Reader reader = new SequenceFile.Reader(fs,
-                new Path(OUTPUT_PATH + Kluster.CLUSTERED_POINTS_DIR
-                        + "/part-m-00000"), conf);
-
-        IntWritable key = new IntWritable();
-        WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
-        while (reader.next(key, value)) {
-            String documentId = ((NamedVector) value.getVector()).getName();
-            int clusterId = key.get();
-
-            if (!cluster2document.containsKey(clusterId)) {
-                ArrayList<String> documents = new ArrayList<String>();
-                documents.add(documentId);
-                cluster2document.put(clusterId, documents);
-            } else {
-                List<String> documents = cluster2document.get(clusterId);
-                documents.add(documentId);
-                cluster2document.put(clusterId, documents);
-            }
-        }
-
-        reader.close();
-
-        return cluster2document;
     }
 
     private List<Vector> getPoints(List<List<Float>> documents) {
