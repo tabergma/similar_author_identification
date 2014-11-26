@@ -1,10 +1,10 @@
 package de.hpi.smm.clustering;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
 import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
@@ -34,10 +34,10 @@ public class KMeans {
     private final static Path input = new Path(FEATURE_INPUT_PATH);
     private final static Path clusterIn = new Path(CLUSTER_INPUT_PATH);
     private final static Path output = new Path(OUTPUT_PATH);
-    private final static double convergenceDelta = 0.5;
+    private final static double convergenceDelta = 0.001;
     private final static int maxIterations = 10;
     private final static boolean runClustering = true;
-    private final static double clusterClassificationThreshold = 0.5;
+    private final static double clusterClassificationThreshold = 0;
     private final static boolean runSequential = false;
 
 
@@ -49,12 +49,12 @@ public class KMeans {
         // check if all directories exists
         createDirectories();
 
+        FileSystem fs = FileSystem.get(conf);
+
         // convert list of document features to list of vectors
         List<Vector> vectors = getPoints(documentFeatures);
-        writePointsToFile(vectors, conf, new Path(FEATURE_INPUT_PATH + "/file1"));
+        writePointsToFile(vectors, conf, new Path(FEATURE_INPUT_PATH + "/file1"), fs);
 
-        FileSystem fs = FileSystem.get(conf);
-        System.out.println(fs.getWorkingDirectory());
         Path path = new Path(CLUSTER_INPUT_PATH + "/part-00000");
         SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path, Text.class, Kluster.class);
 
@@ -86,7 +86,7 @@ public class KMeans {
         readClusters(fs);
     }
 
-    private void readClusters(FileSystem fs) throws IOException { 
+    private void readClusters(FileSystem fs) throws IOException {
         SequenceFile.Reader reader = new SequenceFile.Reader(fs,
                 new Path(OUTPUT_PATH + Kluster.CLUSTERED_POINTS_DIR
                         + "/part-m-00000"), conf);
@@ -118,28 +118,31 @@ public class KMeans {
         return points;
     }
 
-    private void createDirectories() {
+    private void createDirectories() throws IOException {
         File testData = new File(INPUT_PATH);
-        if (!testData.exists()) {
-            testData.mkdir();
+        if (testData.exists()) {
+            FileUtils.deleteDirectory(testData);
         }
+        testData.mkdir();
 
         testData = new File(FEATURE_INPUT_PATH);
         if (!testData.exists()) {
             testData.mkdir();
         }
+
+        testData = new File(OUTPUT_PATH);
+        FileUtils.deleteDirectory(testData);
     }
 
 
-    public static void writePointsToFile(List<Vector> points, Configuration conf, Path path) throws IOException {
-        FileSystem fs = FileSystem.get(path.toUri(), conf);
+    public static void writePointsToFile(List<Vector> points, Configuration conf, Path path, FileSystem fs) throws IOException {
         SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path,
-                LongWritable.class, VectorWritable.class);
-        long recNum = 0;
+                IntWritable.class, VectorWritable.class);
+        int recNum = 0;
         VectorWritable vec = new VectorWritable();
         for (Vector point : points) {
             vec.set(point);
-            writer.append(new LongWritable(recNum++), vec);
+            writer.append(new IntWritable(recNum++), vec);
         }
         writer.close();
     }
