@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
+    public static final int minLength = 50;
 
     public static void main(String[] args) throws Exception {
         System.out.println("Fetching data...");
@@ -30,7 +31,7 @@ public class Main {
         try {
             while (rs.next()){
                 String content = rs.getString("POSTCONTENT");
-                if (content != null) {
+                if (content != null && content.length() > minLength) {
                     List<Float> features = featureExtractor.getFeatures(content);
                     featureWriter.writeFeaturesForDocument(features);
                     documentTexts.add(content);
