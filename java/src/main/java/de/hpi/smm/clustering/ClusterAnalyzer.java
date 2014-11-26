@@ -7,12 +7,10 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
 import org.apache.mahout.math.NamedVector;
+import org.apache.mahout.math.Vector;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class ClusterAnalyzer {
@@ -20,7 +18,7 @@ public class ClusterAnalyzer {
     private final static String CLUSTER_FILE = "output/clusteredPoints/part-m-00000";
 
     private Map<Integer, List<Integer>> cluster2document = new HashMap<Integer, List<Integer>>();
-    private List<String> points;
+    private List<Map<Integer, Double>> points = new ArrayList<Map<Integer, Double>>();
 
     public void analyze() throws IOException {
         Configuration conf = new Configuration();
@@ -35,10 +33,23 @@ public class ClusterAnalyzer {
             String documentId = ((NamedVector) value.getVector()).getName();
             int clusterId = key.get();
 
+            addClusterPoint(value);
             addDocumentToCluster(clusterId, Integer.parseInt(documentId));
         }
 
         reader.close();
+    }
+
+    private void addClusterPoint(WeightedPropertyVectorWritable value) {
+        int featureNr = value.getVector().size();
+        Vector vector = value.getVector();
+
+        Map<Integer, Double> docPoints = new HashMap<Integer, Double>();
+        for (int i = 0; i < featureNr; i++) {
+            docPoints.put(i, vector.get(i));
+        }
+
+        this.points.add(docPoints);
     }
 
     private void addDocumentToCluster(int clusterId, int documentId) {
@@ -57,7 +68,7 @@ public class ClusterAnalyzer {
         return cluster2document;
     }
 
-    public List<String> getPoints() {
+    public List<Map<Integer, Double>> getPoints() {
         return points;
     }
 
