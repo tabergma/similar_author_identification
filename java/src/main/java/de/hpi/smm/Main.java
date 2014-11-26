@@ -1,6 +1,7 @@
 package de.hpi.smm;
 
 
+import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
@@ -14,7 +15,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
 
@@ -44,10 +44,14 @@ public class Main {
 
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
-        Map<Integer, List<String>> cluster2documents = kMeans.run(readFeatureFile());
+        kMeans.run(readFeatureFile());
+
+        System.out.println("Analyze clusters...");
+        ClusterAnalyzer analyzer = new ClusterAnalyzer();
+        analyzer.analyze();
 
         System.out.println("Writing cluster files...");
-        ClusterWriter.writeClusterFiles(cluster2documents, documentTexts);
+        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
     }
 
     private static ResultSet getTestSet() {
