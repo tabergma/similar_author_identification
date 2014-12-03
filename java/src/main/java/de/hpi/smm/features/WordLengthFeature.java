@@ -1,7 +1,7 @@
 package de.hpi.smm.features;
 
 
-public class WordLengthFeature extends AbstractFeature {
+public class WordLengthFeature extends AbstractTokenFeature {
 
     float wordCount = 0.f;
     float wordLength = 0.f;

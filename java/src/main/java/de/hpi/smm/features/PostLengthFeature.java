@@ -1,7 +1,7 @@
 package de.hpi.smm.features;
 
 
-public class PostLengthFeature extends AbstractFeature {
+public class PostLengthFeature extends AbstractTokenFeature {
 
     int count = 0;
 

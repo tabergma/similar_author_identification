@@ -2,7 +2,7 @@ package de.hpi.smm.features;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class UpperCaseFeature extends AbstractFeature {
+public class UpperCaseFeature extends AbstractTokenFeature {
 
     private int upperCaseWordCount = 0;
     private int wordCount = 0;

@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class PosTagFeature extends AbstractFeature {
+public class PosTagFeature extends AbstractTokenFeature {
 
     Map<String, MutableInt> tagCount = new HashMap<String, MutableInt>();
     int wordCount = 0;

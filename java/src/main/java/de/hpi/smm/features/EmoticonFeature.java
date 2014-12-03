@@ -4,7 +4,7 @@ package de.hpi.smm.features;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmoticonFeature extends AbstractFeature {
+public class EmoticonFeature extends AbstractTokenFeature {
 
     private Float[] features = new Float[] {0f};
     private static List<String> emoticons = getEmoticons();

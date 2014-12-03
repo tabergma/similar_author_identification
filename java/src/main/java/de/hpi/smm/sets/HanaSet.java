@@ -15,7 +15,6 @@ public class HanaSet implements TestSet {
         this.resultSet = dbAdapter.executeQuery(statement);
     }
 
-    @Override
     public boolean next() {
         try {
             return this.resultSet.next();
@@ -24,7 +23,6 @@ public class HanaSet implements TestSet {
         }
     }
 
-    @Override
     public String getText() {
         try {
             return this.resultSet.getString(("POSTCONTENT"));

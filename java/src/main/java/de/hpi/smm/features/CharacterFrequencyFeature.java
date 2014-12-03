@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CharacterFrequencyFeature extends AbstractFeature {
+public class CharacterFrequencyFeature extends AbstractTokenFeature {
 
     private Float[] features;
     private int letterCount = 0;
@@ -82,16 +82,16 @@ public class CharacterFrequencyFeature extends AbstractFeature {
 //            letters.add('X');
 //            letters.add('Y');
 //            letters.add('Z');
-//            letters.add('0');
-//            letters.add('1');
-//            letters.add('2');
-//            letters.add('3');
-//            letters.add('4');
-//            letters.add('5');
-//            letters.add('6');
-//            letters.add('7');
-//            letters.add('8');
-//            letters.add('9');
+            letters.add('0');
+            letters.add('1');
+            letters.add('2');
+            letters.add('3');
+            letters.add('4');
+            letters.add('5');
+            letters.add('6');
+            letters.add('7');
+            letters.add('8');
+            letters.add('9');
             letters.add(',');
             letters.add('.');
             letters.add(';');

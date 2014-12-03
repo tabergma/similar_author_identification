@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class WordFrequencyFeature extends AbstractFeature {
+public class WordFrequencyFeature extends AbstractTokenFeature {
 
     private Map<String, MutableInt> frequencies = new HashMap<String, MutableInt>();
     private int wordCount = 0;

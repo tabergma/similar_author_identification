@@ -1,6 +1,6 @@
 package de.hpi.smm.features;
 
-public class CapitalLetterFeature extends AbstractFeature {
+public class CapitalLetterFeature extends AbstractTokenFeature {
 
     private int capitalLetterCount = 0;
     private int letterCount = 0;
