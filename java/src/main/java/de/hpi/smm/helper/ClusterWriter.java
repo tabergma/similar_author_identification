@@ -1,6 +1,8 @@
 package de.hpi.smm.helper;
 
 
+import de.hpi.smm.Config;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -10,24 +12,36 @@ import java.util.Map;
 
 public class ClusterWriter {
 
-    public static String PATH = "../output/clusters/";
+    public static void writeClusterFiles(Map<Integer, List<Integer>> cluster2documents, List<String> documentTexts) throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter htmlFile = new PrintWriter(Config.HTML_CLUSTER_FILE, "UTF-8");
+        htmlFile.write(ClusterWriter.getStyle());
 
-    public static void writeClusterFiles(Map<Integer, List<String>> cluster2documents, List<String> documentTexts) throws FileNotFoundException, UnsupportedEncodingException {
-        for (Map.Entry<Integer, List<String>> c2d : cluster2documents.entrySet()) {
+        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
             // create directory for cluster
-            String clusterPath = PATH + c2d.getKey() + "/";
+            String clusterPath = Config.RESULT_CLUSTER_PATH + c2d.getKey() + "/";
             File dir = new File(clusterPath);
             if (!dir.exists()) {
-                dir.mkdir();
+                dir.mkdirs();
             }
 
             // write all document texts to cluster dir
-            for (String docId : c2d.getValue()) {
+            for (Integer docId : c2d.getValue()) {
                 PrintWriter writer = new PrintWriter(clusterPath + docId + ".txt", "UTF-8");
-                writer.write(documentTexts.get(Integer.parseInt(docId)));
+                writer.write(documentTexts.get(docId));
                 writer.close();
+                htmlFile.write(String.format("<tr><td>%s</td><td>%s</td><td>%s</td></tr>%n", c2d.getKey(), docId, documentTexts.get(docId)));
             }
         }
+        htmlFile.write("</table>\n");
     }
 
+    public static String getStyle() {
+        return " <meta charset=\"utf-8\"/><style type=\"text/css\">\n" +
+                "td {\n" +
+                "    white-space: nowrap;\n" +
+                "    overflow: hidden;\n" +
+                "}\n" +
+                "</style>\n" +
+                "<table>\n";
+    }
 }

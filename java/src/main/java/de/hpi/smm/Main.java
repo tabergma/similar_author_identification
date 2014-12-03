@@ -1,15 +1,25 @@
 package de.hpi.smm;
 
 
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
+import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
+import de.hpi.smm.drawing.Drawing;
+import de.hpi.smm.drawing.Point;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.DatabaseAdapter;
 import de.hpi.smm.helper.FeatureWriter;
+import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -17,20 +27,48 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
+    public static final int minLength = 50;
 
     public static void main(String[] args) throws Exception {
         System.out.println("Fetching data...");
         ResultSet rs = getTestSet();
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
-        FeatureWriter featureWriter = new FeatureWriter("features.txt");
+        FeatureWriter featureWriter = new FeatureWriter();
+
+        // LANGUAGE DETECTOR
+        String text = "Dies ist ein Beispiel Text.";
+        String lang = "";
+        try {
+            DetectorFactory.loadProfile(Config.PROFILES_DIR);
+            Detector detector = DetectorFactory.create();
+            detector.append(text);
+            lang = detector.detect();
+        } catch (LangDetectException e) {
+            e.printStackTrace();
+        }
+        System.out.println(lang);
+
+        // POS TAGGER
+        String file = Config.MODEL_DIR + Config.lang2model.get(lang);
+        MaxentTagger tagger = new MaxentTagger(file);
+        List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text));
+        for (List<HasWord> s : sentences) {
+            List<TaggedWord> tags = tagger.tagSentence(s);
+            for (TaggedWord t : tags) {
+                System.out.print(t.tag());
+                System.out.print(" - ");
+                System.out.println(t.value());
+            }
+        }
+
 
         System.out.println("Extracting features...");
         List<String> documentTexts = new ArrayList<String>();
         try {
             while (rs.next()){
                 String content = rs.getString("POSTCONTENT");
-                if (content != null) {
+                if (content != null && content.length() > minLength) {
                     List<Float> features = featureExtractor.getFeatures(content);
                     featureWriter.writeFeaturesForDocument(features);
                     documentTexts.add(content);
@@ -44,10 +82,25 @@ public class Main {
 
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
-        Map<Integer, List<String>> cluster2documents = kMeans.run(readFeatureFile());
+        kMeans.run(readFeatureFile());
+
+        System.out.println("Analyze clusters...");
+        ClusterAnalyzer analyzer = new ClusterAnalyzer();
+        analyzer.analyze();
+
+        System.out.println("Draw image...");
+        List<Map<Integer, Double>> points = analyzer.getPoints();
+        List<Point> twoFeatures = new ArrayList<Point>();
+        for (Map<Integer, Double> mapping : points) {
+            twoFeatures.add(new Point(mapping.get(0), mapping.get(351)));
+        }
+        Drawing.drawInWindow(twoFeatures);
 
         System.out.println("Writing cluster files...");
-        ClusterWriter.writeClusterFiles(cluster2documents, documentTexts);
+        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
+
+        System.out.println("Clean up...");
+        kMeans.cleanUp();
     }
 
     private static ResultSet getTestSet() {
@@ -59,7 +112,7 @@ public class Main {
     private static List<List<Float>> readFeatureFile() throws IOException {
         List<List<Float>> list = new ArrayList<List<Float>>();
 
-        BufferedReader br = new BufferedReader(new FileReader("../output/features.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(Config.FEATURE_FILE));
         try {
             String line = br.readLine();
 

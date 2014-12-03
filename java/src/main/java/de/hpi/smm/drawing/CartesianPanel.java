@@ -7,18 +7,18 @@ import java.util.List;
 class CartesianPanel extends JPanel {
     public static final int DATA_POINT_SIZE = 4;
 
-    public static final int X_COORD_NUMBERS = 1;
-    public static final int Y_COORD_NUMBERS = 1;
+    public static final int X_COORD_NUMBERS = 9;
+    public static final int Y_COORD_NUMBERS = 3;
 
     // x-axis coord constants
-    public static final int X_AXIS_FIRST_X_COORD = 350;
-    public static final int X_AXIS_SECOND_X_COORD = 650;
-    public static final int X_AXIS_Y_COORD = 350;
+    public static final int X_AXIS_FIRST_X_COORD = 50;
+    public static final int X_AXIS_SECOND_X_COORD = 600;
+    public static final int X_AXIS_Y_COORD = 600;
 
     // y-axis coord constants
     public static final int Y_AXIS_FIRST_Y_COORD = 50;
-    public static final int Y_AXIS_SECOND_Y_COORD = 350;
-    public static final int Y_AXIS_X_COORD = 350;
+    public static final int Y_AXIS_SECOND_Y_COORD = 600;
+    public static final int Y_AXIS_X_COORD = 50;
 
     //arrows of axis are represented with "hipotenuse" of
     //triangle

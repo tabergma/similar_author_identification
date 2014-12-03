@@ -1,8 +1,10 @@
 package de.hpi.smm.helper;
 
 
+import de.hpi.smm.Config;
 import org.apache.commons.lang.StringUtils;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -10,18 +12,19 @@ import java.util.List;
 
 public class FeatureWriter {
 
-    public static String OUT_PATH = "../output/";
-    public static String FEATURE_SEPERATOR= " ";
-
     private PrintWriter writer;
 
-    public FeatureWriter(String fileName) throws FileNotFoundException, UnsupportedEncodingException {
-        this.writer = new PrintWriter(OUT_PATH + fileName, "UTF-8");
+    public FeatureWriter() throws FileNotFoundException, UnsupportedEncodingException {
+        File dir = new File(Config.RESULT_PATH);
+        if (!dir.exists())
+            dir.mkdir();
+
+        this.writer = new PrintWriter(Config.FEATURE_FILE, "UTF-8");
     }
 
     public void writeFeaturesForAllDocuments(List<List<Float>> features) {
         for(List<Float> documentFeatures: features) {
-            String line = StringUtils.join(documentFeatures, FEATURE_SEPERATOR);
+            String line = StringUtils.join(documentFeatures, Config.FEATURE_SEPERATOR);
             this.writer.println(line);
         }
 
@@ -29,7 +32,7 @@ public class FeatureWriter {
     }
 
     public void writeFeaturesForDocument(List<Float> features) {
-        String line = StringUtils.join(features, FEATURE_SEPERATOR);
+        String line = StringUtils.join(features, Config.FEATURE_SEPERATOR);
         this.writer.println(line);
     }
 
