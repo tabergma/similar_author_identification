@@ -1,20 +1,25 @@
 package de.hpi.smm.features;
 
 
-public class WordLengthFeature {
+public class WordLengthFeature extends AbstractFeature {
 
-    Float wordCount = 0.f;
-    Float wordLength = 0.f;
+    float wordCount = 0.f;
+    float wordLength = 0.f;
 
-    public void addWordCount(int count) {
-        this.wordCount += count;
+    @Override
+    public void feedToken(String token) {
+        this.wordCount += 1;
+        this.wordLength += token.length();
     }
 
-    public void addWordLength(int wordLength) {
-        this.wordLength += wordLength;
+    @Override
+    public float[] getFeatures() {
+        float[] feature = { this.wordLength / this.wordCount };
+        return feature;
     }
 
-    public Float getAvgWordLength() {
-        return this.wordLength / this.wordCount;
+    @Override
+    public int getNumberOfFeatures() {
+        return 1;
     }
 }
