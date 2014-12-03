@@ -66,7 +66,7 @@ public class Main {
         List<Map<Integer, Double>> points = analyzer.getPoints();
         List<Point> twoFeatures = new ArrayList<Point>();
         for (Map<Integer, Double> mapping : points) {
-            twoFeatures.add(new Point(mapping.get(0), mapping.get(351)));
+            twoFeatures.add(new Point(mapping.get(0), mapping.get(1)));
         }
         Drawing.drawInWindow(twoFeatures);
 
