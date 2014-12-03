@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.List;
 
 class CartesianPanel extends JPanel {
-    public static final int DATA_POINT_SIZE = 4;
+    public static final int DATA_POINT_SIZE = 8;
 
     public static final int X_COORD_NUMBERS = 45;
     public static final int Y_COORD_NUMBERS = 10;
