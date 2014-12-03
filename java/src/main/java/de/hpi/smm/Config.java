@@ -1,13 +1,17 @@
 package de.hpi.smm;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Config {
 
     // Directories for K-Means
-    public final static String OUTPUT_PATH = "output/";
-    public final static String INPUT_PATH = "testdata/";
-    public final static String FEATURE_INPUT_PATH = INPUT_PATH + "points";
-    public final static String CLUSTER_INPUT_PATH = INPUT_PATH + "clusters";
-    public final static String CLUSTER_FILE = OUTPUT_PATH + "clusteredPoints/part-m-00000";
+    public final static String KMEANS_OUPUT = "output/";
+    public final static String KMEANS_DATA = "testdata/";
+    public final static String FEATURE_INPUT_PATH = KMEANS_DATA + "points";
+    public final static String CLUSTER_INPUT_PATH = KMEANS_DATA + "clusters";
+    public final static String CLUSTER_FILE = KMEANS_OUPUT + "clusteredPoints/part-m-00000";
 
     // Parameters for K-Means
     public final static int K = 10;
@@ -29,4 +33,22 @@ public class Config {
     public final static String INSTANCE = "03";
     public final static String USER = "SMA1415";
     public final static String PASSWORD = "Popcorn54";
+
+    // POS Tagger
+    public final static String MODEL_DIR = "../resource/stanford-postagger-full-2014-08-27/models/";
+
+    // Language detector
+    public final static String PROFILES_DIR = "../resource/langdetect-03-03-2014/profiles/";
+
+    public static final Map<String, String> lang2model;
+    static {
+        Map<String, String> aMap = new HashMap<String, String>();
+        aMap.put("en", "wsj-0-18-bidirectional-distsim.tagger");
+        aMap.put("de", "german-fast.tagger");
+        aMap.put("fr", "french.tagger");
+        aMap.put("zh-cn", "chinese-distsim.tagger");
+        aMap.put("es", "spanish-distsim.tagger");
+
+        lang2model = Collections.unmodifiableMap(aMap);
+    }
 }

@@ -3,8 +3,6 @@ package de.hpi.smm.features;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.hpi.smm.features.CapitalLetterFrequencyFeature;
-
 public class FeatureExtractor {
 
     public List<Float> getFeatures(String text) {

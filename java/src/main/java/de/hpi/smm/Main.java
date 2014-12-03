@@ -1,6 +1,9 @@
 package de.hpi.smm;
 
 
+import com.cybozu.labs.langdetect.Detector;
+import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
 import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.drawing.Drawing;
@@ -9,10 +12,14 @@ import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.DatabaseAdapter;
 import de.hpi.smm.helper.FeatureWriter;
+import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,6 +35,33 @@ public class Main {
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter();
+
+        // LANGUAGE DETECTOR
+        String text = "Dies ist ein Beispiel Text.";
+        String lang = "";
+        try {
+            DetectorFactory.loadProfile(Config.PROFILES_DIR);
+            Detector detector = DetectorFactory.create();
+            detector.append(text);
+            lang = detector.detect();
+        } catch (LangDetectException e) {
+            e.printStackTrace();
+        }
+        System.out.println(lang);
+
+        // POS TAGGER
+        String file = Config.MODEL_DIR + Config.lang2model.get(lang);
+        MaxentTagger tagger = new MaxentTagger(file);
+        List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text));
+        for (List<HasWord> s : sentences) {
+            List<TaggedWord> tags = tagger.tagSentence(s);
+            for (TaggedWord t : tags) {
+                System.out.print(t.tag());
+                System.out.print(" - ");
+                System.out.println(t.value());
+            }
+        }
+
 
         System.out.println("Extracting features...");
         List<String> documentTexts = new ArrayList<String>();
