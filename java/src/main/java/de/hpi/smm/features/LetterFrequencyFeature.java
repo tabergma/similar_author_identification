@@ -18,7 +18,8 @@ public class LetterFrequencyFeature extends AbstractFeature {
     private static List<Character> letters;
 
 
-    public LetterFrequencyFeature() {
+    public LetterFrequencyFeature(float weight) {
+        super(weight);
         this.frequencies = new HashMap<Character, MutableInt>(getNumberOfFeatures());
         for (Character letter : getLetters()){
             frequencies.put(letter, new MutableInt());

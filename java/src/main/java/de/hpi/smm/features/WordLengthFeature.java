@@ -6,6 +6,10 @@ public class WordLengthFeature extends AbstractFeature {
     float wordCount = 0.f;
     float wordLength = 0.f;
 
+    public WordLengthFeature(float weight) {
+        super(weight);
+    }
+
     @Override
     public void feedToken(String token, String tag) {
         this.wordCount += 1;
@@ -14,7 +18,7 @@ public class WordLengthFeature extends AbstractFeature {
 
     @Override
     public Float[] getFeatures() {
-        return new Float[]{ this.wordLength / this.wordCount };
+        return new Float[]{ 1.f / (this.wordLength / this.wordCount) };
     }
 
     @Override

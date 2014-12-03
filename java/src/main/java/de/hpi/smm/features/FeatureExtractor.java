@@ -4,6 +4,7 @@ import de.hpi.smm.Config;
 import de.hpi.smm.helper.Util;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import java.io.StringReader;
@@ -19,18 +20,21 @@ public class FeatureExtractor {
         // Create POS tagger
         tagger = Config.lang2tagger.get(lang);
 
+
         // Initialize features
         List<AbstractFeature> featureList = new ArrayList<AbstractFeature>();
         addAllFeatures(featureList);
 
         // Tokenize text
-        List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text));
+        List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text),
+                PTBTokenizer.PTBTokenizerFactory.newWordTokenizerFactory("untokenizable=noneDelete, normalizeParentheses=false, normalizeOtherBrackets=false"));
 
         for (List<HasWord> s : sentences) {
             List<TaggedWord> taggedWords = tagger.tagSentence(s);
             for (TaggedWord taggedWord : taggedWords) {
                 String tag = taggedWord.tag();
                 String word = taggedWord.word();
+
                 for (AbstractFeature feature : featureList) {
                     feature.feedToken(word, tag);
                 }
@@ -47,11 +51,11 @@ public class FeatureExtractor {
     }
 
     public void addAllFeatures(List<AbstractFeature> featureList){
-        featureList.add(new WordLengthFeature());
-        featureList.add(new LetterFrequencyFeature());
-        featureList.add(new FunctionWordFeature());
-        featureList.add(new CapitalLetterFrequencyFeature());
-        featureList.add(new WordFrequencyFeature());
-        featureList.add(new PosTagFeature(Util.asSortedList(tagger.getTags().tagSet())));
+        featureList.add(new WordLengthFeature(1.0f));
+        featureList.add(new LetterFrequencyFeature(1.0f));
+        featureList.add(new FunctionWordFeature(1.0f));
+        featureList.add(new CapitalLetterFrequencyFeature(1.0f));
+        featureList.add(new WordFrequencyFeature(1.0f));
+        featureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
     }
 }
