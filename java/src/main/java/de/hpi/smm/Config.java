@@ -50,6 +50,9 @@ public class Config {
     private final static MaxentTagger chineseTagger = new MaxentTagger(MODEL_DIR + CHINESE_MODEL);
     private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
 
+    // Features
+    public final static String FUNCTION_WORD_FILE = "../resource/FunctionWords.txt";
+
     // Language detector
     public final static String PROFILES_DIR = "../resource/langdetect-03-03-2014/profiles/";
 

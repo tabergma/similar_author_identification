@@ -28,7 +28,7 @@ public class LetterFrequencyFeature extends AbstractFeature {
     }
 
     @Override
-    public void feedToken(String token) {
+    public void feedToken(String token, String tag) {
         token = token.toUpperCase();
         for (char c : token.toCharArray()) {
             this.letterCount++;

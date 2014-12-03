@@ -2,36 +2,22 @@ package de.hpi.smm.features;
 
 import de.hpi.smm.helper.MutableInt;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
 public class WordFrequencyFeature extends AbstractFeature {
 
-	private String functionWordLocation = "../resource/FunctionWords.txt";
-
     private Map<String, MutableInt> frequencies = new HashMap<String, MutableInt>();
-
     private int wordCount = 0;
 
-
-    public WordFrequencyFeature() {
-    }
-
     @Override
-    public void feedToken(String token) {
+    public void feedToken(String token, String tag) {
         token = token.toLowerCase();
         MutableInt count = frequencies.get(token);
         if (count == null) {
             frequencies.put(token, new MutableInt());
-        }
-        else {
+        } else {
             count.increment();
         }
         wordCount++;

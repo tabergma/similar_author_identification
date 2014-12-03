@@ -1,11 +1,5 @@
 package de.hpi.smm.features;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
 public class CapitalLetterFrequencyFeature extends AbstractFeature {
 
     private int capitalLetterCount = 0;
@@ -15,7 +9,7 @@ public class CapitalLetterFrequencyFeature extends AbstractFeature {
     }
 
     @Override
-    public void feedToken(String token) {
+    public void feedToken(String token, String tag) {
         for (char c : token.toCharArray()) {
             this.letterCount += 1;
             if(Character.isUpperCase(c)){
