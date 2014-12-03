@@ -14,7 +14,7 @@ class CartesianFrame extends JFrame {
     public void showUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setTitle("Cartesian");
-        setSize(700, 700);
+        setSize(1400, 700);
         setVisible(true);
     }
 }

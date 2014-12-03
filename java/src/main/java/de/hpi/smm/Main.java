@@ -63,10 +63,12 @@ public class Main {
         analyzer.analyze();
 
         System.out.println("Draw image...");
-        List<Map<Integer, Double>> points = analyzer.getPoints();
+        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();
         List<Point> twoFeatures = new ArrayList<Point>();
-        for (Map<Integer, Double> mapping : points) {
-            twoFeatures.add(new Point(mapping.get(0), mapping.get(1)));
+        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
+            for (Integer docId : c2d.getValue()) {
+                twoFeatures.add(new Point(docId, c2d.getKey()));
+            }
         }
         Drawing.drawInWindow(twoFeatures);
 

@@ -7,12 +7,12 @@ import java.util.List;
 class CartesianPanel extends JPanel {
     public static final int DATA_POINT_SIZE = 4;
 
-    public static final int X_COORD_NUMBERS = 9;
-    public static final int Y_COORD_NUMBERS = 3;
+    public static final int X_COORD_NUMBERS = 45;
+    public static final int Y_COORD_NUMBERS = 10;
 
     // x-axis coord constants
     public static final int X_AXIS_FIRST_X_COORD = 50;
-    public static final int X_AXIS_SECOND_X_COORD = 600;
+    public static final int X_AXIS_SECOND_X_COORD = 1300;
     public static final int X_AXIS_Y_COORD = 600;
 
     // y-axis coord constants
