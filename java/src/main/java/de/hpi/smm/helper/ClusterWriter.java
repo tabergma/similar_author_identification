@@ -13,8 +13,9 @@ import java.util.Map;
 public class ClusterWriter {
 
     public static void writeClusterFiles(Map<Integer, List<Integer>> cluster2documents, List<String> documentTexts) throws FileNotFoundException, UnsupportedEncodingException {
-        PrintWriter allFiles = new PrintWriter(Config.CLUSTER_FILE + "allFiles.html", "UTF-8");
-        allFiles.write(ClusterWriter.getStyle());
+        PrintWriter htmlFile = new PrintWriter(Config.HTML_CLUSTER_FILE, "UTF-8");
+        htmlFile.write(ClusterWriter.getStyle());
+
         for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
             // create directory for cluster
             String clusterPath = Config.RESULT_CLUSTER_PATH + c2d.getKey() + "/";
@@ -28,10 +29,10 @@ public class ClusterWriter {
                 PrintWriter writer = new PrintWriter(clusterPath + docId + ".txt", "UTF-8");
                 writer.write(documentTexts.get(docId));
                 writer.close();
-                allFiles.write(String.format("<tr><td>%s</td><td>%s</td><td>%s</td></tr>%n", c2d.getKey(), docId, documentTexts.get(docId)));
+                htmlFile.write(String.format("<tr><td>%s</td><td>%s</td><td>%s</td></tr>%n", c2d.getKey(), docId, documentTexts.get(docId)));
             }
         }
-        allFiles.write("</table>\n");
+        htmlFile.write("</table>\n");
     }
 
     public static String getStyle() {

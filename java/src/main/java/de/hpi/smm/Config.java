@@ -22,6 +22,7 @@ public class Config {
     public final static String RESULT_CLUSTER_PATH = RESULT_PATH + "clusters/";
     public final static String FEATURE_FILE = RESULT_PATH + "features.txt";
     public final static String FEATURE_SEPERATOR= " ";
+    public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
 
     // Database config
     public final static String IP = "141.89.225.134";
