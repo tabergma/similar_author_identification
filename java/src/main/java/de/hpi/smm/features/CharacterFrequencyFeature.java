@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class LetterFrequencyFeature extends AbstractFeature {
+public class CharacterFrequencyFeature extends AbstractFeature {
 
     private Float[] features;
     private int letterCount = 0;
@@ -18,7 +18,7 @@ public class LetterFrequencyFeature extends AbstractFeature {
     private static List<Character> letters;
 
 
-    public LetterFrequencyFeature(float weight) {
+    public CharacterFrequencyFeature(float weight) {
         super(weight);
         this.frequencies = new HashMap<Character, MutableInt>(getNumberOfFeatures());
         for (Character letter : getLetters()){

@@ -1,35 +1,40 @@
 package de.hpi.smm.features;
 
 
+import de.hpi.smm.helper.MutableInt;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class PosTagFeature extends AbstractFeature {
 
-    Map<String, Integer> tagCount = new HashMap<String, Integer>();
+    Map<String, MutableInt> tagCount = new HashMap<String, MutableInt>();
     int wordCount = 0;
 
     public PosTagFeature(float weight, List<String> t) {
         super(weight);
         for (String tag : t) {
-            tagCount.put(tag, 0);
+            tagCount.put(tag, new MutableInt());
         }
     }
 
     @Override
     public void feedToken(String token, String tag) {
-        tagCount.put(tag, tagCount.get(tag) + 1);
-        wordCount++;
+        MutableInt count = tagCount.get(tag);
+        if (count != null) {
+            count.increment();
+            wordCount++;
+        }
     }
 
     @Override
     public Float[] getFeatures() {
         Float[] features = new Float[tagCount.size()];
         int i = 0;
-        for (Integer count : tagCount.values()) {
-            if (count != 0) {
-                features[i] = (float) count / wordCount;
+        for (MutableInt count : tagCount.values()) {
+            if (count.get() != 0) {
+                features[i] = (float) count.get() / wordCount;
             } else {
                 features[i] = 0f;
             }
