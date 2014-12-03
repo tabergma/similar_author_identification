@@ -1,21 +1,36 @@
 package de.hpi.smm.features;
 
+import de.hpi.smm.Config;
+import edu.stanford.nlp.ling.HasWord;
+import edu.stanford.nlp.ling.TaggedWord;
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class FeatureExtractor {
 
-    public List<Float> getFeatures(String text) {
+    public List<Float> getFeatures(String text, String lang) {
         // Initialize features
         List<AbstractFeature> featureList = new ArrayList<AbstractFeature>();
         addAllFeatures(featureList);
 
+        // Create POS tagger
+        MaxentTagger tagger = Config.lang2tagger.get(lang);
+
         // Tokenize text
-        String[] tokens = text.split("\\s");
-        for (String token: tokens) {
-            for (AbstractFeature feature : featureList){
-                feature.feedToken(token);
+        List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text));
+
+        for (List<HasWord> s : sentences) {
+            List<TaggedWord> taggedWords = tagger.tagSentence(s);
+            for (TaggedWord taggedWord : taggedWords) {
+                String tag = taggedWord.tag();
+                String word = taggedWord.word();
+                for (AbstractFeature feature : featureList) {
+                    feature.feedToken(word);
+                }
             }
         }
 

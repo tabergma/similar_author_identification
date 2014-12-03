@@ -1,5 +1,7 @@
 package de.hpi.smm;
 
+import edu.stanford.nlp.tagger.maxent.MaxentTagger;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,19 +38,29 @@ public class Config {
 
     // POS Tagger
     public final static String MODEL_DIR = "../resource/stanford-postagger-full-2014-08-27/models/";
+    public final static String ENGLISH_MODEL = "wsj-0-18-bidirectional-distsim.tagger";
+    public final static String GERMAN_MODEL = "german-fast.tagger";
+    public final static String FRENCH_MODEL = "french.tagger";
+    public final static String CHINESE_MODEL = "chinese-distsim.tagger";
+    public final static String SPANISH_MODEL = "spanish-distsim.tagger";
+    private final static MaxentTagger englishTagger = new MaxentTagger(MODEL_DIR + ENGLISH_MODEL);
+    private final static MaxentTagger germanTagger = new MaxentTagger(MODEL_DIR + GERMAN_MODEL);
+    private final static MaxentTagger frenchTagger = new MaxentTagger(MODEL_DIR + FRENCH_MODEL);
+    private final static MaxentTagger chineseTagger = new MaxentTagger(MODEL_DIR + CHINESE_MODEL);
+    private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
 
     // Language detector
     public final static String PROFILES_DIR = "../resource/langdetect-03-03-2014/profiles/";
 
-    public static final Map<String, String> lang2model;
+    public static final Map<String, MaxentTagger> lang2tagger;
     static {
-        Map<String, String> aMap = new HashMap<String, String>();
-        aMap.put("en", "wsj-0-18-bidirectional-distsim.tagger");
-        aMap.put("de", "german-fast.tagger");
-        aMap.put("fr", "french.tagger");
-        aMap.put("zh-cn", "chinese-distsim.tagger");
-        aMap.put("es", "spanish-distsim.tagger");
+        Map<String, MaxentTagger> aMap = new HashMap<String, MaxentTagger>();
+        aMap.put("en", englishTagger);
+        aMap.put("de", germanTagger);
+        aMap.put("fr", frenchTagger);
+        aMap.put("zh-cn", chineseTagger);
+        aMap.put("es", spanishTagger);
 
-        lang2model = Collections.unmodifiableMap(aMap);
+        lang2tagger = Collections.unmodifiableMap(aMap);
     }
 }
