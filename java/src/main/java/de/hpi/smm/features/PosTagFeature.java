@@ -14,7 +14,6 @@ public class PosTagFeature extends AbstractFeature {
         for (String tag : t) {
             tagCount.put(tag, 0);
         }
-        System.out.println(t);
     }
 
     @Override
