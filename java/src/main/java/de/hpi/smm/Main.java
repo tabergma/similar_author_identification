@@ -8,15 +8,14 @@ import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.drawing.Drawing;
 import de.hpi.smm.drawing.Point;
 import de.hpi.smm.features.FeatureExtractor;
-import de.hpi.smm.helper.ClusterWriter;
-import de.hpi.smm.helper.DatabaseAdapter;
-import de.hpi.smm.helper.FeatureWriter;
+import de.hpi.smm.helper.*;
+import de.hpi.smm.sets.HanaSet;
+import de.hpi.smm.sets.LocalSet;
+import de.hpi.smm.sets.TestSet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +25,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Fetching data...");
-        ResultSet rs = getTestSet();
+//        TestSet testSet = new HanaSet(100000);
+        TestSet testSet = new LocalSet(Config.LOCAL_TEST_SET_PATH);
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter();
@@ -37,24 +37,20 @@ public class Main {
 
         System.out.println("Extracting features...");
         List<String> documentTexts = new ArrayList<String>();
-        try {
-            while (rs.next()){
-                String content = rs.getString("POSTCONTENT");
-                if (content != null && content.length() > minLength) {
-                    // detect language
-                    detector.append(content);
-                    String lang = detector.detect();
+        while (testSet.next()){
+            String content = testSet.getText();
+            if (content != null && content.length() > minLength) {
+                // detect language
+                detector.append(content);
+                String lang = detector.detect();
 
-                    // extract features
-                    List<Float> features = featureExtractor.getFeatures(content, lang);
+                // extract features
+                List<Float> features = featureExtractor.getFeatures(content, lang);
 
-                    // write features
-                    featureWriter.writeFeaturesForDocument(features);
-                    documentTexts.add(content);
-                }
+                // write features
+                featureWriter.writeFeaturesForDocument(features);
+                documentTexts.add(content);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
 
         featureWriter.close();
@@ -80,12 +76,6 @@ public class Main {
 
         System.out.println("Clean up...");
         kMeans.cleanUp();
-    }
-
-    private static ResultSet getTestSet() {
-        String statement = "SELECT POSTCONTENT FROM SYSTEM.WEBPAGE LIMIT 1000";
-        DatabaseAdapter dbAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        return dbAdapter.executeQuery(statement);
     }
 
     private static List<List<Float>> readFeatureFile() throws IOException {
