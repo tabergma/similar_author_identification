@@ -50,12 +50,13 @@ public class FeatureExtractor {
         return featureValues;
     }
 
-    public void addAllFeatures(List<AbstractFeature> featureList){
+    public void addAllFeatures(List<AbstractFeature> featureList) {
         featureList.add(new WordLengthFeature(1.0f));
         featureList.add(new LetterFrequencyFeature(1.0f));
         featureList.add(new FunctionWordFeature(1.0f));
         featureList.add(new CapitalLetterFrequencyFeature(1.0f));
         featureList.add(new WordFrequencyFeature(1.0f));
         featureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
+        featureList.add(new EmoticonFeature(1.0f));
     }
 }
