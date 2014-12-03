@@ -23,8 +23,8 @@ import java.util.List;
 
 public class KMeans {
 
-    private static final String INPUT_PATH = Config.INPUT_PATH;
-    private static final String OUTPUT_PATH = Config.OUTPUT_PATH;
+    private static final String INPUT_PATH = Config.KMEANS_DATA;
+    private static final String OUTPUT_PATH = Config.KMEANS_OUPUT;
     private static final String FEATURE_INPUT_PATH = Config.FEATURE_INPUT_PATH;
     private static final String CLUSTER_INPUT_PATH = Config.CLUSTER_INPUT_PATH;
 
@@ -48,7 +48,7 @@ public class KMeans {
         writeInitialClusters(vectors, new Path(CLUSTER_INPUT_PATH + "/part-00000"), fs, conf);
 
         // create output path
-        Path output = new Path(Config.OUTPUT_PATH);
+        Path output = new Path(Config.KMEANS_OUPUT);
         HadoopUtil.delete(conf, output);
 
         // run k means

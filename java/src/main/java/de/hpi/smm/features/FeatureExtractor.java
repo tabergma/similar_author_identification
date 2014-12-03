@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import de.hpi.smm.features.CapitalLetterFrequencyFeature;
-import org.apache.commons.math3.analysis.function.Abs;
-
 public class FeatureExtractor {
 
     public List<Float> getFeatures(String text) {
