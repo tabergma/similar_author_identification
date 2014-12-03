@@ -6,26 +6,32 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CapitalLetterFrequencyFeature {
+public class CapitalLetterFrequencyFeature extends AbstractFeature {
 
-    private Float capitalLetterCount = 0.f;
-    private Float letterCount = 0.f;
+    private int capitalLetterCount = 0;
+    private int letterCount = 0;
 
     public CapitalLetterFrequencyFeature() {
     }
 
-    public void evaluateCapitalLetterFrequency(String text) {
-    	
-        for (char c : text.toCharArray()) {
-            this.letterCount += 1.f;
+    @Override
+    public void feedToken(String token) {
+        for (char c : token.toCharArray()) {
+            this.letterCount += 1;
             if(Character.isUpperCase(c)){
-        		capitalLetterCount += 1.f;
+                capitalLetterCount += 1;
             }
         }
     }
 
-    public Float getCapitalLetterFrequency() {
-    	Float capitalLetterFrequency = capitalLetterCount / letterCount;
+    @Override
+    public Float[] getFeatures() {
+        Float[] capitalLetterFrequency = {(float) capitalLetterCount / letterCount};
         return capitalLetterFrequency;
+    }
+
+    @Override
+    public int getNumberOfFeatures() {
+        return 1;
     }
 }

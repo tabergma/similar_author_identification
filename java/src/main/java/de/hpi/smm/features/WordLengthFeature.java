@@ -13,8 +13,8 @@ public class WordLengthFeature extends AbstractFeature {
     }
 
     @Override
-    public float[] getFeatures() {
-        float[] feature = { this.wordLength / this.wordCount };
+    public Float[] getFeatures() {
+        Float[] feature = { this.wordLength / this.wordCount };
         return feature;
     }
 

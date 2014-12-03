@@ -1,106 +1,131 @@
 package de.hpi.smm.features;
 
+import de.hpi.smm.helper.MutableInt;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class LetterFrequencyFeature {
+public class LetterFrequencyFeature extends AbstractFeature {
 
-    private Map<Character, Float> letterFrequencyMap = new HashMap<Character, Float>();
-    private Float letterCount = 0.f;
+    private Float[] features;
+    private int letterCount = 0;
+
+    private Map<Character, MutableInt> frequencies;
+
+    private static List<Character> letters;
+
 
     public LetterFrequencyFeature() {
-        letterFrequencyMap.put('A', 0.f);
-        letterFrequencyMap.put('B', 0.f);
-        letterFrequencyMap.put('C', 0.f);
-        letterFrequencyMap.put('D', 0.f);
-        letterFrequencyMap.put('E', 0.f);
-        letterFrequencyMap.put('F', 0.f);
-        letterFrequencyMap.put('G', 0.f);
-        letterFrequencyMap.put('H', 0.f);
-        letterFrequencyMap.put('I', 0.f);
-        letterFrequencyMap.put('J', 0.f);
-        letterFrequencyMap.put('K', 0.f);
-        letterFrequencyMap.put('L', 0.f);
-        letterFrequencyMap.put('M', 0.f);
-        letterFrequencyMap.put('N', 0.f);
-        letterFrequencyMap.put('O', 0.f);
-        letterFrequencyMap.put('P', 0.f);
-        letterFrequencyMap.put('Q', 0.f);
-        letterFrequencyMap.put('R', 0.f);
-        letterFrequencyMap.put('S', 0.f);
-        letterFrequencyMap.put('T', 0.f);
-        letterFrequencyMap.put('U', 0.f);
-        letterFrequencyMap.put('V', 0.f);
-        letterFrequencyMap.put('W', 0.f);
-        letterFrequencyMap.put('X', 0.f);
-        letterFrequencyMap.put('Y', 0.f);
-        letterFrequencyMap.put('Z', 0.f);
-        letterFrequencyMap.put('0', 0.f);
-        letterFrequencyMap.put('1', 0.f);
-        letterFrequencyMap.put('2', 0.f);
-        letterFrequencyMap.put('3', 0.f);
-        letterFrequencyMap.put('4', 0.f);
-        letterFrequencyMap.put('5', 0.f);
-        letterFrequencyMap.put('6', 0.f);
-        letterFrequencyMap.put('7', 0.f);
-        letterFrequencyMap.put('8', 0.f);
-        letterFrequencyMap.put('9', 0.f);
-        letterFrequencyMap.put(',', 0.f);
-        letterFrequencyMap.put('.', 0.f);
-        letterFrequencyMap.put(';', 0.f);
-        letterFrequencyMap.put(':', 0.f);
-        letterFrequencyMap.put('-', 0.f);
-        letterFrequencyMap.put('_', 0.f);
-        letterFrequencyMap.put('#', 0.f);
-        letterFrequencyMap.put('\'', 0.f);
-        letterFrequencyMap.put('+', 0.f);
-        letterFrequencyMap.put('*', 0.f);
-        letterFrequencyMap.put('?', 0.f);
-        letterFrequencyMap.put('!', 0.f);
-        letterFrequencyMap.put('"', 0.f);
-        letterFrequencyMap.put('§', 0.f);
-        letterFrequencyMap.put('$', 0.f);
-        letterFrequencyMap.put('%', 0.f);
-        letterFrequencyMap.put('&', 0.f);
-        letterFrequencyMap.put('/', 0.f);
-        letterFrequencyMap.put('\\', 0.f);
-        letterFrequencyMap.put('=', 0.f);
-        letterFrequencyMap.put('(', 0.f);
-        letterFrequencyMap.put(')', 0.f);
-        letterFrequencyMap.put('{', 0.f);
-        letterFrequencyMap.put('}', 0.f);
-        letterFrequencyMap.put('[', 0.f);
-        letterFrequencyMap.put(']', 0.f);
-        letterFrequencyMap.put('<', 0.f);
-        letterFrequencyMap.put('>', 0.f);
-        letterFrequencyMap.put('|', 0.f);
-        letterFrequencyMap.put('`', 0.f);
-        letterFrequencyMap.put('´', 0.f);
-        letterFrequencyMap.put('^', 0.f);
-        letterFrequencyMap.put('°', 0.f);
-        letterFrequencyMap.put('@', 0.f);
+        this.frequencies = new HashMap<Character, MutableInt>(getNumberOfFeatures());
+        for (Character letter : getLetters()){
+            frequencies.put(letter, new MutableInt());
+        }
+        this.features = new Float[getNumberOfFeatures()];
+        this.letterCount = 0;
     }
 
-    public void evaluateLetterFrequency(String text) {
-        text = text.toUpperCase();
-        for (char c : text.toCharArray()) {
-            this.letterCount += 1;
-            if (this.letterFrequencyMap.containsKey(c)) {
-                this.letterFrequencyMap.put(c, this.letterFrequencyMap.get(c) + 1);
+    @Override
+    public void feedToken(String token) {
+        token = token.toUpperCase();
+        for (char c : token.toCharArray()) {
+            this.letterCount++;
+            MutableInt count = frequencies.get(c);
+            if (count != null){
+                count.increment();
             }
         }
     }
 
-    public List<Float> getLetterFrequency() {
-        List<Float> letterFrequencyList = new ArrayList<Float>(this.letterFrequencyMap.values());
-
-        for(int i = 0; i < letterFrequencyList.size(); i++) {
-            letterFrequencyList.set(i, letterFrequencyList.get(i) / this.letterCount);
+    @Override
+    public Float[] getFeatures() {
+        for(int i = 0; i < features.length; i++) {
+            features[i] = (float) frequencies.get(getLetters().get(i)).get() / this.letterCount;
         }
+        return features;
+    }
 
-        return letterFrequencyList;
+    @Override
+    public int getNumberOfFeatures() {
+        return getLetters().size();
+    }
+
+    public static List<Character> getLetters() {
+        if (letters == null){
+            letters = new ArrayList<Character>();
+            letters.add('A');
+            letters.add('B');
+            letters.add('C');
+            letters.add('D');
+            letters.add('E');
+            letters.add('F');
+            letters.add('G');
+            letters.add('H');
+            letters.add('I');
+            letters.add('J');
+            letters.add('K');
+            letters.add('L');
+            letters.add('M');
+            letters.add('N');
+            letters.add('O');
+            letters.add('P');
+            letters.add('Q');
+            letters.add('R');
+            letters.add('S');
+            letters.add('T');
+            letters.add('U');
+            letters.add('V');
+            letters.add('W');
+            letters.add('X');
+            letters.add('Y');
+            letters.add('Z');
+            letters.add('0');
+            letters.add('1');
+            letters.add('2');
+            letters.add('3');
+            letters.add('4');
+            letters.add('5');
+            letters.add('6');
+            letters.add('7');
+            letters.add('8');
+            letters.add('9');
+            letters.add(',');
+            letters.add('.');
+            letters.add(';');
+            letters.add(':');
+            letters.add('-');
+            letters.add('_');
+            letters.add('#');
+            letters.add('\'');
+            letters.add('+');
+            letters.add('*');
+            letters.add('?');
+            letters.add('!');
+            letters.add('"');
+            letters.add('ï¿½');
+            letters.add('$');
+            letters.add('%');
+            letters.add('&');
+            letters.add('/');
+            letters.add('\\');
+            letters.add('=');
+            letters.add('(');
+            letters.add(')');
+            letters.add('{');
+            letters.add('}');
+            letters.add('[');
+            letters.add(']');
+            letters.add('<');
+            letters.add('>');
+            letters.add('|');
+            letters.add('`');
+            letters.add('ï¿½');
+            letters.add('^');
+            letters.add('ï¿½');
+            letters.add('@');
+        }
+        return letters;
     }
 }

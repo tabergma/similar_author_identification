@@ -12,19 +12,19 @@ import de.hpi.smm.helper.Util;
 public class FunctionWordFeature extends AbstractFeature {
 
 	private static String functionWordLocation = "../resource/FunctionWords.txt";
-    private Map<String, MutableInt> frequencies = new HashMap<String, MutableInt>();
+    private Map<String, MutableInt> frequencies;
     private static List<String> functionWords;
 
-    private float[] features;
+    private Float[] features;
 
     private int wordCount;
 
     public FunctionWordFeature () {
-        this.frequencies = new HashMap<String, MutableInt>(getFunctionWords().size());
+        this.frequencies = new HashMap<String, MutableInt>(getNumberOfFeatures());
         for (String functionWord : getFunctionWords()){
             frequencies.put(functionWord, new MutableInt());
         }
-        this.features = new float[getNumberOfFeatures()];
+        this.features = new Float[getNumberOfFeatures()];
         this.wordCount = 0;
     }
 
@@ -40,9 +40,9 @@ public class FunctionWordFeature extends AbstractFeature {
     }
 
     @Override
-    public float[] getFeatures() {
+    public Float[] getFeatures() {
         for(int i = 0; i < features.length; i++) {
-            features[i] = frequencies.get(getFunctionWords().get(i)).get() / this.wordCount;
+            features[i] = (float) frequencies.get(getFunctionWords().get(i)).get() / this.wordCount;
         }
         return features;
     }
