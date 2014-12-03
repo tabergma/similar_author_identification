@@ -51,11 +51,11 @@ public class FeatureExtractor {
     }
 
     public void addAllFeatures(List<AbstractFeature> featureList){
-        featureList.add(new WordLengthFeature());
-        featureList.add(new LetterFrequencyFeature());
-        featureList.add(new FunctionWordFeature());
-        featureList.add(new CapitalLetterFrequencyFeature());
-        featureList.add(new WordFrequencyFeature());
-        featureList.add(new PosTagFeature(Util.asSortedList(tagger.getTags().tagSet())));
+        featureList.add(new WordLengthFeature(1.0f));
+        featureList.add(new LetterFrequencyFeature(1.0f));
+        featureList.add(new FunctionWordFeature(1.0f));
+        featureList.add(new CapitalLetterFrequencyFeature(1.0f));
+        featureList.add(new WordFrequencyFeature(1.0f));
+        featureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
     }
 }

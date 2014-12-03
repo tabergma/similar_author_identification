@@ -10,7 +10,8 @@ public class PosTagFeature extends AbstractFeature {
     Map<String, Integer> tagCount = new HashMap<String, Integer>();
     int wordCount = 0;
 
-    public PosTagFeature(List<String> t) {
+    public PosTagFeature(float weight, List<String> t) {
+        super(weight);
         for (String tag : t) {
             tagCount.put(tag, 0);
         }

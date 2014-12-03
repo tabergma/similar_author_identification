@@ -20,7 +20,8 @@ public class FunctionWordFeature extends AbstractFeature {
     private Float[] features;
     private int wordCount;
 
-    public FunctionWordFeature () {
+    public FunctionWordFeature(float weight) {
+        super(weight);
         this.frequencies = new HashMap<String, MutableInt>(getNumberOfFeatures());
         for (String functionWord : getFunctionWords()){
             frequencies.put(functionWord, new MutableInt());

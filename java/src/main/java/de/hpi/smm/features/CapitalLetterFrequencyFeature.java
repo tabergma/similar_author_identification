@@ -5,7 +5,8 @@ public class CapitalLetterFrequencyFeature extends AbstractFeature {
     private int capitalLetterCount = 0;
     private int letterCount = 0;
 
-    public CapitalLetterFrequencyFeature() {
+    public CapitalLetterFrequencyFeature(float weight) {
+        super(weight);
     }
 
     @Override

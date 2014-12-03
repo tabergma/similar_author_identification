@@ -11,6 +11,10 @@ public class WordFrequencyFeature extends AbstractFeature {
     private Map<String, MutableInt> frequencies = new HashMap<String, MutableInt>();
     private int wordCount = 0;
 
+    public WordFrequencyFeature(float weight) {
+        super(weight);
+    }
+
     @Override
     public void feedToken(String token, String tag) {
         token = token.toLowerCase();
