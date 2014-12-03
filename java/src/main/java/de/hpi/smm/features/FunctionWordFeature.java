@@ -1,23 +1,23 @@
 package de.hpi.smm.features;
 
+import de.hpi.smm.Config;
+import de.hpi.smm.helper.MutableInt;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
-
-import de.hpi.smm.helper.MutableInt;
-import de.hpi.smm.helper.Util;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class FunctionWordFeature extends AbstractFeature {
 
-	private static String functionWordLocation = "../resource/FunctionWords.txt";
     private Map<String, MutableInt> frequencies;
     private static List<String> functionWords;
-
     private Float[] features;
-
     private int wordCount;
 
     public FunctionWordFeature () {
@@ -30,7 +30,7 @@ public class FunctionWordFeature extends AbstractFeature {
     }
 
     @Override
-    public void feedToken(String token) {
+    public void feedToken(String token, String tag) {
         String lowerToken = token.toLowerCase();
 
         MutableInt count = frequencies.get(lowerToken);
@@ -59,7 +59,7 @@ public class FunctionWordFeature extends AbstractFeature {
 
             BufferedReader br = null;
             try {
-                br = new BufferedReader(new FileReader(functionWordLocation));
+                br = new BufferedReader(new FileReader(Config.FUNCTION_WORD_FILE));
                 StringBuilder sb = new StringBuilder();
                 String line;
 

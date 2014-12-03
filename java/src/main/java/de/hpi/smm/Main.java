@@ -9,8 +9,7 @@ import de.hpi.smm.drawing.Drawing;
 import de.hpi.smm.drawing.Point;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.*;
-import de.hpi.smm.sets.HanaSet;
-import de.hpi.smm.sets.LocalSet;
+import de.hpi.smm.sets.DataSetSelector;
 import de.hpi.smm.sets.TestSet;
 
 import java.io.BufferedReader;
@@ -25,8 +24,8 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         System.out.println("Fetching data...");
-//        TestSet testSet = new HanaSet(100000);
-        TestSet testSet = new LocalSet(Config.LOCAL_TEST_SET_PATH);
+
+        TestSet testSet = DataSetSelector.getDataSet(Config.SELECTED_SET);
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter();

@@ -1,5 +1,6 @@
 package de.hpi.smm;
 
+import de.hpi.smm.sets.DataSetSelector;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import java.util.Collections;
@@ -16,7 +17,7 @@ public class Config {
     public final static String CLUSTER_FILE = KMEANS_OUPUT + "clusteredPoints/part-m-00000";
 
     // Parameters for K-Means
-    public final static int K = 2;
+    public final static int K = 3;
     public final static double CONVERGENCE_DELTA = 0.001;
     public final static int MAX_ITERATIONS = 10;
     public final static boolean RUN_CLUSTERING = true;
@@ -49,10 +50,14 @@ public class Config {
     private final static MaxentTagger chineseTagger = new MaxentTagger(MODEL_DIR + CHINESE_MODEL);
     private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
 
+    // Features
+    public final static String FUNCTION_WORD_FILE = "../resource/FunctionWords.txt";
+
     // Language detector
     public final static String PROFILES_DIR = "../resource/langdetect-03-03-2014/profiles/";
 
-    // Local testsets
+    // Data sets
+    public final static int SELECTED_SET = DataSetSelector.LOCAL_SET;
     public static final String LOCAL_TEST_SET_PATH = "../data/";
 
     public static final Map<String, MaxentTagger> lang2tagger;
