@@ -17,7 +17,7 @@ public class Config {
     public final static String CLUSTER_FILE = KMEANS_OUPUT + "clusteredPoints/part-m-00000";
 
     // Parameters for K-Means
-    public final static int K = 3;
+    public final static int K = 6;
     public final static double CONVERGENCE_DELTA = 0.001;
     public final static int MAX_ITERATIONS = 10;
     public final static boolean RUN_CLUSTERING = true;
