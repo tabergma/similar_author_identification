@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class LetterFrequencyFeature extends AbstractFeature {
+public class CharacterFrequencyFeature extends AbstractTokenFeature {
 
     private Float[] features;
     private int letterCount = 0;
@@ -18,7 +18,7 @@ public class LetterFrequencyFeature extends AbstractFeature {
     private static List<Character> letters;
 
 
-    public LetterFrequencyFeature(float weight) {
+    public CharacterFrequencyFeature(float weight) {
         super(weight);
         this.frequencies = new HashMap<Character, MutableInt>(getNumberOfFeatures());
         for (Character letter : getLetters()){
@@ -56,32 +56,32 @@ public class LetterFrequencyFeature extends AbstractFeature {
     public static List<Character> getLetters() {
         if (letters == null){
             letters = new ArrayList<Character>();
-            letters.add('A');
-            letters.add('B');
-            letters.add('C');
-            letters.add('D');
-            letters.add('E');
-            letters.add('F');
-            letters.add('G');
-            letters.add('H');
-            letters.add('I');
-            letters.add('J');
-            letters.add('K');
-            letters.add('L');
-            letters.add('M');
-            letters.add('N');
-            letters.add('O');
-            letters.add('P');
-            letters.add('Q');
-            letters.add('R');
-            letters.add('S');
-            letters.add('T');
-            letters.add('U');
-            letters.add('V');
-            letters.add('W');
-            letters.add('X');
-            letters.add('Y');
-            letters.add('Z');
+//            letters.add('A');
+//            letters.add('B');
+//            letters.add('C');
+//            letters.add('D');
+//            letters.add('E');
+//            letters.add('F');
+//            letters.add('G');
+//            letters.add('H');
+//            letters.add('I');
+//            letters.add('J');
+//            letters.add('K');
+//            letters.add('L');
+//            letters.add('M');
+//            letters.add('N');
+//            letters.add('O');
+//            letters.add('P');
+//            letters.add('Q');
+//            letters.add('R');
+//            letters.add('S');
+//            letters.add('T');
+//            letters.add('U');
+//            letters.add('V');
+//            letters.add('W');
+//            letters.add('X');
+//            letters.add('Y');
+//            letters.add('Z');
             letters.add('0');
             letters.add('1');
             letters.add('2');
@@ -96,36 +96,36 @@ public class LetterFrequencyFeature extends AbstractFeature {
             letters.add('.');
             letters.add(';');
             letters.add(':');
-            letters.add('-');
-            letters.add('_');
-            letters.add('#');
-            letters.add('\'');
-            letters.add('+');
-            letters.add('*');
+//            letters.add('-');
+//            letters.add('_');
+//            letters.add('#');
+//            letters.add('\'');
+//            letters.add('+');
+//            letters.add('*');
             letters.add('?');
             letters.add('!');
-            letters.add('"');
-            letters.add('�');
-            letters.add('$');
-            letters.add('%');
-            letters.add('&');
-            letters.add('/');
-            letters.add('\\');
-            letters.add('=');
+//            letters.add('"');
+//            letters.add('�');
+//            letters.add('$');
+//            letters.add('%');
+//            letters.add('&');
+//            letters.add('/');
+//            letters.add('\\');
+//            letters.add('=');
             letters.add('(');
             letters.add(')');
-            letters.add('{');
-            letters.add('}');
-            letters.add('[');
-            letters.add(']');
-            letters.add('<');
-            letters.add('>');
-            letters.add('|');
-            letters.add('`');
-            letters.add('�');
-            letters.add('^');
-            letters.add('�');
-            letters.add('@');
+//            letters.add('{');
+//            letters.add('}');
+//            letters.add('[');
+//            letters.add(']');
+//            letters.add('<');
+//            letters.add('>');
+//            letters.add('|');
+//            letters.add('`');
+//            letters.add('�');
+//            letters.add('^');
+//            letters.add('�');
+//            letters.add('@');
         }
         return letters;
     }

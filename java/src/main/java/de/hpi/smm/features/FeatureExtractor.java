@@ -20,42 +20,58 @@ public class FeatureExtractor {
         // Create POS tagger
         tagger = Config.lang2tagger.get(lang);
 
-
         // Initialize features
-        List<AbstractFeature> featureList = new ArrayList<AbstractFeature>();
-        addAllFeatures(featureList);
+        List<AbstractTokenFeature> tokenFeatureList = new ArrayList<AbstractTokenFeature>();
+        addAllTokenFeatures(tokenFeatureList);
+        List<AbstractTextFeature> textFeatureList = new ArrayList<AbstractTextFeature>();
+        addAllTextFeatures(textFeatureList);
 
         // Tokenize text
         List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text),
                 PTBTokenizer.PTBTokenizerFactory.newWordTokenizerFactory("untokenizable=noneDelete, normalizeParentheses=false, normalizeOtherBrackets=false"));
 
+        // Run token features
         for (List<HasWord> s : sentences) {
             List<TaggedWord> taggedWords = tagger.tagSentence(s);
             for (TaggedWord taggedWord : taggedWords) {
                 String tag = taggedWord.tag();
                 String word = taggedWord.word();
 
-                for (AbstractFeature feature : featureList) {
+                for (AbstractTokenFeature feature : tokenFeatureList) {
                     feature.feedToken(word, tag);
                 }
             }
         }
+        // Run text features
+        for (AbstractTextFeature feature : textFeatureList) {
+            feature.feedText(text);
+        }
 
         // Add features to feature list
         ArrayList<Float> featureValues = new ArrayList<Float>();
-        for (AbstractFeature feature : featureList){
+        for (AbstractTokenFeature feature : tokenFeatureList){
+            featureValues.addAll(Arrays.asList(feature.getFeatures()));
+        }
+        for (AbstractTextFeature feature : textFeatureList) {
             featureValues.addAll(Arrays.asList(feature.getFeatures()));
         }
 
         return featureValues;
     }
 
-    public void addAllFeatures(List<AbstractFeature> featureList){
+    public void addAllTokenFeatures(List<AbstractTokenFeature> featureList) {
         featureList.add(new WordLengthFeature(1.0f));
-        featureList.add(new LetterFrequencyFeature(1.0f));
+        featureList.add(new CharacterFrequencyFeature(1.0f));
         featureList.add(new FunctionWordFeature(1.0f));
-        featureList.add(new CapitalLetterFrequencyFeature(1.0f));
+        featureList.add(new CapitalLetterFeature(1.0f));
+        featureList.add(new UpperCaseFeature(1.0f));
         featureList.add(new WordFrequencyFeature(1.0f));
         featureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
+        featureList.add(new EmoticonFeature(1.0f));
+        featureList.add(new PostLengthFeature(1.0f));
+    }
+
+    public void addAllTextFeatures(List<AbstractTextFeature> featureList) {
+        featureList.add(new BlankLinesFeature(1.0f));
     }
 }

@@ -1,11 +1,11 @@
 package de.hpi.smm.features;
 
-public class CapitalLetterFrequencyFeature extends AbstractFeature {
+public class CapitalLetterFeature extends AbstractTokenFeature {
 
     private int capitalLetterCount = 0;
     private int letterCount = 0;
 
-    public CapitalLetterFrequencyFeature(float weight) {
+    public CapitalLetterFeature(float weight) {
         super(weight);
     }
 
@@ -21,8 +21,15 @@ public class CapitalLetterFrequencyFeature extends AbstractFeature {
 
     @Override
     public Float[] getFeatures() {
-        Float[] capitalLetterFrequency = {(float) capitalLetterCount / letterCount};
-        return capitalLetterFrequency;
+        Float[] features = new Float[1];
+
+        // Number of capitalized letters
+        if (capitalLetterCount != 0)
+            features[0] = (float) capitalLetterCount / letterCount;
+        else
+            features[0] = 0f;
+
+        return features;
     }
 
     @Override
