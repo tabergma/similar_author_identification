@@ -52,6 +52,7 @@ public class Config {
 
     // Features
     public final static String FUNCTION_WORD_FILE = "../resource/FunctionWords_de.txt";
+    public final static String ABBREVIATIONS_FILE = "../resource/Abbreviations_de.txt";
 
     // Language detector
     public final static String PROFILES_DIR = "../resource/langdetect-03-03-2014/profiles/";

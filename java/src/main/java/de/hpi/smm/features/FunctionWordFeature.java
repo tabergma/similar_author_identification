@@ -18,6 +18,7 @@ public class FunctionWordFeature extends AbstractTokenFeature {
     private static List<String> functionWords;
     private Float[] features;
     private int wordCount;
+    private static boolean useAbbreviations = true;
 
     public FunctionWordFeature(float weight) {
         super(weight);
@@ -75,6 +76,29 @@ public class FunctionWordFeature extends AbstractTokenFeature {
                 }
                 catch (IOException e) {
                     e.printStackTrace();
+                }
+            }
+            
+            if (useAbbreviations){
+                BufferedReader br2 = null;
+                try {
+                    br2 = new BufferedReader(new FileReader(Config.ABBREVIATIONS_FILE));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+
+                    while ((line = br2.readLine()) != null) {
+                        functionWords.add(line);
+                    }
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        br2.close();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
