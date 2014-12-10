@@ -1,0 +1,20 @@
+Problem bei Google+ Sharing als Allinkl.com Kunde?
+SHARE ON:
+Kai Thrun — 22. April 2014
+Error 404	
+
+Es gibt Probleme, die treiben mich in den Wahnsinn. Mein Blog wurde bei Google+ nicht ordnungsgemäß ausgelesen (Bildvorschau etc), obwohl die Daten nach Schema.org hinterlegt sind. Googles Structure Data Validator bestätigt dies mehrfach und im Zweifelsfall reichen Google+ in der Regel auch OpenGraph-Daten.
+
+Nachdem ich einige Stunden damit verbrachte dem Übeltäter auf die Spur zu kommen, konnte ich freudig feststellen, dass Twitter mir die Lösung bringen würde. Ich hatte zwar nach ausreichendem googlen gelesen, dass ich nicht der einzige mit dem Problem sei, aber vielleicht hatte ja jemand einen Tipp.
+
+Was mich in Rage brachte, war die Tatsache, dass es ungefähr alle 5-10 Versuche funktionierte. Beim Teilen über den Button auf der Webseite bestand das Problem ebenfalls, was die Lage nicht verbesserte. Wie bereits erwähnt, Twitter brachte die erhoffte Lösung.
+
+    @KaiThrun bist bei all-inkl ? Same Problem aber behoben
+
+    — Dennis Vitt (@vitti_de) April 19, 2014
+
+Ich schrieb Allinkl.com eine kurze Mail, in der ich beschrieb, dass meine Seite nicht korrekt bei Google+ eingelesen wird. Um nicht als schlauer Kunde aufzutreten, mich aber gleichzeitig nicht abwimmeln zu lassen, verwies ich auf Twitter. Ich hätte gehört, da gäbe es eine technische Lösung, ob man mir weiterhelfen könne, war meine Frage.
+
+Meine Domain wurde in der folgenden Nacht umgezogen bzw. jemand hat an den Restriktionen gearbeitet. Und siehe da: Mein Blog wird einwandfrei im ersten Versuch bei Google+ eingelesen.
+
+Solltest Du also auch Probleme damit haben, schau doch mal, ob es nicht evtl. an deinem Hoster liegen könnte. Eine Tatsache, die ich nicht in Betracht gezogen habe. 

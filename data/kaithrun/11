@@ -1,0 +1,73 @@
+Das Open Graph Protokoll und der Facebook Debugger
+SHARE ON:
+Kai Thrun — 23. April 2014
+big-data-next-exit	
+
+Wer möchte, dass seine Webseite oder sein Blog ordnungsgemäß in den Netzwerken geteilt wird, wird irgendwann über das Open Graph Protokoll stolpern. Die sogenannten OG-Daten, OG-Snippets oder OG-Tags dienen dazu, sozialen Netzwerken die wichtigsten Informationen über euren Artikel oder eure Webseite mitzuteilen.
+
+Facebook ist sicherlich der bekannteste Vertreter, der diese Daten einliest. Aber auch Google+ bedient sich dieser Daten, wenn es keine weiteren Anhaltspunkte gibt. Halten wir also fest, dass OG-Tags sind gern gesehenes Datenhäppchen. Twitter nutzt es nicht, da Twitter eigene Auszeichnungsreferenzen nutzt. Die Übergabe für Twitter ist aber vom Grundprinzip identisch.
+Facebook Object Debugger
+
+Der Facebook Debugger zeigt an, welche Daten übergeben werden
+
+Als Blogger möchte man meist folgende Angaben übergeben: seine Überschrift, das hübsche Artikelbild und ein Vorschautext bzw. einen Anreißer, der ähnlich wie der Titel gern als “Call to Action” missbraucht wird. Der Text ist also so geschrieben, dass der Leser geneigt ist, auf den Link zu klicken. Bevor Du in kreative Anreißertexte nun großartig Zeit investierst – steckt die Zeit lieber in den Artikel.
+
+Ich übergebe einige Daten mehr, da wären:
+
+    Facebook Artikel-Autor (Autorenprofil)
+    Facebook Artikel-“Verlag” (Facebook Page)
+    Seitennamen
+    URL
+    Typ
+    Artikeltitel
+    Artikelbild
+    Artikelbeschreibung
+
+Im Detail könnt ihr das dem Quellcode entnehmen. Die Reihenfolge dabei ist übrigens gleichgültig.
+
+<meta property="article:author" content="https://www.facebook.com/kaithrun" />
+<meta property="article:publisher" content="https://www.facebook.com/kaithrunsblog" />
+<meta property="og:site_name" content="Kai Thrun" />
+<meta property="og:url" content="http://kaithrun.de/bloggen/problem-googleplus-sharing-allinkl/"/>  
+<meta property="og:type" content="article" />
+<meta property="og:title" content="Problem bei Google+ Sharing als Allinkl.com Kunde? - Kai Thrun" />  
+<meta name="og:description" content="Wenn deine Seite nicht bei Google+ eingelesen wird, muss das nicht unbedingt ein technischer Fehler deiner Seite sein.">
+<meta property="og:image" content="http://kaithrun.de/wp-content/uploads/error-file-not-found.png" />
+
+Für Blogger die auf eine selbstgehostete WordPress-Lösung setzen und sich trauen die Header.php ihres Themes zu öffnen, könnt ihr die Daten aus folgendem Code generieren:
+
+<?php if ( have_posts() ): while( have_posts() ): the_post(); endwhile; endif;?>  
+
+<meta property="article:author" content="https://www.facebook.com/UrlZumProfil" />
+<meta property="og:site_name" content="<?php echo get_bloginfo('name');?>" /><meta property="og:url" content="<?php the_permalink(); ?>"/>  
+
+<?php if ( is_single() ) : ?>
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="<?php wp_title(); ?>" />  
+<meta name="og:description" content="<?php echo the_excerpt(); ?>">
+<?php if ( has_post_thumbnail() ) : $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_id() ), 'full' );	?>
+	<meta property="og:image" content="<?php echo $thumbnail[0] ?>" />
+<?php endif; ?>
+
+<?php else : ?>
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="<?php wp_title(); ?>" />  
+<meta name="og:description" content="<?php echo esc_attr( wp_strip_all_tags( bloginfo('description') ) ); ?>">
+
+<?php endif; ?>
+
+In dem Code wird abgefragt, ob es sich um eine Artikelseite handelt. Ich lasse unterscheiden, ob bei einem Artikel, dieser auch als “Typ Artikel” angegeben wird – andernfalls ist es eine Webseite. Die Beschreibung ziehe ich in diesem Beispiel aus der WordPress-Variable “The_Excerpt“. Dies ist der Text, den ihr in eurem Auszug-Feld stehen habt. Wenn Du z.B. ein SEO-Plugin hast, welches eine Meta-Description anbietet, könntest Du auch diesen Text dafür nehmen. So mache ich es, da mir WPSeo diese Variablen zur Verfügung stellt.
+Außerdem fragt es ab, ob euer Template ein Artikelbild verwendet und wenn ja, dann wird dieses Artikelbild als OG:Image übergeben.
+
+Ob eure Daten korrekt sind, könnt ihr auch mehrere Arten prüfen. Ihr könnt im Quelltext nach der entsprechenden Stelle suchen oder ihr nutzt den Facebook Debugger.
+Facebook Debugger
+
+Nach dem Korrigieren eines Fehlers einfach die URL durch den Debugger jagen
+
+Nach dem Korrigieren eines Fehlers einfach die URL durch den Debugger jagen
+
+Der Facebook Debugger gehört in jede Leseliste! Wer sich schon mal über eine misslungene Überschrift geärgert hat, weil man ein Wort vergessen oder einen Buchstabendreher hat, der muss den Facebook Debugger kennen. Er ist Dir nicht nur zu nutze, um zu schauen, ob deine Open Graph-Daten korrekt übergeben. Mit dem Facebook Debugger kannst Du auch sofort fälsche Links “debuggen”. Tippfehler oder gar das falsche Artikelbild können so korrigiert werden, bevor euer Artikel von jemand anderem geteilt wird.
+
+Falls ihr Probleme oder Fragen zu dem Thema habt, hinterlasst mir einfach einen Kommentar. 

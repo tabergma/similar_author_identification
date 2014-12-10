@@ -1,0 +1,47 @@
+Twitter Cards erklärt inkl. Code-Schnippsel
+SHARE ON:
+Kai Thrun — 14. Juli 2014
+Card_Validator	
+
+Twitter gibt nun detaillierte Einblicke in das hauseigene Analytics-Tool. Um in die Reihe derer zu kommen, die sich u.a. die Einblendungen von Tweets anschauen möchte, geht der einfachste Weg wohl über Twitter Cards. Netter Nebeneffekt – deine Tweets beinhalten in der Detailansicht mehr Informationen.
+
+Twitter Cards sind Tweets “rich media”-Daten, also weiteren Informationen zu einer Quelle wie z.B. Twitter-account der Seite, Vorschaubild, Beschreibungstext, Video oder ob es sich um eine App handelt. Technisch werden die Daten genauso übermittelt, wie ihr es von den OpenGraoh-Daten gewohnt seid. Twitter Cards unterscheiden sich in ihren Formaten, also grob gesagt in ihrer Darstellung.
+
+Es gibt im 7 verschiedene Twitter Cards
+
+    Zusammenfassung
+    Zusammenfassung mit großem Bild
+    Foto
+    Gallery
+    App
+    Player
+    Produkt
+
+Für Blogger dürften nur die ersten beiden Karten interessant sein. Die Zusammenfassung ist die Standardausführung und beinhaltet den Titel, eine Beschreibung, ein Vorschaubild und den Twitter-Account. Die Zusammenfassung mit großem Bild enthält die gleichen Informationen, jedoch wird das Bild prominenter dargestellt.
+
+    Testtweet http://t.co/Xb3Knj1FCF
+
+    — Kai Thrun (@KaiThrun) 13. Juli 2014
+
+Wer seinen Blog selbst hostet, kann in seinem Theme dementsprechend mit Twitter Cards versehen (Nutzer von Yoast SEO Plugin – es gibt eine Checkbox in deinen Einstellungen). Alternativ gibt es auch ein Plugin, dass dein Blog mit den erforderlichen Daten versorgt (Ich habe es nicht getestet). Ähnlich wie bei den OG-Daten von Facebook, müssen einige Parameter übergeben.
+
+<meta property="twitter:card" content="summary" />
+<meta property="twitter:site" content="@deinTwitterAccount oder deiner Seite" />
+<meta property="twitter:title" content="<?php wp_title(); ?>" />
+<meta property="twitter:description" content="<?php echo the_excerpt(); ?>" />
+<meta property="twitter:url" content="<?php the_permalink(); ?>" />
+<?php if ( has_post_thumbnail() ) : $thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_id() ), 'full' );	?>
+<meta property="twitter:image" content="<?php echo $thumbnail[0] ?>" />
+<?php endif; ?>
+
+ 
+
+Wenn deine Seite ohnehin bereits OpenGraph-Daten liefert, dann reichen nur noch die erforderlichen Daten für Twitter.
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@deinMagazin">
+<meta name="twitter:creator" content="@Autorenaccount">
+
+Wenn Du bisher keine Twitter Cards genutzt hast, musst dein Account dafür freigeschaltet werden. Dies kannst Du einfach im Validator anfordern, nachdem er bemängelt, dass deine Domain noch nicht validiert ist. Der Versand der Bestätigungsmail dauert nicht lang. Ob es mit deiner Twitter Card technisch funktioniert, könnt ihr im Twitter Card Validator nachsehen. Wer bereits schon Twitter Cards genutzt hat, bekommt nun auch Zugriff auf die Twitterstatistiken.
+
+Ich hoffe, ich konnte helfen. 

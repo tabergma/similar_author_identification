@@ -1,0 +1,23 @@
+WordPress: Nicht mehr benötigte Bildformate löschen
+SHARE ON:
+Kai Thrun — 18. Februar 2014
+besen-laub	
+
+Wenn man das Theme wechselt, passiert Folgendes: Es ändern sich die Größen für die Bilder. Ob Vorschaubild in der Sidebar, Artikelbild oder die Vorschaubilder für ähnliche Artikel – es müssen meist alle Bildformate neu erstellt werden.
+
+Für diesen Zweck dient Regenerate Thumbnails. Was dann übrig bleibt, ist irgendwann ein voller Server, der Tausende von Altlasten mit sich rumträgt. Die tun nicht sonderlich weh und zerren auch nicht an der Performance. Wer aber, so wie ich, in unregelmäßigen Abständen eine Vollsicherung macht, wird sich jedes Mal ärgern, diese alten Dateien ebenfalls zu sichern.
+
+Die Lösung für dieses Problem ist so simpel zu lösen, dass ich den Lösungsweg gar nicht in Erwägung gezogen habe. Das Löschen der alten Bilder erfolgt per FTP-Client. Für Windows kann man dort FileZilla nehmen und für OSX z.B. ForkLift.
+
+Um sich das Leben etwas einfacher zu machen, hat mich Sergej Müller auf ein Plugin hingewiesen. Es liest die Formate des aktuellen Themes aus. In meinem Fall war es so, dass ich vermutlich noch nie überschüssige Daten gelöscht habe. Ich aktivierte das Plugin also erst mit den neuen Theme, um zu sehen, welche Bilddaten werden denn überhaupt benötigt. Ich schrieb sie mir auf einen Zettel. Danach fütterte ich das Suchfeld von Forklift mit verschiedenen Dateinamen-Endungen wie z.B. “-55×55″ oder “-175x” als auch “x250″.
+
+Wie eingangs erwähnt – ich habe es vermutlich noch nie gemacht. Ich notierte mir die gelöschten Dateien mit, anfangs inkl. Format. Ich verzichtete später darauf. Ich löschte insgesamt 14554 Dateien. Während im Hintergrund schon die neuen Dateien generiert worden sind. Dies ist recht einfach am Erstellungsdatum erkennbar.
+
+Der Blog ist dadurch sicher nicht schneller geworden, da die Karteileichen einfach nur auf dem FTP rumlagen. Es geht lediglich eine gewisse Grundordnung über die Jahre in seinem Blog zu erhalten, bevor man in der Flut von überflüssigen Daten untergeht.
+Die Bilddimensionen des aktivierten Themes auslesen
+
+Die Bilddimensionen des aktivierten Themes auslesen
+
+Dieser Vorgang geht natürlich auch für bestehende Themes. Ihr könnt mit dem Plugin einfach auslesen, was euer WordPress-Theme gerade für Bildformate verwendet. Der Rest kann weg. Solange ihr die Quelldateien, also jene ohne Dimensionsangabe im Dateinamen, nicht löscht, könnt ihr nach belieben eure Vorschaubilder erneut generieren lassen.
+
+Viel Spaß beim Aufräumen. 
