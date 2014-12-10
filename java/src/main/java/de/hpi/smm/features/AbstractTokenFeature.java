@@ -1,10 +1,10 @@
 package de.hpi.smm.features;
 
-public abstract class AbstractFeature {
+public abstract class AbstractTokenFeature {
 
     private float weight = 0;
 
-    public AbstractFeature(float weight) {
+    public AbstractTokenFeature(float weight) {
         this.weight = weight;
     }
 
@@ -18,7 +18,7 @@ public abstract class AbstractFeature {
             features[i] *= this.weight;
         }
         return  features;
-    };
+    }
 
     public abstract int getNumberOfFeatures();
 

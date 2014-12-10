@@ -24,13 +24,11 @@ public class LocalSet implements TestSet {
         }
     }
 
-    @Override
     public boolean next() {
         i++;
         return i < posts.size();
     }
 
-    @Override
     public String getText() {
         return fileToString(posts.get(i));
     }
@@ -44,6 +42,7 @@ public class LocalSet implements TestSet {
 
             while ((line = br.readLine()) != null) {
                 sb.append(line);
+                sb.append("\\n");
             }
         }
         catch (IOException e) {

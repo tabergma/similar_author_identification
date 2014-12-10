@@ -7,7 +7,7 @@ import java.util.List;
 class CartesianPanel extends JPanel {
     public static final int DATA_POINT_SIZE = 8;
 
-    public static final int X_COORD_NUMBERS = 45;
+    public static final int X_COORD_NUMBERS = 100;
     public static final int Y_COORD_NUMBERS = 10;
 
     // x-axis coord constants
@@ -97,9 +97,10 @@ class CartesianPanel extends JPanel {
                     X_AXIS_Y_COORD - SECOND_LENGHT,
                     X_AXIS_FIRST_X_COORD + (i * xLength),
                     X_AXIS_Y_COORD + SECOND_LENGHT);
-            g2.drawString(Integer.toString(i),
-                    X_AXIS_FIRST_X_COORD + (i * xLength) - 3,
-                    X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
+            if (i % 5 == 0)
+                g2.drawString(Integer.toString(i),
+                        X_AXIS_FIRST_X_COORD + (i * xLength) - 3,
+                        X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
         }
 
         //draw y-axis numbers
