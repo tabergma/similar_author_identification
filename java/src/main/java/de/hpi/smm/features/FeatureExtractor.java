@@ -72,6 +72,6 @@ public class FeatureExtractor {
     }
 
     public void addAllTextFeatures(List<AbstractTextFeature> featureList) {
-        featureList.add(new BlankLinesFeature(1.0f));
+        featureList.add(new BlankLineAndParagraphFeature(1.0f));
     }
 }

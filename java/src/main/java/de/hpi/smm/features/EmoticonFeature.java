@@ -35,6 +35,13 @@ public class EmoticonFeature extends AbstractTokenFeature {
             emoticons = new ArrayList<String>();
             emoticons.add(":-)");
             emoticons.add(";-)");
+            emoticons.add(";)");
+            emoticons.add(":)");
+            emoticons.add(":*");
+            emoticons.add("<3");
+            emoticons.add(":D");
+            emoticons.add("^^");
+            emoticons.add(":/");
         }
         return emoticons;
     }
