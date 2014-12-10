@@ -30,6 +30,7 @@ public class Evaluator {
                 if (authorHitEntry.getValue().get() > max) {
                     resultingAuthor = authorHitEntry.getKey();
                     precision = (double) authorHitEntry.getValue().get() / clusterToDocumentEntry.getValue().size();
+                    max = authorHitEntry.getValue().get();
                 }
             }
             System.out.println(String.format("Cluster %d belongs to author %s and has precision %f.", cluster, resultingAuthor.getName(), precision));
