@@ -18,7 +18,7 @@ public class WordLengthFeature extends AbstractTokenFeature {
 
     @Override
     public Float[] getFeatures() {
-        return new Float[]{ 1.f / (this.wordLength / this.wordCount) };
+        return new Float[]{ 1 - (1.f / (this.wordLength / this.wordCount)) };
     }
 
     @Override

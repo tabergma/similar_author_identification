@@ -38,10 +38,10 @@ public class WordFrequencyFeature extends AbstractTokenFeature {
             }
         }
 
-        //percentage of words that occur only once
+        // percentage of words that occur only once
         features[0] = (float) singleOccurringWordCount / frequencies.size();
 
-        //average number of occurrences per word
+        // average number of occurrences per word
         features[1] = (float) wordCount / frequencies.size();
 
         return features;

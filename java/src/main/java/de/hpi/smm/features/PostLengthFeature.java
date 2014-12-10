@@ -16,7 +16,7 @@ public class PostLengthFeature extends AbstractTokenFeature {
 
     @Override
     public Float[] getFeatures() {
-        return new Float[] {1f / count};
+        return new Float[] {1 - (1f / count)};
     }
 
     @Override

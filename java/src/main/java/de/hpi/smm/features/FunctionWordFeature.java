@@ -18,7 +18,7 @@ public class FunctionWordFeature extends AbstractTokenFeature {
     private static List<String> functionWords;
     private Float[] features;
     private int wordCount;
-    private static boolean useAbbreviations = true;
+    private final static boolean useAbbreviations = true;
 
     public FunctionWordFeature(float weight) {
         super(weight);
