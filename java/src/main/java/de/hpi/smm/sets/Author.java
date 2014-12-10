@@ -1,6 +1,8 @@
 package de.hpi.smm.sets;
 
-public class Author {
+import java.util.Comparator;
+
+public class Author implements Comparable<Author> {
     private final String name;
 
     public Author(String name){
@@ -13,5 +15,13 @@ public class Author {
 
     public boolean isUnknown() {
         return name == null;
+    }
+
+    @Override
+    public int compareTo(Author other) {
+//        if (other == null){
+//            return this.getName().compareTo(null);
+//        }
+        return this.getName().compareTo(other.getName());
     }
 }

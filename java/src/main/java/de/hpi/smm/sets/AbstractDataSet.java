@@ -1,6 +1,9 @@
 package de.hpi.smm.sets;
 
+import de.hpi.smm.helper.Util;
+
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public abstract class AbstractDataSet implements TestSet {
@@ -18,14 +21,11 @@ public abstract class AbstractDataSet implements TestSet {
         authors.put(documentId++, author);
     }
 
-    public DocumentToAuthorMapping getDocumentToAuthorMapping() {
-        DocumentToAuthorMapping documentToAuthorMapping = new DocumentToAuthorMapping(){
-            @Override
-            public Author getAuthor(int documentId) {
-                return authors.get(documentId);
-            }
-        };
+    public List<Author> getAuthors(){
+        return Util.asSortedList(nameAuthorMapping.values());
+    }
 
-        return documentToAuthorMapping;
+    public Author getAuthor(int documentId) {
+        return authors.get(documentId);
     }
 }

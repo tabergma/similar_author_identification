@@ -7,11 +7,14 @@ import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.drawing.Drawing;
 import de.hpi.smm.drawing.Point;
+import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.*;
+import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
 import de.hpi.smm.sets.TestSet;
+import org.apache.commons.math3.analysis.function.Abs;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -26,7 +29,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
         System.out.println("Fetching data...");
 
-        TestSet testSet = DataSetSelector.getDataSet(Config.SELECTED_SET);
+        AbstractDataSet testSet = DataSetSelector.getDataSet(Config.SELECTED_SET);
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter();
@@ -65,7 +68,10 @@ public class Main {
 
         System.out.println("Calculate precision...");
         Evaluator evaluator = new Evaluator();
-        evaluator.evaluate(testSet.getDocumentToAuthorMapping(), analyzer.getCluster2document());
+        List<EvaluationResult> resultList = evaluator.evaluate(testSet, analyzer.getCluster2document());
+        for (EvaluationResult result : resultList){
+            System.out.println(result.toString());
+        }
 
         System.out.println("Draw image...");
         Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();

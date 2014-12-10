@@ -6,7 +6,7 @@ public class DataSetSelector {
     public static final int LOCAL_SET = 0;
     public static final int HANA_SET = 1;
 
-    public static TestSet getDataSet(int selectedSet) {
+    public static AbstractDataSet getDataSet(int selectedSet) {
         switch(selectedSet){
             case LOCAL_SET:
             {

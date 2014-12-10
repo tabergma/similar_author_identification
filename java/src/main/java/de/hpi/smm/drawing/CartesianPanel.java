@@ -82,7 +82,7 @@ class CartesianPanel extends JPanel {
                 X_AXIS_Y_COORD + AXIS_STRING_DISTANCE);
         g2.drawString("Y", Y_AXIS_X_COORD - AXIS_STRING_DISTANCE,
                 Y_AXIS_FIRST_Y_COORD + AXIS_STRING_DISTANCE / 2);
-        g2.drawString("(0, 0)", X_AXIS_FIRST_X_COORD - AXIS_STRING_DISTANCE,
+        g2.drawString("(0, -1)", X_AXIS_FIRST_X_COORD - AXIS_STRING_DISTANCE,
                 Y_AXIS_SECOND_Y_COORD + AXIS_STRING_DISTANCE);
 
         // numerate axis
@@ -109,7 +109,7 @@ class CartesianPanel extends JPanel {
                     Y_AXIS_SECOND_Y_COORD - (i * yLength),
                     Y_AXIS_X_COORD + SECOND_LENGHT,
                     Y_AXIS_SECOND_Y_COORD - (i * yLength));
-            g2.drawString(Integer.toString(i),
+            g2.drawString(Integer.toString(i - 1),
                     Y_AXIS_X_COORD - AXIS_STRING_DISTANCE,
                     Y_AXIS_SECOND_Y_COORD - (i * yLength));
         }
