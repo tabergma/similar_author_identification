@@ -7,6 +7,7 @@ import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.drawing.Drawing;
 import de.hpi.smm.drawing.Point;
+import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.*;
 import de.hpi.smm.sets.DataSetSelector;
@@ -61,6 +62,10 @@ public class Main {
         System.out.println("Analyze clusters...");
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         analyzer.analyze();
+
+        System.out.println("Calculate precision...");
+        Evaluator evaluator = new Evaluator();
+        evaluator.evaluate(testSet.getDocumentToAuthorMapping(), analyzer.getCluster2document());
 
         System.out.println("Draw image...");
         Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();

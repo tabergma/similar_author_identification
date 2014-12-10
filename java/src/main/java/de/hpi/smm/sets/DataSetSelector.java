@@ -14,7 +14,7 @@ public class DataSetSelector {
             }
             case HANA_SET:
             {
-                return new HanaSet(100000);
+                return new HanaSet(10000);
             }
             default:
             {

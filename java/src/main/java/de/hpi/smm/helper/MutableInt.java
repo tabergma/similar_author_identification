@@ -1,7 +1,7 @@
 package de.hpi.smm.helper;
 
 public class MutableInt {
-    int value = 0;
+    protected int value = 0;
 
     public void increment () {
         ++value;

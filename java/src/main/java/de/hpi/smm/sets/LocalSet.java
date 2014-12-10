@@ -7,19 +7,22 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class LocalSet implements TestSet {
+public class LocalSet extends AbstractDataSet implements TestSet {
     private List<File> posts = new ArrayList<File>();
-    int i = -1;
+    private int i = -1;
 
     public LocalSet (String path) {
         List<File> authorFolders = Util.asSortedList(Arrays.asList(new File(path).listFiles()));
         for (File folder : authorFolders){
+            System.out.println(String.format("Scanning %s%s...", path, folder.getName()));
             if (folder.isDirectory()){
-                posts.addAll(Util.asSortedList(Arrays.asList(folder.listFiles())));
+                List<File> postsInDirectory = Util.asSortedList(Arrays.asList(folder.listFiles()));
+                for (int j = 0; j < postsInDirectory.size(); j++){
+                    putAuthorName(folder.getName());
+                }
+                posts.addAll(postsInDirectory);
             }
         }
     }

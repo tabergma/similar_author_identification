@@ -5,12 +5,13 @@ import de.hpi.smm.helper.DatabaseAdapter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class HanaSet implements TestSet {
+public class HanaSet extends AbstractDataSet implements TestSet {
 
+    private int i = 0;
     private ResultSet resultSet;
 
     public HanaSet(int size) {
-        String statement = String.format("SELECT POSTCONTENT FROM SYSTEM.WEBPAGE LIMIT %d", size);
+        String statement = String.format("SELECT POSTAUTHOR, POSTCONTENT FROM SYSTEM.WEBPAGE LIMIT %d WHERE TYPE = 'POST'", size);
         DatabaseAdapter dbAdapter = DatabaseAdapter.getSmaHanaAdapter();
         this.resultSet = dbAdapter.executeQuery(statement);
     }
@@ -25,9 +26,11 @@ public class HanaSet implements TestSet {
 
     public String getText() {
         try {
+            putAuthorName(this.resultSet.getString("POSTAUTHOR"));
             return this.resultSet.getString(("POSTCONTENT"));
         } catch (SQLException e) {
             throw new RuntimeException("getting text failed");
         }
     }
+
 }
