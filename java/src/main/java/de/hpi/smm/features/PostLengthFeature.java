@@ -1,6 +1,8 @@
 package de.hpi.smm.features;
 
 
+import java.util.List;
+
 public class PostLengthFeature extends AbstractTokenFeature {
 
     int count = 0;

@@ -69,6 +69,7 @@ public class FeatureExtractor {
         featureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
         featureList.add(new EmoticonFeature(1.0f));
         featureList.add(new PostLengthFeature(1.0f));
+        featureList.add(new PrefixSuffixFeature(1.0f));
     }
 
     public void addAllTextFeatures(List<AbstractTextFeature> featureList) {

@@ -10,11 +10,10 @@ import de.hpi.smm.drawing.Point;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.features.FeatureExtractor;
-import de.hpi.smm.helper.*;
 import de.hpi.smm.sets.AbstractDataSet;
+import de.hpi.smm.helper.ClusterWriter;
+import de.hpi.smm.helper.FeatureWriter;
 import de.hpi.smm.sets.DataSetSelector;
-import de.hpi.smm.sets.TestSet;
-import org.apache.commons.math3.analysis.function.Abs;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
