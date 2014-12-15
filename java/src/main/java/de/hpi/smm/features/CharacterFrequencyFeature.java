@@ -53,6 +53,11 @@ public class CharacterFrequencyFeature extends AbstractTokenFeature {
         return getLetters().size();
     }
 
+    @Override
+    public String getName() {
+        return "CharacterFrequencyFeature";
+    }
+
     public static List<Character> getLetters() {
         if (letters == null){
             letters = new ArrayList<Character>();

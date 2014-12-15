@@ -31,6 +31,10 @@ public class Config {
     public final static String FEATURE_SEPERATOR= " ";
     public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
 
+    // Evaluating features
+    public final static Boolean EVALUATE_FEATURES = false;
+    public final static String EVALUATION_FEATURE_FILE = RESULT_PATH + "evaluation_features.csv";
+
     // Database config
     public final static String IP = "141.89.225.134";
     public final static String INSTANCE = "03";

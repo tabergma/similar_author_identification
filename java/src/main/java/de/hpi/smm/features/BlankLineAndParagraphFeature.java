@@ -51,4 +51,9 @@ public class BlankLineAndParagraphFeature extends AbstractTextFeature {
     public int getNumberOfFeatures() {
         return 2;
     }
+
+    @Override
+    public String getName() {
+        return "BlankLineAndParagraphFeature";
+    }
 }

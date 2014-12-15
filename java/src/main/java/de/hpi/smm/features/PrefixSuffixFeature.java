@@ -62,6 +62,11 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
         return getPrefixSuffix().size();
     }
 
+    @Override
+    public String getName() {
+        return "PrefixSuffixFeature";
+    }
+
     public static List<String> getPrefixSuffix() {
         if (prefixSuffix == null) {
             // List of all characters

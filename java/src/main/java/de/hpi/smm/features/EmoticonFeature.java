@@ -30,6 +30,11 @@ public class EmoticonFeature extends AbstractTokenFeature {
         return getEmoticons().size();
     }
 
+    @Override
+    public String getName() {
+        return "EmoticonFeature";
+    }
+
     public static List<String> getEmoticons() {
         if (emoticons == null){
             emoticons = new ArrayList<String>();
