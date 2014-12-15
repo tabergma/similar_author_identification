@@ -1,7 +1,6 @@
 package de.hpi.smm.features;
 
 import de.hpi.smm.Config;
-import de.hpi.smm.helper.Util;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.process.PTBTokenizer;

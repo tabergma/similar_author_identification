@@ -23,7 +23,9 @@ public class FeatureEvaluator {
         buildIndex2FeatureMap(featureExtractor);
 
         // Build all combinations of features
-        List<Set<Integer>> combinations = buildCombinations();
+        List<Integer> l = new ArrayList<Integer>();
+        l.addAll(index2Feature.keySet());
+        List<Set<Integer>> combinations = buildCombinations(l);
 
         KMeans kMeans = new KMeans();
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
@@ -33,6 +35,9 @@ public class FeatureEvaluator {
 
         int i = 1;
         for (Set<Integer> combination : combinations) {
+            if (combination.isEmpty())
+                continue;
+
             System.out.println("Testing combination " + i + " of " + combinations.size() + "...");
             i++;
 
@@ -56,6 +61,88 @@ public class FeatureEvaluator {
         }
 
         evaluationWriter.close();
+    }
+
+    private static List<List<Float>> getFeatureCombination(List<List<Float>> features, Set<Integer> combination) {
+        List<List<Float>> featureCombination = new ArrayList<List<Float>>();
+
+        for (List<Float> feature : features) {
+            List<Float> f = new ArrayList<Float>();
+            for (Integer featureIndex : combination) {
+                int start = index2Feature.get(featureIndex).start;
+                int end = index2Feature.get(featureIndex).end;
+
+                f.addAll(feature.subList(start, end));
+            }
+            featureCombination.add(f);
+        }
+
+        return featureCombination;
+    }
+
+    private static List<Set<Integer>> buildCombinations(List<Integer> group) {
+        List<Set<Integer>> resultingCombinations = new ArrayList<Set<Integer>> ();
+
+        if (group.size() == 0) {
+            emptySet(resultingCombinations);
+        } else {
+            List<Integer> remainingElements = new ArrayList<Integer>(group);
+            Integer X = popLast(remainingElements);
+
+            List<Set<Integer>> combinationsExclusiveX = buildCombinations(remainingElements);
+            List<Set<Integer>> combinationsInclusiveX = buildCombinations(remainingElements);
+            for (Set<Integer> combination : combinationsInclusiveX) {
+                combination.add(X);
+            }
+            resultingCombinations.addAll(combinationsExclusiveX);
+            resultingCombinations.addAll(combinationsInclusiveX);
+        }
+        return resultingCombinations;
+    }
+
+    private static void emptySet(List<Set<Integer>> resultingCombinations) {
+        resultingCombinations.add(new HashSet<Integer>());
+    }
+
+    private static Integer popLast(List<Integer> elementsExclusiveX) {
+        return elementsExclusiveX.remove(elementsExclusiveX.size()-1);
+    }
+
+
+    private static void buildIndex2FeatureMap(FeatureExtractor featureExtractor) {
+        int offset = 0;
+        int index = 0;
+
+        for (AbstractTokenFeature tokenFeature : featureExtractor.getTokenFeatureList()) {
+            addFeature(tokenFeature.getName(),
+                    offset,
+                    offset + tokenFeature.getNumberOfFeatures(),
+                    index
+            );
+            // Increment index and offset
+            index += 1;
+            offset += tokenFeature.getNumberOfFeatures();
+        }
+        for (AbstractTextFeature textFeature : featureExtractor.getTextFeatureList()) {
+            addFeature(textFeature.getName(),
+                    offset,
+                    offset + textFeature.getNumberOfFeatures(),
+                    index
+            );
+            // Increment index and offset
+            index += 1;
+            offset += textFeature.getNumberOfFeatures();
+        }
+    }
+
+    private static void addFeature(String name, int start, int end, int index) {
+        // Create feature
+        Feature feature = new Feature();
+        feature.name = name;
+        feature.start = start;
+        feature.end = end;
+        // Add feature
+        index2Feature.put(index, feature);
     }
 
     private static void writeHeader(AbstractDataSet testSet) {
@@ -93,66 +180,6 @@ public class FeatureEvaluator {
             evaluationWriter.write(",");
         }
         evaluationWriter.write("\n");
-    }
-
-    private static List<List<Float>> getFeatureCombination(List<List<Float>> features, Set<Integer> combination) {
-        List<List<Float>> featureCombination = new ArrayList<List<Float>>();
-
-        for (List<Float> feature : features) {
-            List<Float> f = new ArrayList<Float>();
-            for (Integer featureIndex : combination) {
-                int start = index2Feature.get(featureIndex).start;
-                int end = index2Feature.get(featureIndex).end;
-
-                f.addAll(feature.subList(start, end));
-            }
-            featureCombination.add(f);
-        }
-
-        return featureCombination;
-    }
-
-    private static List<Set<Integer>> buildCombinations() {
-        List<Set<Integer>> combinations = new ArrayList<Set<Integer>>();
-        Set<Integer> combination = index2Feature.keySet();
-        combinations.add(combination);
-        return combinations;
-    }
-
-    private static void buildIndex2FeatureMap(FeatureExtractor featureExtractor) {
-        int offset = 0;
-        int index = 0;
-
-        for (AbstractTokenFeature tokenFeature : featureExtractor.getTokenFeatureList()) {
-            addFeature(tokenFeature.getName(),
-                    offset,
-                    offset + tokenFeature.getNumberOfFeatures(),
-                    index
-            );
-            // Increment index and offset
-            index += 1;
-            offset += tokenFeature.getNumberOfFeatures();
-        }
-        for (AbstractTextFeature textFeature : featureExtractor.getTextFeatureList()) {
-            addFeature(textFeature.getName(),
-                    offset,
-                    offset + textFeature.getNumberOfFeatures(),
-                    index
-            );
-            // Increment index and offset
-            index += 1;
-            offset += textFeature.getNumberOfFeatures();
-        }
-    }
-
-    private static void addFeature(String name, int start, int end, int index) {
-        // Create feature
-        Feature feature = new Feature();
-        feature.name = name;
-        feature.start = start;
-        feature.end = end;
-        // Add feature
-        index2Feature.put(index, feature);
     }
 }
 
