@@ -40,6 +40,6 @@ public class EvaluationResult {
     }
 
     public String toString() {
-        return String.format(FORMAT, this.author.getName(), this.cluster, this.fMeasure, this.precision, this.recall);
+        return String.format(FORMAT, this.author.toString(), this.cluster, this.fMeasure, this.precision, this.recall);
     }
 }

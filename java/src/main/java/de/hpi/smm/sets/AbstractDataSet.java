@@ -11,6 +11,7 @@ public abstract class AbstractDataSet implements TestSet {
     protected Map<String, Author> nameAuthorMapping = new HashMap<String, Author>();
 
     int documentId = 0;
+    protected int minLength = 0;
 
     protected void putAuthorName(String authorName) {
         Author author = nameAuthorMapping.get(authorName);
@@ -27,5 +28,9 @@ public abstract class AbstractDataSet implements TestSet {
 
     public Author getAuthor(int documentId) {
         return authors.get(documentId);
+    }
+
+    public void applyMinimumLength(int minLength) {
+        this.minLength = minLength;
     }
 }

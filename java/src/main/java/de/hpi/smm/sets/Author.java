@@ -19,9 +19,23 @@ public class Author implements Comparable<Author> {
 
     @Override
     public int compareTo(Author other) {
-//        if (other == null){
-//            return this.getName().compareTo(null);
-//        }
+        if (this.isUnknown() && other.isUnknown()) {
+            return 0;
+        }
+        if (this.isUnknown()) {
+            return 1;
+        }
+        if (other.isUnknown()) {
+            return -1;
+        }
         return this.getName().compareTo(other.getName());
+    }
+
+    @Override
+    public String toString() {
+        if (this.isUnknown()){
+            return "UNKNOWN";
+        }
+        return name.toString();
     }
 }

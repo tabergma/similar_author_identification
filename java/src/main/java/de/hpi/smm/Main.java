@@ -30,6 +30,7 @@ public class Main {
         System.out.println("Fetching data...");
 
         AbstractDataSet testSet = DataSetSelector.getDataSet(Config.SELECTED_SET);
+        testSet.applyMinimumLength(minLength);
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter();
@@ -38,11 +39,11 @@ public class Main {
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
         Detector detector = DetectorFactory.create();
 
-        System.out.println("Extracting features...");
+        System.out.println("Extracting features: ");
         List<String> documentTexts = new ArrayList<String>();
         while (testSet.next()){
             String content = testSet.getText();
-            if (content != null && content.length() > minLength) {
+            if (content != null) {
                 // detect language
                 detector.append(content);
                 String lang = detector.detect();
@@ -53,8 +54,12 @@ public class Main {
                 // write features
                 featureWriter.writeFeaturesForDocument(features);
                 documentTexts.add(content);
+
+                // debug print
+                System.out.print(".");
             }
         }
+        System.out.println("");
 
         featureWriter.close();
 
