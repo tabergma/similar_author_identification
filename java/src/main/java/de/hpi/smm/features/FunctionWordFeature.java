@@ -54,6 +54,11 @@ public class FunctionWordFeature extends AbstractTokenFeature {
         return getFunctionWords().size();
     }
 
+    @Override
+    public String getName() {
+        return "FunctionWordFeature";
+    }
+
     public static List<String> getFunctionWords() {
         if (functionWords == null){
             functionWords = new ArrayList<String>();

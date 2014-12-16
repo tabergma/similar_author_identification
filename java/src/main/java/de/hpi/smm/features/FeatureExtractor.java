@@ -15,16 +15,18 @@ import java.util.List;
 public class FeatureExtractor {
 
     MaxentTagger tagger = null;
+    List<AbstractTokenFeature> tokenFeatureList;
+    List<AbstractTextFeature> textFeatureList;
 
     public List<Float> getFeatures(String text, String lang) {
         // Create POS tagger
         tagger = Config.lang2tagger.get(lang);
 
         // Initialize features
-        List<AbstractTokenFeature> tokenFeatureList = new ArrayList<AbstractTokenFeature>();
-        addAllTokenFeatures(tokenFeatureList);
-        List<AbstractTextFeature> textFeatureList = new ArrayList<AbstractTextFeature>();
-        addAllTextFeatures(textFeatureList);
+        this.tokenFeatureList = new ArrayList<AbstractTokenFeature>();
+        this.textFeatureList = new ArrayList<AbstractTextFeature>();
+        addAllTokenFeatures();
+        addAllTextFeatures();
 
         // Tokenize text
         List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text),
@@ -59,20 +61,29 @@ public class FeatureExtractor {
         return featureValues;
     }
 
-    public void addAllTokenFeatures(List<AbstractTokenFeature> featureList) {
-        featureList.add(new WordLengthFeature(1.0f));
-        featureList.add(new CharacterFrequencyFeature(1.0f));
-        featureList.add(new FunctionWordFeature(1.0f));
-        featureList.add(new CapitalLetterFeature(1.0f));
-        featureList.add(new UpperCaseFeature(1.0f));
-        featureList.add(new WordFrequencyFeature(1.0f));
-        featureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
-        featureList.add(new EmoticonFeature(1.0f));
-        featureList.add(new PostLengthFeature(1.0f));
+    public void addAllTokenFeatures() {
+        this.tokenFeatureList.add(new WordLengthFeature(1.0f));
+        this.tokenFeatureList.add(new CharacterFrequencyFeature(1.0f));
+        this.tokenFeatureList.add(new FunctionWordFeature(1.0f));
+        this.tokenFeatureList.add(new CapitalLetterFeature(1.0f));
+        this.tokenFeatureList.add(new UpperCaseFeature(1.0f));
+        this.tokenFeatureList.add(new WordFrequencyFeature(1.0f));
+        this.tokenFeatureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
+        this.tokenFeatureList.add(new EmoticonFeature(1.0f));
+        this.tokenFeatureList.add(new PostLengthFeature(1.0f));
+        this.tokenFeatureList.add(new PrefixSuffixFeature(1.0f));
     }
 
-    public void addAllTextFeatures(List<AbstractTextFeature> featureList) {
-        featureList.add(new BlankLineAndParagraphFeature(1.0f));
-        featureList.add(new SentenceLengthFeature(1.0f));
+    public void addAllTextFeatures() {
+        this.textFeatureList.add(new BlankLineAndParagraphFeature(1.0f));
+        this.textFeatureList.add(new SentenceLengthFeature(1.0f));
+    }
+
+    public List<AbstractTokenFeature> getTokenFeatureList() {
+        return tokenFeatureList;
+    }
+
+    public List<AbstractTextFeature> getTextFeatureList() {
+        return textFeatureList;
     }
 }

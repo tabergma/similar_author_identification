@@ -22,4 +22,6 @@ public abstract class AbstractTokenFeature {
 
     public abstract int getNumberOfFeatures();
 
+    public abstract String getName();
+
 }

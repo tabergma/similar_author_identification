@@ -37,4 +37,9 @@ public class SentenceLengthFeature extends AbstractTextFeature {
     public int getNumberOfFeatures() {
         return 1;
     }
+
+    @Override
+    public String getName() {
+        return "SentenceLengthFeature";
+    }
 }

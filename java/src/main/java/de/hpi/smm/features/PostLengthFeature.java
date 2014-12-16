@@ -23,4 +23,9 @@ public class PostLengthFeature extends AbstractTokenFeature {
     public int getNumberOfFeatures() {
         return 1;
     }
+
+    @Override
+    public String getName() {
+        return "PostLengthFeature";
+    }
 }

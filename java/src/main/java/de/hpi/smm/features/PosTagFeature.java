@@ -47,4 +47,9 @@ public class PosTagFeature extends AbstractTokenFeature {
     public int getNumberOfFeatures() {
         return tagCount.size();
     }
+
+    @Override
+    public String getName() {
+        return "PosTagFeature";
+    }
 }

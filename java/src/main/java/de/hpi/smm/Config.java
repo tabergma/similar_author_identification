@@ -31,6 +31,10 @@ public class Config {
     public final static String FEATURE_SEPERATOR= " ";
     public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
 
+    // Evaluating features
+    public final static Boolean EVALUATE_FEATURES = false;
+    public final static String EVALUATION_FEATURE_FILE = RESULT_PATH + "evaluation_features.csv";
+
     // Database config
     public final static String IP = "141.89.225.134";
     public final static String INSTANCE = "03";
@@ -44,11 +48,11 @@ public class Config {
     public final static String FRENCH_MODEL = "french.tagger";
     public final static String CHINESE_MODEL = "chinese-distsim.tagger";
     public final static String SPANISH_MODEL = "spanish-distsim.tagger";
-    private final static MaxentTagger englishTagger = new MaxentTagger(MODEL_DIR + ENGLISH_MODEL);
+    private final static MaxentTagger englishTagger = null; //new MaxentTagger(MODEL_DIR + ENGLISH_MODEL);
     private final static MaxentTagger germanTagger = new MaxentTagger(MODEL_DIR + GERMAN_MODEL);
-    private final static MaxentTagger frenchTagger = new MaxentTagger(MODEL_DIR + FRENCH_MODEL);
-    private final static MaxentTagger chineseTagger = new MaxentTagger(MODEL_DIR + CHINESE_MODEL);
-    private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
+    private final static MaxentTagger frenchTagger = null; //new MaxentTagger(MODEL_DIR + FRENCH_MODEL);
+    private final static MaxentTagger chineseTagger = null; //new MaxentTagger(MODEL_DIR + CHINESE_MODEL);
+    private final static MaxentTagger spanishTagger = null; //new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
 
     // Features
     public final static String FUNCTION_WORD_FILE = "../resource/FunctionWords_de.txt";

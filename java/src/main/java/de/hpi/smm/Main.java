@@ -9,12 +9,12 @@ import de.hpi.smm.drawing.Drawing;
 import de.hpi.smm.drawing.Point;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
+import de.hpi.smm.evaluation.FeatureEvaluator;
 import de.hpi.smm.features.FeatureExtractor;
-import de.hpi.smm.helper.*;
+import de.hpi.smm.helper.ClusterWriter;
+import de.hpi.smm.helper.FeatureWriter;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
-import de.hpi.smm.sets.TestSet;
-import org.apache.commons.math3.analysis.function.Abs;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -41,6 +41,7 @@ public class Main {
 
         System.out.println("Extracting features: ");
         List<String> documentTexts = new ArrayList<String>();
+        List<Float> features;
         while (testSet.next()){
             String content = testSet.getText();
             if (content != null) {
@@ -49,7 +50,7 @@ public class Main {
                 String lang = detector.detect();
 
                 // extract features
-                List<Float> features = featureExtractor.getFeatures(content, lang);
+                features = featureExtractor.getFeatures(content, lang);
 
                 // write features
                 featureWriter.writeFeaturesForDocument(features);
@@ -59,9 +60,15 @@ public class Main {
                 System.out.print(".");
             }
         }
-        System.out.println("");
+        System.out.println();
 
         featureWriter.close();
+
+        if (Config.EVALUATE_FEATURES) {
+            System.out.println("Evaluation of features...");
+            FeatureEvaluator.run(featureExtractor, testSet, readFeatureFile());
+            return;
+        }
 
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
@@ -118,4 +125,5 @@ public class Main {
 
         return list;
     }
+
 }

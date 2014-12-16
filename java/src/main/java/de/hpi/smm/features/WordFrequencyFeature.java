@@ -51,4 +51,10 @@ public class WordFrequencyFeature extends AbstractTokenFeature {
     public int getNumberOfFeatures() {
         return 2;
     }
+
+    @Override
+    public String getName() {
+        return "WordFrequencyFeature";
+    }
+
 }

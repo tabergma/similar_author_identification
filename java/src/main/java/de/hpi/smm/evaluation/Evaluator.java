@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Evaluator {
+
     public List<EvaluationResult> evaluate(AbstractDataSet dataSet, Map<Integer, List<Integer>> clusterToDocument) {
         int numberOfClusters = clusterToDocument.keySet().size();
         Map<Author, List<MutableInt>> authorHits = new HashMap<Author, List<MutableInt>>();
