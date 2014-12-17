@@ -30,7 +30,14 @@ public class HanaSet extends AbstractDataSet implements TestSet {
 
         } else if (dataSet == DataSetSelector.SPINNER_SET) {
 
-            statement = "SELECT \"atomname\",\"content_extract\" FROM \"SPINN3R\".\"ENTRY\" WHERE \"atomname\" IS NOT NULL";
+//            statement = "SELECT \"atomname\",\"content_extract\" FROM \"SPINN3R\".\"ENTRY\" WHERE \"atomname\" IS NOT NULL";
+            statement = "SELECT T1.\"atomname\", \"content_extract\", \"TOTAL\" FROM\n" +
+                    "(\n" +
+                    "SELECT \"atomname\", count(*) \"TOTAL\" FROM \"SPINN3R\".\"ENTRY\" WHERE \"atomname\" IS NOT NULL AND \"content_extract\" IS NOT NULL AND \"lang\" = 'de' GROUP BY \"atomname\" HAVING count(*) < 25 ORDER BY \"TOTAL\" DESC\n" +
+                    "LIMIT 100\n" +
+                    ") as T1 JOIN \"SPINN3R\".\"ENTRY\" as T2 ON T1.\"atomname\" = T2.\"atomname\"\n" +
+                    "WHERE \"lang\" = 'de' AND \"content_extract\" IS NOT NULL\n" +
+                    "ORDER BY T1.\"atomname\"";
             this.postColumn = "content_extract";
             this.authorColumn = "atomname";
 
