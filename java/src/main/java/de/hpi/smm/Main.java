@@ -33,7 +33,7 @@ public class Main {
         AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
 
 //        printSet(testSet3);
-//        clusterSet(testSet3);
+        clusterSet(testSet3);
     }
 
     private static void printSet(AbstractDataSet testSet) {

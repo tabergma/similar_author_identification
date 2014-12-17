@@ -16,7 +16,15 @@ import java.util.*;
 public class FeatureEvaluator {
 
     private static Map<Integer, Feature> index2Feature = new HashMap<Integer, Feature>();
-    private static PrintWriter evaluationWriter;
+
+    private static PrintWriter evaluationFMeasureWriter;
+    private static PrintWriter evaluationRecallWriter;
+    private static PrintWriter evaluationPrecisionWriter;
+    private static PrintWriter evaluationClusterWriter;
+
+    private static double sumFMeasure;
+    private static double sumPrecision;
+    private static double sumRecall;
 
     public static void run(FeatureExtractor featureExtractor, AbstractDataSet testSet, List<List<Float>> features) throws Exception {
         // build index - feature map
@@ -33,8 +41,12 @@ public class FeatureEvaluator {
         KMeans kMeans = new KMeans();
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         Evaluator evaluator = new Evaluator();
-        evaluationWriter =  new PrintWriter(Config.EVALUATION_FEATURE_FILE, "UTF-8");
-        writeHeader(testSet);
+
+        evaluationFMeasureWriter =  new PrintWriter(Config.EVALUATION_FEATURE_F_MEASURE_FILE, "UTF-8");
+        evaluationRecallWriter =  new PrintWriter(Config.EVALUATION_FEATURE_RECALL_FILE, "UTF-8");
+        evaluationPrecisionWriter =  new PrintWriter(Config.EVALUATION_FEATURE_PRECISION_FILE, "UTF-8");
+        evaluationClusterWriter =  new PrintWriter(Config.EVALUATION_FEATURE_CLUSTER_FILE, "UTF-8");
+        writeHeaders(testSet);
 
         for (int i = 1; i <= numberOfCombinations; i++) {
             System.out.println("Testing combination " + i + " of " + numberOfCombinations + "...");
@@ -59,7 +71,10 @@ public class FeatureEvaluator {
             kMeans.cleanUp();
         }
 
-        evaluationWriter.close();
+        evaluationFMeasureWriter.close();
+        evaluationPrecisionWriter.close();
+        evaluationRecallWriter.close();
+        evaluationClusterWriter.close();
     }
 
     private static List<List<Float>> getFeatureCombination(List<List<Float>> features, List<Integer> combination) {
@@ -115,41 +130,66 @@ public class FeatureEvaluator {
         index2Feature.put(index, feature);
     }
 
-    private static void writeHeader(AbstractDataSet testSet) {
+    private static void writeHeaders(AbstractDataSet testSet) {
         for (int i = 0; i < index2Feature.size(); i++) {
-            evaluationWriter.write(index2Feature.get(i).name);
-            evaluationWriter.write(",");
+            evaluationFMeasureWriter.write(index2Feature.get(i).name + ",");
+            evaluationPrecisionWriter.write(index2Feature.get(i).name + ",");
+            evaluationRecallWriter.write(index2Feature.get(i).name + ",");
+            evaluationClusterWriter.write(index2Feature.get(i).name + ",");
         }
         for (Author author : testSet.getAuthors()) {
             String name = author.toString();
-            evaluationWriter.write(name + "_cluster,");
-            evaluationWriter.write(name + "_f-measure,");
-            evaluationWriter.write(name + "_precision,");
-            evaluationWriter.write(name + "_recall,");
+            evaluationFMeasureWriter.write(name + "_f-measure,");
+            evaluationPrecisionWriter.write(name + "_precision,");
+            evaluationRecallWriter.write(name + "_recall,");
+            evaluationClusterWriter.write(name + "_cluster,");
         }
-        evaluationWriter.write("\n");
+
+        evaluationFMeasureWriter.write("f-measure-avg\n");
+        evaluationPrecisionWriter.write("precision-avg\n");
+        evaluationRecallWriter.write("recall-avg\n");
+        evaluationClusterWriter.write("\n");
     }
 
     private static void writeResult(List<Integer> combination, List<EvaluationResult> resultList) {
+        // write feature combination
         for (int i = 0; i < index2Feature.size(); i++) {
             if (combination.contains(i)) {
-                evaluationWriter.write("1");
+                evaluationFMeasureWriter.write("1,");
+                evaluationPrecisionWriter.write("1,");
+                evaluationRecallWriter.write("1,");
+                evaluationClusterWriter.write("1,");
             } else {
-                evaluationWriter.write("0");
+                evaluationFMeasureWriter.write("0,");
+                evaluationPrecisionWriter.write("0,");
+                evaluationRecallWriter.write("0,");
+                evaluationClusterWriter.write("0,");
             }
-            evaluationWriter.write(",");
         }
+
+        sumFMeasure = 0.0;
+        sumPrecision = 0.0;
+        sumRecall = 0.0;
+
         for (EvaluationResult result : resultList) {
-            evaluationWriter.write(String.valueOf(result.getCluster()));
-            evaluationWriter.write(",");
-            evaluationWriter.write(String.valueOf(result.getFMeasure()));
-            evaluationWriter.write(",");
-            evaluationWriter.write(String.valueOf(result.getPrecision()));
-            evaluationWriter.write(",");
-            evaluationWriter.write(String.valueOf(result.getRecall()));
-            evaluationWriter.write(",");
+            sumFMeasure += result.getFMeasure();
+            sumPrecision += result.getPrecision();
+            sumRecall += result.getRecall();
+            // write precision, recall, f-measure and cluster
+            evaluationFMeasureWriter.write(String.valueOf(result.getFMeasure()) + ",");
+            evaluationPrecisionWriter.write(String.valueOf(result.getPrecision()) + ",");
+            evaluationRecallWriter.write(String.valueOf(result.getRecall()) + ",");
+            evaluationClusterWriter.write(String.valueOf(result.getCluster()) + ",");
         }
-        evaluationWriter.write("\n");
+        // write avg values
+        evaluationFMeasureWriter.write(String.valueOf(sumFMeasure / resultList.size()));
+        evaluationPrecisionWriter.write(String.valueOf(sumPrecision / resultList.size()));
+        evaluationRecallWriter.write(String.valueOf(sumRecall / resultList.size()));
+        // new line
+        evaluationFMeasureWriter.write("\n");
+        evaluationPrecisionWriter.write("\n");
+        evaluationRecallWriter.write("\n");
+        evaluationClusterWriter.write("\n");
     }
 }
 
@@ -177,13 +217,4 @@ class Combination {
         // return the current combination
         return l;
     }
-
-    public void reset() {
-        current = 0b1;
-    }
-
-    public String getBinaryString() {
-        return Integer.toBinaryString(current);
-    }
-
 }
