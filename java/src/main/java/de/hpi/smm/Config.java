@@ -44,14 +44,14 @@ public class Config {
     public final static String MODEL_DIR = "../resource/stanford-postagger-full-2014-08-27/models/";
     public final static String ENGLISH_MODEL = "wsj-0-18-bidirectional-distsim.tagger";
     public final static String GERMAN_MODEL = "german-fast.tagger";
-    public final static String FRENCH_MODEL = "french.tagger";
-    public final static String CHINESE_MODEL = "chinese-distsim.tagger";
-    public final static String SPANISH_MODEL = "spanish-distsim.tagger";
+    //public final static String FRENCH_MODEL = "french.tagger";
+    //public final static String CHINESE_MODEL = "chinese-distsim.tagger";
+    //public final static String SPANISH_MODEL = "spanish-distsim.tagger";
     private final static MaxentTagger englishTagger = new MaxentTagger(MODEL_DIR + ENGLISH_MODEL);
     private final static MaxentTagger germanTagger = new MaxentTagger(MODEL_DIR + GERMAN_MODEL);
-    private final static MaxentTagger frenchTagger = new MaxentTagger(MODEL_DIR + FRENCH_MODEL);
-    private final static MaxentTagger chineseTagger = new MaxentTagger(MODEL_DIR + CHINESE_MODEL);
-    private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
+    //private final static MaxentTagger frenchTagger = new MaxentTagger(MODEL_DIR + FRENCH_MODEL);
+    //private final static MaxentTagger chineseTagger = new MaxentTagger(MODEL_DIR + CHINESE_MODEL);
+    //private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
 
     // Features
     public final static String FUNCTION_WORD_FILE = "../resource/FunctionWords_de.txt";
@@ -71,9 +71,9 @@ public class Config {
         Map<String, MaxentTagger> aMap = new HashMap<String, MaxentTagger>();
         aMap.put("en", englishTagger);
         aMap.put("de", germanTagger);
-        aMap.put("fr", frenchTagger);
-        aMap.put("zh-cn", chineseTagger);
-        aMap.put("es", spanishTagger);
+        //aMap.put("fr", frenchTagger);
+        //aMap.put("zh-cn", chineseTagger);
+        //aMap.put("es", spanishTagger);
 
         lang2tagger = Collections.unmodifiableMap(aMap);
     }
