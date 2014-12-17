@@ -12,15 +12,18 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
 
     private static List<String> prefixSuffix;
     private Float[] features;
-    private Map<String, MutableInt> frequencies;
+    private Map<String, MutableInt> prefixFrequencies;
+    private Map<String, MutableInt> suffixFrequencies;
 
     public PrefixSuffixFeature(float weight) {
         super(weight);
-        this.frequencies = new HashMap<String, MutableInt>(getNumberOfFeatures());
+        this.prefixFrequencies = new HashMap<String, MutableInt>(getNumberOfFeatures());
+        this.suffixFrequencies = new HashMap<String, MutableInt>(getNumberOfFeatures());
         for (String letter : getPrefixSuffix()){
-            frequencies.put(letter, new MutableInt());
+            prefixFrequencies.put(letter, new MutableInt());
+            suffixFrequencies.put(letter, new MutableInt());
         }
-        this.features = new Float[getNumberOfFeatures()];
+        this.features = new Float[getNumberOfFeatures()*2];
     }
 
     @Override
@@ -31,26 +34,33 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
         if (length > 2) {
             // Prefix
             String prefix = token.substring(0, 2);
-            MutableInt count = frequencies.get(prefix);
-            if (count != null){
-                count.increment();
+            MutableInt prefixCount = prefixFrequencies.get(prefix);
+            if (prefixCount != null){
+            	prefixCount.increment();
             }
 
             // Suffix
             String suffix = token.substring(length - 2, length);
-            count = frequencies.get(suffix);
-            if (count != null){
-                count.increment();
+            MutableInt suffixCount = suffixFrequencies.get(suffix);
+            if (suffixCount != null){
+                suffixCount.increment();
             }
         }
     }
 
     @Override
     public Float[] getFeatures() {
-        for(int i = 0; i < features.length; i++) {
-            int count = frequencies.get(getPrefixSuffix().get(i)).get();
-            if (count != 0)
-                features[i] = (float) 1 - 1.f / count;
+        for(int i = 0; i < features.length / 2; i++) {
+            int prefixCount = prefixFrequencies.get(getPrefixSuffix().get(i)).get();
+            if (prefixCount != 0)
+                features[i] = (float) 1 - 1.f / prefixCount;
+            else
+                features[i] = 0.f;
+        }
+        for(int i = features.length / 2; i < features.length; i++) {
+            int suffixCount = suffixFrequencies.get(getPrefixSuffix().get(i)).get();
+            if (suffixCount != 0)
+                features[i] = (float) 1 - 1.f / suffixCount;
             else
                 features[i] = 0.f;
         }
