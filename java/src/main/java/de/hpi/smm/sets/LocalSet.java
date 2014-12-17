@@ -13,8 +13,13 @@ public class LocalSet extends AbstractDataSet implements TestSet {
     private List<File> posts = new ArrayList<File>();
     private int i = -1;
 
-    public LocalSet (String path) {
-        List<File> authorFolders = Util.asSortedList(Arrays.asList(new File(path).listFiles()));
+    public LocalSet (String path, int limit) {
+        super(limit);
+        File filePath = new File(path);
+        if (!filePath.isDirectory()){
+            return;
+        }
+        List<File> authorFolders = Util.asSortedList(Arrays.asList(filePath.listFiles()));
         for (File folder : authorFolders){
             System.out.println(String.format("Scanning %s%s...", path, folder.getName()));
             if (folder.isDirectory()){
@@ -27,12 +32,22 @@ public class LocalSet extends AbstractDataSet implements TestSet {
         }
     }
 
+    protected boolean isLimitReached() {
+        return i == limit;
+    }
+
     public boolean next() {
+        if (isLimitReached()){
+            return false;
+        }
         i++;
         return i < posts.size();
     }
 
     public String getText() {
+        if (isLimitReached()){
+            return null;
+        }
         return fileToString(posts.get(i));
     }
 
@@ -59,5 +74,12 @@ public class LocalSet extends AbstractDataSet implements TestSet {
             }
         }
         return sb.toString();
+    }
+
+    public boolean hasSize(int size) {
+        if (size == -1){
+            return true;
+        }
+        return size <= posts.size();
     }
 }

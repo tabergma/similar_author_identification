@@ -25,7 +25,10 @@ public class FeatureEvaluator {
         // Build all combinations of features
         List<Integer> l = new ArrayList<Integer>();
         l.addAll(index2Feature.keySet());
-        List<Set<Integer>> combinations = buildCombinations(l);
+
+        Combination combination = new Combination();
+
+        double numberOfCombinations = Math.pow(2, index2Feature.size()) - 1; // minus empty set
 
         KMeans kMeans = new KMeans();
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
@@ -33,16 +36,12 @@ public class FeatureEvaluator {
         evaluationWriter =  new PrintWriter(Config.EVALUATION_FEATURE_FILE, "UTF-8");
         writeHeader(testSet);
 
-        int i = 1;
-        for (Set<Integer> combination : combinations) {
-            if (combination.isEmpty())
-                continue;
-
-            System.out.println("Testing combination " + i + " of " + combinations.size() + "...");
-            i++;
+        for (int i = 1; i <= numberOfCombinations; i++) {
+            System.out.println("Testing combination " + i + " of " + numberOfCombinations + "...");
+            List<Integer> currentCombination = combination.getNext();
 
             // get the feature combination
-            List<List<Float>> featureCombination = getFeatureCombination(features, combination);
+            List<List<Float>> featureCombination = getFeatureCombination(features, currentCombination);
 
             // run k-Means
             kMeans.run(featureCombination);
@@ -54,7 +53,7 @@ public class FeatureEvaluator {
             List<EvaluationResult> resultList = evaluator.evaluate(testSet, analyzer.getCluster2document());
 
             // write results to file
-            writeResult(combination, resultList);
+            writeResult(currentCombination, resultList);
 
             // clean up
             kMeans.cleanUp();
@@ -63,7 +62,7 @@ public class FeatureEvaluator {
         evaluationWriter.close();
     }
 
-    private static List<List<Float>> getFeatureCombination(List<List<Float>> features, Set<Integer> combination) {
+    private static List<List<Float>> getFeatureCombination(List<List<Float>> features, List<Integer> combination) {
         List<List<Float>> featureCombination = new ArrayList<List<Float>>();
 
         for (List<Float> feature : features) {
@@ -79,35 +78,6 @@ public class FeatureEvaluator {
 
         return featureCombination;
     }
-
-    private static List<Set<Integer>> buildCombinations(List<Integer> group) {
-        List<Set<Integer>> resultingCombinations = new ArrayList<Set<Integer>> ();
-
-        if (group.size() == 0) {
-            emptySet(resultingCombinations);
-        } else {
-            List<Integer> remainingElements = new ArrayList<Integer>(group);
-            Integer X = popLast(remainingElements);
-
-            List<Set<Integer>> combinationsExclusiveX = buildCombinations(remainingElements);
-            List<Set<Integer>> combinationsInclusiveX = buildCombinations(remainingElements);
-            for (Set<Integer> combination : combinationsInclusiveX) {
-                combination.add(X);
-            }
-            resultingCombinations.addAll(combinationsExclusiveX);
-            resultingCombinations.addAll(combinationsInclusiveX);
-        }
-        return resultingCombinations;
-    }
-
-    private static void emptySet(List<Set<Integer>> resultingCombinations) {
-        resultingCombinations.add(new HashSet<Integer>());
-    }
-
-    private static Integer popLast(List<Integer> elementsExclusiveX) {
-        return elementsExclusiveX.remove(elementsExclusiveX.size()-1);
-    }
-
 
     private static void buildIndex2FeatureMap(FeatureExtractor featureExtractor) {
         int offset = 0;
@@ -151,7 +121,7 @@ public class FeatureEvaluator {
             evaluationWriter.write(",");
         }
         for (Author author : testSet.getAuthors()) {
-            String name = author.getName();
+            String name = author.toString();
             evaluationWriter.write(name + "_cluster,");
             evaluationWriter.write(name + "_f-measure,");
             evaluationWriter.write(name + "_precision,");
@@ -160,7 +130,7 @@ public class FeatureEvaluator {
         evaluationWriter.write("\n");
     }
 
-    private static void writeResult(Set<Integer> combination, List<EvaluationResult> resultList) {
+    private static void writeResult(List<Integer> combination, List<EvaluationResult> resultList) {
         for (int i = 0; i < index2Feature.size(); i++) {
             if (combination.contains(i)) {
                 evaluationWriter.write("1");
@@ -187,4 +157,33 @@ class Feature {
     public String name;
     public Integer start;
     public Integer end;
+}
+
+class Combination {
+    private int current = 0b1;
+
+    public List<Integer> getNext() {
+        List<Integer> l = new ArrayList<>();
+        // get the positions of 1 bits
+        String number = Integer.toBinaryString(current);
+        int max = number.length() - 1;
+        for (int i = max; i >= 0; i--){
+            char c = number.charAt(i);
+            if (c == '1')
+                l.add(max - i);
+        }
+        // increment the current value
+        current += 0b1;
+        // return the current combination
+        return l;
+    }
+
+    public void reset() {
+        current = 0b1;
+    }
+
+    public String getBinaryString() {
+        return Integer.toBinaryString(current);
+    }
+
 }
