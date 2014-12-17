@@ -32,7 +32,10 @@ public class Config {
 
     // Evaluating features
     public final static Boolean EVALUATE_FEATURES = false;
-    public final static String EVALUATION_FEATURE_FILE = RESULT_PATH + "evaluation_features.csv";
+    public final static String EVALUATION_FEATURE_F_MEASURE_FILE = RESULT_PATH + "evaluation_features_f_measure.csv";
+    public final static String EVALUATION_FEATURE_PRECISION_FILE = RESULT_PATH + "evaluation_features_precision.csv";
+    public final static String EVALUATION_FEATURE_RECALL_FILE = RESULT_PATH + "evaluation_features_recall.csv";
+    public final static String EVALUATION_FEATURE_CLUSTER_FILE = RESULT_PATH + "evaluation_features_cluster.csv";
 
     // Database config
     public final static String IP = "141.89.225.134";
