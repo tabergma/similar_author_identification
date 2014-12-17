@@ -10,8 +10,13 @@ public abstract class AbstractDataSet implements TestSet {
     protected Map<Integer, Author> authors = new HashMap<Integer, Author>();
     protected Map<String, Author> nameAuthorMapping = new HashMap<String, Author>();
 
-    int documentId = 0;
+    protected int documentId = 0;
     protected int minLength = 0;
+    protected int limit = -1;
+
+    AbstractDataSet (int limit){
+        this.limit = limit;
+    }
 
     protected void putAuthorName(String authorName) {
         Author author = nameAuthorMapping.get(authorName);
@@ -20,6 +25,10 @@ public abstract class AbstractDataSet implements TestSet {
             nameAuthorMapping.put(authorName, author);
         }
         authors.put(documentId++, author);
+    }
+
+    protected boolean isLimitReached() {
+        return documentId == limit;
     }
 
     public List<Author> getAuthors(){
@@ -32,5 +41,9 @@ public abstract class AbstractDataSet implements TestSet {
 
     public void applyMinimumLength(int minLength) {
         this.minLength = minLength;
+    }
+
+    public int getCurrentDocumentId() {
+        return documentId;
     }
 }

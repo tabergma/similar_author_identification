@@ -15,6 +15,7 @@ import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
+import de.hpi.smm.sets.SetDownloader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -24,13 +25,26 @@ import java.util.List;
 import java.util.Map;
 
 public class Main {
-    public static final int minLength = 50;
-
     public static void main(String[] args) throws Exception {
-        System.out.println("Fetching data...");
+        int limit = 1000;
+        int minLength = 50;
 
-        AbstractDataSet testSet = DataSetSelector.getDataSet(Config.SELECTED_SET);
-        testSet.applyMinimumLength(minLength);
+        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
+        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
+        AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
+
+//        printSet(testSet);
+//        clusterSet(testSet);
+    }
+
+    private static void printSet(AbstractDataSet testSet) {
+        while (testSet.next()){
+            System.out.println(testSet.getText());
+        }
+    }
+
+    private static void clusterSet(AbstractDataSet testSet) throws Exception {
+        System.out.println("Fetching data...");
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter();

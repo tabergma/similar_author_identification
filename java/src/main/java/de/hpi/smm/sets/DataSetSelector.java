@@ -3,23 +3,57 @@ package de.hpi.smm.sets;
 import de.hpi.smm.Config;
 
 public class DataSetSelector {
-    public static final int LOCAL_SET = 0;
-    public static final int HANA_SET_SMM = 1;
-    public static final int HANA_SET_SPINNER = 2;
+    public static final int GERMAN_SET = 0;
+    public static final int SMM_SET = 1;
+    public static final int SPINNER_SET = 2;
 
-    public static AbstractDataSet getDataSet(int selectedSet) {
+    public static AbstractDataSet getDataSet(int selectedSet, int minLength, int limit) {
+        LocalSet localSet = new LocalSet(getLocalSetPath(selectedSet), limit);
+        if (!localSet.hasSize(limit)){
+            System.out.println(String.format("Set %s does not have size %d, downloading local copy...", getSetName(selectedSet), limit));
+            HanaSet hanaSet = new HanaSet(selectedSet, limit);
+            hanaSet.applyMinimumLength(minLength);
+            SetDownloader setDownloader = new SetDownloader(hanaSet, getLocalSetPath(selectedSet));
+            setDownloader.run();
+            return new LocalSet(getLocalSetPath(selectedSet), -1);
+        }
+        return localSet;
+    }
+
+    private static String getSetName(int selectedSet) {
         switch(selectedSet){
-            case LOCAL_SET:
+            case GERMAN_SET:
             {
-                return new LocalSet(Config.LOCAL_TEST_SET_PATH);
+                return "german set";
             }
-            case HANA_SET_SMM:
+            case SMM_SET:
             {
-                return new HanaSet(HanaSet.DATA_SET_SMM, 100);
+                return "smm set";
             }
-            case HANA_SET_SPINNER:
+            case SPINNER_SET:
             {
-                return new HanaSet(HanaSet.DATA_SET_SPINNER, 100);
+                return "spinner set";
+            }
+            default:
+            {
+                return null;
+            }
+        }
+    }
+
+    private static String getLocalSetPath(int selectedSet) {
+        switch(selectedSet){
+            case GERMAN_SET:
+            {
+                return Config.LOCAL_GERMAN_SET_PATH;
+            }
+            case SMM_SET:
+            {
+                return Config.LOCAL_SMM_SET_PATH;
+            }
+            case SPINNER_SET:
+            {
+                return Config.LOCAL_SPINNER_SET_PATH;
             }
             default:
             {
