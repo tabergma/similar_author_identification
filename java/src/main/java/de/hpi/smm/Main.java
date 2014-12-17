@@ -52,7 +52,8 @@ public class Main {
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
         Detector detector = DetectorFactory.create();
 
-        System.out.println("Extracting features: ");
+        System.out.println("Extracting features...");
+        int i = 0;
         List<String> documentTexts = new ArrayList<String>();
         List<Float> features;
         while (testSet.next()){
@@ -68,12 +69,11 @@ public class Main {
                 // write features
                 featureWriter.writeFeaturesForDocument(features);
                 documentTexts.add(content);
-
-                // debug print
-                System.out.print(".");
+            }
+            if (++i % 100 == 0){
+                System.out.println(String.format("Features from %d documents extracted...",i));
             }
         }
-        System.out.println();
 
         featureWriter.close();
 
