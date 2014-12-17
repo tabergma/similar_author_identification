@@ -22,6 +22,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/*
+    TODO
+    - Feature evaluation: Find best combination of features
+    - Implement new project which implements the interface for clustering a new blog post
+    - Rewrite some features? -> Boolean Feature, other ranges, ...
+    - Weight features?
+    - Naming clusters
+    - Look into blog posts by hand: How can we improve cluster assigning for this blog?
+    - Configuration of K-Means
+ */
+
 public class Main {
     public static void main(String[] args) throws Exception {
         int limit = 1000;
