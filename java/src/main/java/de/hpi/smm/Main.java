@@ -33,8 +33,8 @@ public class Main {
         AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
         AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
 
-//        printSet(testSet);
-//        clusterSet(testSet);
+        printSet(testSet3);
+//        clusterSet(testSet3);
     }
 
     private static void printSet(AbstractDataSet testSet) {

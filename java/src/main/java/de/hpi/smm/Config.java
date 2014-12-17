@@ -32,7 +32,7 @@ public class Config {
     public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
 
     // Evaluating features
-    public final static Boolean EVALUATE_FEATURES = false;
+    public final static Boolean EVALUATE_FEATURES = true;
     public final static String EVALUATION_FEATURE_FILE = RESULT_PATH + "evaluation_features.csv";
 
     // Database config

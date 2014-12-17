@@ -8,14 +8,14 @@ public class DataSetSelector {
     public static final int SPINNER_SET = 2;
 
     public static AbstractDataSet getDataSet(int selectedSet, int minLength, int limit) {
-        LocalSet localSet = new LocalSet(getLocalSetPath(selectedSet), limit);
+        LocalSet localSet = new LocalSet(getLocalSetPath(selectedSet));
         if (!localSet.hasSize(limit)){
             System.out.println(String.format("Set %s does not have size %d, downloading local copy...", getSetName(selectedSet), limit));
             HanaSet hanaSet = new HanaSet(selectedSet, limit);
             hanaSet.applyMinimumLength(minLength);
             SetDownloader setDownloader = new SetDownloader(hanaSet, getLocalSetPath(selectedSet));
             setDownloader.run();
-            return new LocalSet(getLocalSetPath(selectedSet), -1);
+            return new LocalSet(getLocalSetPath(selectedSet));
         }
         return localSet;
     }
