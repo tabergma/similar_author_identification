@@ -17,13 +17,13 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
 
     public PrefixSuffixFeature(float weight) {
         super(weight);
-        this.prefixFrequencies = new HashMap<String, MutableInt>(getNumberOfFeatures());
-        this.suffixFrequencies = new HashMap<String, MutableInt>(getNumberOfFeatures());
+        this.prefixFrequencies = new HashMap<String, MutableInt>();
+        this.suffixFrequencies = new HashMap<String, MutableInt>();
         for (String letter : getPrefixSuffix()){
             prefixFrequencies.put(letter, new MutableInt());
             suffixFrequencies.put(letter, new MutableInt());
         }
-        this.features = new Float[getNumberOfFeatures()*2];
+        this.features = new Float[getNumberOfFeatures()];
     }
 
     @Override
@@ -50,26 +50,29 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
 
     @Override
     public Float[] getFeatures() {
-        for(int i = 0; i < features.length / 2; i++) {
+        int offset = getPrefixSuffix().size();
+
+        for (int i = 0; i < offset; i++) {
             int prefixCount = prefixFrequencies.get(getPrefixSuffix().get(i)).get();
+            int suffixCount = suffixFrequencies.get(getPrefixSuffix().get(i)).get();
+
             if (prefixCount != 0)
                 features[i] = (float) 1 - 1.f / prefixCount;
             else
                 features[i] = 0.f;
-        }
-        for(int i = features.length / 2; i < features.length; i++) {
-            int suffixCount = suffixFrequencies.get(getPrefixSuffix().get(i)).get();
+
             if (suffixCount != 0)
-                features[i] = (float) 1 - 1.f / suffixCount;
+                features[i + offset] = (float) 1 - 1.f / suffixCount;
             else
-                features[i] = 0.f;
+                features[i + offset] = 0.f;
         }
+
         return features;
     }
 
     @Override
     public int getNumberOfFeatures() {
-        return getPrefixSuffix().size();
+        return getPrefixSuffix().size() * 2;
     }
 
     @Override

@@ -64,19 +64,19 @@ public class FeatureExtractor {
     public void addAllTokenFeatures() {
         this.tokenFeatureList.add(new WordLengthFeature(1.0f));
         this.tokenFeatureList.add(new CharacterFrequencyFeature(1.0f));
-//        this.tokenFeatureList.add(new FunctionWordFeature(1.0f));
-//        this.tokenFeatureList.add(new CapitalLetterFeature(1.0f));
-//        this.tokenFeatureList.add(new UpperCaseFeature(1.0f));
-//        this.tokenFeatureList.add(new WordFrequencyFeature(1.0f));
-//        this.tokenFeatureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
+        this.tokenFeatureList.add(new FunctionWordFeature(1.0f));
+        this.tokenFeatureList.add(new CapitalLetterFeature(1.0f));
+        this.tokenFeatureList.add(new UpperCaseFeature(1.0f));
+        this.tokenFeatureList.add(new WordFrequencyFeature(1.0f));
+        this.tokenFeatureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
         this.tokenFeatureList.add(new EmoticonFeature(1.0f));
-//        this.tokenFeatureList.add(new PostLengthFeature(1.0f));
-//        this.tokenFeatureList.add(new PrefixSuffixFeature(1.0f));
+        this.tokenFeatureList.add(new PostLengthFeature(1.0f));
+        this.tokenFeatureList.add(new PrefixSuffixFeature(1.0f));
     }
 
     public void addAllTextFeatures() {
         this.textFeatureList.add(new BlankLineAndParagraphFeature(1.0f));
-//        this.textFeatureList.add(new SentenceLengthFeature(1.0f));
+        this.textFeatureList.add(new SentenceLengthFeature(1.0f));
     }
 
     public List<AbstractTokenFeature> getTokenFeatureList() {

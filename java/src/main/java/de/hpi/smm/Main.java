@@ -15,7 +15,6 @@ import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
-import de.hpi.smm.sets.SetDownloader;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -33,8 +32,8 @@ public class Main {
         AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
         AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
 
-        printSet(testSet3);
-//        clusterSet(testSet3);
+//        printSet(testSet);
+        clusterSet(testSet3);
     }
 
     private static void printSet(AbstractDataSet testSet) {
