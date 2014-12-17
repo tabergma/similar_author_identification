@@ -13,6 +13,7 @@ import de.hpi.smm.evaluation.FeatureEvaluator;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
+import de.hpi.smm.helper.Util;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
 
@@ -23,14 +24,10 @@ import java.util.Map;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
-        System.setErr(new PrintStream(new OutputStream() {
-            public void write(int b) {
-            }
-        }));
-
         int limit = 1000;
         int minLength = 50;
+
+        Util.switchErrorPrint(false);
 
         AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
         AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
