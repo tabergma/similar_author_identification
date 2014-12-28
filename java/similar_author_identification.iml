@@ -17,6 +17,7 @@
     <orderEntry type="library" exported="" name="Gradle: ngdbc" level="project" />
     <orderEntry type="library" exported="" name="Gradle: jsonic-1.2.0" level="project" />
     <orderEntry type="library" exported="" name="Gradle: langdetect" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: stanford-postagger-3.4.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: mahout-core-0.9" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-io-1.3.2" level="project" />
     <orderEntry type="library" exported="" name="Gradle: mahout-math-0.9" level="project" />
@@ -76,7 +77,6 @@
     <orderEntry type="library" exported="" name="Gradle: commons-httpclient-3.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit-4.11" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: hamcrest-core-1.3" level="project" />
-    <orderEntry type="library" exported="" name="Gradle: stanford-postagger-3.4.1" level="project" />
   </component>
 </module>
 

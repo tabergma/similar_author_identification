@@ -34,6 +34,7 @@ import java.util.Map;
  */
 
 public class Main {
+
     public static void main(String[] args) throws Exception {
         int limit = 1000;
         int minLength = 50;
