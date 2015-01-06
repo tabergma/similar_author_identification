@@ -3,37 +3,49 @@ package de.hpi.smm;
 
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
+import com.cybozu.labs.langdetect.LangDetectException;
 import de.hpi.smm.cluster_determination.Cluster;
 import de.hpi.smm.cluster_determination.ClusterDetermination;
 import de.hpi.smm.features.FeatureExtractor;
+import de.hpi.smm.mustache.MustacheTemplateEngine;
+import spark.ModelAndView;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static spark.Spark.get;
+import static spark.Spark.post;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        if (args.length != 2) {
-            System.out.println("Usage:\njava main.java ( -c \"<text>\" | -f <filename> )");
-        }
+    public static void main(String[] args) {
+        Map map = new HashMap();
 
-        String content = "";
+        get("/", (rq, rs) -> {
+            map.put("result", false);
+            return new ModelAndView(map, "main.mustache");
+        }, new MustacheTemplateEngine());
 
-        switch (args[0]) {
-            case "-c":
-                content = args[1];
-                break;
-            case "-f":
-                content = readFile(args[1]);
-                if (content.isEmpty()) return;
-                break;
-            default:
-                System.out.println("Usage:\njava main.java ( -c \"<text>\" | -f <filename> )");
-                return;
-        }
+        post("/cluster", (rq, rs) -> {
+            String clusterString = null;
+            try {
+                clusterString = run("Dies ist ein Text.");
+            } catch (LangDetectException | IOException e) {
+                e.printStackTrace();
+            }
+            map.put("cluster", clusterString);
+            map.put("result", true);
 
+            return new ModelAndView(map, "main.mustache");
+        }, new MustacheTemplateEngine());
+
+    }
+
+    private static String run(String content) throws LangDetectException, IOException {
         // determine language of content
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
         Detector detector = DetectorFactory.create();
@@ -48,7 +60,7 @@ public class Main {
         ClusterDetermination clusterDetermination = new ClusterDetermination();
         Cluster cluster = clusterDetermination.determineCluster(features);
 
-        System.out.println("The given text belongs to cluster " + cluster.getNumber() + ": " + cluster.getName() + ".");
+        return "The given text belongs to cluster " + cluster.getNumber() + ": " + cluster.getName() + ".";
     }
 
     private static String readFile(String filename) {

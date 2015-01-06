@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Similar Author Identification</title>
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+        <link rel="stylesheet" href="http://getbootstrap.com/examples/starter-template/starter-template.css" />
+    </head>
+
+    <body>
+
+    <h1>Similar Author Identification</h1>
+
+    <div class="blog-post-content">
+        <form class="form-horizontal" role="form" id='blog-post-form' method='POST' action='/cluster'>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Blog Post: </label>
+                <div class="col-sm-5">
+                    <input class="form-control" type='text' id="blog-post" name='blog-post' placeholder="Enter a blog post..." />
+                </div>
+            </div>
+        </form>
+
+        <input type='submit' value='Run' class="btn btn-primary" form='blog-post-form' />
+    </div>
+
+    {{#result}}
+        <hr/>
+        <div class="result-content">
+            <h3>Result</h3>
+            <span>{{cluster}}</span>
+        </div>
+    {{/result}}
+
+    </body>
+</html>
