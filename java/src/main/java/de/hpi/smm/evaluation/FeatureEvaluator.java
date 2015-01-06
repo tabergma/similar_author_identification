@@ -69,6 +69,7 @@ public class FeatureEvaluator {
 
             // clean up
             kMeans.cleanUp();
+
         }
 
         evaluationFMeasureWriter.close();
