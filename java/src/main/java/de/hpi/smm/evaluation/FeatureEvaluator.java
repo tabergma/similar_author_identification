@@ -22,17 +22,9 @@ public class FeatureEvaluator {
     private static PrintWriter evaluationPrecisionWriter;
     private static PrintWriter evaluationClusterWriter;
 
-    private static double sumFMeasure;
-    private static double sumPrecision;
-    private static double sumRecall;
-
     public static void run(FeatureExtractor featureExtractor, AbstractDataSet testSet, List<List<Float>> features, int fromFeatureCombination, int toFeatureCombination) throws Exception {
         // build index - feature map
         buildIndex2FeatureMap(featureExtractor);
-
-        // Build all combinations of features
-        List<Integer> l = new ArrayList<Integer>();
-        l.addAll(index2Feature.keySet());
 
         Combination combination = new Combination(fromFeatureCombination, toFeatureCombination);
 
@@ -71,7 +63,6 @@ public class FeatureEvaluator {
 
             // clean up
             kMeans.cleanUp();
-
         }
 
         evaluationFMeasureWriter.close();
@@ -170,9 +161,9 @@ public class FeatureEvaluator {
             }
         }
 
-        sumFMeasure = 0.0;
-        sumPrecision = 0.0;
-        sumRecall = 0.0;
+        double sumFMeasure = 0.0;
+        double sumPrecision = 0.0;
+        double sumRecall = 0.0;
 
         for (EvaluationResult result : resultList) {
             sumFMeasure += result.getFMeasure();

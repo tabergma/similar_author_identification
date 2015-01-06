@@ -22,9 +22,11 @@ public class ClusterAnalyzer {
     private Map<Integer, List<Integer>> cluster2document = new HashMap<Integer, List<Integer>>();
     private List<Map<Integer, Double>> points = new ArrayList<Map<Integer, Double>>();
 
+    Configuration conf = new Configuration();
+    FileSystem fs = null;
+
     public void analyze() throws IOException {
-        Configuration conf = new Configuration();
-        FileSystem fs = FileSystem.get(conf);
+        fs = FileSystem.get(conf);
 
         SequenceFile.Reader reader = new SequenceFile.Reader(fs,
                 new Path(Config.CLUSTER_FILE), conf);

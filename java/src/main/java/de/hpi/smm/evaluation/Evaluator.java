@@ -14,6 +14,7 @@ public class Evaluator {
     public List<EvaluationResult> evaluate(AbstractDataSet dataSet, Map<Integer, List<Integer>> clusterToDocument) {
         int numberOfClusters = clusterToDocument.keySet().size();
         Map<Author, List<MutableInt>> authorHits = new HashMap<Author, List<MutableInt>>();
+
         for (Author author : dataSet.getAuthors()){
             List<MutableInt> tempList = new ArrayList<MutableInt>();
             for (int i = 0; i < numberOfClusters; i++){
