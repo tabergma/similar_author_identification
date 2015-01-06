@@ -31,11 +31,13 @@ public class Config {
     public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
 
     // Evaluating features
+    public final static int FROM_FEATURE_COMBINATION = 1;
+    public final static int TO_FEATURE_COMBINATION = 10;
     public final static Boolean EVALUATE_FEATURES = true;
-    public final static String EVALUATION_FEATURE_F_MEASURE_FILE = RESULT_PATH + "evaluation_features_f_measure.csv";
-    public final static String EVALUATION_FEATURE_PRECISION_FILE = RESULT_PATH + "evaluation_features_precision.csv";
-    public final static String EVALUATION_FEATURE_RECALL_FILE = RESULT_PATH + "evaluation_features_recall.csv";
-    public final static String EVALUATION_FEATURE_CLUSTER_FILE = RESULT_PATH + "evaluation_features_cluster.csv";
+    public final static String EVALUATION_FEATURE_F_MEASURE_FILE = RESULT_PATH + "evaluation_features_f_measure";
+    public final static String EVALUATION_FEATURE_PRECISION_FILE = RESULT_PATH + "evaluation_features_precision";
+    public final static String EVALUATION_FEATURE_RECALL_FILE = RESULT_PATH + "evaluation_features_recall";
+    public final static String EVALUATION_FEATURE_CLUSTER_FILE = RESULT_PATH + "evaluation_features_cluster";
 
     // Database config
     public final static String IP = "141.89.225.134";

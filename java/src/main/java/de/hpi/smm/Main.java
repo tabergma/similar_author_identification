@@ -13,11 +13,12 @@ import de.hpi.smm.evaluation.FeatureEvaluator;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
-import de.hpi.smm.helper.Util;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -92,7 +93,9 @@ public class Main {
 
         if (Config.EVALUATE_FEATURES) {
             System.out.println("Evaluation of features...");
-            FeatureEvaluator.run(featureExtractor, testSet, readFeatureFile());
+            FeatureEvaluator.run(
+                    featureExtractor, testSet, readFeatureFile(),
+                    Config.FROM_FEATURE_COMBINATION, Config.TO_FEATURE_COMBINATION);
             return;
         }
 
