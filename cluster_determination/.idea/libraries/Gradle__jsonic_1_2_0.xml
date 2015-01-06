@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="Gradle: jsonic-1.2.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../resource/langdetect-03-03-2014/lib/jsonic-1.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
