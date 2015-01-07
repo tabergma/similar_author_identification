@@ -27,7 +27,7 @@ public class Main {
 
         get("/", (rq, rs) -> {
             map.put("result", false);
-            return new ModelAndView(map, "main.mustache");
+            return new ModelAndView(map, "index.mustache");
         }, new MustacheTemplateEngine());
 
         post("/", (rq, rs) -> {
@@ -42,11 +42,13 @@ public class Main {
 
             } catch (LangDetectException | IOException e) {
                 e.printStackTrace();
+                rs.redirect("/error");
             }
 
-            return new ModelAndView(map, "main.mustache");
+            return new ModelAndView(map, "index.mustache");
         }, new MustacheTemplateEngine());
 
+        get("/error", (rq, rs) -> new ModelAndView(map, "error.mustache"), new MustacheTemplateEngine());
     }
 
     private static Cluster run(String content) throws LangDetectException, IOException {
