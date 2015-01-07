@@ -31,13 +31,15 @@ public class Main {
         }, new MustacheTemplateEngine());
 
         post("/", (rq, rs) -> {
-            String clusterString = null;
+            String blogPost = rq.queryMap().get("blog-post").value();
+            String assignedCluster = "";
             try {
-                clusterString = run("Dies ist ein Text.");
+                assignedCluster = run(rq.queryMap().get("blog-post").value());
             } catch (LangDetectException | IOException e) {
                 e.printStackTrace();
             }
-            map.put("cluster", clusterString);
+            map.put("cluster", assignedCluster);
+            map.put("blog-post", blogPost);
             map.put("result", true);
 
             return new ModelAndView(map, "main.mustache");
@@ -47,6 +49,7 @@ public class Main {
 
     private static String run(String content) throws LangDetectException, IOException {
         // determine language of content
+        DetectorFactory.clear();
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
         Detector detector = DetectorFactory.create();
         detector.append(content);
