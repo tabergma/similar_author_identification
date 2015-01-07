@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/cluster_determination.iml" filepath="$PROJECT_DIR$/cluster_determination.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../java/similar_author_identification.iml" filepath="$PROJECT_DIR$/../java/similar_author_identification.iml" />
     </modules>
   </component>
 </project>

@@ -53,12 +53,7 @@ public class ClusterWriter {
         for (ClusterCentroid cc : centers){
             centerWriter.print(cc.getId());
             centerWriter.print(",");
-            for (EvaluationResult r : resultList){
-                if (r.getCluster()==cc.getId()){
-                    centerWriter.print(r.getAuthor().getName());
-                    break;
-                }
-            }
+            centerWriter.print(cc.getName());
             for (Double value : cc.getValues()) {
                 centerWriter.print(",");
                 centerWriter.print(value);
