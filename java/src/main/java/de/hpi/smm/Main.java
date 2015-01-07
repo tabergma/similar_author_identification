@@ -5,6 +5,7 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.ClusterCentroid;
+import de.hpi.smm.clustering.ClusterLabeling;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.drawing.Drawing;
 import de.hpi.smm.drawing.Point;
@@ -14,11 +15,12 @@ import de.hpi.smm.evaluation.FeatureEvaluator;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
-import de.hpi.smm.helper.Util;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -106,6 +108,10 @@ public class Main {
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         analyzer.analyze();
 
+        System.out.println("Labeling clusters...");
+        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), featureExtractor.getIndex2FeatureMap());
+        List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
+
         System.out.println("Calculate precision...");
         Evaluator evaluator = new Evaluator();
         List<EvaluationResult> resultList = evaluator.evaluate(testSet, analyzer.getCluster2document());
@@ -125,7 +131,7 @@ public class Main {
 
         System.out.println("Writing cluster files...");
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
-        ClusterWriter.writeClusterCenterFiles(resultList, analyzer.getCenters());
+        ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
 
         System.out.println("Clean up...");
         kMeans.cleanUp();

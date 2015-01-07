@@ -4,14 +4,16 @@ package de.hpi.smm.evaluation;
 import de.hpi.smm.Config;
 import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
-import de.hpi.smm.features.AbstractTextFeature;
-import de.hpi.smm.features.AbstractTokenFeature;
+import de.hpi.smm.features.Feature;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
 
 import java.io.PrintWriter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class FeatureEvaluator {
 
@@ -28,7 +30,7 @@ public class FeatureEvaluator {
 
     public static void run(FeatureExtractor featureExtractor, AbstractDataSet testSet, List<List<Float>> features) throws Exception {
         // build index - feature map
-        buildIndex2FeatureMap(featureExtractor);
+        index2Feature = featureExtractor.getIndex2FeatureMap();
 
         // Build all combinations of features
         List<Integer> l = new ArrayList<Integer>();
@@ -94,42 +96,6 @@ public class FeatureEvaluator {
         return featureCombination;
     }
 
-    private static void buildIndex2FeatureMap(FeatureExtractor featureExtractor) {
-        int offset = 0;
-        int index = 0;
-
-        for (AbstractTokenFeature tokenFeature : featureExtractor.getTokenFeatureList()) {
-            addFeature(tokenFeature.getName(),
-                    offset,
-                    offset + tokenFeature.getNumberOfFeatures(),
-                    index
-            );
-            // Increment index and offset
-            index += 1;
-            offset += tokenFeature.getNumberOfFeatures();
-        }
-        for (AbstractTextFeature textFeature : featureExtractor.getTextFeatureList()) {
-            addFeature(textFeature.getName(),
-                    offset,
-                    offset + textFeature.getNumberOfFeatures(),
-                    index
-            );
-            // Increment index and offset
-            index += 1;
-            offset += textFeature.getNumberOfFeatures();
-        }
-    }
-
-    private static void addFeature(String name, int start, int end, int index) {
-        // Create feature
-        Feature feature = new Feature();
-        feature.name = name;
-        feature.start = start;
-        feature.end = end;
-        // Add feature
-        index2Feature.put(index, feature);
-    }
-
     private static void writeHeaders(AbstractDataSet testSet) {
         for (int i = 0; i < index2Feature.size(); i++) {
             evaluationFMeasureWriter.write(index2Feature.get(i).name + ",");
@@ -191,12 +157,6 @@ public class FeatureEvaluator {
         evaluationRecallWriter.write("\n");
         evaluationClusterWriter.write("\n");
     }
-}
-
-class Feature {
-    public String name;
-    public Integer start;
-    public Integer end;
 }
 
 class Combination {

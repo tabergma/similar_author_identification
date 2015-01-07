@@ -8,9 +8,7 @@ import edu.stanford.nlp.process.PTBTokenizer;
 import edu.stanford.nlp.tagger.maxent.MaxentTagger;
 
 import java.io.StringReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class FeatureExtractor {
 
@@ -85,5 +83,42 @@ public class FeatureExtractor {
 
     public List<AbstractTextFeature> getTextFeatureList() {
         return textFeatureList;
+    }
+
+    public Map<Integer, Feature> getIndex2FeatureMap() {
+        Map<Integer, Feature> index2Feature = new HashMap<>();
+        int offset = 0;
+        int index = 0;
+
+        for (AbstractTokenFeature tokenFeature : this.tokenFeatureList) {
+            index2Feature.put(index, getFeature(
+                    tokenFeature.getName(),
+                    offset,
+                    offset + tokenFeature.getNumberOfFeatures()
+            ));
+            // Increment index and offset
+            index += 1;
+            offset += tokenFeature.getNumberOfFeatures();
+        }
+        for (AbstractTextFeature textFeature : this.textFeatureList) {
+            index2Feature.put(index, getFeature(
+                    textFeature.getName(),
+                    offset,
+                    offset + textFeature.getNumberOfFeatures()
+            ));
+            // Increment index and offset
+            index += 1;
+            offset += textFeature.getNumberOfFeatures();
+        }
+        return index2Feature;
+    }
+
+    private Feature getFeature(String name, int start, int end) {
+        // Create feature
+        Feature feature = new Feature();
+        feature.name = name;
+        feature.start = start;
+        feature.end = end;
+        return feature;
     }
 }

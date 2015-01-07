@@ -29,6 +29,10 @@ public class ClusterCentroid {
         return name;
     }
 
+    public void addName(String name) {
+        this.name += "; " + name;
+    }
+
     public List<Double> getValues() {
         return values;
     }
