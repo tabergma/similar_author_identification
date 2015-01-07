@@ -24,6 +24,8 @@ public class ClusterAnalyzer {
     private Map<Integer, List<Integer>> cluster2document = new HashMap<Integer, List<Integer>>();
     private List<Map<Integer, Double>> points = new ArrayList<Map<Integer, Double>>();
 
+    private List<ClusterCentroid> centers = new ArrayList<ClusterCentroid>();
+
     public void analyze() throws IOException {
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
@@ -47,9 +49,7 @@ public class ClusterAnalyzer {
         IntWritable key1 = new IntWritable();
         ClusterWritable value1 = new ClusterWritable();
         while (reader1.next(key1, value1)) {
-
-            System.out.println(value1.getValue().getCenter()+ " ------------ "
-                    + key1.toString());
+            centers.add(ClusterCentroid.createFromVector(key1.get(), "cluster" + key1.toString(), value1.getValue().getCenter()));
         }
         reader1.close();
     }
@@ -94,6 +94,10 @@ public class ClusterAnalyzer {
 
     public List<Map<Integer, Double>> getPoints() {
         return points;
+    }
+
+    public List<ClusterCentroid> getCenters() {
+        return centers;
     }
 
 }

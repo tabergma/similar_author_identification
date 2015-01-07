@@ -4,6 +4,7 @@ package de.hpi.smm;
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import de.hpi.smm.clustering.ClusterAnalyzer;
+import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.drawing.Drawing;
 import de.hpi.smm.drawing.Point;
@@ -123,6 +124,7 @@ public class Main {
 
         System.out.println("Writing cluster files...");
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
+        ClusterWriter.writeClusterCenterFiles(analyzer.getCenters());
 
         System.out.println("Clean up...");
         kMeans.cleanUp();

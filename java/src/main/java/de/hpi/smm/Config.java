@@ -64,6 +64,9 @@ public class Config {
     // Language detector
     public final static String PROFILES_DIR = "../resource/langdetect-03-03-2014/profiles/";
 
+    // cluster center
+    public static final String CLUSTER_CENTER_OUTPUT = "../resource/cluster.csv";
+
     // Data sets
     public static final String LOCAL_SETS_PATH = "../localDataSets/";
     public static final String LOCAL_GERMAN_SET_PATH = LOCAL_SETS_PATH + "german/";
@@ -81,4 +84,5 @@ public class Config {
 
         lang2tagger = Collections.unmodifiableMap(aMap);
     }
+
 }

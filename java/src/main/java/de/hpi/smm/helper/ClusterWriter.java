@@ -2,6 +2,8 @@ package de.hpi.smm.helper;
 
 
 import de.hpi.smm.Config;
+import de.hpi.smm.clustering.ClusterCentroid;
+import de.hpi.smm.drawing.Cluster;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -43,5 +45,19 @@ public class ClusterWriter {
                 "}\n" +
                 "</style>\n" +
                 "<table>\n";
+    }
+
+    public static void writeClusterCenterFiles(List<ClusterCentroid> centers) throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter centerWriter = new PrintWriter(Config.CLUSTER_CENTER_OUTPUT, "UTF-8");
+        for (ClusterCentroid cc : centers){
+            centerWriter.print(cc.getId());
+            centerWriter.print(",");
+            centerWriter.print(cc.getName());
+            for (Double value : cc.getValues()) {
+                centerWriter.print(",");
+                centerWriter.print(value);
+            }
+            centerWriter.println();
+        }
     }
 }
