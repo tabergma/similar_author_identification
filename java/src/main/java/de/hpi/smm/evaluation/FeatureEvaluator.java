@@ -22,34 +22,28 @@ public class FeatureEvaluator {
     private static PrintWriter evaluationPrecisionWriter;
     private static PrintWriter evaluationClusterWriter;
 
-    private static double sumFMeasure;
-    private static double sumPrecision;
-    private static double sumRecall;
-
-    public static void run(FeatureExtractor featureExtractor, AbstractDataSet testSet, List<List<Float>> features) throws Exception {
+    public static void run(FeatureExtractor featureExtractor, AbstractDataSet testSet, List<List<Float>> features, int fromFeatureCombination, int toFeatureCombination) throws Exception {
         // build index - feature map
         buildIndex2FeatureMap(featureExtractor);
 
-        // Build all combinations of features
-        List<Integer> l = new ArrayList<Integer>();
-        l.addAll(index2Feature.keySet());
+        Combination combination = new Combination(fromFeatureCombination, toFeatureCombination);
 
-        Combination combination = new Combination();
-
-        double numberOfCombinations = Math.pow(2, index2Feature.size()) - 1; // minus empty set
+        // double numberOfCombinations = Math.pow(2, index2Feature.size()) - 1; // minus empty set
+        int numberOfCombinations = toFeatureCombination - fromFeatureCombination;
+        String fileEnding = "_" + fromFeatureCombination + "-" + toFeatureCombination + ".csv";
 
         KMeans kMeans = new KMeans();
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         Evaluator evaluator = new Evaluator();
 
-        evaluationFMeasureWriter =  new PrintWriter(Config.EVALUATION_FEATURE_F_MEASURE_FILE, "UTF-8");
-        evaluationRecallWriter =  new PrintWriter(Config.EVALUATION_FEATURE_RECALL_FILE, "UTF-8");
-        evaluationPrecisionWriter =  new PrintWriter(Config.EVALUATION_FEATURE_PRECISION_FILE, "UTF-8");
-        evaluationClusterWriter =  new PrintWriter(Config.EVALUATION_FEATURE_CLUSTER_FILE, "UTF-8");
+        evaluationFMeasureWriter =  new PrintWriter(Config.EVALUATION_FEATURE_F_MEASURE_FILE + fileEnding, "UTF-8");
+        evaluationRecallWriter =  new PrintWriter(Config.EVALUATION_FEATURE_RECALL_FILE + fileEnding, "UTF-8");
+        evaluationPrecisionWriter =  new PrintWriter(Config.EVALUATION_FEATURE_PRECISION_FILE + fileEnding, "UTF-8");
+        evaluationClusterWriter =  new PrintWriter(Config.EVALUATION_FEATURE_CLUSTER_FILE + fileEnding, "UTF-8");
         writeHeaders(testSet);
 
-        for (int i = 1; i <= numberOfCombinations; i++) {
-            System.out.println("Testing combination " + i + " of " + numberOfCombinations + "...");
+        for (int i = fromFeatureCombination; i <= toFeatureCombination; i++) {
+            System.out.println("Testing combination " + (i - fromFeatureCombination) + " of " + numberOfCombinations  + "...");
             List<Integer> currentCombination = combination.getNext();
 
             // get the feature combination
@@ -167,9 +161,9 @@ public class FeatureEvaluator {
             }
         }
 
-        sumFMeasure = 0.0;
-        sumPrecision = 0.0;
-        sumRecall = 0.0;
+        double sumFMeasure = 0.0;
+        double sumPrecision = 0.0;
+        double sumRecall = 0.0;
 
         for (EvaluationResult result : resultList) {
             sumFMeasure += result.getFMeasure();
@@ -200,10 +194,20 @@ class Feature {
 }
 
 class Combination {
-    private int current = 0b1;
+    private int current;
+    private int to;
+
+    public Combination(int from, int to) {
+        current = from;
+        this.to = to;
+    }
 
     public List<Integer> getNext() {
         List<Integer> l = new ArrayList<>();
+
+        if (current >= to)
+            return l;
+
         // get the positions of 1 bits
         String number = Integer.toBinaryString(current);
         int max = number.length() - 1;
@@ -213,7 +217,7 @@ class Combination {
                 l.add(max - i);
         }
         // increment the current value
-        current += 0b1;
+        current++;
         // return the current combination
         return l;
     }

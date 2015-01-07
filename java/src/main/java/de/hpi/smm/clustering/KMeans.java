@@ -97,6 +97,11 @@ public class KMeans {
     public void cleanUp() throws IOException {
         FileUtils.deleteDirectory(new File(INPUT_PATH));
         FileUtils.deleteDirectory(new File(OUTPUT_PATH));
+
+        // garbage collection
+        for (int j = 0; j < 3; j++){
+            System.gc();
+        }
     }
 
 

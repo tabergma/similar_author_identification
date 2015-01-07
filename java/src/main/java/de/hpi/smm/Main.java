@@ -17,7 +17,9 @@ import de.hpi.smm.helper.Util;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -39,10 +41,16 @@ public class Main {
         int limit = 1000;
         int minLength = 50;
 
+        if (args.length == 2){
+            Config.FROM_FEATURE_COMBINATION = Integer.parseInt(args[0]);
+            Config.TO_FEATURE_COMBINATION = Integer.parseInt(args[1]);
+        }
+        System.out.println(String.format("Combinations from %d to %d are evaluated.", Config.FROM_FEATURE_COMBINATION, Config.TO_FEATURE_COMBINATION));
+
         Util.switchErrorPrint(false);
 
-        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
-        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
+//        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
+//        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
         AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
 
 //        printSet(testSet3);
@@ -92,7 +100,9 @@ public class Main {
 
         if (Config.EVALUATE_FEATURES) {
             System.out.println("Evaluation of features...");
-            FeatureEvaluator.run(featureExtractor, testSet, readFeatureFile());
+            FeatureEvaluator.run(
+                    featureExtractor, testSet, readFeatureFile(),
+                    Config.FROM_FEATURE_COMBINATION, Config.TO_FEATURE_COMBINATION);
             return;
         }
 
