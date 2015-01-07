@@ -4,6 +4,24 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
         <link rel="stylesheet" href="http://getbootstrap.com/examples/starter-template/starter-template.css" />
+
+        <style type="text/css">
+            body {
+                text-align: center;
+            }
+            .blog-post-content {
+                margin: 80;
+            }
+            #run-button {
+                float: right;
+                width: 100;
+            }
+            .result-content {
+                text-align: center;
+            }
+
+        </style>
+
     </head>
 
     <body>
@@ -11,16 +29,17 @@
     <h1>Similar Author Identification</h1>
 
     <div class="blog-post-content">
-        <form class="form-horizontal" role="form" id='blog-post-form' method='POST' action='/'>
+        <form class="form-horizontal" role="form" id='blog-post-form' method='post' action='/'>
             <div class="form-group">
-                <label class="col-sm-3 control-label">Blog Post: </label>
-                <div class="col-sm-5">
-                    <input class="form-control" type='text' id="blog-post" name='blog-post' placeholder="Enter a blog post..." />
+                <h4 class="control-label" style="float: left">Blog Post</h4>
+                <br/>
+                <div>
+                    <textarea class="form-control" cols="20" rows="20" id="blog-post" name='blog-post' placeholder="Enter a blog post...">{{blog-post}}</textarea>
                 </div>
             </div>
         </form>
 
-        <input type='submit' value='Run' class="btn btn-primary" form='blog-post-form' />
+        <input type='submit' value='Run' class="btn btn-primary" id="run-button" form='blog-post-form' />
     </div>
 
     {{#result}}
@@ -29,8 +48,9 @@
         <div class="result-content">
             <h3>Result</h3>
             <br/>
-            for blog post: {{blog-post}}
-            <span>{{cluster}}</span>
+            The blog post belongs to <b>Cluster {{cluster}}</b>
+            <br/><br/>
+            <h4><b>{{cluster-name}}</b></h4>
         </div>
     {{/result}}
 

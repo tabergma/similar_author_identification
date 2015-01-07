@@ -31,23 +31,25 @@ public class Main {
         }, new MustacheTemplateEngine());
 
         post("/", (rq, rs) -> {
-            String blogPost = rq.queryMap().get("blog-post").value();
-            String assignedCluster = "";
             try {
-                assignedCluster = run(rq.queryMap().get("blog-post").value());
+                String blogPost = rq.queryMap().get("blog-post").value();
+                Cluster assignedCluster = run(blogPost);
+
+                map.put("cluster", assignedCluster.getNumber());
+                map.put("cluster-name", assignedCluster.getName());
+                map.put("blog-post", blogPost);
+                map.put("result", true);
+
             } catch (LangDetectException | IOException e) {
                 e.printStackTrace();
             }
-            map.put("cluster", assignedCluster);
-            map.put("blog-post", blogPost);
-            map.put("result", true);
 
             return new ModelAndView(map, "main.mustache");
         }, new MustacheTemplateEngine());
 
     }
 
-    private static String run(String content) throws LangDetectException, IOException {
+    private static Cluster run(String content) throws LangDetectException, IOException {
         // determine language of content
         DetectorFactory.clear();
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
@@ -63,7 +65,7 @@ public class Main {
         ClusterDetermination clusterDetermination = new ClusterDetermination();
         Cluster cluster = clusterDetermination.determineCluster(features);
 
-        return "The given text belongs to cluster " + cluster.getNumber() + ": " + cluster.getName() + ".";
+        return cluster;
     }
 
     private static String readFile(String filename) {
