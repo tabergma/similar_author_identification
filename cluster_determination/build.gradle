@@ -17,6 +17,7 @@ dependencies {
     compile 'com.sparkjava:spark-core:2.1'
     compile 'com.sparkjava:spark-template-mustache:1.0.0'
     compile 'org.apache.commons:commons-math3:3.0'
+    compile files('../resource/libsvm-java/libsvm.jar')
     compile files('../resource/ngdbc.jar')
     compile files('../resource/langdetect-03-03-2014/lib/jsonic-1.2.0.jar')
     compile files('../resource/langdetect-03-03-2014/lib/langdetect.jar')

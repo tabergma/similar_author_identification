@@ -32,6 +32,7 @@ import java.util.Map;
     - Naming clusters
     - Look into blog posts by hand: How can we improve cluster assigning for this blog?
     - Configuration of K-Means
+    - search for feature selection algorithmns?
  */
 
 public class Main {
@@ -40,7 +41,7 @@ public class Main {
         int limit = 1000;
         int minLength = 50;
 
-        Util.switchErrorPrint(false);
+//        Util.switchErrorPrint(false);
 
 //        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
 //        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
