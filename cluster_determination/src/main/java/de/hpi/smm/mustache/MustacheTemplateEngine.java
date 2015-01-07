@@ -20,7 +20,7 @@ package de.hpi.smm.mustache;
 import com.github.mustachejava.DefaultMustacheFactory;
 import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
-import org.eclipse.jetty.io.RuntimeIOException;
+import edu.stanford.nlp.io.RuntimeIOException;
 import spark.ModelAndView;
 import spark.TemplateEngine;
 
