@@ -18,6 +18,13 @@
             }
             .result-content {
                 text-align: center;
+                background-color: rgb(12, 144, 136);
+                margin-left: 350px;
+                margin-right: 305px;
+                padding: 20px;
+                color: white;
+                border: 2px solid;
+                border-radius: 25px;
             }
 
         </style>
@@ -31,10 +38,10 @@
     <div class="blog-post-content">
         <form class="form-horizontal" role="form" id='blog-post-form' method='post' action='/'>
             <div class="form-group">
-                <h4 class="control-label" style="float: left">Blog Post</h4>
-                <br/>
+                <h4 class="control-label" style="float: left">Blog Post (in German)</h4>
+                <br/><br/>
                 <div>
-                    <textarea class="form-control" cols="20" rows="20" id="blog-post" name='blog-post' placeholder="Enter a blog post...">{{blog-post}}</textarea>
+                    <textarea class="form-control" cols="20" rows="20" id="blog-post" name='blog-post' placeholder="Enter a blog post..." required>{{blog-post}}</textarea>
                 </div>
             </div>
         </form>
@@ -46,7 +53,7 @@
         <hr/>
 
         <div class="result-content">
-            <h3>Result</h3>
+            <h2>Result</h2>
             <br/>
             The blog post belongs to <b>Cluster {{cluster}}</b>
             <br/><br/>
