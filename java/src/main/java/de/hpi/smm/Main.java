@@ -13,6 +13,7 @@ import de.hpi.smm.evaluation.FeatureEvaluator;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
+import de.hpi.smm.helper.Util;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
 
@@ -40,7 +41,13 @@ public class Main {
         int limit = 1000;
         int minLength = 50;
 
-        //Util.switchErrorPrint(false);
+        if (args.length == 2){
+            Config.FROM_FEATURE_COMBINATION = Integer.parseInt(args[0]);
+            Config.TO_FEATURE_COMBINATION = Integer.parseInt(args[1]);
+        }
+        System.out.println(String.format("Combinations from %d to %d are evaluated.", Config.FROM_FEATURE_COMBINATION, Config.TO_FEATURE_COMBINATION));
+
+        Util.switchErrorPrint(false);
 
 //        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
 //        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
