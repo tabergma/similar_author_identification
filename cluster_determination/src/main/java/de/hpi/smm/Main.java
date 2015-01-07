@@ -30,7 +30,7 @@ public class Main {
             return new ModelAndView(map, "main.mustache");
         }, new MustacheTemplateEngine());
 
-        post("/cluster", (rq, rs) -> {
+        post("/", (rq, rs) -> {
             String clusterString = null;
             try {
                 clusterString = run("Dies ist ein Text.");

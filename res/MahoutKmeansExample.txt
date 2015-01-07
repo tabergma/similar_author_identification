@@ -1,6 +1,0 @@
-# kmeans example
-# https://mahout.apache.org/users/clustering/clustering-of-synthetic-control-data.html
-
-bin/mahout org.apache.mahout.clustering.syntheticcontrol.kmeans.Job
-
-bin/mahout clusterdump --input output/clusters-10-final --pointsDir clusteredPoints --output a1.txt

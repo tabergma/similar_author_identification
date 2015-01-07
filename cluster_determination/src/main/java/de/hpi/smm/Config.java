@@ -9,10 +9,10 @@ import java.util.Map;
 public class Config {
 
     // cluster information
-    public final static String CLUSTER_FILE = "../res/cluster.csv";
+    public final static String CLUSTER_FILE = "../resource/cluster.csv";
 
     // POS Tagger
-    public final static String MODEL_DIR = "../res/stanford-postagger-full-2014-08-27/models/";
+    public final static String MODEL_DIR = "../resource/stanford-postagger-full-2014-08-27/models/";
     public final static String ENGLISH_MODEL = "wsj-0-18-bidirectional-distsim.tagger";
     public final static String GERMAN_MODEL = "german-fast.tagger";
     //public final static String FRENCH_MODEL = "french.tagger";
@@ -25,11 +25,11 @@ public class Config {
     //private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
 
     // Features
-    public final static String FUNCTION_WORD_FILE = "../res/FunctionWords_de.txt";
-    public final static String ABBREVIATIONS_FILE = "../res/Abbreviations_de.txt";
+    public final static String FUNCTION_WORD_FILE = "../resource/FunctionWords_de.txt";
+    public final static String ABBREVIATIONS_FILE = "../resource/Abbreviations_de.txt";
 
     // Language detector
-    public final static String PROFILES_DIR = "resources/langdetect-03-03-2014/profiles/";
+    public final static String PROFILES_DIR = "../resource/langdetect-03-03-2014/profiles/";
 
     // Data sets
     public static final String LOCAL_SETS_PATH = "../localDataSets/";
