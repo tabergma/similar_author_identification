@@ -7,9 +7,11 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
+import org.apache.mahout.clustering.iterator.ClusterWritable;
 import org.apache.mahout.math.NamedVector;
 import org.apache.mahout.math.Vector;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,6 +42,26 @@ public class ClusterAnalyzer {
         }
 
         reader.close();
+
+        SequenceFile.Reader reader1 = new SequenceFile.Reader(fs, new Path(getLastClusterFile()), conf);
+        IntWritable key1 = new IntWritable();
+        ClusterWritable value1 = new ClusterWritable();
+        while (reader1.next(key1, value1)) {
+
+            System.out.println(value1.getValue().getCenter()+ " ------------ "
+                    + key1.toString());
+        }
+        reader1.close();
+    }
+
+    private String getLastClusterFile() {
+        for (int i = Config.MAX_ITERATIONS; i > 0 ; i--) {
+            String path = String.format(Config.CLUSTER_CENTER_FILE, i);
+            if (new File(path).isFile()){
+                return path;
+            }
+        }
+        throw new RuntimeException("FATAL ERROR: Cluster center file not found!");
     }
 
     private void addClusterPoint(WeightedPropertyVectorWritable value) {

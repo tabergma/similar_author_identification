@@ -14,6 +14,7 @@ public class Config {
     public final static String FEATURE_INPUT_PATH = KMEANS_DATA + "points";
     public final static String CLUSTER_INPUT_PATH = KMEANS_DATA + "clusters";
     public final static String CLUSTER_FILE = KMEANS_OUPUT + "clusteredPoints/part-m-00000";
+    public static final String CLUSTER_CENTER_FILE = KMEANS_OUPUT + "clusters-%d/part-r-00000";
 
     // Parameters for K-Means
     public final static int K = 6;
