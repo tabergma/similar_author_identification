@@ -9,16 +9,47 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class ClusterDetermination {
 
     List<Cluster> clusters = new ArrayList<>();
 
-    public Cluster determineCluster(List<Float> features) throws IOException {
+    public ClusterDetermination() throws IOException {
         readClusterFile();
+    }
 
-        // TODO find nearest cluster
+    public Cluster determineCluster(List<Float> features) {
+        Float[] blogPostPoint = features.toArray(new Float[features.size()]);
 
-        return clusters.get(0);
+        double[] distances = new double[clusters.size()];
+        for (int i = 0; i < clusters.size(); i++) {
+            distances[i] = getEuclideanDistance(clusters.get(i).getPoint(), blogPostPoint);
+        }
+
+        int index = findClusterWithSmallestDistance(distances);
+        return clusters.get(index);
+    }
+
+    private double getEuclideanDistance(Float[] pointA, Float[] pointB) {
+        double sum = 0.0;
+        for(int i = 0; i < pointA.length; i++) {
+            sum = sum + Math.pow((pointA[i] - pointB[i]), 2.0);
+        }
+        return Math.sqrt(sum);
+    }
+
+    private int findClusterWithSmallestDistance(double[] distances) {
+        double smallest = Integer.MAX_VALUE;
+        int index = 0;
+
+        for(int i = 0; i < distances.length; i++) {
+            if(smallest > distances[i]) {
+                smallest = distances[i];
+                index = i;
+            }
+        }
+
+        return index;
     }
 
     public void readClusterFile() throws IOException {
@@ -37,7 +68,7 @@ public class ClusterDetermination {
                 points[i - 2] = Float.valueOf(l[i]);
             }
 
-            cluster.setPoints(points);
+            cluster.setPoint(points);
 
             clusters.add(cluster);
         }

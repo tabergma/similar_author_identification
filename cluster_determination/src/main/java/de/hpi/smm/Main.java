@@ -61,11 +61,14 @@ public class Main {
         FeatureExtractor featureExtractor = new FeatureExtractor();
         List<Float> features = featureExtractor.getFeatures(content, lang);
 
+        features.clear();
+        features.add(2.5f);
+        features.add(2.5f);
+        features.add(2.5f);
+
         // calculate distance to each cluster and select the nearest one
         ClusterDetermination clusterDetermination = new ClusterDetermination();
-        Cluster cluster = clusterDetermination.determineCluster(features);
-
-        return cluster;
+        return clusterDetermination.determineCluster(features);
     }
 
     private static String readFile(String filename) {

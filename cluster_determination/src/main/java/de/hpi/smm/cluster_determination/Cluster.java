@@ -5,14 +5,14 @@ public class Cluster {
 
     private int number;
     private String name;
-    private Float[] points;
+    private Float[] point;
 
-    public Float[] getPoints() {
-        return points;
+    public Float[] getPoint() {
+        return point;
     }
 
-    public void setPoints(Float[] points) {
-        this.points = points;
+    public void setPoint(Float[] point) {
+        this.point = point;
     }
 
     public String getName() {
@@ -22,7 +22,7 @@ public class Cluster {
     public void setName(String name) {
         this.name = name;
     }
-
+    
     public int getNumber() {
         return number;
     }
