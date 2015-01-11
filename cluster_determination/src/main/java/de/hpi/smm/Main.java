@@ -3,7 +3,6 @@ package de.hpi.smm;
 
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
-import com.cybozu.labs.langdetect.LangDetectException;
 import de.hpi.smm.cluster_determination.Cluster;
 import de.hpi.smm.cluster_determination.ClusterDetermination;
 import de.hpi.smm.features.FeatureExtractor;
@@ -37,10 +36,11 @@ public class Main {
 
                 map.put("cluster", assignedCluster.getNumber());
                 map.put("cluster-name", assignedCluster.getName());
+                map.put("cluster-labels", assignedCluster.getLabels());
                 map.put("blog-post", blogPost);
                 map.put("result", true);
 
-            } catch (LangDetectException | IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 rs.redirect("/error");
             }
@@ -51,7 +51,7 @@ public class Main {
         get("/error", (rq, rs) -> new ModelAndView(map, "error.mustache"), new MustacheTemplateEngine());
     }
 
-    private static Cluster run(String content) throws LangDetectException, IOException {
+    private static Cluster run(String content) throws Exception {
         // determine language of content
         DetectorFactory.clear();
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
@@ -62,11 +62,6 @@ public class Main {
         // extract features for content
         FeatureExtractor featureExtractor = new FeatureExtractor();
         List<Float> features = featureExtractor.getFeatures(content, lang);
-
-//        features.clear();
-//        features.add(2.5f);
-//        features.add(2.5f);
-//        features.add(2.5f);
 
         // calculate distance to each cluster and select the nearest one
         ClusterDetermination clusterDetermination = new ClusterDetermination();

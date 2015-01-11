@@ -63,11 +63,17 @@ public class ClusterDetermination {
             cluster.setNumber(Integer.parseInt(l[0]));
             cluster.setName(l[1]);
 
-            Float[] points = new Float[l.length - 2];
-            for (int i = 2; i < l.length; i++) {
-                points[i - 2] = Float.valueOf(l[i]);
+            String[] labelsStr = l[2].split(";");
+            List<String> labels = new ArrayList<>();
+            for (String label : labelsStr) {
+                labels.add(label);
             }
+            cluster.setLabels(labels);
 
+            Float[] points = new Float[l.length - 3];
+            for (int i = 3; i < l.length; i++) {
+                points[i - 3] = Float.valueOf(l[i]);
+            }
             cluster.setPoint(points);
 
             clusters.add(cluster);

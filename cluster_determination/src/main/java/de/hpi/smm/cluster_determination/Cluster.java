@@ -1,10 +1,13 @@
 package de.hpi.smm.cluster_determination;
 
 
+import java.util.List;
+
 public class Cluster {
 
     private int number;
     private String name;
+    private List<String> labels;
     private Float[] point;
 
     public Float[] getPoint() {
@@ -29,5 +32,13 @@ public class Cluster {
 
     public void setNumber(int number) {
         this.number = number;
+    }
+
+    public List<String> getLabels() {
+        return labels;
+    }
+
+    public void setLabels(List<String> labels) {
+        this.labels = labels;
     }
 }
