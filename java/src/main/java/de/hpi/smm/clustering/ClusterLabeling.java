@@ -43,8 +43,8 @@ public class ClusterLabeling {
                 }
             }
 
-            maxCluster.addName("MAX: " + feature.name);
-            minCluster.addName("MIN: " + feature.name);
+            if (maxCluster != null) maxCluster.addLabel(feature.maxName);
+            if (minCluster != null) minCluster.addLabel(feature.minName);
         }
 
         return this.centroids;

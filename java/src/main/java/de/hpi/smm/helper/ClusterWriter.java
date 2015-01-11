@@ -3,7 +3,6 @@ package de.hpi.smm.helper;
 
 import de.hpi.smm.Config;
 import de.hpi.smm.clustering.ClusterCentroid;
-import de.hpi.smm.drawing.Cluster;
 import de.hpi.smm.evaluation.EvaluationResult;
 
 import java.io.File;
@@ -54,6 +53,13 @@ public class ClusterWriter {
             centerWriter.print(cc.getId());
             centerWriter.print(",");
             centerWriter.print(cc.getName());
+            centerWriter.print(",");
+            // write labels
+            for (String label : cc.getLabels()) {
+                centerWriter.print(label);
+                centerWriter.print(";");
+            }
+            // write points
             for (Double value : cc.getValues()) {
                 centerWriter.print(",");
                 centerWriter.print(value);

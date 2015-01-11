@@ -31,4 +31,19 @@ public class WordLengthFeature extends AbstractTokenFeature {
         return "WordLengthFeature";
     }
 
+    @Override
+    public String getMaxName() {
+        return "Cluster with the longest words.";
+    }
+
+    @Override
+    public String getMinName() {
+        return "Cluster with the smallest words.";
+    }
+
+    @Override
+    public String getMeaningfulName() {
+        return "Length of words.";
+    }
+
 }

@@ -42,4 +42,19 @@ public class SentenceLengthFeature extends AbstractTextFeature {
     public String getName() {
         return "SentenceLengthFeature";
     }
+
+    @Override
+    public String getMaxName() {
+        return "Cluster with the longest sentences.";
+    }
+
+    @Override
+    public String getMinName() {
+        return "Cluster with the shortest sentences.";
+    }
+
+    @Override
+    public String getMeaningfulName() {
+        return "Length of sentences.";
+    }
 }

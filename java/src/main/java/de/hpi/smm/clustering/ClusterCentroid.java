@@ -9,12 +9,14 @@ public class ClusterCentroid {
     private int id;
 
     private String name;
+    private List<String> labels;
     private List<Double> values;
 
     public ClusterCentroid(int id, String name, List<Double> values) {
         this.id = id;
         this.name = name;
         this.values = values;
+        this.labels = new ArrayList<>();
     }
 
     public static ClusterCentroid createFromVector(int id, String name, Vector centerVector){
@@ -29,12 +31,20 @@ public class ClusterCentroid {
         return name;
     }
 
-    public void addName(String name) {
-        this.name += "; " + name;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void addLabel(String label) {
+        this.labels.add(label);
     }
 
     public List<Double> getValues() {
         return values;
+    }
+
+    public List<String> getLabels() {
+        return labels;
     }
 
     public int getId() {

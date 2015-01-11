@@ -47,6 +47,21 @@ public class EmoticonFeature extends AbstractTokenFeature {
         return "EmoticonFeature";
     }
 
+    @Override
+    public String getMaxName() {
+        return "Cluster with the highest usage of emoticons.";
+    }
+
+    @Override
+    public String getMinName() {
+        return "Cluster with the lowest usage of emoticons.";
+    }
+
+    @Override
+    public String getMeaningfulName() {
+        return "Usage of emoticons.";
+    }
+
     public static List<String> getEmoticons() {
         if (emoticons == null){
             emoticons = new ArrayList<String>();

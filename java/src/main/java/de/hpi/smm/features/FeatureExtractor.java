@@ -66,6 +66,7 @@ public class FeatureExtractor {
         this.tokenFeatureList.add(new CapitalLetterFeature(1.0f));
         this.tokenFeatureList.add(new UpperCaseFeature(1.0f));
         this.tokenFeatureList.add(new WordFrequencyFeature(1.0f));
+        this.tokenFeatureList.add(new SingleWordFrequencyFeature(1.0f));
         this.tokenFeatureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
         this.tokenFeatureList.add(new EmoticonFeature(1.0f));
         this.tokenFeatureList.add(new PostLengthFeature(1.0f));
@@ -93,6 +94,9 @@ public class FeatureExtractor {
         for (AbstractTokenFeature tokenFeature : this.tokenFeatureList) {
             index2Feature.put(index, getFeature(
                     tokenFeature.getName(),
+                    tokenFeature.getMaxName(),
+                    tokenFeature.getMinName(),
+                    tokenFeature.getMeaningfulName(),
                     offset,
                     offset + tokenFeature.getNumberOfFeatures()
             ));
@@ -103,6 +107,9 @@ public class FeatureExtractor {
         for (AbstractTextFeature textFeature : this.textFeatureList) {
             index2Feature.put(index, getFeature(
                     textFeature.getName(),
+                    textFeature.getMaxName(),
+                    textFeature.getMinName(),
+                    textFeature.getMeaningfulName(),
                     offset,
                     offset + textFeature.getNumberOfFeatures()
             ));
@@ -113,10 +120,17 @@ public class FeatureExtractor {
         return index2Feature;
     }
 
-    private Feature getFeature(String name, int start, int end) {
+    private Feature getFeature(String name,
+                               String maxName,
+                               String minName,
+                               String meaningfulName,
+                               int start, int end) {
         // Create feature
         Feature feature = new Feature();
         feature.name = name;
+        feature.maxName = maxName;
+        feature.minName = minName;
+        feature.meaningfulName = meaningfulName;
         feature.start = start;
         feature.end = end;
         return feature;

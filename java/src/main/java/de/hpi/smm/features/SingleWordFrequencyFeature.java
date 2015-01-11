@@ -6,12 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class WordFrequencyFeature extends AbstractTokenFeature {
+public class SingleWordFrequencyFeature extends AbstractTokenFeature {
 
     private Map<String, MutableInt> frequencies = new HashMap<String, MutableInt>();
-    private int wordCount = 0;
 
-    public WordFrequencyFeature(float weight) {
+    public SingleWordFrequencyFeature(float weight) {
         super(weight);
     }
 
@@ -24,15 +23,21 @@ public class WordFrequencyFeature extends AbstractTokenFeature {
         } else {
             count.increment();
         }
-        wordCount++;
     }
 
     @Override
     public Float[] getFeatures() {
         Float[] features = new Float[1];
 
-        // average number of occurrences per word
-        features[0] = (float) wordCount / frequencies.size();
+        int singleOccurringWordCount = 0;
+        for (MutableInt count : frequencies.values()) {
+            if (count.get() == 1){
+                singleOccurringWordCount++;
+            }
+        }
+
+        // percentage of words that occur only once
+        features[0] = (float) singleOccurringWordCount / frequencies.size();
 
         return features;
     }
@@ -44,22 +49,22 @@ public class WordFrequencyFeature extends AbstractTokenFeature {
 
     @Override
     public String getName() {
-        return "WordFrequencyFeature";
+        return "SingleWordFrequencyFeature";
     }
 
     @Override
     public String getMaxName() {
-        return "Cluster with the highest average number of occurrences per word.";
+        return "Cluster with the highest number of words that occur only once.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the lowest average number of occurrences per word.";
+        return "Cluster with the lowest number of words that occur only once.";
     }
 
     @Override
     public String getMeaningfulName() {
-        return "Frequency of words.";
+        return "Number of words that occur only once.";
     }
 
 }

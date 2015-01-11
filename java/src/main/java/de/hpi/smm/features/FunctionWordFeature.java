@@ -59,6 +59,21 @@ public class FunctionWordFeature extends AbstractTokenFeature {
         return "FunctionWordFeature";
     }
 
+    @Override
+    public String getMaxName() {
+        return "Cluster with the most function words.";
+    }
+
+    @Override
+    public String getMinName() {
+        return "Cluster with the fewest function words.";
+    }
+
+    @Override
+    public String getMeaningfulName() {
+        return "Number of function words.";
+    }
+
     public static List<String> getFunctionWords() {
         if (functionWords == null){
             functionWords = new ArrayList<String>();

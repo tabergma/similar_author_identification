@@ -52,4 +52,19 @@ public class PosTagFeature extends AbstractTokenFeature {
     public String getName() {
         return "PosTagFeature";
     }
+
+    @Override
+    public String getMaxName() {
+        return "Cluster with the highest frequency of POS tags.";
+    }
+
+    @Override
+    public String getMinName() {
+        return "Cluster with the lowest frequency of POS tags.";
+    }
+
+    @Override
+    public String getMeaningfulName() {
+        return "Frequency of POS tags.";
+    }
 }

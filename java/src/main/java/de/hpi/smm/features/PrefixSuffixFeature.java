@@ -80,6 +80,21 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
         return "PrefixSuffixFeature";
     }
 
+    @Override
+    public String getMaxName() {
+        return "Cluster with the highest frequency of same prefixes and suffixes.";
+    }
+
+    @Override
+    public String getMinName() {
+        return "Cluster with the lowest frequency of same prefixes and suffixes.";
+    }
+
+    @Override
+    public String getMeaningfulName() {
+        return "Frequency of prefixes and suffixes.";
+    }
+
     public static List<String> getPrefixSuffix() {
         if (prefixSuffix == null) {
             // List of all characters

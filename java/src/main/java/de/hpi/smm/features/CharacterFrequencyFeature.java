@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class CharacterFrequencyFeature extends AbstractTokenFeature {
+public class  CharacterFrequencyFeature extends AbstractTokenFeature {
 
     private Float[] features;
     private int letterCount = 0;
@@ -56,6 +56,21 @@ public class CharacterFrequencyFeature extends AbstractTokenFeature {
     @Override
     public String getName() {
         return "CharacterFrequencyFeature";
+    }
+
+    @Override
+    public String getMaxName() {
+        return "Cluster with the highest frequency of certain characters.";
+    }
+
+    @Override
+    public String getMinName() {
+        return "Cluster with the lowest frequency of certain characters.";
+    }
+
+    @Override
+    public String getMeaningfulName() {
+        return "Frequency of certain characters.";
     }
 
     public static List<Character> getLetters() {

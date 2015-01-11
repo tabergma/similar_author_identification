@@ -24,4 +24,10 @@ public abstract class AbstractTokenFeature {
 
     public abstract String getName();
 
+    public abstract String getMaxName();
+
+    public abstract String getMinName();
+
+    public abstract String getMeaningfulName();
+
 }

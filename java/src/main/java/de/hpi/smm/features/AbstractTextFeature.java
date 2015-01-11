@@ -24,4 +24,10 @@ public abstract class AbstractTextFeature {
     public abstract int getNumberOfFeatures();
 
     public abstract String getName();
+
+    public abstract String getMaxName();
+
+    public abstract String getMinName();
+
+    public abstract String getMeaningfulName();
 }
