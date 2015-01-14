@@ -16,8 +16,11 @@ public abstract class AbstractDataSet implements TestSet {
     protected int limit = -1;
     protected int authorId = 0;
 
-    AbstractDataSet (int limit){
+    private String setName;
+
+    AbstractDataSet (int limit, String setName){
         this.limit = limit;
+        this.setName = setName;
     }
 
     protected void putAuthorName(String authorName) {
@@ -27,6 +30,10 @@ public abstract class AbstractDataSet implements TestSet {
             nameAuthorMapping.put(authorName, author);
         }
         authors.put(documentId++, author);
+    }
+
+    public String getSetName() {
+        return setName;
     }
 
     public Author getAuthor() {

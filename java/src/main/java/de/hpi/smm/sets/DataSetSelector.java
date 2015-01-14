@@ -8,14 +8,14 @@ public class DataSetSelector {
     public static final int SPINNER_SET = 2;
 
     public static AbstractDataSet getDataSet(int selectedSet, int minLength, int limit) {
-        LocalSet localSet = new LocalSet(getLocalSetPath(selectedSet));
+        LocalSet localSet = new LocalSet(getLocalSetPath(selectedSet), getSetName(selectedSet));
         if (!localSet.hasSize(limit)){
             System.out.println(String.format("Set %s does not have size %d, downloading local copy...", getSetName(selectedSet), limit));
-            HanaSet hanaSet = new HanaSet(selectedSet, limit);
+            HanaSet hanaSet = new HanaSet(selectedSet, limit, getSetName(selectedSet));
             hanaSet.applyMinimumLength(minLength);
             SetDownloader setDownloader = new SetDownloader(hanaSet, getLocalSetPath(selectedSet));
             setDownloader.run();
-            return new LocalSet(getLocalSetPath(selectedSet));
+            return new LocalSet(getLocalSetPath(selectedSet), getSetName(selectedSet));
         }
         return localSet;
     }
@@ -24,15 +24,15 @@ public class DataSetSelector {
         switch(selectedSet){
             case GERMAN_SET:
             {
-                return "german set";
+                return "german_set";
             }
             case SMM_SET:
             {
-                return "smm set";
+                return "smm_set";
             }
             case SPINNER_SET:
             {
-                return "spinner set";
+                return "spinner_set";
             }
             default:
             {

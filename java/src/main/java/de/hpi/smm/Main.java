@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import libsvm.*;
+
 /*
     TODO
     - Feature evaluation: Find best combination of features
@@ -51,6 +53,28 @@ public class Main {
 
 //        printSet(testSet3);
         clusterSet(testSet3);
+        svmCluster(testSet3);
+    }
+
+    private static void svmCluster(AbstractDataSet testSet) {
+        svm_parameter param = new svm_parameter();
+        // default values
+        param.svm_type = svm_parameter.NU_SVC;
+        param.kernel_type = svm_parameter.RBF;
+        param.degree = 3;
+        param.gamma = 0;	// 1/num_features
+        param.coef0 = 0;
+        param.nu = 0.5;
+        param.cache_size = 100;
+        param.C = 1;
+        param.eps = 1e-3;
+        param.p = 0.1;
+        param.shrinking = 1;
+        param.probability = 0;
+        param.nr_weight = 0;
+        param.weight_label = new int[0];
+        param.weight = new double[0];
+//        cross_validation = 0;
     }
 
     private static void printSet(AbstractDataSet testSet) {
@@ -63,7 +87,7 @@ public class Main {
         System.out.println("Fetching data...");
 
         FeatureExtractor featureExtractor = new FeatureExtractor();
-        FeatureWriter featureWriter = new FeatureWriter();
+        FeatureWriter featureWriter = new FeatureWriter(testSet.getSetName());
 
         // Create language detector
         DetectorFactory.loadProfile(Config.PROFILES_DIR);

@@ -13,8 +13,8 @@ public class LocalSet extends AbstractDataSet implements TestSet {
     private List<File> posts = new ArrayList<File>();
     private int i = -1;
 
-    public LocalSet (String path) {
-        super(-1);
+    public LocalSet (String path, String setName) {
+        super(-1, setName);
         File filePath = new File(path);
         if (!filePath.isDirectory()){
             return;

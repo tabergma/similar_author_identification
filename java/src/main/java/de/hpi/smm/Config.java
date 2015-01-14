@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Config {
+    // resource folder
+    public final static String RESOURCE_FOLDER = "../resource/";
 
     // Directories for K-Means
     public final static String KMEANS_OUPUT = "output/";
@@ -29,7 +31,7 @@ public class Config {
     public final static String RESULT_CLUSTER_PATH = RESULT_PATH + "clusters/";
     public final static String FEATURE_FILE = RESULT_PATH + "features.txt";
     public final static String FEATURE_SEPERATOR= " ";
-    public final static String SVM_FEATURE_FILE = RESULT_PATH + "features.svm";
+    public final static String SVM_FEATURE_FILE = RESOURCE_FOLDER + "%s_features.svm";
     public static final String SVM_SEPARATOR = " ";
     public static final String KEY_VALUE_SEPARATOR = ":";
     public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
@@ -48,7 +50,7 @@ public class Config {
     public final static String PASSWORD = "Popcorn54";
 
     // POS Tagger
-    public final static String MODEL_DIR = "../resource/stanford-postagger-full-2014-08-27/models/";
+    public final static String MODEL_DIR = RESOURCE_FOLDER + "stanford-postagger-full-2014-08-27/models/";
     public final static String ENGLISH_MODEL = "wsj-0-18-bidirectional-distsim.tagger";
     public final static String GERMAN_MODEL = "german-fast.tagger";
     //public final static String FRENCH_MODEL = "french.tagger";
@@ -61,14 +63,14 @@ public class Config {
     //private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
 
     // Features
-    public final static String FUNCTION_WORD_FILE = "../resource/FunctionWords_de.txt";
-    public final static String ABBREVIATIONS_FILE = "../resource/Abbreviations_de.txt";
+    public final static String FUNCTION_WORD_FILE = RESOURCE_FOLDER + "FunctionWords_de.txt";
+    public final static String ABBREVIATIONS_FILE = RESOURCE_FOLDER + "Abbreviations_de.txt";
 
     // Language detector
-    public final static String PROFILES_DIR = "../resource/langdetect-03-03-2014/profiles/";
+    public final static String PROFILES_DIR = RESOURCE_FOLDER + "langdetect-03-03-2014/profiles/";
 
     // cluster center
-    public static final String CLUSTER_CENTER_OUTPUT = "../resource/cluster.csv";
+    public static final String CLUSTER_CENTER_OUTPUT = RESOURCE_FOLDER + "cluster.csv";
 
     // blog posts
     public static final String BLOG_POST_OUTPUT = "../resource/blog_posts.csv";

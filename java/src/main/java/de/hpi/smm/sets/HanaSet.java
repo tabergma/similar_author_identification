@@ -17,8 +17,8 @@ public class HanaSet extends AbstractDataSet implements TestSet {
 
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
-    public HanaSet(int dataSet, int limit) {
-        super(limit);
+    public HanaSet(int dataSet, int limit, String setName) {
+        super(limit, setName);
         this.dataSet = dataSet;
         String statement;
 
