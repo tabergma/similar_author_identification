@@ -25,7 +25,7 @@ public class ClusterAnalyzer {
     private List<BlogPost> blogPost = new ArrayList<>();
     private List<ClusterCentroid> centers = new ArrayList<ClusterCentroid>();
 
-    public void analyze() throws IOException {
+    public void analyzeMahout() throws IOException {
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
 
@@ -91,7 +91,7 @@ public class ClusterAnalyzer {
         return cluster2document;
     }
 
-    public List<BlogPost> getBlogPost() {
+    public List<BlogPost> getBlogPosts() {
         return blogPost;
     }
 

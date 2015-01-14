@@ -15,6 +15,7 @@ import de.hpi.smm.evaluation.FeatureEvaluator;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
+import de.hpi.smm.libsvm.svm_train;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.DataSetSelector;
 
@@ -24,8 +25,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import libsvm.*;
 
 /*
     TODO
@@ -61,34 +60,17 @@ public class Main {
         } else {
             ClusterAnalyzer analyzer;
             if (Config.USE_SVM_TO_CLUSTER){
-                analyzer = svmCluster(testSet);
+                svmCluster(testSet);
             } else {
                 analyzer = mahoutCluster(testSet);
+                evaluateAndWriteFiles(analyzer, testSet);
             }
-            evaluateAndWriteFiles(analyzer, testSet);
         }
     }
 
-    private static ClusterAnalyzer svmCluster(AbstractDataSet testSet) {
-        svm_parameter param = new svm_parameter();
-        // default values
-        param.svm_type = svm_parameter.NU_SVC;
-        param.kernel_type = svm_parameter.RBF;
-        param.degree = 3;
-        param.gamma = 0;    // 1/num_features
-        param.coef0 = 0;
-        param.nu = 0.5;
-        param.cache_size = 100;
-        param.C = 1;
-        param.eps = 1e-3;
-        param.p = 0.1;
-        param.shrinking = 1;
-        param.probability = 0;
-        param.nr_weight = 0;
-        param.weight_label = new int[0];
-        param.weight = new double[0];
-//        cross_validation = 0;
-        return new ClusterAnalyzer();
+    private static void svmCluster(AbstractDataSet testSet) throws IOException {
+        String[] args = {Config.SVM_FEATURE_FILE};
+        svm_train.main(args);
     }
 
     private static void printSet(AbstractDataSet testSet) {
@@ -99,7 +81,7 @@ public class Main {
 
     private static void extractFeatures(AbstractDataSet testSet) throws Exception {
         FeatureExtractor featureExtractor = new FeatureExtractor();
-        FeatureWriter featureWriter = new FeatureWriter(testSet.getSetName());
+        FeatureWriter featureWriter = new FeatureWriter();
 
         // Create language detector
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
@@ -144,7 +126,7 @@ public class Main {
 
         System.out.println("Analyze clusters...");
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
-        analyzer.analyze();
+        analyzer.analyzeMahout();
 
         System.out.println("Clean up...");
         kMeans.cleanUp();
@@ -177,7 +159,7 @@ public class Main {
         System.out.println("Writing cluster files...");
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
-        ClusterWriter.writeBlogPosts(analyzer.getBlogPost());
+        ClusterWriter.writeBlogPosts(analyzer.getBlogPosts());
     }
 
     private static List<List<Float>> readFeatureFile() throws IOException {

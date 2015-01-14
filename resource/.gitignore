@@ -1,1 +1,3 @@
 *.csv
+*.svm
+*.svm.model

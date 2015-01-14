@@ -5,7 +5,6 @@ import de.hpi.smm.Config;
 import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.features.Feature;
-import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
 
@@ -57,8 +56,8 @@ public class FeatureEvaluator {
             // run k-Means
             kMeans.run(featureCombination);
 
-            // analyze cluster
-            analyzer.analyze();
+            // analyzeMahout cluster
+            analyzer.analyzeMahout();
 
             // calculate F-Measure, Precision, Recall
             List<EvaluationResult> resultList = evaluator.evaluate(testSet, analyzer.getCluster2document());
