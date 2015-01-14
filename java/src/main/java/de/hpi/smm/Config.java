@@ -30,8 +30,9 @@ public class Config {
     public final static String RESULT_PATH = "result/";
     public final static String RESULT_CLUSTER_PATH = RESULT_PATH + "clusters/";
     public final static String FEATURE_FILE = RESULT_PATH + "features.txt";
-    public final static String FEATURE_SEPERATOR= " ";
-    public final static String SVM_FEATURE_FILE = RESOURCE_FOLDER + "%s_features.svm";
+    public final static String FEATURE_SEPARATOR = " ";
+    public static final boolean USE_SVM_TO_CLUSTER = false;
+    public final static String SVM_FEATURE_FILE = RESULT_PATH + "features.svm";
     public static final String SVM_SEPARATOR = " ";
     public static final String KEY_VALUE_SEPARATOR = ":";
     public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
@@ -73,7 +74,7 @@ public class Config {
     public static final String CLUSTER_CENTER_OUTPUT = RESOURCE_FOLDER + "cluster.csv";
 
     // blog posts
-    public static final String BLOG_POST_OUTPUT = "../resource/blog_posts.csv";
+    public static final String BLOG_POST_OUTPUT = RESOURCE_FOLDER + "blog_posts.csv";
 
     // Data sets
     public static final String LOCAL_SETS_PATH = "../localDataSets/";

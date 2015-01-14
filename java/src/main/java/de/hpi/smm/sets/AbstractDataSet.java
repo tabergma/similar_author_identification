@@ -16,7 +16,8 @@ public abstract class AbstractDataSet implements TestSet {
     protected int limit = -1;
     protected int authorId = 0;
 
-    private String setName;
+    protected String setName;
+    private List<String> documentTexts;
 
     AbstractDataSet (int limit, String setName){
         this.limit = limit;
@@ -58,5 +59,15 @@ public abstract class AbstractDataSet implements TestSet {
 
     public int getCurrentDocumentId() {
         return documentId;
+    }
+
+    abstract public AbstractDataSet getNewCopy();
+
+    public void saveTexts(List<String> documentTexts) {
+        this.documentTexts = documentTexts;
+    }
+
+    public List<String> getDocumentTexts(){
+        return documentTexts;
     }
 }

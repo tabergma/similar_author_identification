@@ -26,7 +26,7 @@ public class FeatureWriter {
 
     public void writeFeaturesForAllDocuments(List<List<Float>> features) {
         for(List<Float> documentFeatures: features) {
-            String line = StringUtils.join(documentFeatures, Config.FEATURE_SEPERATOR);
+            String line = StringUtils.join(documentFeatures, Config.FEATURE_SEPARATOR);
             this.writer.println(line);
         }
 
@@ -34,7 +34,7 @@ public class FeatureWriter {
     }
 
     public void writeFeaturesForDocument(List<Float> features, int authorId) {
-        String line = StringUtils.join(features, Config.FEATURE_SEPERATOR);
+        String line = StringUtils.join(features, Config.FEATURE_SEPARATOR);
         this.writer.println(line);
 
         this.svmWriter.print(authorId);

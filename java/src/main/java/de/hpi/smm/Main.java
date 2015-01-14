@@ -47,22 +47,35 @@ public class Main {
 
 //        Util.switchErrorPrint(false);
 
+        System.out.println("Fetching data...");
 //        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
 //        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
         AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
 
-//        printSet(testSet3);
-        clusterSet(testSet3);
-        svmCluster(testSet3);
+        AbstractDataSet testSet = testSet3;
+
+//        printSet(testSet);
+        extractFeatures(testSet);
+        if (Config.EVALUATE_FEATURES) {
+            evaluateAllFeatures(testSet);
+        } else {
+            ClusterAnalyzer analyzer;
+            if (Config.USE_SVM_TO_CLUSTER){
+                analyzer = svmCluster(testSet);
+            } else {
+                analyzer = mahoutCluster(testSet);
+            }
+            evaluateAndWriteFiles(analyzer, testSet);
+        }
     }
 
-    private static void svmCluster(AbstractDataSet testSet) {
+    private static ClusterAnalyzer svmCluster(AbstractDataSet testSet) {
         svm_parameter param = new svm_parameter();
         // default values
         param.svm_type = svm_parameter.NU_SVC;
         param.kernel_type = svm_parameter.RBF;
         param.degree = 3;
-        param.gamma = 0;	// 1/num_features
+        param.gamma = 0;    // 1/num_features
         param.coef0 = 0;
         param.nu = 0.5;
         param.cache_size = 100;
@@ -75,17 +88,16 @@ public class Main {
         param.weight_label = new int[0];
         param.weight = new double[0];
 //        cross_validation = 0;
+        return new ClusterAnalyzer();
     }
 
     private static void printSet(AbstractDataSet testSet) {
-        while (testSet.next()){
+        while (testSet.next()) {
             System.out.println(testSet.getText());
         }
     }
 
-    private static void clusterSet(AbstractDataSet testSet) throws Exception {
-        System.out.println("Fetching data...");
-
+    private static void extractFeatures(AbstractDataSet testSet) throws Exception {
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter(testSet.getSetName());
 
@@ -97,7 +109,7 @@ public class Main {
         int i = 0;
         List<String> documentTexts = new ArrayList<String>();
         List<Float> features;
-        while (testSet.next()){
+        while (testSet.next()) {
             String content = testSet.getText();
             if (content != null) {
                 // detect language
@@ -111,19 +123,21 @@ public class Main {
                 featureWriter.writeFeaturesForDocument(features, testSet.getAuthor().getId());
                 documentTexts.add(content);
             }
-            if (++i % 100 == 0){
-                System.out.println(String.format("Features from %d documents extracted...",i));
+            if (++i % 100 == 0) {
+                System.out.println(String.format("Features from %d documents extracted...", i));
             }
         }
+        testSet.saveTexts(documentTexts);
 
         featureWriter.close();
+    }
 
-        if (Config.EVALUATE_FEATURES) {
-            System.out.println("Evaluation of features...");
-            FeatureEvaluator.run(featureExtractor, testSet, readFeatureFile());
-            return;
-        }
+    private static void evaluateAllFeatures(AbstractDataSet testSet) throws Exception {
+        System.out.println("Evaluation of features...");
+        FeatureEvaluator.run(FeatureExtractor.getIndexToFeatureMap(), testSet, readFeatureFile());
+    }
 
+    private static ClusterAnalyzer mahoutCluster(AbstractDataSet testSet) throws Exception {
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
         kMeans.run(readFeatureFile());
@@ -132,8 +146,15 @@ public class Main {
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         analyzer.analyze();
 
+        System.out.println("Clean up...");
+        kMeans.cleanUp();
+
+        return analyzer;
+    }
+
+    private static void evaluateAndWriteFiles(ClusterAnalyzer analyzer, AbstractDataSet testSet) throws Exception {
         System.out.println("Labeling clusters...");
-        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), featureExtractor.getIndex2FeatureMap());
+        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), FeatureExtractor.getIndexToFeatureMap());
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
 
         System.out.println("Calculate precision...");
@@ -154,12 +175,9 @@ public class Main {
         Drawing.drawInWindow(twoFeatures);
 
         System.out.println("Writing cluster files...");
-        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
+        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
         ClusterWriter.writeBlogPosts(analyzer.getBlogPost());
-
-        System.out.println("Clean up...");
-        kMeans.cleanUp();
     }
 
     private static List<List<Float>> readFeatureFile() throws IOException {

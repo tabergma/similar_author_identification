@@ -20,11 +20,7 @@ public class FeatureExtractor {
         // Create POS tagger
         tagger = Config.lang2tagger.get(lang);
 
-        // Initialize features
-        this.tokenFeatureList = new ArrayList<AbstractTokenFeature>();
-        this.textFeatureList = new ArrayList<AbstractTextFeature>();
-        addAllTokenFeatures();
-        addAllTextFeatures();
+        initializeFeatures();
 
         // Tokenize text
         List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text),
@@ -57,6 +53,19 @@ public class FeatureExtractor {
         }
 
         return featureValues;
+    }
+
+    private void initializeFeatures(){
+        this.tokenFeatureList = new ArrayList<AbstractTokenFeature>();
+        this.textFeatureList = new ArrayList<AbstractTextFeature>();
+        addAllTokenFeatures();
+        addAllTextFeatures();
+    }
+
+    public static Map<Integer, Feature> getIndexToFeatureMap(){
+        FeatureExtractor featureExtractor = new FeatureExtractor();
+        featureExtractor.initializeFeatures();
+        return featureExtractor.getIndex2FeatureMap();
     }
 
     public void addAllTokenFeatures() {

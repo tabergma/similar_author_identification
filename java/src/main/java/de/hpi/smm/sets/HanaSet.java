@@ -48,6 +48,11 @@ public class HanaSet extends AbstractDataSet implements TestSet {
         this.resultSet = dbAdapter.executeQuery(statement);
     }
 
+    @Override
+    public AbstractDataSet getNewCopy() {
+        return new HanaSet(this.dataSet, this.limit, this.setName);
+    }
+
     public boolean next() {
         if (isLimitReached()){
             return false;
@@ -102,4 +107,5 @@ public class HanaSet extends AbstractDataSet implements TestSet {
         }
         return new String(hexChars);
     }
+
 }

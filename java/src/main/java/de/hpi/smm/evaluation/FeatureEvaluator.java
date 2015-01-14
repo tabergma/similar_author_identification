@@ -28,10 +28,7 @@ public class FeatureEvaluator {
     private static double sumPrecision;
     private static double sumRecall;
 
-    public static void run(FeatureExtractor featureExtractor, AbstractDataSet testSet, List<List<Float>> features) throws Exception {
-        // build index - feature map
-        index2Feature = featureExtractor.getIndex2FeatureMap();
-
+    public static void run(Map<Integer, Feature> index2Feature, AbstractDataSet testSet, List<List<Float>> features) throws Exception {
         // Build all combinations of features
         List<Integer> l = new ArrayList<Integer>();
         l.addAll(index2Feature.keySet());

@@ -12,9 +12,11 @@ import java.util.*;
 public class LocalSet extends AbstractDataSet implements TestSet {
     private List<File> posts = new ArrayList<File>();
     private int i = -1;
+    private String path;
 
     public LocalSet (String path, String setName) {
         super(-1, setName);
+        this.path = path;
         File filePath = new File(path);
         if (!filePath.isDirectory()){
             return;
@@ -43,6 +45,11 @@ public class LocalSet extends AbstractDataSet implements TestSet {
 
     public Author getAuthor() {
         return authors.get(i);
+    }
+
+    @Override
+    public AbstractDataSet getNewCopy() {
+        return new LocalSet(path, setName);
     }
 
     private String fileToString(File file) {
