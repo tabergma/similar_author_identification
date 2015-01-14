@@ -49,12 +49,22 @@ public class WordFrequencyFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "Cluster with the highest average number of occurrences per word.";
+        return "the highest average number of occurrences per word.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the lowest average number of occurrences per word.";
+        return "the lowest average number of occurrences per word.";
+    }
+
+    @Override
+    public String getHighName() {
+        return "a high average number of occurrences per word.";
+    }
+
+    @Override
+    public String getLowName() {
+        return "a low average number of occurrences per word.";
     }
 
     @Override

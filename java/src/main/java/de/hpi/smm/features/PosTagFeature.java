@@ -55,12 +55,22 @@ public class PosTagFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "Cluster with the highest frequency of POS tags.";
+        return "the highest frequency of POS tags.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the lowest frequency of POS tags.";
+        return "the lowest frequency of POS tags.";
+    }
+
+    @Override
+    public String getHighName() {
+        return "a high frequency of POS tags.";
+    }
+
+    @Override
+    public String getLowName() {
+        return "a low frequency of POS tags.";
     }
 
     @Override

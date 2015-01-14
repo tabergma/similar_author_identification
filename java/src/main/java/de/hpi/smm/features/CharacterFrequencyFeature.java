@@ -60,12 +60,22 @@ public class  CharacterFrequencyFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "Cluster with the highest frequency of certain characters.";
+        return "the highest frequency of certain characters.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the lowest frequency of certain characters.";
+        return "the lowest frequency of certain characters.";
+    }
+
+    @Override
+    public String getHighName() {
+        return "a high frequency of certain characters.";
+    }
+
+    @Override
+    public String getLowName() {
+        return "a low frequency of certain characters.";
     }
 
     @Override

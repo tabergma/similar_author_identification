@@ -136,7 +136,7 @@ public class Main {
 
     private static void evaluateAndWriteFiles(ClusterAnalyzer analyzer, AbstractDataSet testSet) throws Exception {
         System.out.println("Labeling clusters...");
-        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), FeatureExtractor.getIndexToFeatureMap());
+        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), analyzer.getCluster2document(),FeatureExtractor.getIndexToFeatureMap());
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
 
         System.out.println("Calculate precision...");

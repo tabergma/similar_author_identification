@@ -44,12 +44,22 @@ public class CapitalLetterFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "Cluster with the most capital letters.";
+        return "the most capital letters.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the fewest capital letters.";
+        return "the fewest capital letters.";
+    }
+
+    @Override
+    public String getHighName() {
+        return "many capital letters.";
+    }
+
+    @Override
+    public String getLowName() {
+        return "only a few capital letters.";
     }
 
     @Override

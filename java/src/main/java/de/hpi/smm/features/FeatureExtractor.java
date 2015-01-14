@@ -1,7 +1,6 @@
 package de.hpi.smm.features;
 
 import de.hpi.smm.Config;
-import de.hpi.smm.helper.Util;
 import edu.stanford.nlp.ling.HasWord;
 import edu.stanford.nlp.ling.TaggedWord;
 import edu.stanford.nlp.process.PTBTokenizer;
@@ -105,6 +104,8 @@ public class FeatureExtractor {
                     tokenFeature.getName(),
                     tokenFeature.getMaxName(),
                     tokenFeature.getMinName(),
+                    tokenFeature.getHighName(),
+                    tokenFeature.getLowName(),
                     tokenFeature.getMeaningfulName(),
                     offset,
                     offset + tokenFeature.getNumberOfFeatures()
@@ -118,6 +119,8 @@ public class FeatureExtractor {
                     textFeature.getName(),
                     textFeature.getMaxName(),
                     textFeature.getMinName(),
+                    textFeature.getHighName(),
+                    textFeature.getLowName(),
                     textFeature.getMeaningfulName(),
                     offset,
                     offset + textFeature.getNumberOfFeatures()
@@ -132,6 +135,8 @@ public class FeatureExtractor {
     private Feature getFeature(String name,
                                String maxName,
                                String minName,
+                               String highName,
+                               String lowName,
                                String meaningfulName,
                                int start, int end) {
         // Create feature
@@ -139,6 +144,8 @@ public class FeatureExtractor {
         feature.name = name;
         feature.maxName = maxName;
         feature.minName = minName;
+        feature.highName = highName;
+        feature.lowName = lowName;
         feature.meaningfulName = meaningfulName;
         feature.start = start;
         feature.end = end;

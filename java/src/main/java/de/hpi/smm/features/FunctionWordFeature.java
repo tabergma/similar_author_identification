@@ -61,12 +61,22 @@ public class FunctionWordFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "Cluster with the most function words.";
+        return "the most function words.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the fewest function words.";
+        return "the fewest function words.";
+    }
+
+    @Override
+    public String getHighName() {
+        return "a lot function words.";
+    }
+
+    @Override
+    public String getLowName() {
+        return "only a few function words.";
     }
 
     @Override
