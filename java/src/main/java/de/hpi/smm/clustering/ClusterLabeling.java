@@ -9,8 +9,8 @@ import java.util.Map;
 
 public class ClusterLabeling {
 
-    private static double SIGNIFICANT_BELOW = 66.0;
-    private static double SIGNIFICANT_OVER = 150.0;
+    private final static double SIGNIFICANT_BELOW = 66.0;
+    private final static double SIGNIFICANT_OVER = 150.0;
 
     List<ClusterCentroid> centroids;
     private Map<Integer, List<Integer>> cluster2document = new HashMap<Integer, List<Integer>>();

@@ -82,7 +82,7 @@ public class FeatureExtractor {
     }
 
     public void addAllTextFeatures() {
-        this.textFeatureList.add(new BlankLineAndParagraphFeature(1.0f));
+        this.textFeatureList.add(new ParagraphFeature(1.0f));
         this.textFeatureList.add(new SentenceLengthFeature(1.0f));
     }
 
