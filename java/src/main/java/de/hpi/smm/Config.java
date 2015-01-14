@@ -29,6 +29,9 @@ public class Config {
     public final static String RESULT_CLUSTER_PATH = RESULT_PATH + "clusters/";
     public final static String FEATURE_FILE = RESULT_PATH + "features.txt";
     public final static String FEATURE_SEPERATOR= " ";
+    public final static String SVM_FEATURE_FILE = RESULT_PATH + "features.svm";
+    public static final String SVM_SEPARATOR = " ";
+    public static final String KEY_VALUE_SEPARATOR = ":";
     public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
 
     // Evaluating features

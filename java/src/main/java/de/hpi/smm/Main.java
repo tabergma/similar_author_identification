@@ -84,7 +84,7 @@ public class Main {
                 features = featureExtractor.getFeatures(content, lang);
 
                 // write features
-                featureWriter.writeFeaturesForDocument(features);
+                featureWriter.writeFeaturesForDocument(features, testSet.getAuthor().getId());
                 documentTexts.add(content);
             }
             if (++i % 100 == 0){

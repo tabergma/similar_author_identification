@@ -91,6 +91,7 @@
     <orderEntry type="library" exported="" name="Gradle: commons-logging-1.1.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-httpclient-3.1" level="project" />
     <orderEntry type="module" module-name="similar_author_identification" />
+    <orderEntry type="library" exported="" name="Gradle: libsvm" level="project" />
   </component>
 </module>
 

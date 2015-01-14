@@ -4,17 +4,23 @@ public class Author implements Comparable<Author> {
 
     public static final String UNKNOWN = "UNKNOWN";
     private final String name;
+    private final int id;
 
-    public Author(String name){
+    public Author(int id, String name){
         if (name == null || name == UNKNOWN){
             this.name = null;
         } else {
             this.name = name;
         }
+        this.id = id;
     }
 
     public String getName() {
         return name;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public boolean isUnknown() {

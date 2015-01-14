@@ -41,6 +41,10 @@ public class LocalSet extends AbstractDataSet implements TestSet {
         return fileToString(posts.get(i));
     }
 
+    public Author getAuthor() {
+        return authors.get(i);
+    }
+
     private String fileToString(File file) {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = null;

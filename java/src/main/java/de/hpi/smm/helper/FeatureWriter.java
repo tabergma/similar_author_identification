@@ -12,6 +12,7 @@ import java.util.List;
 
 public class FeatureWriter {
 
+    private PrintWriter svmWriter;
     private PrintWriter writer;
 
     public FeatureWriter() throws FileNotFoundException, UnsupportedEncodingException {
@@ -20,6 +21,7 @@ public class FeatureWriter {
             dir.mkdir();
 
         this.writer = new PrintWriter(Config.FEATURE_FILE, "UTF-8");
+        this.svmWriter = new PrintWriter(Config.SVM_FEATURE_FILE, "UTF-8");
     }
 
     public void writeFeaturesForAllDocuments(List<List<Float>> features) {
@@ -31,9 +33,22 @@ public class FeatureWriter {
         close();
     }
 
-    public void writeFeaturesForDocument(List<Float> features) {
+    public void writeFeaturesForDocument(List<Float> features, int authorId) {
         String line = StringUtils.join(features, Config.FEATURE_SEPERATOR);
         this.writer.println(line);
+
+        this.svmWriter.print(authorId);
+        int i = 1;
+        for (Float f : features){
+            if (f != 0.0){
+                this.svmWriter.print(Config.SVM_SEPARATOR);
+                this.svmWriter.print(i);
+                this.svmWriter.print(Config.KEY_VALUE_SEPARATOR);
+                this.svmWriter.print(f);
+            }
+            i++;
+        }
+        this.svmWriter.println();
     }
 
     public void close() {
