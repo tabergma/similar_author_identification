@@ -88,9 +88,9 @@ public class ClusterLabeling {
                 // get percentage distance
                 double distance = getDistance(avgValue, clusterValue);
 
-                if (isSignificantOverAvg(distance)) {
+                if (isSignificantOverAvg(distance) && !cluster.getLabels().contains(feature.maxName)) {
                     cluster.addLabel(feature.highName);
-                } else if (isSignificantBelowAvg(distance)) {
+                } else if (isSignificantBelowAvg(distance) && !cluster.getLabels().contains(feature.minName)) {
                     cluster.addLabel(feature.lowName);
                 }
             }
