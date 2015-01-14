@@ -17,9 +17,13 @@ import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
 import de.hpi.smm.libsvm.svm_train;
 import de.hpi.smm.sets.AbstractDataSet;
+import de.hpi.smm.sets.Author;
 import de.hpi.smm.sets.DataSetSelector;
+import org.apache.commons.io.FileUtils;
+import org.apache.hadoop.util.StringUtils;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -69,12 +73,17 @@ public class Main {
     }
 
     private static void svmCluster(AbstractDataSet testSet) throws IOException {
-        String[] createModel = {"-q", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
-        svm_train.main(createModel);
+        // on command line
+        // java svm_train -s 0 -t 0 -b 1 -q ../features.svm ../features.svm.model
+        // java svm_predict -b 1 ../features.svm ../features.svm.model ../output
 
         // 10-fold cross validation
-        String[] validation = {"-q", "-v", "10", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        String[] validation = {"-q", "-t", "0", "-s", "0", "-v", "10", Config.SVM_FEATURE_FILE};
         svm_train.main(validation);
+
+        // create model
+        String[] createModel = {"-q", "-t", "0", "-s", "0", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        svm_train.main(createModel);
     }
 
     private static void printSet(AbstractDataSet testSet) {
@@ -116,6 +125,9 @@ public class Main {
         testSet.saveTexts(documentTexts);
 
         featureWriter.close();
+
+        List<Author> authors = testSet.getAuthors();
+        FileUtils.writeStringToFile(new File(Config.AUTHOR_FILE), org.apache.commons.lang.StringUtils.join(authors, Config.FEATURE_SEPARATOR));
     }
 
     private static void evaluateAllFeatures(AbstractDataSet testSet) throws Exception {

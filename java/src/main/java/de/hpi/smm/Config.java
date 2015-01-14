@@ -9,6 +9,8 @@ import java.util.Map;
 public class Config {
     // resource folder
     public final static String RESOURCE_FOLDER = "../resource/";
+    public static final String TEMP_FILE = RESOURCE_FOLDER + "features.tmp";
+    public static final String SVM_OUTPUT_FILE = RESOURCE_FOLDER + "output.tmp";
 
     // Directories for K-Means
     public final static String KMEANS_OUPUT = "output/";
@@ -35,7 +37,7 @@ public class Config {
     public static final boolean USE_SVM_TO_CLUSTER = true;
 
     public final static String SVM_FEATURE_FILE = RESULT_PATH + "features.svm";
-    public static final String SVM_MODEL_FILE = RESULT_PATH + "svm.model";
+    public static final String SVM_MODEL_FILE = RESOURCE_FOLDER + "currentModel.svm.model";
     public static final String SVM_SEPARATOR = " ";
     public static final String KEY_VALUE_SEPARATOR = ":";
 
@@ -80,6 +82,9 @@ public class Config {
     // blog posts
     public static final String BLOG_POST_OUTPUT = RESOURCE_FOLDER + "blog_posts.csv";
 
+    // authors
+    public static final String AUTHOR_FILE = RESOURCE_FOLDER + "authors.csv";
+
     // Data sets
     public static final String LOCAL_SETS_PATH = "../localDataSets/";
     public static final String LOCAL_GERMAN_SET_PATH = LOCAL_SETS_PATH + "german/";
@@ -97,4 +102,5 @@ public class Config {
 
         lang2tagger = Collections.unmodifiableMap(aMap);
     }
+
 }

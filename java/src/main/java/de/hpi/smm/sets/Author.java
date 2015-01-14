@@ -28,16 +28,8 @@ public class Author implements Comparable<Author> {
     }
 
     public int compareTo(Author other) {
-        if (this.isUnknown() && other.isUnknown()) {
-            return 0;
-        }
-        if (this.isUnknown()) {
-            return 1;
-        }
-        if (other.isUnknown()) {
-            return -1;
-        }
-        return this.getName().compareTo(other.getName());
+        Integer thisId = this.getId();
+        return thisId.compareTo(other.getId());
     }
 
     @Override

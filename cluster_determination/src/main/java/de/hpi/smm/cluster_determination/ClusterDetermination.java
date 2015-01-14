@@ -33,7 +33,7 @@ public class ClusterDetermination {
     }
 
     public void readClusterFile() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(Config.CLUSTER_FILE));
+        BufferedReader br = new BufferedReader(new FileReader(Config.CLUSTER_CENTER_OUTPUT));
 
         String line = "";
         while((line = br.readLine()) != null){
@@ -60,7 +60,7 @@ public class ClusterDetermination {
     }
 
     public void readBlogPostFile() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(Config.BLOG_POST_FILE));
+        BufferedReader br = new BufferedReader(new FileReader(Config.BLOG_POST_OUTPUT));
 
         String line = "";
         while((line = br.readLine()) != null){
