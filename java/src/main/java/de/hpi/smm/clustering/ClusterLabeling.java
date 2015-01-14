@@ -17,6 +17,12 @@ public class ClusterLabeling {
     }
 
     public List<ClusterCentroid> labelClusters() {
+        method1();
+
+        return this.centroids;
+    }
+
+    private void method1() {
         for (Feature feature : index2Feature.values()) {
             double min = 1.0;
             double max = 0.0;
@@ -46,7 +52,9 @@ public class ClusterLabeling {
             if (maxCluster != null) maxCluster.addLabel(feature.maxName);
             if (minCluster != null) minCluster.addLabel(feature.minName);
         }
+    }
 
-        return this.centroids;
+    private void method2() {
+        // TODO implement method 2
     }
 }
