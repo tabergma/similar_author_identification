@@ -15,7 +15,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +41,7 @@ public class Main {
                 map.put("cluster-name", assignedCluster.getName());
                 map.put("cluster-labels", assignedCluster.getLabels());
                 map.put("blog-post", blogPost);
+                map.put("svm", Config.USE_SVM_TO_CLUSTER);
                 map.put("result", true);
 
             } catch (Exception e) {
@@ -99,12 +99,10 @@ public class Main {
         String result = FileUtils.readFileToString(new File(Config.SVM_OUTPUT_FILE));
         String authorIdString = result.split("\n")[1].split(" ")[0];
         Integer authorId = Math.round(Float.parseFloat(authorIdString));
+
         Cluster c = new Cluster();
-        c.setName(authorId.toString());
+        c.setName(authorNames[authorId]);
         c.setNumber(authorId);
-        List<String> authorName = new ArrayList<String>();
-        authorName.add(authorNames[authorId]);
-        c.setLabels(authorName);
         return c;
     }
 

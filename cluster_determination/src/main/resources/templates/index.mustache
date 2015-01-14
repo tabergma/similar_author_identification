@@ -65,16 +65,21 @@
             <br/>
             The blog post belongs to
             <br/><br/>
-            <h4><b>Cluster {{cluster}}</b></h4>
-            <br/>
-            <div class="cluster-label-div">
-                Cluster with
-                <ul>
-                {{#cluster-labels}}
-                    <li>{{.}}
-                {{/cluster-labels}}
-                </ul>
-            </div>
+            {{#svm}}
+                <h4><b>Cluster {{cluster-name}}</b></h4>
+            {{/svm}}
+            {{^svm}}
+                <h4><b>Cluster {{cluster}}</b></h4>
+                <br/>
+                <div class="cluster-label-div">
+                    Cluster with
+                    <ul>
+                    {{#cluster-labels}}
+                        <li>{{.}}
+                    {{/cluster-labels}}
+                    </ul>
+                </div>
+            {{/svm}}
         </div>
     {{/result}}
 
