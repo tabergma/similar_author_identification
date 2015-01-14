@@ -32,7 +32,7 @@ public class WordFrequencyFeature extends AbstractTokenFeature {
         Float[] features = new Float[1];
 
         // average number of occurrences per word
-        features[0] = (float) wordCount / frequencies.size();
+        features[0] = (float) frequencies.size() / (float) wordCount;
 
         return features;
     }
