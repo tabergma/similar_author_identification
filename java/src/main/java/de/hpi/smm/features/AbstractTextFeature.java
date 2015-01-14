@@ -29,5 +29,9 @@ public abstract class AbstractTextFeature {
 
     public abstract String getMinName();
 
+    public abstract String getHighName();
+
+    public abstract String getLowName();
+
     public abstract String getMeaningfulName();
 }

@@ -59,12 +59,22 @@ public class BlankLineAndParagraphFeature extends AbstractTextFeature {
 
     @Override
     public String getMaxName() {
-        return "Cluster with the most blank lines and the longest paragraphs.";
+        return "the most blank lines and the longest paragraphs.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the fewest blank lines and the smallest paragraphs.";
+        return "the fewest blank lines and the smallest paragraphs.";
+    }
+
+    @Override
+    public String getHighName() {
+        return "many blank lines and long paragraphs.";
+    }
+
+    @Override
+    public String getLowName() {
+        return "only a few blank lines and small paragraphs.";
     }
 
     @Override

@@ -82,12 +82,22 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "Cluster with the highest frequency of same prefixes and suffixes.";
+        return "the highest frequency of same prefixes and suffixes.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the lowest frequency of same prefixes and suffixes.";
+        return "the lowest frequency of same prefixes and suffixes.";
+    }
+
+    @Override
+    public String getHighName() {
+        return "a high frequency of same prefixes and suffixes.";
+    }
+
+    @Override
+    public String getLowName() {
+        return "a low frequency of same prefixes and suffixes.";
     }
 
     @Override

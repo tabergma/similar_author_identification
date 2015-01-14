@@ -8,6 +8,7 @@
         <style type="text/css">
             body {
                 text-align: center;
+                overflow: hidden;
             }
             .blog-post-content {
                 margin: 80;
@@ -25,6 +26,13 @@
                 color: white;
                 border: 2px solid;
                 border-radius: 25px;
+                clear: left;
+                position: relative;
+            }
+            .cluster-label-div {
+                clear: both;
+                text-align: left;
+                margin-left: 25%;
             }
 
         </style>
@@ -41,7 +49,7 @@
                 <h4 class="control-label" style="float: left">Blog Post (in German)</h4>
                 <br/><br/>
                 <div>
-                    <textarea class="form-control" cols="20" rows="20" id="blog-post" name='blog-post' placeholder="Enter a blog post..." required>{{blog-post}}</textarea>
+                    <textarea class="form-control" cols="20" rows="20" id="blog-post" name='blog-post' placeholder="Enter a blog post..." required="required">{{blog-post}}</textarea>
                 </div>
             </div>
         </form>
@@ -55,13 +63,18 @@
         <div class="result-content">
             <h2>Result</h2>
             <br/>
-            The blog post belongs to <b>Cluster {{cluster}}</b>
+            The blog post belongs to
             <br/><br/>
-            <h4><b>{{cluster-name}}</b></h4>
+            <h4><b>Cluster {{cluster}}</b></h4>
             <br/>
+            <div class="cluster-label-div">
+                Cluster with
+                <ul>
                 {{#cluster-labels}}
-                    {{.}}<br/>
+                    <li>{{.}}
                 {{/cluster-labels}}
+                </ul>
+            </div>
         </div>
     {{/result}}
 

@@ -8,5 +8,7 @@ public class Feature {
     public String maxName;
     public String minName;
     public String meaningfulName;
+    public String highName;
+    public String lowName;
 
 }

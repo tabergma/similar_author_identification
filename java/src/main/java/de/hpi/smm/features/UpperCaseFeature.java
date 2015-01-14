@@ -44,12 +44,22 @@ public class UpperCaseFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "Cluster with the highest number of upper case words.";
+        return "the highest number of upper case words.";
     }
 
     @Override
     public String getMinName() {
-        return "Cluster with the lowest number of upper case words.";
+        return "the lowest number of upper case words.";
+    }
+
+    @Override
+    public String getHighName() {
+        return "a lot upper case words.";
+    }
+
+    @Override
+    public String getLowName() {
+        return "only a few upper case words.";
     }
 
     @Override
