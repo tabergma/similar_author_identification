@@ -69,8 +69,12 @@ public class Main {
     }
 
     private static void svmCluster(AbstractDataSet testSet) throws IOException {
-        String[] args = {Config.SVM_FEATURE_FILE};
-        svm_train.main(args);
+        String[] createModel = {"-q", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        svm_train.main(createModel);
+
+        // 10-fold cross validation
+        String[] validation = {"-q", "-v", "10", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        svm_train.main(validation);
     }
 
     private static void printSet(AbstractDataSet testSet) {
