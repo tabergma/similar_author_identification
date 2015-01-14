@@ -66,5 +66,6 @@ public class ClusterWriter {
             }
             centerWriter.println();
         }
+        centerWriter.close();
     }
 }
