@@ -70,6 +70,9 @@ public class Config {
     // cluster center
     public static final String CLUSTER_CENTER_OUTPUT = "../resource/cluster.csv";
 
+    // blog posts
+    public static final String BLOG_POST_OUTPUT = "../resource/blog_posts.csv";
+
     // Data sets
     public static final String LOCAL_SETS_PATH = "../localDataSets/";
     public static final String LOCAL_GERMAN_SET_PATH = LOCAL_SETS_PATH + "german/";

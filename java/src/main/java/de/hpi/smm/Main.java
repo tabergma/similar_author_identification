@@ -132,6 +132,7 @@ public class Main {
         System.out.println("Writing cluster files...");
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
+        ClusterWriter.writeBlogPosts(analyzer.getBlogPost());
 
         System.out.println("Clean up...");
         kMeans.cleanUp();

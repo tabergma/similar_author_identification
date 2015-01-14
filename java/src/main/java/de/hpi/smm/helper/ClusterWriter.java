@@ -2,6 +2,7 @@ package de.hpi.smm.helper;
 
 
 import de.hpi.smm.Config;
+import de.hpi.smm.clustering.BlogPost;
 import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.evaluation.EvaluationResult;
 
@@ -67,5 +68,21 @@ public class ClusterWriter {
             centerWriter.println();
         }
         centerWriter.close();
+    }
+
+    public static void writeBlogPosts(List<BlogPost> blogPosts) throws FileNotFoundException, UnsupportedEncodingException {
+        PrintWriter blogPostWriter = new PrintWriter(Config.BLOG_POST_OUTPUT, "UTF-8");
+        for (BlogPost bp : blogPosts){
+            blogPostWriter.print(bp.getClusterNumber());
+            blogPostWriter.print(",");
+            blogPostWriter.print(bp.getDocumentId());
+            // write points
+            for (Double value : bp.getPoint()) {
+                blogPostWriter.print(",");
+                blogPostWriter.print(value);
+            }
+            blogPostWriter.println();
+        }
+        blogPostWriter.close();
     }
 }

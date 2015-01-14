@@ -22,8 +22,7 @@ import java.util.Map;
 public class ClusterAnalyzer {
 
     private Map<Integer, List<Integer>> cluster2document = new HashMap<Integer, List<Integer>>();
-    private List<Map<Integer, Double>> points = new ArrayList<Map<Integer, Double>>();
-
+    private List<BlogPost> blogPost = new ArrayList<>();
     private List<ClusterCentroid> centers = new ArrayList<ClusterCentroid>();
 
     public void analyze() throws IOException {
@@ -36,11 +35,11 @@ public class ClusterAnalyzer {
         IntWritable key = new IntWritable();
         WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
         while (reader.next(key, value)) {
-            String documentId = ((NamedVector) value.getVector()).getName();
+            Integer documentId = Integer.parseInt(((NamedVector) value.getVector()).getName());
             int clusterId = key.get();
 
-            addClusterPoint(value);
-            addDocumentToCluster(clusterId, Integer.parseInt(documentId));
+            addBlogPost(value, clusterId, documentId);
+            addDocumentToCluster(clusterId, documentId);
         }
 
         reader.close();
@@ -64,16 +63,16 @@ public class ClusterAnalyzer {
         throw new RuntimeException("FATAL ERROR: Cluster center file not found!");
     }
 
-    private void addClusterPoint(WeightedPropertyVectorWritable value) {
+    private void addBlogPost(WeightedPropertyVectorWritable value, int clusterId, int documentId) {
         int featureNr = value.getVector().size();
         Vector vector = value.getVector();
+        double[] point = new double[featureNr];
 
-        Map<Integer, Double> docPoints = new HashMap<Integer, Double>();
         for (int i = 0; i < featureNr; i++) {
-            docPoints.put(i, vector.get(i));
+            point[i] = vector.get(i);
         }
 
-        this.points.add(docPoints);
+        this.blogPost.add(new BlogPost(clusterId, documentId, point));
     }
 
     private void addDocumentToCluster(int clusterId, int documentId) {
@@ -92,8 +91,8 @@ public class ClusterAnalyzer {
         return cluster2document;
     }
 
-    public List<Map<Integer, Double>> getPoints() {
-        return points;
+    public List<BlogPost> getBlogPost() {
+        return blogPost;
     }
 
     public List<ClusterCentroid> getCenters() {

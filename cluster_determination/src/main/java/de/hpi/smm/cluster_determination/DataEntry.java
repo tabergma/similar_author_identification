@@ -5,6 +5,9 @@ public class DataEntry {
     private int number;
     private Float[] point;
 
+    public DataEntry() {
+    }
+
     public DataEntry(int number, Float[] point) {
         this.number = number;
         this.point = point;
@@ -25,5 +28,7 @@ public class DataEntry {
     public void setNumber(int number) {
         this.number = number;
     }
+
+
 
 }

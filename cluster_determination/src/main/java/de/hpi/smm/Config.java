@@ -10,6 +10,8 @@ public class Config {
 
     // cluster information
     public final static String CLUSTER_FILE = "../resource/cluster.csv";
+    // blog posts
+    public static final String BLOG_POST_FILE = "../resource/blog_posts.csv";
 
     // POS Tagger
     public final static String MODEL_DIR = "../resource/stanford-postagger-full-2014-08-27/models/";
