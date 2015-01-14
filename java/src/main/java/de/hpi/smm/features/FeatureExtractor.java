@@ -67,10 +67,10 @@ public class FeatureExtractor {
         this.tokenFeatureList.add(new UpperCaseFeature(1.0f));
         this.tokenFeatureList.add(new WordFrequencyFeature(1.0f));
         this.tokenFeatureList.add(new SingleWordFrequencyFeature(1.0f));
-        this.tokenFeatureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
+        //this.tokenFeatureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
         this.tokenFeatureList.add(new EmoticonFeature(1.0f));
         this.tokenFeatureList.add(new PostLengthFeature(1.0f));
-        this.tokenFeatureList.add(new PrefixSuffixFeature(1.0f));
+        //this.tokenFeatureList.add(new PrefixSuffixFeature(1.0f));
     }
 
     public void addAllTextFeatures() {
