@@ -1,0 +1,60 @@
+<html>
+<head>
+    <title>Similar Author Identification</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="http://getbootstrap.com/examples/starter-template/starter-template.css" />
+
+    <style type="text/css">
+        body {
+            text-align: center;
+            overflow: hidden;
+        }
+        .result-content {
+            text-align: center;
+            background-color: rgb(12, 144, 136);
+            margin-left: 350px;
+            margin-right: 305px;
+            padding: 20px;
+            color: white;
+            border: 2px solid;
+            border-radius: 25px;
+            clear: left;
+            position: relative;
+        }
+        .cluster-label-div {
+            clear: both;
+            text-align: left;
+            margin-left: 25%;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Similar Author Identification</h1>
+<br/><br/><br/>
+<h4><b><a href="/">Back</a></b></h4>
+<br/><br/>
+{{#all-clusters}}
+    <div class="result-content">
+        <h4><b>Cluster {{number}}</b></h4>
+        <br/>
+        <div class="cluster-label-div">
+            Cluster with
+            <ul>
+                {{#labels}}
+                <li>{{.}}
+                {{/labels}}
+            </ul>
+        </div>
+    </div>
+    <br/><br/>
+{{/all-clusters}}
+<h4><b><a href="/">Back</a></b></h4>
+<br/><br/>
+
+</body>
+</html>

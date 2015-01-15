@@ -6,15 +6,15 @@ import com.cybozu.labs.langdetect.DetectorFactory;
 import de.hpi.smm.cluster_determination.Cluster;
 import de.hpi.smm.cluster_determination.ClusterDetermination;
 import de.hpi.smm.features.FeatureExtractor;
+import de.hpi.smm.helper.FileReader;
 import de.hpi.smm.libsvm.svm_predict;
 import de.hpi.smm.mustache.MustacheTemplateEngine;
 import org.apache.commons.io.FileUtils;
 import spark.ModelAndView;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +50,16 @@ public class Main {
             }
 
             return new ModelAndView(map, "index.mustache");
+        }, new MustacheTemplateEngine());
+
+        get("/clusters", (rq, rs) -> {
+            try {
+                map.put("all-clusters", FileReader.readClusterFile());
+            } catch (IOException e) {
+                map.put("all-clusters", new ArrayList<>());
+                e.printStackTrace();
+            }
+            return new ModelAndView(map, "cluster.mustache");
         }, new MustacheTemplateEngine());
 
         get("/error", (rq, rs) -> new ModelAndView(map, "error.mustache"), new MustacheTemplateEngine());
@@ -104,27 +114,6 @@ public class Main {
         c.setName(authorNames[authorId]);
         c.setNumber(authorId);
         return c;
-    }
-
-    private static String readFile(String filename) {
-        String content = "";
-        BufferedReader br = null;
-
-        try {
-            br = new BufferedReader(new FileReader(filename));
-            String line = br.readLine();
-
-            while (line != null) {
-                content += line;
-                content += "\n";
-                line = br.readLine();
-            }
-            br.close();
-        } catch (IOException e) {
-            System.err.println("Could not read file " + filename);
-        }
-
-        return content;
     }
 
 }
