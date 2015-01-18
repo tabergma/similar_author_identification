@@ -22,7 +22,7 @@ public class ClusterDetermination {
 //        int index = EuclideanDistance.getNearestCluster(clusters, blogPostPoint);
 
         KNearestNeighbour kNearestNeighbour = new KNearestNeighbour();
-        int index = kNearestNeighbour.getNearestCluster(dataEntries, clusters, blogPostPoint, 6);
+        int index = kNearestNeighbour.getNearestCluster(dataEntries, blogPostPoint, 6);
 
         return clusters.get(index);
     }

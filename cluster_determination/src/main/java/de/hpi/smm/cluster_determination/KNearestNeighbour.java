@@ -14,20 +14,12 @@ public class KNearestNeighbour{
     private int k;
     private List<DataEntry> dataSet;
     
-    public int getNearestCluster(List<DataEntry> documents, List<Cluster> clusters, Float[] point, int k) {
+    public int getNearestCluster(List<DataEntry> documents, Float[] point, int k) {
         this.k = k;
         this.dataSet = documents;
-        // add cluster points to data set
-        for (Cluster cluster : clusters) {
-            this.dataSet.add(new DataEntry(cluster.getNumber(), cluster.getPoint()));
-        }
         
         // classify new blog post
         return classify(point);
-    }
-
-    private void initialize(List<DataEntry> documents, List<Cluster> clusters) {
-
     }
 
     private Integer classify(Float[] point){
