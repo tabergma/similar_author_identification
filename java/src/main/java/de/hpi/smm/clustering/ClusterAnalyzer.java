@@ -66,7 +66,7 @@ public class ClusterAnalyzer {
     private void addBlogPost(WeightedPropertyVectorWritable value, int clusterId, int documentId) {
         int featureNr = value.getVector().size();
         Vector vector = value.getVector();
-        double[] point = new double[featureNr];
+        Double[] point = new Double[featureNr];
 
         for (int i = 0; i < featureNr; i++) {
             point[i] = vector.get(i);
