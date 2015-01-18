@@ -78,11 +78,11 @@ public class Main {
         // java svm_predict -b 1 ../features.svm ../features.svm.model ../output
 
         // 10-fold cross validation
-        String[] validation = {"-q", "-t", "0", "-s", "0", "-v", "10", Config.SVM_FEATURE_FILE};
+        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
         svm_train.main(validation);
 
         // create model
-        String[] createModel = {"-q", "-t", "0", "-s", "0", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
         svm_train.main(createModel);
     }
 
