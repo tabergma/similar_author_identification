@@ -1,7 +1,6 @@
 package de.hpi.smm.evaluation.cluster_determination;
 
 import de.hpi.smm.clustering.BlogPost;
-import de.hpi.smm.clustering.ClusterCentroid;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,21 +16,12 @@ public class KNearestNeighbor {
     private int k;
     private List<BlogPost> dataSet;
 
-    public int getNearestCluster(List<BlogPost> documents, List<ClusterCentroid> clusters, Double[] point, int k) {
+    public int getNearestCluster(List<BlogPost> documents, Double[] point, int k) {
         this.k = k;
         this.dataSet = documents;
-        // add cluster points to data set
-        for (ClusterCentroid cluster : clusters) {
-            this.dataSet.add(new BlogPost(cluster.getId(), cluster.getValues().toArray(new
-                    Double[cluster.getValues().size()])));
-        }
 
         // classify new blog post
         return classify(point);
-    }
-
-    private void initialize(List<BlogPost> documents, List<ClusterCentroid> clusters) {
-
     }
 
     private Integer classify(Double[] point){

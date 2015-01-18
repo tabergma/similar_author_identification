@@ -12,6 +12,7 @@ import de.hpi.smm.drawing.Point;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
+import de.hpi.smm.evaluation.cluster_determination.TenFoldCrossValidation;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
@@ -20,7 +21,6 @@ import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
 import de.hpi.smm.sets.DataSetSelector;
 import org.apache.commons.io.FileUtils;
-import org.apache.hadoop.util.StringUtils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -111,6 +111,10 @@ public class Main {
         System.out.println("Analyze clusters...");
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         analyzer.analyzeMahout();
+
+        System.out.println("10-fold cross validation...");
+        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
+        System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
 
         System.out.println("Clean up...");
         kMeans.cleanUp();
