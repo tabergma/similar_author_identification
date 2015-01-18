@@ -1,9 +1,7 @@
-package de.hpi.smm.libsvm;
-
+package de.hpi.smm.evaluation.cluster_determination;
 
 import de.hpi.smm.Config;
 import de.hpi.smm.clustering.BlogPost;
-import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

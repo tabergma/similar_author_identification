@@ -1,6 +1,7 @@
 package de.hpi.smm.libsvm;
 
 import libsvm.*;
+
 import java.io.*;
 import java.util.*;
 
@@ -61,7 +62,7 @@ public class svm_train {
         double sumv = 0, sumy = 0, sumvv = 0, sumyy = 0, sumvy = 0;
         double[] target = new double[prob.l];
 
-        svm.svm_cross_validation(prob,param,nr_fold,target);
+        svm.svm_cross_validation(prob, param, nr_fold, target);
         if(param.svm_type == svm_parameter.EPSILON_SVR ||
                 param.svm_type == svm_parameter.NU_SVR)
         {

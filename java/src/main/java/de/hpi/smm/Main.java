@@ -16,7 +16,7 @@ import de.hpi.smm.evaluation.cluster_determination.TenFoldCrossValidation;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
-import de.hpi.smm.libsvm.SvmFeatureWriter;
+import de.hpi.smm.evaluation.cluster_determination.SvmFeatureWriter;
 import de.hpi.smm.libsvm.svm_train;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
