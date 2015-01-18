@@ -58,41 +58,10 @@ public class Main {
         AbstractDataSet testSet = testSet3;
 
 //        printSet(testSet);
-        extractFeatures(testSet);
-        if (Config.EVALUATE_FEATURES) {
-            evaluateAllFeatures(testSet);
-        } else {
-            ClusterAnalyzer analyzer;
-            if (Config.USE_SVM_TO_CLUSTER){
-                svmCluster(testSet);
-            } else {
-                analyzer = mahoutCluster(testSet);
-                evaluateAndWriteFiles(analyzer, testSet);
-            }
-        }
+        clusterSet(testSet);
     }
 
-    private static void svmCluster(AbstractDataSet testSet) throws IOException {
-        // on command line
-        // java svm_train -s 0 -t 0 -b 1 -q ../features.svm ../features.svm.model
-        // java svm_predict -b 1 ../features.svm ../features.svm.model ../output
-
-        // 10-fold cross validation
-        String[] validation = {"-q", "-t", "0", "-s", "0", "-v", "10", Config.SVM_FEATURE_FILE};
-        svm_train.main(validation);
-
-        // create model
-        String[] createModel = {"-q", "-t", "0", "-s", "0", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
-        svm_train.main(createModel);
-    }
-
-    private static void printSet(AbstractDataSet testSet) {
-        while (testSet.next()) {
-            System.out.println(testSet.getText());
-        }
-    }
-
-    private static void extractFeatures(AbstractDataSet testSet) throws Exception {
+    private static void clusterSet(AbstractDataSet testSet) throws Exception {
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter();
 
@@ -128,14 +97,13 @@ public class Main {
 
         List<Author> authors = testSet.getAuthors();
         FileUtils.writeStringToFile(new File(Config.AUTHOR_FILE), org.apache.commons.lang.StringUtils.join(authors, Config.FEATURE_SEPARATOR));
-    }
 
-    private static void evaluateAllFeatures(AbstractDataSet testSet) throws Exception {
-        System.out.println("Evaluation of features...");
-        FeatureEvaluator.run(FeatureExtractor.getIndexToFeatureMap(), testSet, readFeatureFile());
-    }
+        if (Config.EVALUATE_FEATURES) {
+            System.out.println("Evaluation of features...");
+            FeatureEvaluator.run(featureExtractor.getIndex2FeatureMap(), testSet, readFeatureFile());
+            return;
+        }
 
-    private static ClusterAnalyzer mahoutCluster(AbstractDataSet testSet) throws Exception {
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
         kMeans.run(readFeatureFile());
@@ -147,12 +115,8 @@ public class Main {
         System.out.println("Clean up...");
         kMeans.cleanUp();
 
-        return analyzer;
-    }
-
-    private static void evaluateAndWriteFiles(ClusterAnalyzer analyzer, AbstractDataSet testSet) throws Exception {
         System.out.println("Labeling clusters...");
-        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), analyzer.getCluster2document(),FeatureExtractor.getIndexToFeatureMap());
+        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), analyzer.getCluster2document(),featureExtractor.getIndex2FeatureMap());
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
 
         System.out.println("Calculate precision...");
@@ -176,6 +140,26 @@ public class Main {
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
         ClusterWriter.writeBlogPosts(analyzer.getBlogPosts());
+    }
+
+    private static void svmCluster(AbstractDataSet testSet) throws IOException {
+        // on command line
+        // java svm_train -s 0 -t 0 -b 1 -q ../features.svm ../features.svm.model
+        // java svm_predict -b 1 ../features.svm ../features.svm.model ../output
+
+        // 10-fold cross validation
+        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
+        svm_train.main(validation);
+
+        // create model
+        String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        svm_train.main(createModel);
+    }
+
+    private static void printSet(AbstractDataSet testSet) {
+        while (testSet.next()) {
+            System.out.println(testSet.getText());
+        }
     }
 
     private static List<List<Float>> readFeatureFile() throws IOException {

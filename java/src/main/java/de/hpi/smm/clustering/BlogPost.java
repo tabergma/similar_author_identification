@@ -4,12 +4,17 @@ public class BlogPost {
 
     int clusterNumber;
     int documentId;
-    double[] point;
+    Double[] point;
 
-    public BlogPost(int clusterNumber, int documentId, double[] point) {
+    public BlogPost(int clusterNumber, int documentId, Double[] point) {
         this.clusterNumber = clusterNumber;
         this.point = point;
         this.documentId = documentId;
+    }
+
+    public BlogPost(int clusterNumber, Double[] point) {
+        this.clusterNumber = clusterNumber;
+        this.point = point;
     }
 
     public int getClusterNumber() {
@@ -28,11 +33,11 @@ public class BlogPost {
         this.documentId = documentId;
     }
 
-    public double[] getPoint() {
+    public Double[] getPoint() {
         return point;
     }
 
-    public void setPoint(double[] point) {
+    public void setPoint(Double[] point) {
         this.point = point;
     }
 }
