@@ -16,6 +16,7 @@ import de.hpi.smm.evaluation.cluster_determination.TenFoldCrossValidation;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
+import de.hpi.smm.libsvm.SvmFeatureWriter;
 import de.hpi.smm.libsvm.svm_train;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
@@ -115,6 +116,9 @@ public class Main {
         System.out.println("10-fold cross validation...");
         TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
         System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
+        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
+        svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
+        runSvmTenFoldCrossValidation();
 
         System.out.println("Clean up...");
         kMeans.cleanUp();
@@ -144,6 +148,12 @@ public class Main {
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
         ClusterWriter.writeBlogPosts(analyzer.getBlogPosts());
+    }
+
+    private static void runSvmTenFoldCrossValidation() throws IOException {
+        // 10-fold cross validation
+        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
+        svm_train.main(validation);
     }
 
     private static void svmCluster(AbstractDataSet testSet) throws IOException {
