@@ -33,22 +33,22 @@ public class WordLengthFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "the longest words.";
+        return "with the longest words.";
     }
 
     @Override
     public String getMinName() {
-        return "the smallest words.";
+        return "with the shortest words.";
     }
 
     @Override
     public String getHighName() {
-        return "long words.";
+        return "with long words.";
     }
 
     @Override
     public String getLowName() {
-        return "small words.";
+        return "with short words.";
     }
 
     @Override

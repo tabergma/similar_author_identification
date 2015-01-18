@@ -54,22 +54,22 @@ public class SingleWordFrequencyFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "the highest number of words that occur only once.";
+        return "containing the most words that occur only once.";
     }
 
     @Override
     public String getMinName() {
-        return "the lowest number of words that occur only once.";
+        return "containing the fewest words that occur only once.";
     }
 
     @Override
     public String getHighName() {
-        return "a lot words that occur only once.";
+        return "containing many words that occur only once.";
     }
 
     @Override
     public String getLowName() {
-        return "only a few words that occur only once.";
+        return "containing few words that occur only once.";
     }
 
     @Override

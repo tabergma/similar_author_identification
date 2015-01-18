@@ -49,22 +49,22 @@ public class EmoticonFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "the highest usage of emoticons.";
+        return "with emoticons.";
     }
 
     @Override
     public String getMinName() {
-        return "the lowest usage of emoticons.";
+        return "without emoticons.";
     }
 
     @Override
     public String getHighName() {
-        return "a high usage of emoticons.";
+        return "with emoticons.";
     }
 
     @Override
     public String getLowName() {
-        return "a low usage of emoticons.";
+        return "without emoticons.";
     }
 
     @Override

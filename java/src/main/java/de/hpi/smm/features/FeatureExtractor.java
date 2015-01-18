@@ -70,7 +70,8 @@ public class FeatureExtractor {
 
     public void addAllTokenFeatures() {
         this.tokenFeatureList.add(new WordLengthFeature(1.0f));
-        this.tokenFeatureList.add(new CharacterFrequencyFeature(1.0f));
+        this.tokenFeatureList.add(new PunctuationFrequencyFeature(1.0f));
+        this.tokenFeatureList.add(new NumberFrequencyFeature(1.0f));
         this.tokenFeatureList.add(new FunctionWordFeature(1.0f));
         this.tokenFeatureList.add(new CapitalLetterFeature(1.0f));
         this.tokenFeatureList.add(new UpperCaseFeature(1.0f));

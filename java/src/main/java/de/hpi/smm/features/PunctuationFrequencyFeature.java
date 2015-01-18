@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class  CharacterFrequencyFeature extends AbstractTokenFeature {
+public class  PunctuationFrequencyFeature extends AbstractTokenFeature {
 
     private Float[] features;
     private int letterCount = 0;
@@ -18,7 +18,7 @@ public class  CharacterFrequencyFeature extends AbstractTokenFeature {
     private static List<Character> letters;
 
 
-    public CharacterFrequencyFeature(float weight) {
+    public PunctuationFrequencyFeature(float weight) {
         super(weight);
         this.frequencies = new HashMap<Character, MutableInt>(getNumberOfFeatures());
         for (Character letter : getLetters()){
@@ -60,22 +60,22 @@ public class  CharacterFrequencyFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "the highest frequency of certain characters.";
+        return "containing the most punctuation characters.";
     }
 
     @Override
     public String getMinName() {
-        return "the lowest frequency of certain characters.";
+        return "containing the least punctuation characters.";
     }
 
     @Override
     public String getHighName() {
-        return "a high frequency of certain characters.";
+        return "containing many punctuation characters.";
     }
 
     @Override
     public String getLowName() {
-        return "a low frequency of certain characters.";
+        return "containing few punctuation characters";
     }
 
     @Override
@@ -112,24 +112,23 @@ public class  CharacterFrequencyFeature extends AbstractTokenFeature {
 //            letters.add('X');
 //            letters.add('Y');
 //            letters.add('Z');
-            letters.add('0');
-            letters.add('1');
-            letters.add('2');
-            letters.add('3');
-            letters.add('4');
-            letters.add('5');
-            letters.add('6');
-            letters.add('7');
-            letters.add('8');
-            letters.add('9');
+//            letters.add('0');
+//            letters.add('1');
+//            letters.add('2');
+//            letters.add('3');
+//            letters.add('4');
+//            letters.add('5');
+//            letters.add('6');
+//            letters.add('7');
+//            letters.add('8');
+//            letters.add('9');
             letters.add(',');
             letters.add('.');
             letters.add(';');
             letters.add(':');
-//            letters.add('-');
+            letters.add('-');
 //            letters.add('_');
 //            letters.add('#');
-//            letters.add('\'');
 //            letters.add('+');
 //            letters.add('*');
             letters.add('?');
@@ -138,12 +137,13 @@ public class  CharacterFrequencyFeature extends AbstractTokenFeature {
 //            letters.add('�');
 //            letters.add('$');
 //            letters.add('%');
-//            letters.add('&');
+            letters.add('&');
 //            letters.add('/');
 //            letters.add('\\');
 //            letters.add('=');
             letters.add('(');
             letters.add(')');
+            letters.add('\'');
 //            letters.add('{');
 //            letters.add('}');
 //            letters.add('[');

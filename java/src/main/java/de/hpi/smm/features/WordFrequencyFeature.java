@@ -49,22 +49,22 @@ public class WordFrequencyFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "the highest average number of occurrences per word.";
+        return "with the least diverse vocabulary.";
     }
 
     @Override
     public String getMinName() {
-        return "the lowest average number of occurrences per word.";
+        return "with the most diverse vocabulary.";
     }
 
     @Override
     public String getHighName() {
-        return "a high average number of occurrences per word.";
+        return "with a small vocabulary diversity.";
     }
 
     @Override
     public String getLowName() {
-        return "a low average number of occurrences per word.";
+        return "with a very diverse vocabulary.";
     }
 
     @Override

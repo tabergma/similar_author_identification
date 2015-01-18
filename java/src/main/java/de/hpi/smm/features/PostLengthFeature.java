@@ -31,22 +31,22 @@ public class PostLengthFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "the longest blog posts.";
+        return "with the longest posts.";
     }
 
     @Override
     public String getMinName() {
-        return "the smallest blog posts.";
+        return "with the shortest posts.";
     }
 
     @Override
     public String getHighName() {
-        return "long blog posts.";
+        return "with long posts.";
     }
 
     @Override
     public String getLowName() {
-        return "small blog posts.";
+        return "with short posts.";
     }
 
     @Override
