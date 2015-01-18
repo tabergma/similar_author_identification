@@ -1,11 +1,7 @@
 package de.hpi.smm.features;
 
-import de.hpi.smm.helper.MutableInt;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class  NumberFrequencyFeature extends AbstractTokenFeature {
@@ -20,6 +16,7 @@ public class  NumberFrequencyFeature extends AbstractTokenFeature {
 
     public NumberFrequencyFeature(float weight) {
         super(weight);
+        getNumberCharacters();
         
         this.features = new Float[getNumberOfFeatures()];
         this.letterCount = 0;
