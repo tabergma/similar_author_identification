@@ -18,10 +18,11 @@
                 width: 100;
             }
             .result-content {
+                font-size: 1.5em;
                 text-align: center;
                 background-color: rgb(12, 144, 136);
-                margin-left: 350px;
-                margin-right: 305px;
+                margin-left: 10%;
+                margin-right: 10%;
                 padding: 20px;
                 color: white;
                 border: 2px solid;
@@ -32,7 +33,7 @@
             .cluster-label-div {
                 clear: both;
                 text-align: left;
-                margin-left: 25%;
+                margin-left: 20%;
             }
             #cluster_view {
                 margin-right: 80;
@@ -55,7 +56,7 @@
                 <h4 class="control-label" style="float: left">Blog Post (in German)</h4>
                 <br/><br/>
                 <div>
-                    <textarea class="form-control" cols="20" rows="20" id="blog-post" name='blog-post' placeholder="Enter a blog post..." required="required">{{blog-post}}</textarea>
+                    <textarea class="form-control" cols="20" rows="10" id="blog-post" name='blog-post' placeholder="Enter a blog post..." required="required">{{blog-post}}</textarea>
                 </div>
             </div>
         </form>
@@ -69,16 +70,15 @@
         <div class="result-content">
             <h2>Result</h2>
             <br/>
-            The blog post belongs to
+            The blog post belongs to cluster # {{cluster-number}}.
             <br/><br/>
             {{#svm}}
                 <h4><b>{{cluster-name}}</b></h4>
             {{/svm}}
             {{^svm}}
-                <h4><b>Cluster {{cluster}}</b></h4>
                 <br/>
                 <div class="cluster-label-div">
-                    Cluster
+                    <span style="text-decoration: underline">The cluster</span>
                     <ul>
                     {{#cluster-labels}}
                         <li>{{.}}

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static spark.Spark.get;
 import static spark.Spark.post;
@@ -37,9 +38,13 @@ public class Main {
                 String blogPost = rq.queryMap().get("blog-post").value();
                 Cluster assignedCluster = run(blogPost);
 
-                map.put("cluster", assignedCluster.getNumber());
+                List<String> labels = assignedCluster.getLabels();
+                labels = labels.stream().filter(x -> !x.contains("POS"))
+                        .collect(Collectors.toList());
+
+                map.put("cluster-number", assignedCluster.getNumber() + 1);
                 map.put("cluster-name", assignedCluster.getName());
-                map.put("cluster-labels", assignedCluster.getLabels());
+                map.put("cluster-labels", labels);
                 map.put("blog-post", blogPost);
                 map.put("svm", Config.USE_SVM_TO_CLUSTER);
                 map.put("result", true);
@@ -53,8 +58,17 @@ public class Main {
         }, new MustacheTemplateEngine());
 
         get("/clusters", (rq, rs) -> {
+
             try {
-                map.put("all-clusters", FileReader.readClusterFile());
+                List<Cluster> clusters = FileReader.readClusterFile();
+                for (Cluster cluster : clusters) {
+                    cluster.setLabels(
+                            cluster.getLabels().stream()
+                                    .filter(x -> !x.contains("POS"))
+                                    .collect(Collectors.toList()));
+                    cluster.setNumber(cluster.getNumber() + 1);
+                }
+                map.put("all-clusters", clusters);
             } catch (IOException e) {
                 map.put("all-clusters", new ArrayList<>());
                 e.printStackTrace();
