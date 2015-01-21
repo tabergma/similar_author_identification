@@ -26,7 +26,7 @@ public class Config {
     // Parameters for K-Means
     public final static int K = 6;
     public final static double CONVERGENCE_DELTA = 0.001;
-    public final static int MAX_ITERATIONS = 7;
+    public final static int MAX_ITERATIONS = 10;
     public final static boolean RUN_CLUSTERING = true;
     public final static double CLUSTER_CLASSIFICATION_THRESHOLD = 0;
     public final static boolean RUN_SEQUENTIAL = false;

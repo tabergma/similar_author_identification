@@ -7,6 +7,8 @@ import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.clustering.ClusterLabeling;
 import de.hpi.smm.clustering.KMeans;
+import de.hpi.smm.drawing.Drawing;
+import de.hpi.smm.drawing.Point;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
@@ -27,6 +29,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Main {
@@ -38,26 +41,24 @@ public class Main {
 //        Util.switchErrorPrint(false);
 
         System.out.println("Fetching data...");
-//        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
-        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
-//        AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
-
-        AbstractDataSet testSet = testSet2;
+//        AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
+//        AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
+        AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
 
         // print out the test content
 //        printSet(testSet);
 
         // extract the features from the set
-//        extractFeatures(testSet);
+        extractFeatures(testSet);
 
-        // cluster the set based on the last time the festures were extracted
+        // cluster the set based on the last time the features were extracted
         clusterSet(testSet);
 
         // evaluate all features - TAKES A LONG TIME!
 //        evaluateFeatures(testSet);
 
         // train a model for the SVM
-//        svmCluster(testSet);
+        svmCluster(testSet);
     }
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {
@@ -73,7 +74,6 @@ public class Main {
         // Create language detector
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
         Detector detector = DetectorFactory.create();
-
 
         System.out.println("Extracting features...");
         int i = 0;
@@ -114,13 +114,6 @@ public class Main {
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         analyzer.analyzeMahout();
 
-//        System.out.println("10-fold cross validation...");
-//        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
-//        System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
-//        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
-//        svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
-//        runSvmTenFoldCrossValidation();
-
         System.out.println("Clean up...");
         kMeans.cleanUp();
 
@@ -135,22 +128,29 @@ public class Main {
             System.out.println(result.toString());
         }
 
-//        System.out.println("Draw image...");
-//        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();
-//        List<Point> twoFeatures = new ArrayList<Point>();
-//        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
-//            for (Integer docId : c2d.getValue()) {
-//                twoFeatures.add(new Point(docId, c2d.getKey() + 1));
-//            }
-//        }
-//        Drawing.drawInWindow(twoFeatures);
-
         System.out.println("Writing cluster files...");
 //        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
         ClusterWriter.writeBlogPosts(analyzer.getBlogPosts());
 
-        svmCluster(testSet);
+        System.out.println("Writing files for SVM training...");
+        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
+        svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
+
+        System.out.println("Draw image...");
+        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();
+        List<Point> twoFeatures = new ArrayList<Point>();
+        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
+            for (Integer docId : c2d.getValue()) {
+                twoFeatures.add(new Point(docId, c2d.getKey() + 1));
+            }
+        }
+        Drawing.drawInWindow(twoFeatures);
+
+//        System.out.println("10-fold cross validation...");
+//        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
+//        System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
+//        runSvmTenFoldCrossValidation();
     }
 
     private static void runSvmTenFoldCrossValidation() throws IOException {
@@ -168,6 +168,7 @@ public class Main {
 //        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
 //        svm_train.main(validation);
 
+        System.out.println("Training a model for the SVM...");
         // create model
         String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
         svm_train.main(createModel);

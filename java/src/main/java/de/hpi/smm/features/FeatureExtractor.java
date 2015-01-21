@@ -22,14 +22,14 @@ public class FeatureExtractor {
     public FeatureExtractor() {
         // get POS tagger
         tagger = Config.lang2tagger.get(Config.ACCEPTED_LANGUAGE);
-
-        initializeFeatures();
         tokenizerFactory = PTBTokenizer.PTBTokenizerFactory.newWordTokenizerFactory("untokenizable=noneDelete, normalizeParentheses=false, normalizeOtherBrackets=false");
     }
 
     public List<Float> getFeatures(String text, String lang) {
         // Tokenize text
         List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text), tokenizerFactory);
+
+        initializeFeatures();
 
         // Run token features
         for (List<HasWord> s : sentences) {
@@ -69,6 +69,7 @@ public class FeatureExtractor {
 
     public static Map<Integer, Feature> getIndexToFeatureMap(){
         FeatureExtractor featureExtractor = new FeatureExtractor();
+        featureExtractor.initializeFeatures();
         return featureExtractor.getIndex2FeatureMap();
     }
 
@@ -81,14 +82,10 @@ public class FeatureExtractor {
         this.tokenFeatureList.add(new UpperCaseFeature(1.0f));
         this.tokenFeatureList.add(new WordFrequencyFeature(1.0f));
         this.tokenFeatureList.add(new SingleWordFrequencyFeature(1.0f));
-//        if (Config.USE_SVM_TO_CLUSTER) {
         this.tokenFeatureList.add(new PosTagFeature(1.0f, Util.asSortedList(tagger.getTags().tagSet())));
-//        }
         this.tokenFeatureList.add(new EmoticonFeature(1.0f));
         this.tokenFeatureList.add(new PostLengthFeature(1.0f));
-//        if (Config.USE_SVM_TO_CLUSTER) {
-//            this.tokenFeatureList.add(new PrefixSuffixFeature(1.0f));
-//        }
+//        this.tokenFeatureList.add(new PrefixSuffixFeature(1.0f));
     }
 
     public void addAllTextFeatures() {

@@ -39,5 +39,4 @@ public abstract class AbstractTokenFeature {
     public abstract String getAverageName();
     
     public abstract String getMeaningfulName();
-
 }
