@@ -115,8 +115,8 @@ public class ClusterLabeling {
             	double value = cluster.getValues().get(i);
                 int numberOfDocs = cluster2document.get(cluster.getId()).size();
                 sum += value * numberOfDocs;
-                if (value < max) max = value;
-                if (value > min) min = value;
+                if (value > max) max = value;
+                if (value < min) min = value;
             }
 
             averagePoint[i] = sum / numberOfDataPoints;
@@ -212,6 +212,6 @@ public class ClusterLabeling {
         for (List<Integer> docs : cluster2document.values()) {
             number += docs.size();
         }
-        return number + centroids.size();
+        return number;
     }
 }
