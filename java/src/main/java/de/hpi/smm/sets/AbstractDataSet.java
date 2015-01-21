@@ -17,7 +17,7 @@ public abstract class AbstractDataSet implements TestSet {
     protected int authorId = 0;
 
     protected String setName;
-    private List<String> documentTexts;
+    private List<String> documentTexts = new ArrayList<String>();
 
     AbstractDataSet (int limit, String setName){
         this.limit = limit;
