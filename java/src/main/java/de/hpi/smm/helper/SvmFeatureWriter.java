@@ -1,4 +1,4 @@
-package de.hpi.smm.evaluation.cluster_determination;
+package de.hpi.smm.helper;
 
 import de.hpi.smm.Config;
 import de.hpi.smm.clustering.BlogPost;

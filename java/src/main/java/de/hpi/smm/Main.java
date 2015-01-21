@@ -12,12 +12,10 @@ import de.hpi.smm.drawing.Point;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
-import de.hpi.smm.evaluation.cluster_determination.SvmFeatureWriter;
-import de.hpi.smm.evaluation.cluster_determination.TenFoldCrossValidation;
+import de.hpi.smm.helper.SvmFeatureWriter;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
-import de.hpi.smm.libsvm.svm_train;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
 import de.hpi.smm.sets.DataSetSelector;
@@ -56,9 +54,6 @@ public class Main {
 
         // evaluate all features - TAKES A LONG TIME!
 //        evaluateFeatures(testSet);
-
-        // train a model for the SVM
-        svmCluster(testSet);
     }
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {
@@ -146,32 +141,6 @@ public class Main {
             }
         }
         Drawing.drawInWindow(twoFeatures);
-
-//        System.out.println("10-fold cross validation...");
-//        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
-//        System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
-//        runSvmTenFoldCrossValidation();
-    }
-
-    private static void runSvmTenFoldCrossValidation() throws IOException {
-        // 10-fold cross validation
-        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
-        svm_train.main(validation);
-    }
-
-    private static void svmCluster(AbstractDataSet testSet) throws IOException {
-        // on command line
-        // java svm_train -s 0 -t 0 -b 1 -q ../features.svm ../features.svm.model
-        // java svm_predict -b 1 ../features.svm ../features.svm.model ../output
-
-        // 10-fold cross validation
-//        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
-//        svm_train.main(validation);
-
-        System.out.println("Training a model for the SVM...");
-        // create model
-        String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
-        svm_train.main(createModel);
     }
 
     private static void printSet(AbstractDataSet testSet) {
