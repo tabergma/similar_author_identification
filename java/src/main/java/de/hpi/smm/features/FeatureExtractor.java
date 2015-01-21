@@ -22,14 +22,14 @@ public class FeatureExtractor {
     public FeatureExtractor() {
         // get POS tagger
         tagger = Config.lang2tagger.get(Config.ACCEPTED_LANGUAGE);
-
-        initializeFeatures();
         tokenizerFactory = PTBTokenizer.PTBTokenizerFactory.newWordTokenizerFactory("untokenizable=noneDelete, normalizeParentheses=false, normalizeOtherBrackets=false");
     }
 
     public List<Float> getFeatures(String text, String lang) {
         // Tokenize text
         List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text), tokenizerFactory);
+
+        initializeFeatures();
 
         // Run token features
         for (List<HasWord> s : sentences) {
@@ -69,6 +69,7 @@ public class FeatureExtractor {
 
     public static Map<Integer, Feature> getIndexToFeatureMap(){
         FeatureExtractor featureExtractor = new FeatureExtractor();
+        featureExtractor.initializeFeatures();
         return featureExtractor.getIndex2FeatureMap();
     }
 

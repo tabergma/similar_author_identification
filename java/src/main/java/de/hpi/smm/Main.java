@@ -7,6 +7,8 @@ import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.clustering.ClusterLabeling;
 import de.hpi.smm.clustering.KMeans;
+import de.hpi.smm.drawing.Drawing;
+import de.hpi.smm.drawing.Point;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
@@ -27,6 +29,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Main {
@@ -48,7 +51,7 @@ public class Main {
         // extract the features from the set
         extractFeatures(testSet);
 
-        // cluster the set based on the last time the festures were extracted
+        // cluster the set based on the last time the features were extracted
         clusterSet(testSet);
 
         // evaluate all features - TAKES A LONG TIME!
@@ -71,7 +74,6 @@ public class Main {
         // Create language detector
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
         Detector detector = DetectorFactory.create();
-
 
         System.out.println("Extracting features...");
         int i = 0;
@@ -134,6 +136,16 @@ public class Main {
         System.out.println("Writing files for SVM training...");
         SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
         svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
+
+        System.out.println("Draw image...");
+        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();
+        List<Point> twoFeatures = new ArrayList<Point>();
+        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
+            for (Integer docId : c2d.getValue()) {
+                twoFeatures.add(new Point(docId, c2d.getKey() + 1));
+            }
+        }
+        Drawing.drawInWindow(twoFeatures);
 
 //        System.out.println("10-fold cross validation...");
 //        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
