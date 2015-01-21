@@ -117,6 +117,9 @@ public class FeatureExtractor {
                     tokenFeature.getHighName(),
                     tokenFeature.getLowName(),
                     tokenFeature.getMeaningfulName(),
+                    tokenFeature.getAverageName(),
+                    tokenFeature.getVeryHighName(),
+                    tokenFeature.getVeryLowName(),
                     offset,
                     offset + tokenFeature.getNumberOfFeatures()
             ));
@@ -132,6 +135,9 @@ public class FeatureExtractor {
                     textFeature.getHighName(),
                     textFeature.getLowName(),
                     textFeature.getMeaningfulName(),
+                    textFeature.getAverageName(),
+                    textFeature.getVeryHighName(),
+                    textFeature.getVeryLowName(),
                     offset,
                     offset + textFeature.getNumberOfFeatures()
             ));
@@ -148,6 +154,9 @@ public class FeatureExtractor {
                                String highName,
                                String lowName,
                                String meaningfulName,
+                               String averageName,
+                               String veryHighName,
+                               String veryLowName,
                                int start, int end) {
         // Create feature
         Feature feature = new Feature();
@@ -157,6 +166,9 @@ public class FeatureExtractor {
         feature.highName = highName;
         feature.lowName = lowName;
         feature.meaningfulName = meaningfulName;
+        feature.averageName = averageName;
+        feature.veryHighName = veryHighName;
+        feature.veryLowName = veryLowName;
         feature.start = start;
         feature.end = end;
         return feature;
