@@ -65,14 +65,14 @@ public class ClusterCentroid {
     public List<String> getMostSignificantLabels(int count) {
     	List<String> significantLabels = new ArrayList<String>();
     	
-    	if (count <= labels.size()) return labels;
+    	if (count >= labels.size()) return labels;
     	if (count == 0) return significantLabels;
     	
     	List<Integer> moreSignificant = new ArrayList<Integer>();
 		
     	//find *count* most significant labels
     	for (double currentSignificance : labelSignificance) {
-    		for (int i = 0; i <= labelSignificance.size(); i++) {
+    		for (int i = 0; i < labelSignificance.size(); i++) {
     			if (labelSignificance.get(i) > currentSignificance)
     				moreSignificant.add(i);
     		}
@@ -96,7 +96,7 @@ public class ClusterCentroid {
     	}
     	
     	if (significantLabels.size() != count)
-    		significantLabels.add("!! Incoorect amount of Labels !!");
+    		significantLabels.add("!! Incorrect amount of Labels !!");
  
     	return significantLabels;
     }
