@@ -48,6 +48,18 @@ public class PostLengthFeature extends AbstractTokenFeature {
     public String getLowName() {
         return "with short posts.";
     }
+    
+    public String getVeryHighName(){
+    	return "with very long posts.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very short posts.";
+    }
+    
+    public String getAverageName(){
+    	return "with an average post length.";
+    }
 
     @Override
     public String getMeaningfulName() {

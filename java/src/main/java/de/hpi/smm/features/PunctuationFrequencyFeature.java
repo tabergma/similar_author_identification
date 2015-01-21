@@ -77,6 +77,18 @@ public class  PunctuationFrequencyFeature extends AbstractTokenFeature {
     public String getLowName() {
         return "containing few punctuation characters";
     }
+    
+    public String getVeryHighName(){
+    	return "containing very many punctuation characters.";
+    }
+    
+    public String getVeryLowName(){
+    	return "containing very few punctuation characters.";
+    }
+    
+    public String getAverageName(){
+    	return "containing an average amount of punctuation characters.";
+    }
 
     @Override
     public String getMeaningfulName() {

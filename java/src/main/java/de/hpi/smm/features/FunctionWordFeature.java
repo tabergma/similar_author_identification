@@ -83,6 +83,18 @@ public class FunctionWordFeature extends AbstractTokenFeature {
     public String getMeaningfulName() {
         return "Number of function words.";
     }
+    
+    public String getVeryHighName(){
+    	return "with very many known function words.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very few known function words.";
+    }
+    
+    public String getAverageName(){
+    	return "with an average amount of known function words.";
+    }
 
     public static List<String> getFunctionWords() {
         if (functionWords == null){

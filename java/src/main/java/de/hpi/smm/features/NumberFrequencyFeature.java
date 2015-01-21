@@ -50,22 +50,34 @@ public class  NumberFrequencyFeature extends AbstractTokenFeature {
 
     @Override
     public String getMaxName() {
-        return "the most number characters.";
+        return "with the most number characters.";
     }
 
     @Override
     public String getMinName() {
-        return "the least number characters.";
+        return "with the least number characters.";
     }
 
     @Override
     public String getHighName() {
-        return "the many number characters.";
+        return "with many number characters.";
     }
 
     @Override
     public String getLowName() {
-        return "the few number characters.";
+        return "with few number characters.";
+    }
+    
+    public String getVeryHighName(){
+    	return "with very many number characters.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very few number characters.";
+    }
+    
+    public String getAverageName(){
+    	return "with an average amount of number characters.";
     }
 
     @Override

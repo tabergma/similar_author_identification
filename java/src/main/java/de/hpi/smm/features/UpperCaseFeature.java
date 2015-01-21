@@ -61,6 +61,18 @@ public class UpperCaseFeature extends AbstractTokenFeature {
     public String getLowName() {
         return "with few upper case words.";
     }
+    
+    public String getVeryHighName(){
+    	return "with very many upper case words.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very few upper case words.";
+    }
+    
+    public String getAverageName(){
+    	return "with an average amount of upper case words.";
+    }
 
     @Override
     public String getMeaningfulName() {

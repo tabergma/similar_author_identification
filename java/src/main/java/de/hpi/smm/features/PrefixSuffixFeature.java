@@ -87,17 +87,29 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
 
     @Override
     public String getMinName() {
-        return "the lowest frequency of same prefixes and suffixes.";
+        return "with the lowest frequency of same prefixes and suffixes.";
     }
 
     @Override
     public String getHighName() {
-        return "a high frequency of same prefixes and suffixes.";
+        return "with a high frequency of same prefixes and suffixes.";
     }
 
     @Override
     public String getLowName() {
-        return "a low frequency of same prefixes and suffixes.";
+        return "with a low frequency of same prefixes and suffixes.";
+    }
+    
+    public String getVeryHighName(){
+    	return "with a very high frequency of POS tags.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with a very low frequency of POS tags.";
+    }
+    
+    public String getAverageName(){
+    	return "with an average frequency of POS tags.";
     }
 
     @Override
