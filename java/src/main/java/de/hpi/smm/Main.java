@@ -38,17 +38,15 @@ public class Main {
 //        Util.switchErrorPrint(false);
 
         System.out.println("Fetching data...");
-//        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
-        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
-//        AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
-
-        AbstractDataSet testSet = testSet2;
+//        AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
+//        AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
+        AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
 
         // print out the test content
 //        printSet(testSet);
 
         // extract the features from the set
-//        extractFeatures(testSet);
+        extractFeatures(testSet);
 
         // cluster the set based on the last time the festures were extracted
         clusterSet(testSet);

@@ -39,11 +39,4 @@ public abstract class AbstractTokenFeature {
     public abstract String getAverageName();
     
     public abstract String getMeaningfulName();
-
-    public abstract String getVeryHighName();
-
-    public abstract String getVeryLowName();
-
-    public abstract String getAverageName();
-
 }
