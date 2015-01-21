@@ -1,6 +1,5 @@
 package de.hpi.smm.clustering;
 
-import org.apache.commons.collections.list.TreeList;
 import org.apache.mahout.math.Vector;
 
 import java.util.ArrayList;
@@ -69,40 +68,32 @@ public class ClusterCentroid {
     	if (count >= labels.size()) return labels;
     	if (count == 0) return significantLabels;
     	
-//    	List<Integer> moreSignificant = new ArrayList<Integer>();
-//		
+    	List<Integer> moreSignificant = new ArrayList<Integer>();
+		
     	//find *count* most significant labels
-//    	for (double currentSignificance : labelSignificance) {
-//    		for (int i = 0; i < labelSignificance.size(); i++) {
-//    			if (labelSignificance.get(i) > currentSignificance)
-//    				moreSignificant.add(i);
-//    		}
-//    		if (moreSignificant.size() == count)
-//    			break;
-//    		else if (moreSignificant.size() == count - 1){
-//    			moreSignificant.add(labelSignificance.indexOf(currentSignificance));
-//    			break;
-//    		}
-//    		else
-//    			moreSignificant.clear();
-//    	}
-    	
-    	List<Double> sortedLabelSignificance = new TreeList();
-    	sortedLabelSignificance.addAll(labelSignificance);
-    	
-    	for (int i = 0; i < count; i ++){
-    		significantLabels.add(labels.get(labelSignificance.indexOf(sortedLabelSignificance.get(i))));
+    	for (double currentSignificance : labelSignificance) {
+    		for (int i = 0; i < labelSignificance.size(); i++) {
+    			if (labelSignificance.get(i) > currentSignificance)
+    				moreSignificant.add(i);
+    		}
+    		if (moreSignificant.size() == count)
+    			break;
+    		else if (moreSignificant.size() == count - 1){
+    			moreSignificant.add(labelSignificance.indexOf(currentSignificance));
+    			break;
+    		}
+    		else
+    			moreSignificant.clear();
     	}
-//    	
-//    	if (moreSignificant.size() != count) {
-//    		System.out.println("couldn't get the right number of feature labels for " + this.name);
-//    		significantLabels = labels.subList(0, count);
-//    	}
-//    	else {
-//	    	for (int i : moreSignificant){
-//	    		significantLabels.add(labels.get(i));
-//	    	}
-//    	}
+    	if (moreSignificant.size() != count) {
+    		System.out.println("couldn't get the right number of feature labels for " + this.name);
+    		significantLabels = labels.subList(0, count);
+    	}
+    	else {
+	    	for (int i : moreSignificant){
+	    		significantLabels.add(labels.get(i));
+	    	}
+    	}
     	
     	if (significantLabels.size() != count)
     		significantLabels.add("!! Incorrect amount of Labels !!");
