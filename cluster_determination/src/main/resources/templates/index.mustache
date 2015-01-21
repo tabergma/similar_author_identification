@@ -51,7 +51,14 @@
     <h1>Similar Author Identification</h1>
 
     <div class="blog-post-content">
+
         <form class="form-horizontal" role="form" id='blog-post-form' method='post' action='/'>
+            <div class="method">
+                Which cluster determination method do you want to use?<br/>
+                <input type="radio" name="method-svm" value="false" checked="true"> k-nearest neighbor</input><br/>
+                <input type="radio" name="method-svm" value="true"> support vector machine</input>
+            </div>
+
             <div class="form-group">
                 <h4 class="control-label" style="float: left">Blog Post (in German)</h4>
                 <br/><br/>
@@ -59,9 +66,9 @@
                     <textarea class="form-control" cols="20" rows="10" id="blog-post" name='blog-post' placeholder="Enter a blog post..." required="required">{{blog-post}}</textarea>
                 </div>
             </div>
-        </form>
 
-        <input type='submit' value='Run' class="btn btn-primary" id="run-button" form='blog-post-form' />
+            <input type='submit' value='Run' class="btn btn-primary" id="run-button" form='blog-post-form' />
+        </form>
     </div>
 
     {{#result}}

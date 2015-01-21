@@ -36,7 +36,8 @@ public class Main {
         post("/", (rq, rs) -> {
             try {
                 String blogPost = rq.queryMap().get("blog-post").value();
-                Cluster assignedCluster = run(blogPost);
+                Boolean useSvm = rq.queryMap().get("method-svm").booleanValue();
+                Cluster assignedCluster = run(blogPost, useSvm);
 
                 List<String> labels = assignedCluster.getLabels();
                 labels = labels.stream().filter(x -> !x.contains("POS"))
@@ -79,7 +80,7 @@ public class Main {
         get("/error", (rq, rs) -> new ModelAndView(map, "error.mustache"), new MustacheTemplateEngine());
     }
 
-    private static Cluster run(String content) throws Exception {
+    private static Cluster run(String content, Boolean useSvm) throws Exception {
         // determine language of content
         DetectorFactory.clear();
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
@@ -91,7 +92,7 @@ public class Main {
         FeatureExtractor featureExtractor = new FeatureExtractor();
         List<Float> features = featureExtractor.getFeatures(content, lang);
 
-        if (Config.USE_SVM_TO_CLUSTER){
+        if (useSvm){
             return svmPredict(features);
         } else {
             // calculate distance to each cluster and select the nearest one
