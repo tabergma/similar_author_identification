@@ -58,14 +58,17 @@ public class BlankLineFeature extends AbstractTextFeature {
         return "with many blank lines.";
     }
     
+    @Override
     public String getVeryHighName(){
     	return "with very many blank lines.";
     }
-    
+
+    @Override
     public String getVeryLowName(){
     	return "with very few blank lines.";
     }
-    
+
+    @Override
     public String getAverageName(){
     	return "with an average amount of blank lines.";
     }

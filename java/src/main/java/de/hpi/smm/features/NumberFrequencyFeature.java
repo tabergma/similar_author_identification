@@ -67,15 +67,18 @@ public class  NumberFrequencyFeature extends AbstractTokenFeature {
     public String getLowName() {
         return "with few number characters.";
     }
-    
+
+    @Override
     public String getVeryHighName(){
     	return "with very many number characters.";
     }
-    
+
+    @Override
     public String getVeryLowName(){
     	return "with very few number characters.";
     }
-    
+
+    @Override
     public String getAverageName(){
     	return "with an average amount of number characters.";
     }

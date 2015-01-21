@@ -63,14 +63,17 @@ public class SentenceLengthFeature extends AbstractTextFeature {
         return "with short sentences.";
     }
 
+    @Override
     public String getVeryHighName(){
     	return "with very long sentences.";
     }
-    
+
+    @Override
     public String getVeryLowName(){
     	return "with very short sentences.";
     }
-    
+
+    @Override
     public String getAverageName(){
     	return "with average sentence length.";
     }

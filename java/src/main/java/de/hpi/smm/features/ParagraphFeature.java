@@ -65,15 +65,18 @@ public class ParagraphFeature extends AbstractTextFeature {
     public String getLowName() {
         return "with small paragraphs.";
     }
-    
+
+    @Override
     public String getVeryHighName(){
     	return "with very long paragraphs.";
     }
-    
+
+    @Override
     public String getVeryLowName(){
     	return "with very short paragraphs.";
     }
-    
+
+    @Override
     public String getAverageName(){
     	return "with average paragraph length.";
     }

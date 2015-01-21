@@ -32,6 +32,12 @@ public abstract class AbstractTextFeature {
     public abstract String getHighName();
 
     public abstract String getLowName();
+    
+    public abstract String getVeryLowName();
+    
+    public abstract String getVeryHighName();
+    
+    public abstract String getAverageName();
 
     public abstract String getMeaningfulName();
 }

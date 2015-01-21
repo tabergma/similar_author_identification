@@ -72,15 +72,18 @@ public class PosTagFeature extends AbstractTokenFeature {
     public String getLowName() {
         return "with a low frequency of POS tags.";
     }
-    
+
+    @Override
     public String getVeryHighName(){
     	return "with a very high frequency of POS tags.";
     }
-    
+
+    @Override
     public String getVeryLowName(){
     	return "with a very low frequency of POS tags.";
     }
-    
+
+    @Override
     public String getAverageName(){
     	return "with an average frequency of POS tags.";
     }
