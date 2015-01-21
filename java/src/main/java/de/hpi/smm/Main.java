@@ -121,15 +121,15 @@ public class Main {
             System.out.println(result.toString());
         }
 
-        System.out.println("Draw image...");
-        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();
-        List<Point> twoFeatures = new ArrayList<Point>();
-        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
-            for (Integer docId : c2d.getValue()) {
-                twoFeatures.add(new Point(docId, c2d.getKey() + 1));
-            }
-        }
-        Drawing.drawInWindow(twoFeatures);
+//        System.out.println("Draw image...");
+//        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();
+//        List<Point> twoFeatures = new ArrayList<Point>();
+//        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
+//            for (Integer docId : c2d.getValue()) {
+//                twoFeatures.add(new Point(docId, c2d.getKey() + 1));
+//            }
+//        }
+//        Drawing.drawInWindow(twoFeatures);
 
         System.out.println("Writing cluster files...");
         ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), documentTexts);
