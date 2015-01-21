@@ -4,10 +4,8 @@ package de.hpi.smm.io;
 import de.hpi.smm.Config;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FeatureWriter {
@@ -54,6 +52,27 @@ public class FeatureWriter {
     public void close() {
         this.writer.close();
         this.svmWriter.close();
+    }
+
+    public static List<List<Float>> readFeatureFile() throws IOException {
+        List<List<Float>> list = new ArrayList<List<Float>>();
+
+        BufferedReader br = new BufferedReader(new FileReader(Config.FEATURE_FILE));
+        String line = br.readLine();
+
+        while (line != null) {
+            List<Float> l = new ArrayList<Float>();
+
+            String[] fs = line.split(" ");
+            for (String f : fs)
+                l.add(Float.parseFloat(f));
+
+            list.add(l);
+            line = br.readLine();
+        }
+        br.close();
+
+        return list;
     }
 }
 
