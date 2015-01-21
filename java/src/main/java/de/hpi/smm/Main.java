@@ -75,7 +75,7 @@ public class Main {
         Detector detector = DetectorFactory.create();
 
 
-        System.out.println("Extracting features...");g
+        System.out.println("Extracting features...");
         int i = 0;
         List<String> documentTexts = new ArrayList<String>();
         List<Float> features;
