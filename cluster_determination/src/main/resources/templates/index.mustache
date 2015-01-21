@@ -70,9 +70,11 @@
             <div class="method">
                 Cluster determination method: <br/>
                 <input type="radio" name="method" value="euclidean" {{#euclidean}} checked="true" {{/euclidean}} > euclidean distance</input> <br/>
-                <input type="radio" name="method" value="k-nearest" {{#k-nearest}} checked="true" {{/k-nearest}} > k-nearest neighbor</input> <br/>
+                <input type="radio" name="method" value="k-nearest" {{#k-nearest}} checked="true" {{/k-nearest}} > k-nearest neighbor</input>  <span style="padding-left: 5em">value of k:</span> <input type="number" name="k-value" min="1" max="99" value="{{k-value}}"/> <br/>
                 <input type="radio" name="method" value="svm" {{#svm}} checked="true" {{/svm}} > support vector machine</input>
             </div>
+
+
 
             <br/>
 

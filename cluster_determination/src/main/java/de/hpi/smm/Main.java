@@ -20,13 +20,14 @@ import static spark.Spark.post;
 public class Main {
 
     public static void main(String[] args) throws IOException {
-        Map map = new HashMap();
+        Map<String, Object> map = new HashMap<String, Object>();
         ClusterDetermination clusterDetermination = new ClusterDetermination();
 
         get("/", (rq, rs) -> {
             map.put("result", false);
             map.put("k-nearest", true);
             map.put("euclidean", false);
+            map.put("k-value", 6);
             map.put("svm", false);
             return new ModelAndView(map, "index.mustache");
         }, new MustacheTemplateEngine());
@@ -35,7 +36,8 @@ public class Main {
             try {
                 String blogPost = rq.queryMap().get("blog-post").value();
                 String method = rq.queryMap().get("method").value();
-                Cluster assignedCluster = clusterDetermination.run(blogPost, method);
+                String k = rq.queryMap().get("k-value").value();
+                Cluster assignedCluster = clusterDetermination.run(blogPost, method, k);
 
                 List<String> labels = assignedCluster.getLabels();
                 labels = labels.stream().filter(x -> !x.contains("POS"))
@@ -59,6 +61,7 @@ public class Main {
                         break;
                 }
 
+                map.put("k-value", k);
                 map.put("cluster-number", assignedCluster.getNumber() + 1);
                 map.put("cluster-name", assignedCluster.getName());
                 map.put("cluster-labels", labels);

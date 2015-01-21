@@ -17,7 +17,7 @@ public class ClusterDetermination {
 
     public ClusterDetermination() throws IOException {}
 
-    public Cluster run(String content, String method) throws Exception {
+    public Cluster run(String content, String method, String k) throws Exception {
         // determine language of text
         DetectorFactory.clear();
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
@@ -34,7 +34,7 @@ public class ClusterDetermination {
 
         switch (method) {
             case "k-nearest":
-                index = KNearestNeighbour.getNearestCluster(dataEntries, blogPostPoint, 6);
+                index = KNearestNeighbour.getNearestCluster(dataEntries, blogPostPoint, Integer.valueOf(k));
                 break;
             case "euclidean":
                 index = EuclideanDistance.getNearestCluster(clusters, blogPostPoint);
