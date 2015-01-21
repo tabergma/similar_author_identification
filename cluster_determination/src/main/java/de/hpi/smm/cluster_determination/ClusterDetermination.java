@@ -40,7 +40,7 @@ public class ClusterDetermination {
                 index = EuclideanDistance.getNearestCluster(clusters, blogPostPoint);
                 break;
             case "svm":
-                return Svm.getNearestCluster(features);
+                index = Svm.getNearestCluster(features);
         }
 
         return clusters.get(index);

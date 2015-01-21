@@ -34,7 +34,7 @@ public class Config {
     public final static String FEATURE_FILE = RESULT_PATH + "features.txt";
     public final static String FEATURE_SEPARATOR = " ";
 
-    public static final boolean USE_SVM_TO_CLUSTER = false;
+    public static final boolean USE_SVM_TO_CLUSTER = true;
 
     public final static String SVM_FEATURE_FILE = RESULT_PATH + "features.svm";
     public static final String SVM_MODEL_FILE = RESOURCE_FOLDER + "currentModel.svm.model";

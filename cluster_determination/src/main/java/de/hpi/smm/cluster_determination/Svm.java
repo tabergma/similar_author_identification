@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Svm {
 
-    public static Cluster getNearestCluster(List<Float> features) throws Exception {
+    public static Integer getNearestCluster(List<Float> features) throws Exception {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(-1);
         int i = 1;
@@ -26,17 +26,11 @@ public class Svm {
         stringBuilder.append("\n");
         FileUtils.writeStringToFile(new File(Config.TEMP_FILE), stringBuilder.toString());
 
-        String[] authorNames = FileUtils.readFileToString(new File(Config.AUTHOR_FILE)).split(Config.FEATURE_SEPARATOR);
-
         String[] predict = {"-q", "-b", "1", Config.TEMP_FILE, Config.SVM_MODEL_FILE, Config.SVM_OUTPUT_FILE};
         svm_predict.main(predict);
-        String result = FileUtils.readFileToString(new File(Config.SVM_OUTPUT_FILE));
-        String authorIdString = result.split("\n")[1].split(" ")[0];
-        Integer authorId = Math.round(Float.parseFloat(authorIdString));
 
-        Cluster c = new Cluster();
-        c.setName(authorNames[authorId]);
-        c.setNumber(authorId);
-        return c;
+        String result = FileUtils.readFileToString(new File(Config.SVM_OUTPUT_FILE));
+        String clusterIdString = result.split("\n")[1].split(" ")[0];
+        return (int) Float.parseFloat(clusterIdString);
     }
 }
