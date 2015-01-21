@@ -46,23 +46,41 @@ import java.util.Map;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        int limit = 1000;
+        int limit = 20000;
         int minLength = 50;
 
 //        Util.switchErrorPrint(false);
 
         System.out.println("Fetching data...");
 //        AbstractDataSet testSet1 = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
-//        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
-        AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
+        AbstractDataSet testSet2 = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
+//        AbstractDataSet testSet3 = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
 
-        AbstractDataSet testSet = testSet3;
+        AbstractDataSet testSet = testSet2;
 
+        // print out the test content
 //        printSet(testSet);
+
+        // extract the features from the set
+//        extractFeatures(testSet);
+
+        // cluster the set based on the last time the festures were extracted
         clusterSet(testSet);
+
+        // evaluate all features - TAKES A LONG TIME!
+//        evaluateFeatures(testSet);
+
+        // train a model for the SVM
+//        svmCluster(testSet);
     }
 
-    private static void clusterSet(AbstractDataSet testSet) throws Exception {
+    private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {
+        System.out.println("Evaluation of features...");
+        FeatureEvaluator.run(FeatureExtractor.getIndexToFeatureMap(), testSet, readFeatureFile());
+        return;
+    }
+
+    private static void extractFeatures(AbstractDataSet testSet) throws Exception {
         FeatureExtractor featureExtractor = new FeatureExtractor();
         FeatureWriter featureWriter = new FeatureWriter();
 
@@ -70,7 +88,8 @@ public class Main {
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
         Detector detector = DetectorFactory.create();
 
-        System.out.println("Extracting features...");
+
+        System.out.println("Extracting features...");g
         int i = 0;
         List<String> documentTexts = new ArrayList<String>();
         List<Float> features;
@@ -95,15 +114,11 @@ public class Main {
         testSet.saveTexts(documentTexts);
 
         featureWriter.close();
+    }
 
+    private static void clusterSet(AbstractDataSet testSet) throws Exception {
         List<Author> authors = testSet.getAuthors();
         FileUtils.writeStringToFile(new File(Config.AUTHOR_FILE), org.apache.commons.lang.StringUtils.join(authors, Config.FEATURE_SEPARATOR));
-
-        if (Config.EVALUATE_FEATURES) {
-            System.out.println("Evaluation of features...");
-            FeatureEvaluator.run(featureExtractor.getIndex2FeatureMap(), testSet, readFeatureFile());
-            return;
-        }
 
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
@@ -113,18 +128,18 @@ public class Main {
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         analyzer.analyzeMahout();
 
-        System.out.println("10-fold cross validation...");
-        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
-        System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
-        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
-        svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
-        runSvmTenFoldCrossValidation();
+//        System.out.println("10-fold cross validation...");
+//        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
+//        System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
+//        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
+//        svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
+//        runSvmTenFoldCrossValidation();
 
         System.out.println("Clean up...");
         kMeans.cleanUp();
 
         System.out.println("Labeling clusters...");
-        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), analyzer.getCluster2document(),featureExtractor.getIndex2FeatureMap());
+        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), analyzer.getCluster2document(), FeatureExtractor.getIndexToFeatureMap());
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
 
         System.out.println("Calculate precision...");
@@ -145,7 +160,7 @@ public class Main {
 //        Drawing.drawInWindow(twoFeatures);
 
         System.out.println("Writing cluster files...");
-        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
+//        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
         ClusterWriter.writeBlogPosts(analyzer.getBlogPosts());
     }
@@ -162,8 +177,8 @@ public class Main {
         // java svm_predict -b 1 ../features.svm ../features.svm.model ../output
 
         // 10-fold cross validation
-        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
-        svm_train.main(validation);
+//        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
+//        svm_train.main(validation);
 
         // create model
         String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};

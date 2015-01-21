@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Config {
+    // accepted language
+    public static final String ACCEPTED_LANGUAGE = "de";
+
     // resource folder
     public final static String RESOURCE_FOLDER = "../resource/";
     public static final String TEMP_FILE = RESOURCE_FOLDER + "features.tmp";
@@ -44,7 +47,6 @@ public class Config {
     public final static String HTML_CLUSTER_FILE = RESULT_PATH + "all_files.html";
 
     // Evaluating features
-    public final static Boolean EVALUATE_FEATURES = false;
     public final static String EVALUATION_FEATURE_F_MEASURE_FILE = RESULT_PATH + "evaluation_features_f_measure.csv";
     public final static String EVALUATION_FEATURE_PRECISION_FILE = RESULT_PATH + "evaluation_features_precision.csv";
     public final static String EVALUATION_FEATURE_RECALL_FILE = RESULT_PATH + "evaluation_features_recall.csv";
