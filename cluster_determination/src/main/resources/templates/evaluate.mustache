@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Similar Author Identification</title>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css" />
+    <link rel="stylesheet" href="http://getbootstrap.com/examples/starter-template/starter-template.css" />
+
+    <style type="text/css">
+        body {
+            text-align: center;
+            overflow: hidden;
+        }
+        .evaluation-table {
+            font-size: 2em;
+            border-spacing: 15px;
+            padding: 10px;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<h1>Similar Author Identification</h1>
+<br/><br/><br/>
+<h4><b><a href="/">Back</a></b></h4>
+<br/><br/>
+<h2 style="text-decoration: underline">Evaluation with 10-fold-cross validation</h2>
+<br/><br/>
+<span style="font-size: 2em"> k-nearest neighbor:     {{accuracyKNearest}} %</span><br/>
+<span style="font-size: 2em"> support vector machine: {{accuracySvm}} %</span>
+</body>
+</html>

@@ -3,6 +3,7 @@ package de.hpi.smm;
 
 import de.hpi.smm.cluster_determination.Cluster;
 import de.hpi.smm.cluster_determination.ClusterDetermination;
+import de.hpi.smm.evaluation.TenFoldCrossValidation;
 import de.hpi.smm.helper.FileReader;
 import de.hpi.smm.mustache.MustacheTemplateEngine;
 import spark.ModelAndView;
@@ -21,6 +22,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
+
         ClusterDetermination clusterDetermination = new ClusterDetermination();
 
         get("/", (rq, rs) -> {
@@ -93,6 +95,21 @@ public class Main {
                 e.printStackTrace();
             }
             return new ModelAndView(map, "cluster.mustache");
+        }, new MustacheTemplateEngine());
+
+        get("/evaluation", (rq, rs) -> {
+            try {
+                TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation();
+                Double accuracyKNearest = tenFoldCrossValidation.runForKNearestNeighbor();
+                Double accuracySvm = tenFoldCrossValidation.runForSVM();
+
+                map.put("accuracyKNearest", accuracyKNearest);
+                map.put("accuracySvm", accuracySvm);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return new ModelAndView(map, "evaluate.mustache");
         }, new MustacheTemplateEngine());
 
         get("/error", (rq, rs) -> new ModelAndView(map, "error.mustache"), new MustacheTemplateEngine());

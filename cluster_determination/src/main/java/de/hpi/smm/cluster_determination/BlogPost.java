@@ -1,14 +1,15 @@
 package de.hpi.smm.cluster_determination;
 
-public class DataEntry {
+public class BlogPost {
 
     private int number;
+    private int documentId;
     private Float[] point;
 
-    public DataEntry() {
+    public BlogPost() {
     }
 
-    public DataEntry(int number, Float[] point) {
+    public BlogPost(int number, Float[] point) {
         this.number = number;
         this.point = point;
     }
@@ -29,6 +30,11 @@ public class DataEntry {
         this.number = number;
     }
 
+    public int getDocumentId() {
+        return documentId;
+    }
 
-
+    public void setDocumentId(int documentId) {
+        this.documentId = documentId;
+    }
 }

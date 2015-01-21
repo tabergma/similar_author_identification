@@ -5,6 +5,7 @@ import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import de.hpi.smm.Config;
 import de.hpi.smm.features.FeatureExtractor;
+import de.hpi.smm.libsvm.svm_train;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,9 +14,11 @@ import java.util.List;
 public class ClusterDetermination {
 
     List<Cluster> clusters = de.hpi.smm.helper.FileReader.readClusterFile();
-    List<DataEntry> dataEntries = de.hpi.smm.helper.FileReader.readBlogPostFile();
+    List<BlogPost> blogPosts = de.hpi.smm.helper.FileReader.readBlogPostFile();
 
-    public ClusterDetermination() throws IOException {}
+    public ClusterDetermination() throws IOException {
+        createSvmModel();
+    }
 
     public Cluster run(String content, String method, String k) throws Exception {
         // determine language of text
@@ -27,23 +30,27 @@ public class ClusterDetermination {
 
         // extract features for content
         FeatureExtractor featureExtractor = new FeatureExtractor();
-        List<Float> features = featureExtractor.getFeatures(content, lang);
+        List<Float> featureList = featureExtractor.getFeatures(content, lang);
+        Float[] featureArray = featureList.toArray(new Float[featureList.size()]);
 
-        Float[] blogPostPoint = features.toArray(new Float[features.size()]);
         int index = -1;
-
         switch (method) {
             case "k-nearest":
-                index = KNearestNeighbour.getNearestCluster(dataEntries, blogPostPoint, Integer.valueOf(k));
+                index = KNearestNeighbour.getNearestCluster(blogPosts, featureArray, Integer.valueOf(k));
                 break;
             case "euclidean":
-                index = EuclideanDistance.getNearestCluster(clusters, blogPostPoint);
+                index = EuclideanDistance.getNearestCluster(clusters, featureArray);
                 break;
             case "svm":
-                index = Svm.getNearestCluster(features);
+                index = Svm.getNearestCluster(featureList);
         }
 
         return clusters.get(index);
+    }
+
+    private void createSvmModel() throws IOException {
+        String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        svm_train.main(createModel);
     }
 
 }

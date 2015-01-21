@@ -1,8 +1,8 @@
 package de.hpi.smm.helper;
 
 import de.hpi.smm.Config;
+import de.hpi.smm.cluster_determination.BlogPost;
 import de.hpi.smm.cluster_determination.Cluster;
-import de.hpi.smm.cluster_determination.DataEntry;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -43,24 +43,25 @@ public class FileReader {
         return clusters;
     }
 
-    public static List<DataEntry> readBlogPostFile() throws IOException {
+    public static List<BlogPost> readBlogPostFile() throws IOException {
         BufferedReader br = new BufferedReader(new java.io.FileReader(Config.BLOG_POST_OUTPUT));
-        List<DataEntry> dataEntries = new ArrayList<>();
+        List<BlogPost> dataEntries = new ArrayList<>();
 
         String line = "";
         while((line = br.readLine()) != null){
             String[] l = line.split(",");
 
-            DataEntry dataEntry = new DataEntry();
-            dataEntry.setNumber(Integer.parseInt(l[0]));
+            BlogPost blogPost = new BlogPost();
+            blogPost.setNumber(Integer.parseInt(l[0]));
+            blogPost.setDocumentId(Integer.parseInt(l[1]));
 
             Float[] points = new Float[l.length - 2];
             for (int i = 2; i < l.length; i++) {
                 points[i - 2] = Float.valueOf(l[i]);
             }
-            dataEntry.setPoint(points);
+            blogPost.setPoint(points);
 
-            dataEntries.add(dataEntry);
+            dataEntries.add(blogPost);
         }
         br.close();
 

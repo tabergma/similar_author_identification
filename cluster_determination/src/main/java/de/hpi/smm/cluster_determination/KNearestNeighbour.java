@@ -11,11 +11,11 @@ import java.util.List;
  */
 public class KNearestNeighbour {
     
-    public static int getNearestCluster(List<DataEntry> documents, Float[] point, int k) {
+    public static int getNearestCluster(List<BlogPost> documents, Float[] point, int k) {
         HashMap<Integer, Double> classCount = new HashMap<Integer, Double>();
-        DataEntry[] kNearest = getKNearestNeighbourType(documents, point, k);
+        BlogPost[] kNearest = getKNearestNeighbourType(documents, point, k);
 
-        for (DataEntry aKNearest : kNearest) {
+        for (BlogPost aKNearest : kNearest) {
             double distance = convertDistance(distance(aKNearest.getPoint(), point));
             if (!classCount.containsKey(aKNearest.getNumber())) {
                 classCount.put(aKNearest.getNumber(), distance);
@@ -37,18 +37,18 @@ public class KNearestNeighbour {
         return nearestCluster;
     }
 
-    private static DataEntry[] getKNearestNeighbourType(List<DataEntry> dataSet, Float[] point, int k){
-        DataEntry[] kNearest = new DataEntry[k];
+    private static BlogPost[] getKNearestNeighbourType(List<BlogPost> dataSet, Float[] point, int k){
+        BlogPost[] kNearest = new BlogPost[k];
         double minDistance = Double.MIN_VALUE;
         int index = 0;
 
-        for (DataEntry dataEntry : dataSet) {
-            double distance = distance(point, dataEntry.getPoint());
+        for (BlogPost blogPost : dataSet) {
+            double distance = distance(point, blogPost.getPoint());
             if (kNearest[kNearest.length - 1] == null) {
                 int j = 0;
                 while (j < kNearest.length) {
                     if (kNearest[j] == null) {
-                        kNearest[j] = dataEntry;
+                        kNearest[j] = blogPost;
                         break;
                     }
                     j++;
@@ -59,7 +59,7 @@ public class KNearestNeighbour {
                 }
             } else {
                 if (distance < minDistance) {
-                    kNearest[index] = dataEntry;
+                    kNearest[index] = blogPost;
                     double f = 0.0;
                     int i = 0;
                     for(int j = 0; j < kNearest.length; j++){
