@@ -7,16 +7,14 @@ import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.clustering.ClusterLabeling;
 import de.hpi.smm.clustering.KMeans;
-import de.hpi.smm.drawing.Drawing;
-import de.hpi.smm.drawing.Point;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
+import de.hpi.smm.evaluation.cluster_determination.SvmFeatureWriter;
 import de.hpi.smm.evaluation.cluster_determination.TenFoldCrossValidation;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.helper.ClusterWriter;
 import de.hpi.smm.helper.FeatureWriter;
-import de.hpi.smm.evaluation.cluster_determination.SvmFeatureWriter;
 import de.hpi.smm.libsvm.svm_train;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
@@ -29,19 +27,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-/*
-    TODO
-    - Feature evaluation: Find best combination of features
-    - Implement new project which implements the interface for clustering a new blog post
-    - Rewrite some features? -> Boolean Feature, other ranges, ...
-    - Weight features?
-    - Naming clusters
-    - Look into blog posts by hand: How can we improve cluster assigning for this blog?
-    - Configuration of K-Means
-    - search for feature selection algorithmns?
- */
 
 public class Main {
 
@@ -163,6 +149,8 @@ public class Main {
 //        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
         ClusterWriter.writeBlogPosts(analyzer.getBlogPosts());
+
+        svmCluster(testSet);
     }
 
     private static void runSvmTenFoldCrossValidation() throws IOException {

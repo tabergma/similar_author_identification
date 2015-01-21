@@ -66,4 +66,16 @@ public class CapitalLetterFeature extends AbstractTokenFeature {
     public String getMeaningfulName() {
         return "Number of capital letters.";
     }
+    
+    public String getVeryHighName(){
+    	return "with very many capital lettes";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very few capital letters";
+    }
+    
+    public String getAverageName(){
+    	return "with an average amount of capital letters";
+    }
 }

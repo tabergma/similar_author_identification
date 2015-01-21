@@ -48,22 +48,34 @@ public class ParagraphFeature extends AbstractTextFeature {
 
     @Override
     public String getMaxName() {
-        return "the longest paragraphs.";
+        return "with the longest paragraphs.";
     }
 
     @Override
     public String getMinName() {
-        return "the smallest paragraphs.";
+        return "with the smallest paragraphs.";
     }
 
     @Override
     public String getHighName() {
-        return "long paragraphs.";
+        return "with long paragraphs.";
     }
 
     @Override
     public String getLowName() {
-        return "small paragraphs.";
+        return "with small paragraphs.";
+    }
+    
+    public String getVeryHighName(){
+    	return "with very long paragraphs.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very short paragraphs.";
+    }
+    
+    public String getAverageName(){
+    	return "with average paragraph length.";
     }
 
     @Override

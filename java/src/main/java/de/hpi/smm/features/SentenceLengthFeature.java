@@ -45,24 +45,36 @@ public class SentenceLengthFeature extends AbstractTextFeature {
 
     @Override
     public String getMaxName() {
-        return "the longest sentences.";
+        return "with the longest sentences.";
     }
 
     @Override
     public String getMinName() {
-        return "the shortest sentences.";
+        return "with the shortest sentences.";
     }
 
     @Override
     public String getHighName() {
-        return "long sentences.";
+        return "with long sentences.";
     }
 
     @Override
     public String getLowName() {
-        return "short sentences.";
+        return "with short sentences.";
     }
 
+    public String getVeryHighName(){
+    	return "with very long sentences.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very short sentences.";
+    }
+    
+    public String getAverageName(){
+    	return "with average sentence length.";
+    }
+    
     @Override
     public String getMeaningfulName() {
         return "Length of sentences.";

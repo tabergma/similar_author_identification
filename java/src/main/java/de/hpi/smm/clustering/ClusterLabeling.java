@@ -23,9 +23,10 @@ public class ClusterLabeling {
     }
 
     public List<ClusterCentroid> labelClusters() {
-        method1();
-        method2();
-
+        //method1();
+        //method2();
+    	labelingMethod3();
+    	
         return this.centroids;
     }
 
@@ -93,6 +94,84 @@ public class ClusterLabeling {
                 } else if (isSignificantBelowAvg(distance) && !cluster.getLabels().contains(feature.minName)) {
                     cluster.addLabel(feature.lowName);
                 }
+            }
+        }
+    }
+    
+    private void labelingMethod3() {
+    	int numberOfDataPoints = getNumberOfDataPoints();
+        int numberOfFeatures = centroids.get(0).getValues().size();
+        
+        double[] averagePoint = new double[numberOfFeatures];
+        double[] maxPoint = new double[numberOfFeatures];
+        double[] minPoint = new double[numberOfFeatures];
+
+        for (int i = 0; i < numberOfFeatures; i++) {
+            double sum = 0.0;
+            double max = Double.NEGATIVE_INFINITY;
+            double min = Double.POSITIVE_INFINITY;
+
+            for (ClusterCentroid cluster : centroids) {
+            	double value = cluster.getValues().get(i);
+                int numberOfDocs = cluster2document.get(cluster.getId()).size();
+                sum += value * numberOfDocs;
+                if (value < max) max = value;
+                if (value > min) min = value;
+            }
+
+            averagePoint[i] = sum / numberOfDataPoints;
+            maxPoint[i] = max;
+            minPoint[i] = min;
+        }
+        
+        for (Feature feature : index2Feature.values()) {
+            int range = feature.end - feature.start;
+
+            // average value
+            double avgAvgValue = 0.0;
+            double avgMaxValue = 0.0;
+            double avgMinValue = 0.0;
+            for (int i = feature.start; i < feature.end; i++) {
+                avgAvgValue += averagePoint[i];
+                avgMaxValue += maxPoint[i];
+                avgMinValue += minPoint[i];
+                
+            }
+            avgAvgValue /= range;
+            avgMaxValue /= range;
+            avgMinValue /= range;
+
+            for (ClusterCentroid cluster : centroids) {
+                // cluster value
+                double clusterValue = 0.0;
+                for (int i = feature.start; i < feature.end; i++) {
+                    clusterValue += cluster.getValues().get(i);
+                }
+                clusterValue = clusterValue / range;
+
+                double significance = 0.0;
+                
+                if (clusterValue >= avgAvgValue){
+                	significance += (clusterValue - avgAvgValue) / (avgMaxValue - avgAvgValue);
+                }
+                else {
+                	significance -= (avgAvgValue - clusterValue) / (avgAvgValue - avgMinValue);
+                }
+                
+                if (significance <= -0.99)
+                	cluster.addLabel(feature.minName, significance);
+                else if (significance < -0.7)
+                	cluster.addLabel(feature.veryLowName, significance);
+                else if (significance < -0.3)
+                	cluster.addLabel(feature.lowName, significance);
+                else if (significance < 0.3)
+                	cluster.addLabel(feature.averageName, significance);
+                else if (significance < 0.7)
+                	cluster.addLabel(feature.highName, significance);
+                else if (significance < 0.99)
+                	cluster.addLabel(feature.veryHighName, significance);
+                else
+                	cluster.addLabel(feature.maxName, significance);
             }
         }
     }

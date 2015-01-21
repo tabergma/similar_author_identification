@@ -50,6 +50,18 @@ public class WordLengthFeature extends AbstractTokenFeature {
     public String getLowName() {
         return "with short words.";
     }
+    
+    public String getVeryHighName(){
+    	return "with very long words.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very short words.";
+    }
+    
+    public String getAverageName(){
+    	return "with an average word length.";
+    }
 
     @Override
     public String getMeaningfulName() {

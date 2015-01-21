@@ -66,6 +66,18 @@ public class WordFrequencyFeature extends AbstractTokenFeature {
     public String getLowName() {
         return "with a very diverse vocabulary.";
     }
+    
+    public String getVeryHighName(){
+    	return "with a very small vocabulary diversity.";
+    }
+    
+    public String getVeryLowName(){
+    	return "with a very diverse vocabulary.";
+    }
+    
+    public String getAverageName(){
+    	return "with an average vocabulary diversity.";
+    }
 
     @Override
     public String getMeaningfulName() {

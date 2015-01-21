@@ -56,7 +56,7 @@ public class ClusterWriter {
             centerWriter.print(cc.getName());
             centerWriter.print(",");
             // write labels
-            for (String label : cc.getLabels()) {
+            for (String label : cc.getMostSignificantLabels(5)) {
                 centerWriter.print(label);
                 centerWriter.print(";");
             }

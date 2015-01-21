@@ -59,17 +59,29 @@ public class EmoticonFeature extends AbstractTokenFeature {
 
     @Override
     public String getHighName() {
-        return "with emoticons.";
+        return "with many emoticons.";
     }
 
     @Override
     public String getLowName() {
-        return "without emoticons.";
+        return "with few emoticons.";
     }
 
     @Override
     public String getMeaningfulName() {
         return "Usage of emoticons.";
+    }
+    
+    public String getVeryHighName(){
+    	return "with very many emoticons";
+    }
+    
+    public String getVeryLowName(){
+    	return "with very few emoticons";
+    }
+    
+    public String getAverageName(){
+    	return "with some emoticons";
     }
 
     public static List<String> getEmoticons() {

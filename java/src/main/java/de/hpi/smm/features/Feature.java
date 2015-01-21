@@ -10,5 +10,8 @@ public class Feature {
     public String meaningfulName;
     public String highName;
     public String lowName;
+    public String veryHighName;
+    public String veryLowName;
+    public String averageName;
 
 }
