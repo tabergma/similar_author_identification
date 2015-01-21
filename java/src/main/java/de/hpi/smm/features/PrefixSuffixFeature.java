@@ -102,17 +102,17 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
 
     @Override
     public String getVeryHighName(){
-    	return "with a very high frequency of POS tags.";
+        return "with a very high frequency of POS tags.";
     }
 
     @Override
     public String getVeryLowName(){
-    	return "with a very low frequency of POS tags.";
+        return "with a very low frequency of POS tags.";
     }
 
     @Override
     public String getAverageName(){
-    	return "with an average frequency of POS tags.";
+        return "with an average frequency of POS tags.";
     }
 
     @Override

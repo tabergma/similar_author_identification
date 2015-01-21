@@ -57,7 +57,7 @@ public class Main {
 //        evaluateFeatures(testSet);
 
         // train a model for the SVM
-//        svmCluster(testSet);
+        svmCluster(testSet);
     }
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {
@@ -114,13 +114,6 @@ public class Main {
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
         analyzer.analyzeMahout();
 
-//        System.out.println("10-fold cross validation...");
-//        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
-//        System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
-//        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
-//        svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
-//        runSvmTenFoldCrossValidation();
-
         System.out.println("Clean up...");
         kMeans.cleanUp();
 
@@ -135,22 +128,19 @@ public class Main {
             System.out.println(result.toString());
         }
 
-//        System.out.println("Draw image...");
-//        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();
-//        List<Point> twoFeatures = new ArrayList<Point>();
-//        for (Map.Entry<Integer, List<Integer>> c2d : cluster2documents.entrySet()) {
-//            for (Integer docId : c2d.getValue()) {
-//                twoFeatures.add(new Point(docId, c2d.getKey() + 1));
-//            }
-//        }
-//        Drawing.drawInWindow(twoFeatures);
-
         System.out.println("Writing cluster files...");
 //        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
         ClusterWriter.writeBlogPosts(analyzer.getBlogPosts());
 
-        svmCluster(testSet);
+        System.out.println("Writing files for SVM training...");
+        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
+        svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
+
+//        System.out.println("10-fold cross validation...");
+//        TenFoldCrossValidation tenFoldCrossValidation = new TenFoldCrossValidation(analyzer.getBlogPosts());
+//        System.out.println("Result for k-nearest neighbor: " + tenFoldCrossValidation.validateKNearestNeighbor());
+//        runSvmTenFoldCrossValidation();
     }
 
     private static void runSvmTenFoldCrossValidation() throws IOException {
@@ -168,6 +158,7 @@ public class Main {
 //        String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
 //        svm_train.main(validation);
 
+        System.out.println("Training a model for the SVM...");
         // create model
         String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
         svm_train.main(createModel);
