@@ -94,6 +94,10 @@ public class ClusterCentroid {
 	    		significantLabels.add(labels.get(i));
 	    	}
     	}
+    	
+    	if (significantLabels.size() != count)
+    		significantLabels.add("!! Incoorect amount of Labels !!");
+ 
     	return significantLabels;
     }
 }
