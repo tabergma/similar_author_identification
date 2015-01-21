@@ -39,7 +39,7 @@ public class Config {
 
     public static final boolean USE_SVM_TO_CLUSTER = true;
 
-    public final static String SVM_FEATURE_FILE = RESULT_PATH + "features.svm";
+    public final static String SVM_FEATURE_FILE = RESOURCE_FOLDER + "features.svm";
     public static final String SVM_MODEL_FILE = RESOURCE_FOLDER + "currentModel.svm.model";
     public static final String SVM_SEPARATOR = " ";
     public static final String KEY_VALUE_SEPARATOR = ":";

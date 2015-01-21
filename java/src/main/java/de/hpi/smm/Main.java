@@ -7,27 +7,21 @@ import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.clustering.ClusterLabeling;
 import de.hpi.smm.clustering.KMeans;
-import de.hpi.smm.drawing.Drawing;
-import de.hpi.smm.drawing.Point;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
-import de.hpi.smm.io.SvmFeatureWriter;
 import de.hpi.smm.features.FeatureExtractor;
 import de.hpi.smm.io.ClusterWriter;
 import de.hpi.smm.io.FeatureWriter;
+import de.hpi.smm.io.SvmFeatureWriter;
 import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
 import de.hpi.smm.sets.DataSetSelector;
 import org.apache.commons.io.FileUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 
 public class Main {
@@ -58,8 +52,7 @@ public class Main {
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {
         System.out.println("Evaluation of features...");
-        FeatureEvaluator.run(FeatureExtractor.getIndexToFeatureMap(), testSet, readFeatureFile());
-        return;
+        FeatureEvaluator.run(FeatureExtractor.getIndexToFeatureMap(), testSet, FeatureWriter.readFeatureFile());
     }
 
     private static void extractFeatures(AbstractDataSet testSet) throws Exception {
@@ -103,7 +96,7 @@ public class Main {
 
         System.out.println("Performing K-Means...");
         KMeans kMeans = new KMeans();
-        kMeans.run(readFeatureFile());
+        kMeans.run(FeatureWriter.readFeatureFile());
 
         System.out.println("Analyze clusters...");
         ClusterAnalyzer analyzer = new ClusterAnalyzer();
@@ -149,28 +142,6 @@ public class Main {
         }
     }
 
-    private static List<List<Float>> readFeatureFile() throws IOException {
-        List<List<Float>> list = new ArrayList<List<Float>>();
 
-        BufferedReader br = new BufferedReader(new FileReader(Config.FEATURE_FILE));
-        try {
-            String line = br.readLine();
-
-            while (line != null) {
-                List<Float> l = new ArrayList<Float>();
-
-                String[] fs = line.split(" ");
-                for (String f : fs)
-                    l.add(Float.parseFloat(f));
-
-                list.add(l);
-                line = br.readLine();
-            }
-        } finally {
-            br.close();
-        }
-
-        return list;
-    }
 
 }
