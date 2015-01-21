@@ -9,22 +9,11 @@ import java.util.List;
  * An implementation of knn.
  * Uses Euclidean distance weighted by 1/distance
  */
-public class KNearestNeighbour{
-
-    private int k;
-    private List<DataEntry> dataSet;
+public class KNearestNeighbour {
     
-    public int getNearestCluster(List<DataEntry> documents, Float[] point, int k) {
-        this.k = k;
-        this.dataSet = documents;
-        
-        // classify new blog post
-        return classify(point);
-    }
-
-    private Integer classify(Float[] point){
+    public static int getNearestCluster(List<DataEntry> documents, Float[] point, int k) {
         HashMap<Integer, Double> classCount = new HashMap<Integer, Double>();
-        DataEntry[] kNearest = this.getKNearestNeighbourType(point);
+        DataEntry[] kNearest = getKNearestNeighbourType(documents, point, k);
 
         for (DataEntry aKNearest : kNearest) {
             double distance = convertDistance(distance(aKNearest.getPoint(), point));
@@ -36,7 +25,7 @@ public class KNearestNeighbour{
         }
 
         //Find right choice
-        Integer nearestCluster = null;
+        Integer nearestCluster = -1;
         double max = 0;
         for(Integer clusterNumber : classCount.keySet()){
             if(classCount.get(clusterNumber) > max){
@@ -48,12 +37,12 @@ public class KNearestNeighbour{
         return nearestCluster;
     }
 
-    private DataEntry[] getKNearestNeighbourType(Float[] point){
-        DataEntry[] kNearest = new DataEntry[this.k];
+    private static DataEntry[] getKNearestNeighbourType(List<DataEntry> dataSet, Float[] point, int k){
+        DataEntry[] kNearest = new DataEntry[k];
         double minDistance = Double.MIN_VALUE;
         int index = 0;
 
-        for (DataEntry dataEntry : this.dataSet) {
+        for (DataEntry dataEntry : dataSet) {
             double distance = distance(point, dataEntry.getPoint());
             if (kNearest[kNearest.length - 1] == null) {
                 int j = 0;
@@ -88,11 +77,11 @@ public class KNearestNeighbour{
         return kNearest;
     }
 
-    private double convertDistance(double d){
+    private static double convertDistance(double d){
         return 1.0 / d;
     }
 
-    private double distance(Float[] a, Float[] b){
+    private static double distance(Float[] a, Float[] b){
         double distance = 0.0;
         int length = a.length;
 
