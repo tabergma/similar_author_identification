@@ -16,6 +16,11 @@ public class FeatureComponent {
         run();
     }
 
+    /**
+     * Get all documents where the features were not yet calculated,
+     * calculate the features and
+     * write them into the database.
+     */
     public static void run() throws LangDetectException {
         /**
          * GET DOCUMENTS

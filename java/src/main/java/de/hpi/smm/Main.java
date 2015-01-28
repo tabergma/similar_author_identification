@@ -105,7 +105,7 @@ public class Main {
         kMeans.cleanUp();
 
         System.out.println("Labeling clusters...");
-        ClusterLabeling labeling = new ClusterLabeling(resultHandler.getClusters(), resultHandler.getCluster2document(), FeatureExtractor.getIndexToFeatureMap());
+        ClusterLabeling labeling = new ClusterLabeling(resultHandler.getClusters(), FeatureExtractor.getIndexToFeatureMap());
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
 
         System.out.println("Calculate precision...");

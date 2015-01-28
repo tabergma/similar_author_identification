@@ -12,6 +12,10 @@ public class MahoutComponent {
         run();
     }
 
+    /**
+     * Read the features from the database and
+     * run the K-Means algorithm using Apache Mahout.
+     */
     public static void run() throws Exception {
         /**
          * Read features from database

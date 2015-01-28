@@ -16,4 +16,5 @@ public class Cluster {
     public double getRadius() {
         return radius;
     }
+
 }

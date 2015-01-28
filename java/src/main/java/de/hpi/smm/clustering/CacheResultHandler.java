@@ -23,7 +23,15 @@ public class CacheResultHandler implements ResultHandler {
 
     @Override
     public void handleCluster(Vector centerVector, int id, String name) {
-        clusters.add(ClusterCentroid.createFromVector(id, name, centerVector));
+        ClusterCentroid cluster = ClusterCentroid.createFromVector(id, name, centerVector);
+
+        int nrOfDocuments = 0;
+        if (cluster2document.containsKey(id)) {
+            nrOfDocuments = cluster2document.get(id).size();
+        }
+        cluster.setNrOfDocuments(nrOfDocuments);
+
+        clusters.add(cluster);
     }
 
     private void addDocumentToCluster(int clusterId, int documentId) {
