@@ -49,7 +49,7 @@ public class ClusterDetermination {
     }
 
     private void createSvmModel() throws IOException {
-        String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_MODEL_FILE};
         svm_train svmTrain = new svm_train();
         svmTrain.train(args, blogPosts);
     }

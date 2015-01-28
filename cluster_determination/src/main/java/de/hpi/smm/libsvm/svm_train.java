@@ -251,19 +251,10 @@ public class svm_train {
         svm.svm_set_print_string_function(print_func);
 
         // determine filenames
-
         if (i >= argv.length)
             exit_with_help();
 
-        input_file_name = argv[i];
-
-        if (i < argv.length - 1)
-            model_file_name = argv[i + 1];
-        else {
-            int p = argv[i].lastIndexOf('/');
-            ++p;    // whew...
-            model_file_name = argv[i].substring(p) + ".model";
-        }
+        model_file_name = argv[i];
     }
 
     private static svm_print_interface svm_print_null = new svm_print_interface() {
