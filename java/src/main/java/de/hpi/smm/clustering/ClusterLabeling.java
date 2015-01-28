@@ -3,7 +3,6 @@ package de.hpi.smm.clustering;
 
 import de.hpi.smm.features.Feature;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,13 +12,11 @@ public class ClusterLabeling {
     private final static double SIGNIFICANT_OVER = 150.0;
 
     List<ClusterCentroid> centroids;
-    private Map<Integer, List<Integer>> cluster2document = new HashMap<Integer, List<Integer>>();
     Map<Integer, Feature> index2Feature;
 
-    public ClusterLabeling(List<ClusterCentroid> centers, Map<Integer, List<Integer>> cluster2document, Map<Integer, Feature> index2FeatureMap) {
+    public ClusterLabeling(List<ClusterCentroid> centers, Map<Integer, Feature> index2FeatureMap) {
         this.centroids = centers;
         this.index2Feature = index2FeatureMap;
-        this.cluster2document = cluster2document;
     }
 
     public List<ClusterCentroid> labelClusters() {
@@ -113,7 +110,7 @@ public class ClusterLabeling {
 
             for (ClusterCentroid cluster : centroids) {
             	double value = cluster.getValues().get(i);
-                int numberOfDocs = cluster2document.get(cluster.getId()).size();
+                int numberOfDocs = cluster.getNrOfDocuments();
                 sum += value * numberOfDocs;
                 if (value > max) max = value;
                 if (value < min) min = value;
@@ -197,7 +194,7 @@ public class ClusterLabeling {
             double sum = 0.0;
 
             for (ClusterCentroid cluster : centroids) {
-                int numberOfDocs = cluster2document.get(cluster.getId()).size();
+                int numberOfDocs = cluster.getNrOfDocuments();
                 sum += cluster.getValues().get(i) * numberOfDocs;
             }
 
@@ -209,8 +206,8 @@ public class ClusterLabeling {
 
     private int getNumberOfDataPoints() {
         int number = 0;
-        for (List<Integer> docs : cluster2document.values()) {
-            number += docs.size();
+        for (ClusterCentroid cluster : centroids) {
+            number += cluster.getNrOfDocuments();
         }
         return number;
     }

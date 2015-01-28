@@ -8,6 +8,7 @@ import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.clustering.ClusterLabeling;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.database.*;
+import de.hpi.smm.clustering.*;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
@@ -51,6 +52,8 @@ public class Main {
 
         // evaluate all features - TAKES A LONG TIME!
 //        evaluateFeatures(testSet);
+
+        System.out.println("Finished.");
     }
 
     private static void testDatabaseAdapter() {
@@ -153,19 +156,21 @@ public class Main {
         kMeans.run(FeatureWriter.readFeatureFile());
 
         System.out.println("Analyze clusters...");
-        ClusterAnalyzer analyzer = new ClusterAnalyzer();
-        analyzer.analyzeMahout();
+        ClusterAnalyzer analyzer = new ClusterAnalyzer(Config.CLUSTER_FILE, Config.CLUSTER_CENTER_FILE);
+        CacheResultHandler resultHandler = new CacheResultHandler();
+        analyzer.analyzeMahout(resultHandler);
+
 
         System.out.println("Clean up...");
         kMeans.cleanUp();
 
         System.out.println("Labeling clusters...");
-        ClusterLabeling labeling = new ClusterLabeling(analyzer.getCenters(), analyzer.getCluster2document(), FeatureExtractor.getIndexToFeatureMap());
+        ClusterLabeling labeling = new ClusterLabeling(resultHandler.getClusters(), FeatureExtractor.getIndexToFeatureMap());
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
 
         System.out.println("Calculate precision...");
         Evaluator evaluator = new Evaluator();
-        List<EvaluationResult> resultList = evaluator.evaluate(testSet, analyzer.getCluster2document());
+        List<EvaluationResult> resultList = evaluator.evaluate(testSet, resultHandler.getCluster2document());
         for (EvaluationResult result : resultList){
             System.out.println(result.toString());
         }
@@ -173,11 +178,11 @@ public class Main {
         System.out.println("Writing cluster files...");
 //        ClusterWriter.writeClusterFiles(analyzer.getCluster2document(), testSet.getDocumentTexts());
         ClusterWriter.writeClusterCenterFiles(resultList, clusterCentroids);
-        ClusterWriter.writeBlogPosts(analyzer.getBlogPosts());
+        ClusterWriter.writeBlogPosts(resultHandler.getBlogPosts());
 
         System.out.println("Writing files for SVM training...");
-        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
-        svmFeatureWriter.writeFeaturesForAllBlogposts(analyzer.getBlogPosts());
+        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter(Config.SVM_FEATURE_FILE);
+        svmFeatureWriter.writeFeaturesForAllBlogPosts(resultHandler.getBlogPosts());
 
 //        System.out.println("Draw image...");
 //        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();

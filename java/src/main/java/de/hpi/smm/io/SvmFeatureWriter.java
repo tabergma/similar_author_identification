@@ -3,7 +3,6 @@ package de.hpi.smm.io;
 import de.hpi.smm.Config;
 import de.hpi.smm.clustering.BlogPost;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
@@ -13,12 +12,8 @@ public class SvmFeatureWriter {
 
     private PrintWriter svmWriter;
 
-    public SvmFeatureWriter() throws FileNotFoundException, UnsupportedEncodingException {
-        File dir = new File(Config.RESULT_PATH);
-        if (!dir.exists())
-            dir.mkdir();
-
-        this.svmWriter = new PrintWriter(Config.SVM_FEATURE_FILE, "UTF-8");
+    public SvmFeatureWriter(String featureFile) throws FileNotFoundException, UnsupportedEncodingException {
+        this.svmWriter = new PrintWriter(featureFile, "UTF-8");
     }
 
     public void writeFeaturesForDocument(Double[] features, int clusterId) {
@@ -38,10 +33,11 @@ public class SvmFeatureWriter {
         this.svmWriter.close();
     }
 
-    public void writeFeaturesForAllBlogposts(List<BlogPost> blogPosts) {
+    public void writeFeaturesForAllBlogPosts(List<BlogPost> blogPosts) {
         for (BlogPost blogPost : blogPosts){
             writeFeaturesForDocument(blogPost.getPoint(), blogPost.getClusterNumber());
         }
+        close();
     }
 }
 

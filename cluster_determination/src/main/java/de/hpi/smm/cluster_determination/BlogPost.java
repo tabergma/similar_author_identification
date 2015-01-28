@@ -37,4 +37,12 @@ public class BlogPost {
     public void setDocumentId(int documentId) {
         this.documentId = documentId;
     }
+
+    public int getSetValues() {
+        int v = 0;
+        for (Float p : point) {
+            if (p != 0.0) v++;
+        }
+        return v;
+    }
 }

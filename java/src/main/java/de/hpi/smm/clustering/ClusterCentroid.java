@@ -6,9 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ClusterCentroid {
-    private int id;
 
+    private int id;
     private String name;
+    private int nrOfDocuments;
     private List<String> labels;
     private List<Double> values;
     private List<Double> labelSignificance; 
@@ -22,7 +23,7 @@ public class ClusterCentroid {
         
     }
 
-    public static ClusterCentroid createFromVector(int id, String name, Vector centerVector){
+    public static ClusterCentroid createFromVector(int id, String name, Vector centerVector) {
         List<Double> values = new ArrayList<Double>();
         for (int i = 0; i < centerVector.size(); i++) {
             values.add(centerVector.getElement(i).get());
@@ -99,5 +100,13 @@ public class ClusterCentroid {
     		significantLabels.add("!! Incorrect amount of Labels !!");
  
     	return significantLabels;
+    }
+
+    public int getNrOfDocuments() {
+        return nrOfDocuments;
+    }
+
+    public void setNrOfDocuments(int nrOfDocuments) {
+        this.nrOfDocuments = nrOfDocuments;
     }
 }
