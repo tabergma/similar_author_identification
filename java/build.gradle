@@ -22,3 +22,15 @@ dependencies {
     compile files('../resource/langdetect-03-03-2014/lib/langdetect.jar')
     compile files('../resource/stanford-postagger-full-2014-08-27/stanford-postagger-3.4.1.jar')
 }
+
+jar {
+    baseName = 'clustering'
+}
+
+uploadArchives {
+    repositories {
+       flatDir {
+           dirs '../resource/'
+       }
+    }
+}
