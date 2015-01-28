@@ -1,6 +1,6 @@
 package de.hpi.smm.sets;
 
-import de.hpi.smm.helper.DatabaseAdapter;
+import de.hpi.smm.database.DatabaseAdapter;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

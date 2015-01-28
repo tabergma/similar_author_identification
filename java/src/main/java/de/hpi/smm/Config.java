@@ -61,11 +61,12 @@ public class Config {
     // POS Tagger
     public final static String MODEL_DIR = RESOURCE_FOLDER + "stanford-postagger-full-2014-08-27/models/";
     public final static String ENGLISH_MODEL = "wsj-0-18-bidirectional-distsim.tagger";
+    public final static String FAST_ENGLISH_MODEL = "english-left3words-distsim.tagger";
     public final static String GERMAN_MODEL = "german-fast.tagger";
     //public final static String FRENCH_MODEL = "french.tagger";
     //public final static String CHINESE_MODEL = "chinese-distsim.tagger";
     //public final static String SPANISH_MODEL = "spanish-distsim.tagger";
-    private final static MaxentTagger englishTagger = new MaxentTagger(MODEL_DIR + ENGLISH_MODEL);
+    private final static MaxentTagger englishTagger = new MaxentTagger(MODEL_DIR + FAST_ENGLISH_MODEL);
     private final static MaxentTagger germanTagger = new MaxentTagger(MODEL_DIR + GERMAN_MODEL);
     //private final static MaxentTagger frenchTagger = new MaxentTagger(MODEL_DIR + FRENCH_MODEL);
     //private final static MaxentTagger chineseTagger = new MaxentTagger(MODEL_DIR + CHINESE_MODEL);

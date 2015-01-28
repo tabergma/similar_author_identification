@@ -7,6 +7,8 @@ import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.clustering.ClusterLabeling;
 import de.hpi.smm.clustering.KMeans;
+import de.hpi.smm.database.DatabaseAdapter;
+import de.hpi.smm.database.SchemaConfig;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
@@ -18,6 +20,7 @@ import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
 import de.hpi.smm.sets.DataSetSelector;
 import org.apache.commons.io.FileUtils;
+import org.hsqldb.Database;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -29,6 +32,8 @@ public class Main {
     public static void main(String[] args) throws Exception {
         int limit = 20000;
         int minLength = 50;
+
+        testDatabaseAdapter();
 
 //        Util.switchErrorPrint(false);
 
@@ -48,6 +53,12 @@ public class Main {
 
         // evaluate all features - TAKES A LONG TIME!
 //        evaluateFeatures(testSet);
+    }
+
+    private static void testDatabaseAdapter() {
+        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
+        databaseAdapter.setSchema(SchemaConfig.getSchema());
+        databaseAdapter.insert("")
     }
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {

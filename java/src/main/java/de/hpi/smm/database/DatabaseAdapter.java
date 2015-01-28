@@ -1,11 +1,10 @@
-package de.hpi.smm.helper;
+package de.hpi.smm.database;
 
 import de.hpi.smm.Config;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DatabaseAdapter {
 
@@ -13,9 +12,12 @@ public class DatabaseAdapter {
 
     private Connection connection = null;
 
-    private String schema = null;
+    private String schemaName = null;
 
-    DatabaseAdapter(){
+    private Map<TableDefinition, PreparedStatement> preparedStatementMap = new HashMap<TableDefinition, PreparedStatement>();
+    private Schema schema;
+
+    DatabaseAdapter() {
     }
 
     public static DatabaseAdapter getSmaHanaAdapter() {
@@ -27,12 +29,12 @@ public class DatabaseAdapter {
         String password = Config.PASSWORD;
 
         databaseAdapter.open(ip, instance, user, password);
-        databaseAdapter.setSchema("SYSTEM");
+        databaseAdapter.setSchemaName("SYSTEM");
 
         return databaseAdapter;
     }
 
-    public int executeUpdate(String statement){
+    public int executeUpdate(String statement) {
         try {
             Statement sqlStatement = this.connection.createStatement();
             return sqlStatement.executeUpdate(statement);
@@ -42,7 +44,7 @@ public class DatabaseAdapter {
         }
     }
 
-    public ResultSet executeQuery(String statement){
+    public ResultSet executeQuery(String statement) {
         try {
             Statement sqlStatement = this.connection.createStatement();
             return sqlStatement.executeQuery(statement);
@@ -51,6 +53,29 @@ public class DatabaseAdapter {
             return null;
         }
     }
+
+//    public PreparedStatement createPreparedStatement(String statement) {
+//        try {
+//            PreparedStatement pstmt = this.connection.prepareStatement(statement);
+//            for (int i = 0; i < firstNames.length; i++) {
+//                pstmt.setInt(1, i + 1);
+//                pstmt.setString(5, "");
+//                pstmt.addBatch();
+//            }
+//        } catch (SQLException e) {
+//            exceptionCaught(e, statement);
+//            e.printStackTrace();
+//        }
+//    }
+
+//    public void executeBatch(PreparedStatement pstmt){
+//        try{
+//            pstmt.executeBatch();
+//        } catch (SQLException e) {
+//            exceptionCaught(e, pstmt.toString());
+//            e.printStackTrace();
+//        }
+//    }
 
     private void exceptionCaught(SQLException e, String statement) {
         System.out.println(String.format("Exception caught while executing statement: %s", statement));
@@ -77,12 +102,26 @@ public class DatabaseAdapter {
 
     }
 
-    public String getSchema() {
-        return schema;
+    public String getSchemaName() {
+        return schemaName;
     }
 
-    public void setSchema(String schema) {
+    public void setSchemaName(String schemaName) {
+        this.schemaName = schemaName;
+    }
+
+    public void closeConnection() {
+        for (PreparedStatement preparedStatement : preparedStatementMap.values()){
+            try {
+                preparedStatement.executeBatch();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setSchema(Schema schema) {
         this.schema = schema;
+        this.schemaName = schema.getName();
     }
-
 }
