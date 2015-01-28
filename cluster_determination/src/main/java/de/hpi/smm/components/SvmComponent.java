@@ -1,10 +1,12 @@
 package de.hpi.smm.components;
 
 import de.hpi.smm.Config;
-import de.hpi.smm.io.SvmFeatureWriter;
+import de.hpi.smm.cluster_determination.BlogPost;
 import de.hpi.smm.libsvm.svm_train;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SvmComponent {
 
@@ -13,6 +15,7 @@ public class SvmComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("To start the program execute");
             System.out.println("  java -jar <jar-name> <modelFile>");
+            return;
         }
 
         String modelFile = args[0];
@@ -29,14 +32,12 @@ public class SvmComponent {
      * @param modelFile the result model file
      */
     public static void run(String modelFile) throws IOException {
-        SvmFeatureWriter writer = new SvmFeatureWriter(Config.SVM_FEATURE_FILE);
-
-        // read features and write them to a file
-
+        // read features and cluster id of all blog posts
+        List<BlogPost> blogPosts = new ArrayList<>();
 
         // create model and write it to disk
-        String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, modelFile};
-        svm_train.main(createModel);
+        String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
+        svm_train.main(createModel, blogPosts);
     }
 
 }

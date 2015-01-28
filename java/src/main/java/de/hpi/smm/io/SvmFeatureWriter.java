@@ -37,6 +37,7 @@ public class SvmFeatureWriter {
         for (BlogPost blogPost : blogPosts){
             writeFeaturesForDocument(blogPost.getPoint(), blogPost.getClusterNumber());
         }
+        close();
     }
 }
 

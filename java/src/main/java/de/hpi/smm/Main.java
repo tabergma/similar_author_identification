@@ -45,6 +45,8 @@ public class Main {
 
         // evaluate all features - TAKES A LONG TIME!
 //        evaluateFeatures(testSet);
+
+        System.out.println("Finished.");
     }
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {

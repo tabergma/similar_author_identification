@@ -34,7 +34,7 @@ public class TenFoldCrossValidation {
     public Double runForSVM() throws IOException {
         String[] validation = {"-q", "-t", "2", "-s", "0", "-c", "100", "-v", "10", Config.SVM_FEATURE_FILE};
         svm_train svm = new svm_train();
-        svm.run(validation);
+        svm.run(validation, blogPosts);
         return Math.round(svm.getCrossValidationResult() * 100.0) / 100.0;
     }
 
