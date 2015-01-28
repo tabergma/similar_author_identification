@@ -12,6 +12,7 @@ public class ClusterComponent {
             System.out.println("To start the program execute");
             System.out.println("  java -jar <jar-name> <method> <k> <content>");
             System.out.println("<method> can be either 'k-nearest', 'euclidean' or 'svm'.");
+            return;
         }
 
         String method = args[0];

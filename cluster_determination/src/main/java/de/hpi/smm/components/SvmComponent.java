@@ -2,7 +2,6 @@ package de.hpi.smm.components;
 
 import de.hpi.smm.Config;
 import de.hpi.smm.cluster_determination.BlogPost;
-import de.hpi.smm.libsvm.svm_train;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class SvmComponent {
 
         // create model and write it to disk
         String[] createModel = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_FEATURE_FILE, Config.SVM_MODEL_FILE};
-        svm_train.main(createModel, blogPosts);
+//        svm_train.main(createModel, blogPosts);
     }
 
 }

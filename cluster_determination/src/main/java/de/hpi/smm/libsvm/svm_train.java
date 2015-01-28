@@ -3,61 +3,48 @@ package de.hpi.smm.libsvm;
 import de.hpi.smm.cluster_determination.BlogPost;
 import libsvm.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.Vector;
 
 public class svm_train {
 
-    private svm_parameter param;        // set by parse_command_line
+    private svm_parameter param;        // set by parseArguments
     private svm_problem problem;        // set by read_problem
     private svm_model model;
-    private String input_file_name;        // set by parse_command_line
-    private String model_file_name;        // set by parse_command_line
+    private String input_file_name;        // set by parseArguments
+    private String model_file_name;        // set by parseArguments
     private String error_msg;
     private int cross_validation;
     private int nr_fold;
     private double cross_validation_result;
 
-    private static svm_print_interface svm_print_null = new svm_print_interface() {
-        public void print(String s) {
-        }
-    };
+    public double crossValidation(String args[], List<BlogPost> blogPosts) {
+        parseArguments(args);
+        createProblem(blogPosts);
+        error_msg = svm.svm_check_parameter(problem, param);
 
-    private static void exit_with_help() {
-        System.out.print(
-                "Usage: svm_train [options] training_set_file [model_file]\n"
-                        + "options:\n"
-                        + "-s svm_type : set type of SVM (default 0)\n"
-                        + "	0 -- C-SVC		(multi-class classification)\n"
-                        + "	1 -- nu-SVC		(multi-class classification)\n"
-                        + "	2 -- one-class SVM\n"
-                        + "	3 -- epsilon-SVR	(regression)\n"
-                        + "	4 -- nu-SVR		(regression)\n"
-                        + "-t kernel_type : set type of kernel function (default 2)\n"
-                        + "	0 -- linear: u'*v\n"
-                        + "	1 -- polynomial: (gamma*u'*v + coef0)^degree\n"
-                        + "	2 -- radial basis function: exp(-gamma*|u-v|^2)\n"
-                        + "	3 -- sigmoid: tanh(gamma*u'*v + coef0)\n"
-                        + "	4 -- precomputed kernel (kernel values in training_set_file)\n"
-                        + "-d degree : set degree in kernel function (default 3)\n"
-                        + "-g gamma : set gamma in kernel function (default 1/num_features)\n"
-                        + "-r coef0 : set coef0 in kernel function (default 0)\n"
-                        + "-c cost : set the parameter C of C-SVC, epsilon-SVR, and nu-SVR (default 1)\n"
-                        + "-n nu : set the parameter nu of nu-SVC, one-class SVM, and nu-SVR (default 0.5)\n"
-                        + "-p epsilon : set the epsilon in loss function of epsilon-SVR (default 0.1)\n"
-                        + "-m cachesize : set cache memory size in MB (default 100)\n"
-                        + "-e epsilon : set tolerance of termination criterion (default 0.001)\n"
-                        + "-h shrinking : whether to use the shrinking heuristics, 0 or 1 (default 1)\n"
-                        + "-b probability_estimates : whether to train a SVC or SVR model for probability estimates, 0 or 1 (default 0)\n"
-                        + "-wi weight : set the parameter C of class i to weight*C, for C-SVC (default 1)\n"
-                        + "-v n : n-fold cross validation mode\n"
-                        + "-q : quiet mode (no outputs)\n"
-        );
-        System.exit(1);
+        if (error_msg != null) {
+            System.err.print("ERROR: " + error_msg + "\n");
+            System.exit(1);
+        }
+
+        do_cross_validation();
+        return cross_validation_result;
+    }
+
+    public void train(String args[], List<BlogPost> blogPosts) throws IOException {
+        parseArguments(args);
+        createProblem(blogPosts);
+        error_msg = svm.svm_check_parameter(problem, param);
+
+        if (error_msg != null) {
+            System.err.print("ERROR: " + error_msg + "\n");
+            System.exit(1);
+        }
+
+        model = svm.svm_train(problem, param);
+        svm.svm_save_model(model_file_name, model);
     }
 
     private void do_cross_validation() {
@@ -91,31 +78,61 @@ public class svm_train {
                     ++total_correct;
 
             cross_validation_result = 100.0 * total_correct / problem.l;
-//            System.out.print("Cross Validation Accuracy = "+cross_validation_result+"%\n");
         }
     }
 
-    public void run(String args[], List<BlogPost> blogPosts) throws IOException {
-        parse_command_line(args);
-        createProblem(blogPosts);
-        error_msg = svm.svm_check_parameter(problem, param);
+    private void createProblem(List<BlogPost> blogPosts) {
+        Vector<Double> clusters = new Vector<>();
+        Vector<svm_node[]> points = new Vector<>();
+        int maxIndex = 0;
 
-        if (error_msg != null) {
-            System.err.print("ERROR: " + error_msg + "\n");
-            System.exit(1);
+        for (BlogPost post : blogPosts) {
+            clusters.addElement((double) post.getNumber());
+
+            int setValues = post.getSetValues();
+            svm_node[] nodes = new svm_node[setValues];
+            Float[] point = post.getPoint();
+
+            int index = 0;
+            for (int i = 0; i < point.length; i++) {
+                if (point[i] != 0) {
+                    svm_node node = new svm_node();
+                    node.index = i + 1;
+                    node.value = point[i];
+                    nodes[index] = node;
+                    index++;
+                }
+            }
+
+            if (setValues > 0)
+                maxIndex = Math.max(maxIndex, nodes[setValues - 1].index);
+
+            points.addElement(nodes);
         }
 
-        if (cross_validation != 0) {
-            do_cross_validation();
-        } else {
-            model = svm.svm_train(problem, param);
-            svm.svm_save_model(model_file_name, model);
-        }
-    }
+        problem = new svm_problem();
+        problem.l = clusters.size();
+        problem.x = new svm_node[problem.l][];
+        for (int i = 0; i < problem.l; i++)
+            problem.x[i] = points.elementAt(i);
+        problem.y = new double[problem.l];
+        for (int i = 0; i < problem.l; i++)
+            problem.y[i] = clusters.elementAt(i);
 
-    public static void main(String args[], List<BlogPost> blogPosts) throws IOException {
-        svm_train t = new svm_train();
-        t.run(args ,blogPosts);
+        if (param.gamma == 0 && maxIndex > 0)
+            param.gamma = 1.0 / maxIndex;
+
+        if (param.kernel_type == svm_parameter.PRECOMPUTED)
+            for (int i = 0; i < problem.l; i++) {
+                if (problem.x[i][0].index != 0) {
+                    System.err.print("Wrong kernel matrix: first column must be 0:sample_serial_number\n");
+                    System.exit(1);
+                }
+                if ((int) problem.x[i][0].value <= 0 || (int) problem.x[i][0].value > maxIndex) {
+                    System.err.print("Wrong input format: sample_serial_number out of range\n");
+                    System.exit(1);
+                }
+            }
     }
 
     private static double atof(String s) {
@@ -131,7 +148,7 @@ public class svm_train {
         return Integer.parseInt(s);
     }
 
-    private void parse_command_line(String argv[]) {
+    private void parseArguments(String argv[]) {
         int i;
         svm_print_interface print_func = null;    // default printing to stdout
 
@@ -249,115 +266,41 @@ public class svm_train {
         }
     }
 
-    // read in a problem (in svmlight format)
-
-    public void createProblem(List<BlogPost> blogPosts) {
-        Vector<Double> clusters = new Vector<>();
-        Vector<svm_node[]> points = new Vector<>();
-        int maxIndex = 0;
-
-        for (BlogPost post : blogPosts) {
-            clusters.addElement((double) post.getNumber());
-
-            int setValues = post.getSetValues();
-            svm_node[] nodes = new svm_node[setValues];
-            Float[] point = post.getPoint();
-
-            int index = 0;
-            for (int i = 0; i < point.length; i++) {
-                if (point[i] != 0) {
-                    svm_node node = new svm_node();
-                    node.index = i + 1;
-                    node.value = point[i];
-                    nodes[index] = node;
-                    index++;
-                }
-            }
-
-            if (setValues > 0)
-                maxIndex = Math.max(maxIndex, nodes[setValues - 1].index);
-
-            points.addElement(nodes);
+    private static svm_print_interface svm_print_null = new svm_print_interface() {
+        public void print(String s) {
         }
+    };
 
-        problem = new svm_problem();
-        problem.l = clusters.size();
-        problem.x = new svm_node[problem.l][];
-        for (int i = 0; i < problem.l; i++)
-            problem.x[i] = points.elementAt(i);
-        problem.y = new double[problem.l];
-        for (int i = 0; i < problem.l; i++)
-            problem.y[i] = clusters.elementAt(i);
-
-        if (param.gamma == 0 && maxIndex > 0)
-            param.gamma = 1.0 / maxIndex;
-
-        if (param.kernel_type == svm_parameter.PRECOMPUTED)
-            for (int i = 0; i < problem.l; i++) {
-                if (problem.x[i][0].index != 0) {
-                    System.err.print("Wrong kernel matrix: first column must be 0:sample_serial_number\n");
-                    System.exit(1);
-                }
-                if ((int) problem.x[i][0].value <= 0 || (int) problem.x[i][0].value > maxIndex) {
-                    System.err.print("Wrong input format: sample_serial_number out of range\n");
-                    System.exit(1);
-                }
-            }
-    }
-
-
-    private void read_problem() throws IOException {
-        BufferedReader fp = new BufferedReader(new FileReader(input_file_name));
-        Vector<Double> vy = new Vector<Double>();
-        Vector<svm_node[]> vx = new Vector<svm_node[]>();
-        int max_index = 0;
-
-        while (true) {
-            String line = fp.readLine();
-            if (line == null) break;
-
-            StringTokenizer st = new StringTokenizer(line, " \t\n\r\f:");
-
-            vy.addElement(atof(st.nextToken()));
-            int m = st.countTokens() / 2;
-            svm_node[] x = new svm_node[m];
-            for (int j = 0; j < m; j++) {
-                x[j] = new svm_node();
-                x[j].index = atoi(st.nextToken());
-                x[j].value = atof(st.nextToken());
-            }
-            if (m > 0) max_index = Math.max(max_index, x[m - 1].index);
-            vx.addElement(x);
-        }
-
-        problem = new svm_problem();
-        problem.l = vy.size();
-        problem.x = new svm_node[problem.l][];
-        for (int i = 0; i < problem.l; i++)
-            problem.x[i] = vx.elementAt(i);
-        problem.y = new double[problem.l];
-        for (int i = 0; i < problem.l; i++)
-            problem.y[i] = vy.elementAt(i);
-
-        if (param.gamma == 0 && max_index > 0)
-            param.gamma = 1.0 / max_index;
-
-        if (param.kernel_type == svm_parameter.PRECOMPUTED)
-            for (int i = 0; i < problem.l; i++) {
-                if (problem.x[i][0].index != 0) {
-                    System.err.print("Wrong kernel matrix: first column must be 0:sample_serial_number\n");
-                    System.exit(1);
-                }
-                if ((int) problem.x[i][0].value <= 0 || (int) problem.x[i][0].value > max_index) {
-                    System.err.print("Wrong input format: sample_serial_number out of range\n");
-                    System.exit(1);
-                }
-            }
-
-        fp.close();
-    }
-
-    public double getCrossValidationResult() {
-        return cross_validation_result;
+    private static void exit_with_help() {
+        System.out.print(
+                "Usage: svm_train [options] training_set_file [model_file]\n"
+                        + "options:\n"
+                        + "-s svm_type : set type of SVM (default 0)\n"
+                        + "	0 -- C-SVC		(multi-class classification)\n"
+                        + "	1 -- nu-SVC		(multi-class classification)\n"
+                        + "	2 -- one-class SVM\n"
+                        + "	3 -- epsilon-SVR	(regression)\n"
+                        + "	4 -- nu-SVR		(regression)\n"
+                        + "-t kernel_type : set type of kernel function (default 2)\n"
+                        + "	0 -- linear: u'*v\n"
+                        + "	1 -- polynomial: (gamma*u'*v + coef0)^degree\n"
+                        + "	2 -- radial basis function: exp(-gamma*|u-v|^2)\n"
+                        + "	3 -- sigmoid: tanh(gamma*u'*v + coef0)\n"
+                        + "	4 -- precomputed kernel (kernel values in training_set_file)\n"
+                        + "-d degree : set degree in kernel function (default 3)\n"
+                        + "-g gamma : set gamma in kernel function (default 1/num_features)\n"
+                        + "-r coef0 : set coef0 in kernel function (default 0)\n"
+                        + "-c cost : set the parameter C of C-SVC, epsilon-SVR, and nu-SVR (default 1)\n"
+                        + "-n nu : set the parameter nu of nu-SVC, one-class SVM, and nu-SVR (default 0.5)\n"
+                        + "-p epsilon : set the epsilon in loss function of epsilon-SVR (default 0.1)\n"
+                        + "-m cachesize : set cache memory size in MB (default 100)\n"
+                        + "-e epsilon : set tolerance of termination criterion (default 0.001)\n"
+                        + "-h shrinking : whether to use the shrinking heuristics, 0 or 1 (default 1)\n"
+                        + "-b probability_estimates : whether to train a SVC or SVR model for probability estimates, 0 or 1 (default 0)\n"
+                        + "-wi weight : set the parameter C of class i to weight*C, for C-SVC (default 1)\n"
+                        + "-v n : n-fold cross validation mode\n"
+                        + "-q : quiet mode (no outputs)\n"
+        );
+        System.exit(1);
     }
 }
