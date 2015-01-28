@@ -7,8 +7,7 @@ import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.ClusterCentroid;
 import de.hpi.smm.clustering.ClusterLabeling;
 import de.hpi.smm.clustering.KMeans;
-import de.hpi.smm.database.DatabaseAdapter;
-import de.hpi.smm.database.SchemaConfig;
+import de.hpi.smm.database.*;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
@@ -20,7 +19,6 @@ import de.hpi.smm.sets.AbstractDataSet;
 import de.hpi.smm.sets.Author;
 import de.hpi.smm.sets.DataSetSelector;
 import org.apache.commons.io.FileUtils;
-import org.hsqldb.Database;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,11 +31,11 @@ public class Main {
         int limit = 20000;
         int minLength = 50;
 
-        testDatabaseAdapter();
+//        testDatabaseAdapter();
 
 //        Util.switchErrorPrint(false);
 
-        System.out.println("Fetching data...");
+//        System.out.println("Fetching data...");
 //        AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.SMM_SET, minLength, limit);
 //        AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.SPINNER_SET, minLength, limit);
         AbstractDataSet testSet = DataSetSelector.getDataSet(DataSetSelector.GERMAN_SET, minLength, -1);
@@ -56,9 +54,54 @@ public class Main {
     }
 
     private static void testDatabaseAdapter() {
-        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getSchema());
-        databaseAdapter.insert("")
+        // ========= writing =========
+
+//        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
+//        databaseAdapter.setSchema(SchemaConfig.getSchema());
+//
+//        AbstractTableDefinition featureTableDefinition = databaseAdapter.getWriteTable(SchemaConfig.getFeatureTableName());
+//        featureTableDefinition.setRecordValuesToNull(); // this sets all values to NULL, so no value is left unattended
+//        featureTableDefinition.setValue(SchemaConfig.DATA_SET, 1);
+//        featureTableDefinition.setValue(SchemaConfig.DOCUMENT_ID, 1);
+//        featureTableDefinition.setFeatureValue(0, 0.0);
+//        featureTableDefinition.setFeatureValue(1, 0.0);
+//        featureTableDefinition.writeRecord();
+//
+//        databaseAdapter.closeConnection();
+
+        // ========== reading ========
+
+//        databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
+//        databaseAdapter.setSchema(SchemaConfig.getSchema());
+//
+//        featureTableDefinition = databaseAdapter.getReadTable(SchemaConfig.getDocumentClusterMappingTableName());
+//        while(featureTableDefinition.next()) {
+//            System.out.println(featureTableDefinition.getInt(SchemaConfig.DATA_SET));
+//            System.out.println(featureTableDefinition.getInt(SchemaConfig.DOCUMENT_ID));
+//            System.out.println(featureTableDefinition.getInt(SchemaConfig.CLUSTER_ID));
+//        }
+//
+//        databaseAdapter.closeConnection();
+
+        // ========== join + reading ========
+
+//        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
+//        Schema schema = SchemaConfig.getSchema();
+//        databaseAdapter.setSchema(schema);
+//
+//        AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
+//        AbstractTableDefinition documentClusterMapping = schema.getTableDefinition(SchemaConfig.getDocumentClusterMappingTableName());
+//
+//        AbstractTableDefinition joinedTableDefinition = new JoinedTableDefinition(featureTableDefinition, documentClusterMapping, SchemaConfig.DOCUMENT_ID);
+//
+//        joinedTableDefinition = databaseAdapter.getReadTable(joinedTableDefinition);
+//        while(joinedTableDefinition.next()) {
+//            int v2 = joinedTableDefinition.getInt(SchemaConfig.DOCUMENT_ID);
+//            String s = joinedTableDefinition.getString(SchemaConfig.LABELS);
+//            double v3 = joinedTableDefinition.getFeatureValue(0);
+//        }
+//
+//        databaseAdapter.closeConnection();
     }
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {

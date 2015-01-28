@@ -3,8 +3,6 @@ package de.hpi.smm.database;
 import de.hpi.smm.Config;
 
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DatabaseAdapter {
 
@@ -13,8 +11,6 @@ public class DatabaseAdapter {
     private Connection connection = null;
 
     private String schemaName = null;
-
-    private Map<TableDefinition, PreparedStatement> preparedStatementMap = new HashMap<TableDefinition, PreparedStatement>();
     private Schema schema;
 
     DatabaseAdapter() {
@@ -54,28 +50,21 @@ public class DatabaseAdapter {
         }
     }
 
-//    public PreparedStatement createPreparedStatement(String statement) {
-//        try {
-//            PreparedStatement pstmt = this.connection.prepareStatement(statement);
-//            for (int i = 0; i < firstNames.length; i++) {
-//                pstmt.setInt(1, i + 1);
-//                pstmt.setString(5, "");
-//                pstmt.addBatch();
-//            }
-//        } catch (SQLException e) {
-//            exceptionCaught(e, statement);
-//            e.printStackTrace();
-//        }
-//    }
-
-//    public void executeBatch(PreparedStatement pstmt){
-//        try{
-//            pstmt.executeBatch();
-//        } catch (SQLException e) {
-//            exceptionCaught(e, pstmt.toString());
-//            e.printStackTrace();
-//        }
-//    }
+    public AbstractTableDefinition getWriteTable(String tableName){
+        AbstractTableDefinition tableDefinition = this.schema.getTableDefinition(tableName);
+        PreparedStatement preparedStatement = tableDefinition.getPreparedStatement();
+        if (preparedStatement == null){
+            String formattedStatement = tableDefinition.formatInsertStatement(this.schema.getName());
+            try {
+                preparedStatement = this.connection.prepareStatement(formattedStatement);
+            } catch (SQLException e) {
+                exceptionCaught(e, formattedStatement);
+                e.printStackTrace();
+            }
+            tableDefinition.setPreparedStatement(preparedStatement);
+        }
+        return tableDefinition;
+    }
 
     private void exceptionCaught(SQLException e, String statement) {
         System.out.println(String.format("Exception caught while executing statement: %s", statement));
@@ -111,17 +100,41 @@ public class DatabaseAdapter {
     }
 
     public void closeConnection() {
-        for (PreparedStatement preparedStatement : preparedStatementMap.values()){
-            try {
-                preparedStatement.executeBatch();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        for (AbstractTableDefinition tableDefinition : schema.getTableDefinitions().values()){
+            if (tableDefinition.getPreparedStatement() != null) {
+                try {
+                    tableDefinition.getPreparedStatement().executeBatch();
+                } catch (SQLException e) {
+                    exceptionCaught(e, "executeBatch");
+                    e.printStackTrace();
+                }
             }
+        }
+        try {
+            this.connection.commit();
+        } catch (SQLException e) {
+            exceptionCaught(e, "commit");
+            e.printStackTrace();
         }
     }
 
     public void setSchema(Schema schema) {
         this.schema = schema;
         this.schemaName = schema.getName();
+    }
+
+    public Schema getSchema() {
+        return this.schema;
+    }
+
+    public AbstractTableDefinition getReadTable(String tableName) {
+        AbstractTableDefinition tableDefinition = this.schema.getTableDefinition(tableName);
+        return getReadTable(tableDefinition);
+    }
+
+    public AbstractTableDefinition getReadTable(AbstractTableDefinition tableDefinition) {
+        ResultSet resultSet = this.executeQuery(tableDefinition.formatReadStatement(this.schema.getName()));
+        tableDefinition.setResultSet(resultSet);
+        return tableDefinition;
     }
 }

@@ -1,9 +1,16 @@
 package de.hpi.smm.database;
 
-import de.hpi.smm.sets.DataSetSelector;
+import java.sql.SQLException;
 
 public class SchemaConfig {
     private static final int NUMBER_OF_FEATURE_COLUMNS = 900;
+
+    public static final String CLUSTER_ID = "CLUSTER_ID";
+    public static final String DOCUMENT_ID = "DOCUMENT_ID";
+    public static final String DATA_SET = "DATA_SET";
+    public static final String FEATURE_X = "FEATURE_%d";
+    public static final String NUMBER_OF_DOCUMENTS = "NUMBER_OF_DOCUMENTS";
+    public static final String LABELS = "LABELS";
 
     public static Schema getSchema(){
         Schema smm_schema = new Schema("SMA1415");
@@ -14,18 +21,23 @@ public class SchemaConfig {
         return smm_schema;
     }
 
+    private void exceptionCaught(SQLException e, String statement) {
+        System.out.println(String.format("Exception caught while executing statement: %s", statement));
+        e.printStackTrace();
+    }
+
     private static void addLabelTable(Schema schema) {
-        TableDefinition tableDef = new TableDefinition(getLabelTableName());
+        AbstractTableDefinition tableDef = new SingleTableDefiniton(getLabelTableName());
         
         addDatasetColumn(tableDef);
         addClusterIdColumn(tableDef);
-        tableDef.addColumn(new Column("LABELS", Column.STRING));
+        tableDef.addColumn(new Column(LABELS, Column.STRING));
 
         schema.addTable(tableDef);
     }
 
     private static void addDocumentClusterMappingTable(Schema schema) {
-        TableDefinition tableDef = new TableDefinition(getDocumentClusterMappingTableName());
+        AbstractTableDefinition tableDef = new SingleTableDefiniton(getDocumentClusterMappingTableName());
         
         addDatasetColumn(tableDef);
         addDocumentIdColumn(tableDef);
@@ -35,18 +47,18 @@ public class SchemaConfig {
     }
 
     private static void addClusterTable(Schema schema) {
-        TableDefinition tableDef = new TableDefinition(getClusterTableName());
+        AbstractTableDefinition tableDef = new SingleTableDefiniton(getClusterTableName());
         
         addDatasetColumn(tableDef);
         addClusterIdColumn(tableDef);
+        tableDef.addColumn(new Column(NUMBER_OF_DOCUMENTS, Column.INT));
         addFeatureColumns(tableDef);
-        tableDef.addColumn(new Column("NUMBER_OF_DOCUMENTS", Column.INT));
 
         schema.addTable(tableDef);
     }
 
     private static void addFeatureTable(Schema schema) {
-        TableDefinition tableDef = new TableDefinition(getFeatureTableName());
+        AbstractTableDefinition tableDef = new SingleTableDefiniton(getFeatureTableName());
         
         addDatasetColumn(tableDef);
         addDocumentIdColumn(tableDef);
@@ -64,32 +76,30 @@ public class SchemaConfig {
         return "SAI_CLUSTER_TO_DOCUMENT";
     }
 
-
     public static String getClusterTableName (){
         return "SAI_CLUSTERS";
     }
-
 
     public static String getFeatureTableName (){
         return "SAI_FEATURES";
     }
 
-    private static void addDatasetColumn(TableDefinition tableDef) {
-        tableDef.addColumn(new Column("DATA_SET", Column.STRING));
+    private static void addDatasetColumn(AbstractTableDefinition tableDef) {
+        tableDef.addColumn(new Column(DATA_SET, Column.STRING));
     }
 
-    private static void addFeatureColumns(TableDefinition tableDef) {
+    private static void addFeatureColumns(AbstractTableDefinition tableDef) {
         for (int i = 0; i < SchemaConfig.NUMBER_OF_FEATURE_COLUMNS; i++){
-            tableDef.addColumn(new Column(String.format("FEATURE_%d", i), Column.DOUBLE));
+            tableDef.addColumn(new Column(String.format(FEATURE_X, i), Column.DOUBLE));
         }
     }
 
-    private static void addClusterIdColumn(TableDefinition tableDef) {
-        tableDef.addColumn(new Column("CLUSTER_ID", Column.INT));
+    private static void addClusterIdColumn(AbstractTableDefinition tableDef) {
+        tableDef.addColumn(new Column(CLUSTER_ID, Column.INT));
     }
 
-    private static void addDocumentIdColumn(TableDefinition tableDef) {
-        tableDef.addColumn(new Column("DOCUMENT_ID", Column.INT));
+    private static void addDocumentIdColumn(AbstractTableDefinition tableDef) {
+        tableDef.addColumn(new Column(DOCUMENT_ID, Column.INT));
     }
 
 }
