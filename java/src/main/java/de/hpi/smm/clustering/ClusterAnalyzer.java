@@ -13,90 +13,54 @@ import org.apache.mahout.math.Vector;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 
 public class ClusterAnalyzer {
 
-    private Map<Integer, List<Integer>> cluster2document = new HashMap<Integer, List<Integer>>();
-    private List<BlogPost> blogPost = new ArrayList<>();
-    private List<ClusterCentroid> centers = new ArrayList<ClusterCentroid>();
+    private String clusterFile;
+    private String clusterCenterFile;
 
-    public void analyzeMahout() throws IOException {
+    public ClusterAnalyzer(String clusterFile, String clusterCenterFile) {
+        this.clusterFile = clusterFile;
+        this.clusterCenterFile = clusterCenterFile;
+    }
+
+    public void analyzeMahout(ResultHandler resultHandler) throws IOException {
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
 
-        SequenceFile.Reader reader = new SequenceFile.Reader(fs,
-                new Path(Config.CLUSTER_FILE), conf);
-
+        // Handle blog post
+        SequenceFile.Reader blogPostReader = new SequenceFile.Reader(fs, new Path(this.clusterFile), conf);
         IntWritable key = new IntWritable();
         WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
-        while (reader.next(key, value)) {
+        while (blogPostReader.next(key, value)) {
             Integer documentId = Integer.parseInt(((NamedVector) value.getVector()).getName());
             int clusterId = key.get();
-
-            addBlogPost(value, clusterId, documentId);
-            addDocumentToCluster(clusterId, documentId);
+            resultHandler.handleBlogPost(value, clusterId, documentId);
         }
+        blogPostReader.close();
 
-        reader.close();
-
-        SequenceFile.Reader reader1 = new SequenceFile.Reader(fs, new Path(getLastClusterFile()), conf);
+        // Handle cluster centroids
+        SequenceFile.Reader clusterReader = new SequenceFile.Reader(fs, new Path(getLastClusterFile()), conf);
         IntWritable key1 = new IntWritable();
         ClusterWritable value1 = new ClusterWritable();
-        while (reader1.next(key1, value1)) {
-            centers.add(ClusterCentroid.createFromVector(key1.get(), "cluster" + key1.toString(), value1.getValue().getCenter()));
+        while (clusterReader.next(key1, value1)) {
+            int clusterId = key1.get();
+            String name = "cluster" + key1.toString();
+            Vector v = value1.getValue().getCenter();
+            resultHandler.handleCluster(v, clusterId, name);
         }
-        reader1.close();
+        clusterReader.close();
     }
 
     private String getLastClusterFile() {
         for (int i = Config.MAX_ITERATIONS; i > 0 ; i--) {
-            String path = String.format(Config.CLUSTER_CENTER_FILE, i);
+            String path = String.format(this.clusterCenterFile, i);
             if (new File(path).isFile()){
                 return path;
             }
         }
         throw new RuntimeException("FATAL ERROR: Cluster center file not found!");
-    }
-
-    private void addBlogPost(WeightedPropertyVectorWritable value, int clusterId, int documentId) {
-        int featureNr = value.getVector().size();
-        Vector vector = value.getVector();
-        Double[] point = new Double[featureNr];
-
-        for (int i = 0; i < featureNr; i++) {
-            point[i] = vector.get(i);
-        }
-
-        this.blogPost.add(new BlogPost(clusterId, documentId, point));
-    }
-
-    private void addDocumentToCluster(int clusterId, int documentId) {
-        if (!cluster2document.containsKey(clusterId)) {
-            ArrayList<Integer> documents = new ArrayList<Integer>();
-            documents.add(documentId);
-            cluster2document.put(clusterId, documents);
-        } else {
-            List<Integer> documents = cluster2document.get(clusterId);
-            documents.add(documentId);
-            cluster2document.put(clusterId, documents);
-        }
-    }
-
-    public Map<Integer, List<Integer>> getCluster2document() {
-        return cluster2document;
-    }
-
-    public List<BlogPost> getBlogPosts() {
-        return blogPost;
-    }
-
-    public List<ClusterCentroid> getCenters() {
-        return centers;
     }
 
 }

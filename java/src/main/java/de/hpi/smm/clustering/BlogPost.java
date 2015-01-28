@@ -1,10 +1,25 @@
 package de.hpi.smm.clustering;
 
+import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
+import org.apache.mahout.math.Vector;
+
 public class BlogPost {
 
     int clusterNumber;
     int documentId;
     Double[] point;
+
+    public static BlogPost createFromVector(int clusterId, int documentId, WeightedPropertyVectorWritable value) {
+        int featureNr = value.getVector().size();
+        Vector vector = value.getVector();
+        Double[] point = new Double[featureNr];
+
+        for (int i = 0; i < featureNr; i++) {
+            point[i] = vector.get(i);
+        }
+
+        return new BlogPost(clusterId, documentId, point);
+    }
 
     public BlogPost(int clusterNumber, int documentId, Double[] point) {
         this.clusterNumber = clusterNumber;

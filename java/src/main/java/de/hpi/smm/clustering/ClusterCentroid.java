@@ -22,7 +22,7 @@ public class ClusterCentroid {
         
     }
 
-    public static ClusterCentroid createFromVector(int id, String name, Vector centerVector){
+    public static ClusterCentroid createFromVector(int id, String name, Vector centerVector) {
         List<Double> values = new ArrayList<Double>();
         for (int i = 0; i < centerVector.size(); i++) {
             values.add(centerVector.getElement(i).get());

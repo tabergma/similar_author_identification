@@ -2,6 +2,7 @@ package de.hpi.smm.evaluation;
 
 
 import de.hpi.smm.Config;
+import de.hpi.smm.clustering.CacheResultHandler;
 import de.hpi.smm.clustering.ClusterAnalyzer;
 import de.hpi.smm.clustering.KMeans;
 import de.hpi.smm.features.Feature;
@@ -37,7 +38,7 @@ public class FeatureEvaluator {
         double numberOfCombinations = Math.pow(2, index2Feature.size()) - 1; // minus empty set
 
         KMeans kMeans = new KMeans();
-        ClusterAnalyzer analyzer = new ClusterAnalyzer();
+        ClusterAnalyzer analyzer = new ClusterAnalyzer(Config.CLUSTER_FILE, Config.CLUSTER_CENTER_FILE);
         Evaluator evaluator = new Evaluator();
 
         evaluationFMeasureWriter =  new PrintWriter(Config.EVALUATION_FEATURE_F_MEASURE_FILE, "UTF-8");
@@ -57,10 +58,11 @@ public class FeatureEvaluator {
             kMeans.run(featureCombination);
 
             // analyzeMahout cluster
-            analyzer.analyzeMahout();
+            CacheResultHandler results = new CacheResultHandler();
+            analyzer.analyzeMahout(results);
 
             // calculate F-Measure, Precision, Recall
-            List<EvaluationResult> resultList = evaluator.evaluate(testSet, analyzer.getCluster2document());
+            List<EvaluationResult> resultList = evaluator.evaluate(testSet, results.getCluster2document());
 
             // write results to file
             writeResult(currentCombination, resultList);
