@@ -2,3 +2,7 @@
 *.svm
 *.svm.model
 *.tmp
+clustering-1.0.jar
+clustering-1.0.jar.sha1
+ivy-1.0.xml
+ivy-1.0.xml.sha1
