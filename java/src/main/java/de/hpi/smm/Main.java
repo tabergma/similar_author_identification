@@ -121,7 +121,7 @@ public class Main {
         ClusterWriter.writeBlogPosts(resultHandler.getBlogPosts());
 
         System.out.println("Writing files for SVM training...");
-        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
+        SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter(Config.SVM_FEATURE_FILE);
         svmFeatureWriter.writeFeaturesForAllBlogPosts(resultHandler.getBlogPosts());
 
 //        System.out.println("Draw image...");
