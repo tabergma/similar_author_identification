@@ -26,7 +26,7 @@ public class FeatureComponent {
          * GET DOCUMENTS
          */
         List<String> documents = new ArrayList<>();
-        // TODO
+        // TODO: Clean document content
 
         /**
          * EXTRACTING FEATURES

@@ -122,7 +122,7 @@ public class Main {
 
         System.out.println("Writing files for SVM training...");
         SvmFeatureWriter svmFeatureWriter = new SvmFeatureWriter();
-        svmFeatureWriter.writeFeaturesForAllBlogposts(resultHandler.getBlogPosts());
+        svmFeatureWriter.writeFeaturesForAllBlogPosts(resultHandler.getBlogPosts());
 
 //        System.out.println("Draw image...");
 //        Map<Integer, List<Integer>> cluster2documents = analyzer.getCluster2document();
