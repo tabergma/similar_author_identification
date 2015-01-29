@@ -11,6 +11,7 @@ import java.util.List;
 
 public class MahoutComponent {
 
+    // TODO check file access!!!
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             System.out.println("Wrong number of arguments!");

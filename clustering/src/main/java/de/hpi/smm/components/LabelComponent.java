@@ -69,6 +69,7 @@ public class LabelComponent {
         AbstractTableDefinition table = databaseAdapter.getWriteTable(SchemaConfig.getLabelTableName());
 
         for (ClusterCentroid cluster : clusters) {
+            table.setRecordValuesToNull();
             table.setValue(SchemaConfig.CLUSTER_ID, cluster.getId());
             table.setValue(SchemaConfig.DATA_SET, dataSetId);
 

@@ -5,9 +5,9 @@ import org.apache.mahout.math.Vector;
 
 public class BlogPost {
 
-    int clusterNumber;
-    int documentId;
-    Double[] point;
+    private int clusterNumber;
+    private int documentId;
+    private Double[] point;
 
     public static BlogPost createFromVector(int clusterId, int documentId, WeightedPropertyVectorWritable value) {
         int featureNr = value.getVector().size();
