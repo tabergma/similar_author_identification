@@ -68,14 +68,13 @@ public class FeatureComponent {
     }
 
     private static AbstractTableDefinition getTable(DatabaseAdapter databaseAdapter, int dataSetId) {
-        // TODO data set id
-        Schema schema = SchemaConfig.getSchema();
+        Schema schema = SchemaConfig.getWholeSchema(dataSetId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
         AbstractTableDefinition documentTableDefinition = schema.getTableDefinition(SchemaConfig.getDocumentTableName());
 
-        AbstractTableDefinition joinedTableDefinition = new JoinedTableDefinition(featureTableDefinition, documentTableDefinition, SchemaConfig.DOCUMENT_ID);
+        AbstractTableDefinition joinedTableDefinition = new JoinedTableDefinition(featureTableDefinition, SchemaConfig.DOCUMENT_ID, documentTableDefinition, SchemaConfig.DOCUMENT_ID);
 
         return databaseAdapter.getReadTable(joinedTableDefinition);
     }

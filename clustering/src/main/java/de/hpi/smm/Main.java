@@ -4,6 +4,7 @@ package de.hpi.smm;
 import com.cybozu.labs.langdetect.Detector;
 import com.cybozu.labs.langdetect.DetectorFactory;
 import de.hpi.smm.clustering.*;
+import de.hpi.smm.database.*;
 import de.hpi.smm.evaluation.EvaluationResult;
 import de.hpi.smm.evaluation.Evaluator;
 import de.hpi.smm.evaluation.FeatureEvaluator;
@@ -27,7 +28,7 @@ public class Main {
         int limit = 20000;
         int minLength = 50;
 
-//        testDatabaseAdapter();
+        testDatabaseAdapter();
 
 //        Util.switchErrorPrint(false);
 
@@ -55,7 +56,7 @@ public class Main {
         // ========= writing =========
 
 //        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-//        databaseAdapter.setSchema(SchemaConfig.getSchema());
+//        databaseAdapter.setSchema(SchemaConfig.getWholeSchema());
 //
 //        AbstractTableDefinition featureTableDefinition = databaseAdapter.getWriteTable(SchemaConfig.getFeatureTableName());
 //        featureTableDefinition.setRecordValuesToNull(); // this sets all values to NULL, so no value is left unattended
@@ -70,7 +71,7 @@ public class Main {
         // ========== reading ========
 
 //        databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-//        databaseAdapter.setSchema(SchemaConfig.getSchema());
+//        databaseAdapter.setSchema(SchemaConfig.getWholeSchema());
 //
 //        featureTableDefinition = databaseAdapter.getReadTable(SchemaConfig.getDocumentClusterMappingTableName());
 //        while(featureTableDefinition.next()) {
@@ -83,23 +84,23 @@ public class Main {
 
         // ========== join + reading ========
 
-//        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-//        Schema schema = SchemaConfig.getSchema();
-//        databaseAdapter.setSchema(schema);
-//
-//        AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
-//        AbstractTableDefinition documentClusterMapping = schema.getTableDefinition(SchemaConfig.getDocumentClusterMappingTableName());
-//
-//        AbstractTableDefinition joinedTableDefinition = new JoinedTableDefinition(featureTableDefinition, documentClusterMapping, SchemaConfig.DOCUMENT_ID);
-//
-//        joinedTableDefinition = databaseAdapter.getReadTable(joinedTableDefinition);
-//        while(joinedTableDefinition.next()) {
-//            int v2 = joinedTableDefinition.getInt(SchemaConfig.DOCUMENT_ID);
-//            String s = joinedTableDefinition.getString(SchemaConfig.LABELS);
-//            double v3 = joinedTableDefinition.getFeatureValue(0);
-//        }
-//
-//        databaseAdapter.closeConnection();
+        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
+        Schema schema = SchemaConfig.getWholeSchema(0);
+        databaseAdapter.setSchema(schema);
+
+        AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
+        AbstractTableDefinition documentClusterMapping = schema.getTableDefinition(SchemaConfig.getDocumentClusterMappingTableName());
+
+        AbstractTableDefinition joinedTableDefinition = new JoinedTableDefinition(featureTableDefinition, SchemaConfig.DOCUMENT_ID, documentClusterMapping, SchemaConfig.DOCUMENT_ID);
+
+        joinedTableDefinition = databaseAdapter.getReadTable(joinedTableDefinition);
+        while(joinedTableDefinition.next()) {
+            int v2 = joinedTableDefinition.getInt(SchemaConfig.DOCUMENT_ID);
+            String s = joinedTableDefinition.getString(SchemaConfig.LABELS);
+            double v3 = joinedTableDefinition.getFeatureValue(0);
+        }
+
+        databaseAdapter.closeConnection();
     }
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {

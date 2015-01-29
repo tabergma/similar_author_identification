@@ -5,19 +5,21 @@ import java.sql.PreparedStatement;
 public class JoinedTableDefinition extends AbstractTableDefinition {
     private final AbstractTableDefinition firstTable;
     private final AbstractTableDefinition secondTable;
-    private final String joinKey;
+    private final String firstJoinKey;
+    private final String secondJoinKey;
 
-    public JoinedTableDefinition(AbstractTableDefinition table1, AbstractTableDefinition table2, String joinKey) {
+    public JoinedTableDefinition(AbstractTableDefinition table1, String joinKey1, AbstractTableDefinition table2, String joinKey2) {
         super(String.format("%s_JOIN_%s", table1.getName(), table2.getName()));
         this.firstTable = table1;
         this.secondTable = table2;
-        this.joinKey = joinKey;
+        this.firstJoinKey = joinKey1;
+        this.secondJoinKey = joinKey2;
 
-        Column joinKeyColumn = firstTable.getColumns().get(firstTable.getCachedIndex(joinKey));
-        this.addColumn(new Column(String.format("%s.%s", firstTable.getName(), joinKey), joinKeyColumn.getType()));
+        Column joinKeyColumn = firstTable.getColumns().get(firstTable.getCachedIndex(this.firstJoinKey));
+        this.addColumn(new Column(String.format("%s.%s", firstTable.getName(), this.firstJoinKey), joinKeyColumn.getType()));
 
-        addAllColumnsExcept(firstTable, joinKey);
-        addAllColumnsExcept(secondTable, joinKey);
+        addAllColumnsExcept(firstTable, this.firstJoinKey);
+        addAllColumnsExcept(secondTable, this.secondJoinKey);
     }
 
     private void addAllColumnsExcept(AbstractTableDefinition tableDefinition, String exception) {
@@ -40,27 +42,31 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
     }
 
     @Override
-    public String formatInsertStatement(String schemaName) {
+    public String formatInsertStatement() {
         throw new RuntimeException("method not implemented");
     }
 
     @Override
-    public String formatReadStatement(String schemaName) {
+    public String formatReadStatement() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("SELECT ");
         appendColumnNames(stringBuilder);
         stringBuilder.append(" FROM ");
-        firstTable.appendTableName(stringBuilder, schemaName);
+        firstTable.appendTableName(stringBuilder);
         stringBuilder.append(" JOIN ");
-        secondTable.appendTableName(stringBuilder, schemaName);
+        secondTable.appendTableName(stringBuilder);
         stringBuilder.append(" ON ");
         stringBuilder.append(firstTable.getName());
         stringBuilder.append(".");
-        stringBuilder.append(joinKey);
+        stringBuilder.append(firstJoinKey);
         stringBuilder.append(" = ");
         stringBuilder.append(secondTable.getName());
         stringBuilder.append(".");
-        stringBuilder.append(joinKey);
+        stringBuilder.append(secondJoinKey);
+        stringBuilder.append(" WHERE ");
+        stringBuilder.append(firstTable.getWhereClause());
+        stringBuilder.append(" AND ");
+        stringBuilder.append(secondTable.getWhereClause());
         return stringBuilder.toString();
     }
 

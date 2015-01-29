@@ -10,7 +10,6 @@ public class DatabaseAdapter {
 
     private Connection connection = null;
 
-    private String schemaName = null;
     private Schema schema;
 
     DatabaseAdapter() {
@@ -25,7 +24,6 @@ public class DatabaseAdapter {
         String password = Config.PASSWORD;
 
         databaseAdapter.open(ip, instance, user, password);
-        databaseAdapter.setSchemaName("SYSTEM");
 
         return databaseAdapter;
     }
@@ -54,7 +52,7 @@ public class DatabaseAdapter {
         AbstractTableDefinition tableDefinition = this.schema.getTableDefinition(tableName);
         PreparedStatement preparedStatement = tableDefinition.getPreparedStatement();
         if (preparedStatement == null){
-            String formattedStatement = tableDefinition.formatInsertStatement(this.schema.getName());
+            String formattedStatement = tableDefinition.formatInsertStatement();
             try {
                 preparedStatement = this.connection.prepareStatement(formattedStatement);
             } catch (SQLException e) {
@@ -91,14 +89,6 @@ public class DatabaseAdapter {
 
     }
 
-    public String getSchemaName() {
-        return schemaName;
-    }
-
-    public void setSchemaName(String schemaName) {
-        this.schemaName = schemaName;
-    }
-
     public void closeConnection() {
         for (AbstractTableDefinition tableDefinition : schema.getTableDefinitions().values()){
             if (tableDefinition.getPreparedStatement() != null) {
@@ -120,7 +110,6 @@ public class DatabaseAdapter {
 
     public void setSchema(Schema schema) {
         this.schema = schema;
-        this.schemaName = schema.getName();
     }
 
     public Schema getSchema() {
@@ -133,7 +122,7 @@ public class DatabaseAdapter {
     }
 
     public AbstractTableDefinition getReadTable(AbstractTableDefinition tableDefinition) {
-        ResultSet resultSet = this.executeQuery(tableDefinition.formatReadStatement(this.schema.getName()));
+        ResultSet resultSet = this.executeQuery(tableDefinition.formatCompleteReadStatement());
         tableDefinition.setResultSet(resultSet);
         return tableDefinition;
     }

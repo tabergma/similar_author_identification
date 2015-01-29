@@ -17,6 +17,7 @@ public abstract class AbstractTableDefinition {
     private String name;
     protected int firstFeatureColumn = -1;
     private ResultSet resultSet = null;
+    String whereClause = "";
 
     public AbstractTableDefinition(String name){
         this.name = name;
@@ -44,9 +45,19 @@ public abstract class AbstractTableDefinition {
         }
     }
 
-    protected void appendTableName(StringBuilder stringBuilder, String schemaName) {
-        stringBuilder.append(schemaName);
-        stringBuilder.append(".");
+    public void addWhereClause(String expression){
+        if (whereClause.equals("")){
+            whereClause = expression;
+        } else {
+            whereClause = String.format("%s AND %s", whereClause, expression);
+        }
+    }
+
+    public String getWhereClause(){
+        return whereClause;
+    }
+
+    protected void appendTableName(StringBuilder stringBuilder) {
         stringBuilder.append(this.name);
     }
 
@@ -62,9 +73,18 @@ public abstract class AbstractTableDefinition {
 
     public abstract void setPreparedStatement(PreparedStatement preparedStatement);
 
-    public abstract String formatInsertStatement(String schemaName);
+    public abstract String formatInsertStatement();
 
-    public abstract String formatReadStatement(String schemaName);
+    public String formatCompleteReadStatement(){
+        if (getWhereClause().equals("")){
+            return formatReadStatement();
+        } else {
+            String statement = String.format("%s WHERE %s", formatReadStatement(), getWhereClause());
+            return statement;
+        }
+    }
+
+    public abstract String formatReadStatement();
 
     protected int getCachedIndex(String columnName) {
         Integer index = nameToIndex.get(columnName) + 1;

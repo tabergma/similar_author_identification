@@ -13,15 +13,20 @@ public class SingleTableDefinition extends AbstractTableDefinition {
         super(combinedSchemaTableName);
     }
 
+    public SingleTableDefinition(String combinedSchemaTableName, int dataSet) {
+        super(combinedSchemaTableName);
+        this.addWhereClause(String.format("%s = '%s'", SchemaConfig.DATA_SET, dataSet));
+    }
+
     public SingleTableDefinition(String schema, String name) {
         super(String.format("%s.%s", schema, name));
     }
 
     @Override
-    public String formatInsertStatement(String schemaName) {
+    public String formatInsertStatement() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("INSERT INTO ");
-        appendTableName(stringBuilder, schemaName);
+        appendTableName(stringBuilder);
         stringBuilder.append(" (");
         appendColumnNames(stringBuilder);
         stringBuilder.append(") VALUES (");
@@ -36,12 +41,12 @@ public class SingleTableDefinition extends AbstractTableDefinition {
     }
 
     @Override
-    public String formatReadStatement(String schemaName) {
+    public String formatReadStatement() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("SELECT ");
         appendColumnNames(stringBuilder);
         stringBuilder.append(" FROM ");
-        appendTableName(stringBuilder, schemaName);
+        appendTableName(stringBuilder);
         return stringBuilder.toString();
     }
 
