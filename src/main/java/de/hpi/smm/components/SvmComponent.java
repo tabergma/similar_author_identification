@@ -48,16 +48,15 @@ public class SvmComponent {
         svm_train.train(args, blogPosts);
     }
 
-    // TODO: data set id
     private static List<BlogPost> read(int dataSetId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getSchema();
+        Schema schema = SchemaConfig.getWholeSchema(dataSetId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
         AbstractTableDefinition documentClusterMapping = schema.getTableDefinition(SchemaConfig.getDocumentClusterMappingTableName());
 
-        AbstractTableDefinition table = new JoinedTableDefinition(featureTableDefinition, documentClusterMapping, SchemaConfig.DOCUMENT_ID);
+        AbstractTableDefinition table = new JoinedTableDefinition(featureTableDefinition, SchemaConfig.DOCUMENT_ID, documentClusterMapping, SchemaConfig.DOCUMENT_ID);
 
         table = databaseAdapter.getReadTable(table);
 

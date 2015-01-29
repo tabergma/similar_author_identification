@@ -15,7 +15,8 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
         this.firstJoinKey = joinKey1;
         this.secondJoinKey = joinKey2;
 
-        Column joinKeyColumn = firstTable.getColumns().get(firstTable.getCachedIndex(this.firstJoinKey));
+        int columnIndex = firstTable.getCachedIndex(this.firstJoinKey);
+        Column joinKeyColumn = firstTable.getColumns().get(columnIndex);
         this.addColumn(new Column(String.format("%s.%s", firstTable.getName(), this.firstJoinKey), joinKeyColumn.getType()));
 
         addAllColumnsExcept(firstTable, this.firstJoinKey);
@@ -47,7 +48,7 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
     }
 
     @Override
-    public String formatReadStatement() {
+    public String formatCompleteReadStatement() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("SELECT ");
         appendColumnNames(stringBuilder);
@@ -63,11 +64,26 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
         stringBuilder.append(secondTable.getName());
         stringBuilder.append(".");
         stringBuilder.append(secondJoinKey);
-        stringBuilder.append(" WHERE ");
-        stringBuilder.append(firstTable.getWhereClause());
-        stringBuilder.append(" AND ");
-        stringBuilder.append(secondTable.getWhereClause());
+        if (firstTable.getWhereClause().equals("") && secondTable.getWhereClause().equals("")){
+            //
+        } else if (!firstTable.getWhereClause().equals("")){
+            stringBuilder.append(" WHERE ");
+            stringBuilder.append(firstTable.getWhereClause());
+        } else if (!secondTable.getWhereClause().equals("")){
+            stringBuilder.append(" WHERE ");
+            stringBuilder.append(secondTable.getWhereClause());
+        } else {
+            stringBuilder.append(" WHERE ");
+            stringBuilder.append(firstTable.getWhereClause());
+            stringBuilder.append(" AND ");
+            stringBuilder.append(secondTable.getWhereClause());
+        }
         return stringBuilder.toString();
+    }
+
+    @Override
+    public String formatReadStatement() {
+        throw new RuntimeException("method not implemented");
     }
 
     @Override

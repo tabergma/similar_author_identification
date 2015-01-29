@@ -49,13 +49,13 @@ public class ClusterComponent {
 
     private static List<BlogPost> readBlogPosts(int dataSetId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getSchema();
+        Schema schema = SchemaConfig.getWholeSchema(dataSetId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
         AbstractTableDefinition documentClusterMapping = schema.getTableDefinition(SchemaConfig.getDocumentClusterMappingTableName());
 
-        AbstractTableDefinition table = new JoinedTableDefinition(featureTableDefinition, documentClusterMapping, SchemaConfig.DOCUMENT_ID);
+        AbstractTableDefinition table = new JoinedTableDefinition(featureTableDefinition, SchemaConfig.DOCUMENT_ID, documentClusterMapping, SchemaConfig.DOCUMENT_ID);
 
         table = databaseAdapter.getReadTable(table);
 
@@ -80,13 +80,13 @@ public class ClusterComponent {
 
     private static List<Cluster> readClusters(int dataSetId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getSchema();
+        Schema schema = SchemaConfig.getWholeSchema(dataSetId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition clusterTable = schema.getTableDefinition(SchemaConfig.getClusterTableName());
         AbstractTableDefinition labelTable = schema.getTableDefinition(SchemaConfig.getLabelTableName());
 
-        AbstractTableDefinition table = new JoinedTableDefinition(clusterTable, labelTable, SchemaConfig.CLUSTER_ID);
+        AbstractTableDefinition table = new JoinedTableDefinition(clusterTable, SchemaConfig.CLUSTER_ID, labelTable, SchemaConfig.CLUSTER_ID);
 
         table = databaseAdapter.getReadTable(table);
 

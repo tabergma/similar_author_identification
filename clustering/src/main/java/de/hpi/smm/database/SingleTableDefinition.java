@@ -15,7 +15,7 @@ public class SingleTableDefinition extends AbstractTableDefinition {
 
     public SingleTableDefinition(String combinedSchemaTableName, int dataSet) {
         super(combinedSchemaTableName);
-        this.addWhereClause(String.format("%s = '%s'", SchemaConfig.DATA_SET, dataSet));
+        this.addWhereClause(String.format("%s.%s = '%s'", combinedSchemaTableName, SchemaConfig.DATA_SET, dataSet));
     }
 
     public SingleTableDefinition(String schema, String name) {
@@ -52,7 +52,7 @@ public class SingleTableDefinition extends AbstractTableDefinition {
 
     @Override
     public void setValue(String columnName, String value) {
-        int index = getCachedIndex(columnName);
+        int index = getCachedIndex(columnName) + 1;
         try {
             this.preparedStatement.setString(index, value);
         } catch (SQLException e) {
@@ -62,7 +62,7 @@ public class SingleTableDefinition extends AbstractTableDefinition {
 
     @Override
     public void setValue(String columnName, int value) {
-        int index = getCachedIndex(columnName);
+        int index = getCachedIndex(columnName) + 1;
         try {
             this.preparedStatement.setInt(index, value);
         } catch (SQLException e) {

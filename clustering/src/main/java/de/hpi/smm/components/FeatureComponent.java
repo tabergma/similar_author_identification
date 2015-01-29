@@ -45,12 +45,19 @@ public class FeatureComponent {
         // Load table
         AbstractTableDefinition table = getTable(databaseAdapter, dataSetId);
 
+        int i = 0;
         // read content and extract features
         while(table.next()) {
             int id = table.getInt(SchemaConfig.DOCUMENT_ID);
-            String content = table.getString(SchemaConfig.DOCUMENT_CONTENT);
+            String content = null;
+            if (dataSetId == 1) {
+                content = table.getString(SchemaConfig.SMM_CONTENT);
+            } else if (dataSetId == 2){
+                content = table.getString(SchemaConfig.SPINN3R_CONTENT);
+            }
 
             if (content != null) {
+                i++;
                 // detect language
                 detector.append(content);
                 String lang = detector.detect();
@@ -60,6 +67,9 @@ public class FeatureComponent {
 
                 // write features
                 write(databaseAdapter, features, id, dataSetId);
+            }
+            if (i == 10){
+                break;
             }
         }
 
@@ -72,10 +82,17 @@ public class FeatureComponent {
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
-        AbstractTableDefinition documentTableDefinition = schema.getTableDefinition(SchemaConfig.getDocumentTableName());
 
-        AbstractTableDefinition joinedTableDefinition = new JoinedTableDefinition(featureTableDefinition, SchemaConfig.DOCUMENT_ID, documentTableDefinition, SchemaConfig.DOCUMENT_ID);
-
+        AbstractTableDefinition joinedTableDefinition = null;
+        if (dataSetId == 1) { // smm
+            AbstractTableDefinition documentTableDefinition = schema.getTableDefinition(SchemaConfig.getSmmTableName());
+            joinedTableDefinition = new JoinedTableDefinition(documentTableDefinition, SchemaConfig.SMM_ID, featureTableDefinition, SchemaConfig.DOCUMENT_ID);
+            joinedTableDefinition.addWhereClause(String.format("%s = null", SchemaConfig.DOCUMENT_ID));
+        } else if (dataSetId == 2) { // spinn3r
+            AbstractTableDefinition documentTableDefinition = schema.getTableDefinition(SchemaConfig.getSpinn3rTableName());
+            joinedTableDefinition = new JoinedTableDefinition(documentTableDefinition, SchemaConfig.SPINN3R_ID, featureTableDefinition, SchemaConfig.DOCUMENT_ID);
+            joinedTableDefinition.addWhereClause(String.format("%s = null", SchemaConfig.DOCUMENT_ID));
+        }
         return databaseAdapter.getReadTable(joinedTableDefinition);
     }
 

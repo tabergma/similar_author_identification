@@ -87,7 +87,7 @@ public abstract class AbstractTableDefinition {
     public abstract String formatReadStatement();
 
     protected int getCachedIndex(String columnName) {
-        Integer index = nameToIndex.get(columnName) + 1;
+        Integer index = nameToIndex.get(columnName);
         return index;
     }
 
@@ -118,7 +118,7 @@ public abstract class AbstractTableDefinition {
 
     public String getString(String columnName) {
         try {
-            return resultSet.getString(getCachedIndex(columnName));
+            return resultSet.getString(getCachedIndex(columnName) + 1);
         } catch (SQLException e) {
             readValueExceptionCaught(e);
             return null;
@@ -127,7 +127,7 @@ public abstract class AbstractTableDefinition {
 
     public int getInt(String columnName) {
         try {
-            return resultSet.getInt(getCachedIndex(columnName));
+            return resultSet.getInt(getCachedIndex(columnName) + 1);
         } catch (SQLException e) {
             readValueExceptionCaught(e);
             return -1;

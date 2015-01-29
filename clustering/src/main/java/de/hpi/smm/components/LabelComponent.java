@@ -48,9 +48,8 @@ public class LabelComponent {
     private static List<ClusterCentroid> read(int dataSetId) {
         List<ClusterCentroid> clusters = new ArrayList<>();
 
-        // TODO data set id
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getSchema());
+        databaseAdapter.setSchema(SchemaConfig.getWholeSchema(dataSetId));
 
         AbstractTableDefinition table = databaseAdapter.getReadTable(SchemaConfig.getClusterTableName());
         while(table.next()) {
@@ -70,7 +69,7 @@ public class LabelComponent {
 
     private static void write(List<ClusterCentroid> clusters, int dataSetId, int labelCount) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getSchema());
+        databaseAdapter.setSchema(SchemaConfig.getWholeSchema(dataSetId));
         AbstractTableDefinition table = databaseAdapter.getWriteTable(SchemaConfig.getLabelTableName());
 
         for (ClusterCentroid cluster : clusters) {

@@ -43,9 +43,8 @@ public class MahoutComponent {
     private static List<List<Float>> read(int dataSetId) {
         List<List<Float>> allFeatures = new ArrayList<>();
 
-        // TODO datasetid
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getSchema());
+        databaseAdapter.setSchema(SchemaConfig.getWholeSchema(dataSetId));
 
         AbstractTableDefinition table = databaseAdapter.getReadTable(SchemaConfig.getFeatureTableName());
         while(table.next()) {

@@ -11,7 +11,7 @@ public class SchemaConfig {
     public static final String FEATURE_X = "FEATURE_%d";
     public static final String NUMBER_OF_DOCUMENTS = "NUMBER_OF_DOCUMENTS";
     public static final String LABELS = "LABELS";
-    public static final String DOCUMENT_CONTENT = ""; // TODO
+    public static final String DOCUMENT_CONTENT = "DOCUMENT_CONTENT";
 
     public static final String SMM_CONTENT = "POSTCONTENT";
     public static final String SMM_ID = "ID";
