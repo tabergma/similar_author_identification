@@ -33,10 +33,14 @@ public class MahoutComponent {
      * run the K-Means algorithm using Apache Mahout.
      */
     public static void run(int dataSetId) throws Exception {
+        System.out.print("Reading features ... ");
         List<List<Float>> features = read(dataSetId);
+        System.out.println("Done.");
 
+        System.out.print("Performing K-Means ... ");
         KMeans kMeans = new KMeans();
         kMeans.run(features);
+        System.out.println("Done.");
     }
 
 

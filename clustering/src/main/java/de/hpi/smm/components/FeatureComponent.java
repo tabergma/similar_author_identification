@@ -52,11 +52,11 @@ public class FeatureComponent {
         Detector detector = DetectorFactory.create();
 
         // Get documents
-        System.out.print("Executing SQL statement...");
+        System.out.print("Executing SQL statement ... ");
         ResultSet resultSet = getResultSet(dataSetId, databaseAdapter);
         System.out.println("Done.");
 
-        System.out.print("Extracting features...");
+        System.out.print("Extracting features ... ");
         while(resultSet.next()) {
             String id = resultSet.getString(ID);
             String content = resultSet.getString(CONTENT);
