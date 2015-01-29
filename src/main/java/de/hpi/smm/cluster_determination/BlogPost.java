@@ -3,7 +3,7 @@ package de.hpi.smm.cluster_determination;
 public class BlogPost {
 
     private int number;
-    private int documentId;
+    private String documentId;
     private Float[] point;
 
     public BlogPost() {
@@ -30,11 +30,11 @@ public class BlogPost {
         this.number = number;
     }
 
-    public int getDocumentId() {
+    public String getDocumentId() {
         return documentId;
     }
 
-    public void setDocumentId(int documentId) {
+    public void setDocumentId(String documentId) {
         this.documentId = documentId;
     }
 

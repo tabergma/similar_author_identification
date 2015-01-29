@@ -16,16 +16,23 @@ public class ClusterComponent {
     public static void main(String[] args) throws Exception {
         if (args.length != 3) {
             System.out.println("Wrong number of arguments!");
+            System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar <jar-name> <method> <k> <content> <data-set-id>");
-            System.out.println("<method> can be either 'k-nearest', 'euclidean' or 'svm'.");
+            System.out.println("  java -jar cluster_component.jar <data-set-id> <method> <k> <content>");
+            System.out.println("-----------------------------------------------");
+            System.out.println("data-set-id:");
+            System.out.println("  1 -> smm data");
+            System.out.println("  2 -> springer data");
+            System.out.println("method: can be either 'k-nearest', 'euclidean' or 'svm'");
+            System.out.println("k: parameter for k-nearest-neighbor");
+            System.out.println("content: content to cluster");
             return;
         }
 
-        String method = args[0];
-        String k = args[1];
-        String content = args[2];
-        int dataSetId = Integer.parseInt(args[3]);
+        int dataSetId = Integer.parseInt(args[0]);
+        String method = args[1];
+        String k = args[2];
+        String content = args[3];
 
         Cluster cluster = run(content, method, k, dataSetId);
 
@@ -56,7 +63,7 @@ public class ClusterComponent {
         while(table.next()) {
             BlogPost blogPost = new BlogPost();
             blogPost.setNumber(table.getInt(SchemaConfig.CLUSTER_ID));
-            blogPost.setDocumentId(table.getInt(SchemaConfig.DOCUMENT_ID));
+            blogPost.setDocumentId(table.getString(SchemaConfig.DOCUMENT_ID));
             List<Float> features = new ArrayList<>();
             int i = 0;
             while (table.getFeatureValue(i) != -1) {

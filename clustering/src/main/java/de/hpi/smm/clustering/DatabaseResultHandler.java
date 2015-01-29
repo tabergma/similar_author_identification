@@ -6,6 +6,7 @@ import de.hpi.smm.database.SchemaConfig;
 import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
 import org.apache.mahout.math.Vector;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,6 +16,8 @@ public class DatabaseResultHandler implements ResultHandler {
     private DatabaseAdapter databaseAdapter;
     private AbstractTableDefinition documentClusterTable;
     private AbstractTableDefinition clusterTable;
+    private List<String> documentIds;
+    private int index = 0;
 
     public DatabaseResultHandler(int dataSetId) {
         this.dataSetId = dataSetId;
@@ -24,6 +27,7 @@ public class DatabaseResultHandler implements ResultHandler {
 
         documentClusterTable = databaseAdapter.getWriteTable(SchemaConfig.getDocumentClusterMappingTableName());
         clusterTable = databaseAdapter.getWriteTable(SchemaConfig.getClusterTableName());
+        documentIds = readDocumentIds();
     }
 
     @Override
@@ -32,10 +36,12 @@ public class DatabaseResultHandler implements ResultHandler {
 
         documentClusterTable.setRecordValuesToNull();
         documentClusterTable.setValue(SchemaConfig.DATA_SET, this.dataSetId);
-        documentClusterTable.setValue(SchemaConfig.DOCUMENT_ID, blogPost.getDocumentId());
+        documentClusterTable.setValue(SchemaConfig.DOCUMENT_ID, documentIds.get(index));
         documentClusterTable.setValue(SchemaConfig.CLUSTER_ID, blogPost.getClusterNumber());
 
         documentClusterTable.writeRecord();
+
+        this.index++;
     }
 
     @Override
@@ -55,4 +61,15 @@ public class DatabaseResultHandler implements ResultHandler {
     public void closeConnection() {
         databaseAdapter.closeConnection();
     }
+
+    private List<String> readDocumentIds() {
+        // TODO data set id
+        List<String> documentIds = new ArrayList<>();
+        AbstractTableDefinition table = databaseAdapter.getReadTable(SchemaConfig.getFeatureTableName());
+        while(table.next()) {
+            documentIds.add(table.getString(SchemaConfig.DOCUMENT_ID));
+        }
+        return documentIds;
+    }
+
 }

@@ -11,9 +11,13 @@ public class ResultComponent {
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             System.out.println("Wrong number of arguments!");
+            System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar <jar-name> <data-set-id>");
-            System.out.println("data-set-id: 1 -> smm data, 2 -> springer data ");
+            System.out.println("  java -jar result_component.jar <data-set-id>");
+            System.out.println("-----------------------------------------------");
+            System.out.println("data-set-id:");
+            System.out.println("  1 -> smm data");
+            System.out.println("  2 -> springer data");
             return;
         }
 
@@ -33,6 +37,8 @@ public class ResultComponent {
         DatabaseResultHandler resultHandler = new DatabaseResultHandler(dataSetId);
 
         analyzer.analyzeMahout(resultHandler);
+
+        resultHandler.closeConnection();
     }
 
 }

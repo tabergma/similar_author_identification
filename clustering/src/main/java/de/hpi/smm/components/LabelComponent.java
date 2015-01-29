@@ -15,11 +15,16 @@ import java.util.List;
 public class LabelComponent {
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
+        if (args.length != 2) {
             System.out.println("Wrong number of arguments!");
+            System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar <jar-name> <data-set-id> <label-count>");
-            System.out.println("data-set-id: 1 -> smm data, 2 -> springer data ");
+            System.out.println("  java -jar label_component.jar <data-set-id> <label-count>");
+            System.out.println("-----------------------------------------------");
+            System.out.println("data-set-id:");
+            System.out.println("  1 -> smm data");
+            System.out.println("  2 -> springer data");
+            System.out.println("label-count: number of labels for a cluster");
             return;
         }
 
@@ -43,7 +48,7 @@ public class LabelComponent {
     private static List<ClusterCentroid> read(int dataSetId) {
         List<ClusterCentroid> clusters = new ArrayList<>();
 
-        // TODO datasetid
+        // TODO data set id
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
         databaseAdapter.setSchema(SchemaConfig.getSchema());
 

@@ -12,15 +12,21 @@ import java.util.List;
 public class SvmComponent {
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
+        if (args.length != 2) {
             System.out.println("Wrong number of arguments!");
+            System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar <jar-name> <modelFile> <data-set-id>");
+            System.out.println("  java -jar svm_component.jar <data-set-id> <model-file>");
+            System.out.println("-----------------------------------------------");
+            System.out.println("data-set-id:");
+            System.out.println("  1 -> smm data");
+            System.out.println("  2 -> springer data");
+            System.out.println("model-file: file location for model file");
             return;
         }
 
-        String modelFile = args[0];
-        int dataSetId = Integer.parseInt(args[1]);
+        int dataSetId = Integer.parseInt(args[0]);
+        String modelFile = args[1];
 
         run(modelFile, dataSetId);
     }
@@ -59,7 +65,7 @@ public class SvmComponent {
         while(table.next()) {
             BlogPost blogPost = new BlogPost();
             blogPost.setNumber(table.getInt(SchemaConfig.CLUSTER_ID));
-            blogPost.setDocumentId(table.getInt(SchemaConfig.DOCUMENT_ID));
+            blogPost.setDocumentId(table.getString(SchemaConfig.DOCUMENT_ID));
             List<Float> features = new ArrayList<>();
             int i = 0;
             while (table.getFeatureValue(i) != -1) {

@@ -12,12 +12,17 @@ import java.util.List;
 
 public class FeatureComponent {
 
+    // TODO check file access!!!
     public static void main(String[] args) throws Exception {
         if (args.length != 1) {
             System.out.println("Wrong number of arguments!");
+            System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar <jar-name> <data-set-id>");
-            System.out.println("data-set-id: 1 -> smm data, 2 -> springer data ");
+            System.out.println("  java -jar feature_component.jar <data-set-id>");
+            System.out.println("-----------------------------------------------");
+            System.out.println("data-set-id:");
+            System.out.println("  1 -> smm data");
+            System.out.println("  2 -> springer data");
             return;
         }
 
@@ -54,7 +59,7 @@ public class FeatureComponent {
                 List<Float> features = featureExtractor.getFeatures(content, lang);
 
                 // write features
-                write(databaseAdapter, features, 1, 1);
+                write(databaseAdapter, features, id, dataSetId);
             }
         }
 
@@ -63,7 +68,7 @@ public class FeatureComponent {
     }
 
     private static AbstractTableDefinition getTable(DatabaseAdapter databaseAdapter, int dataSetId) {
-        // TODO
+        // TODO data set id
         Schema schema = SchemaConfig.getSchema();
         databaseAdapter.setSchema(schema);
 
@@ -85,8 +90,6 @@ public class FeatureComponent {
             featureTableDefinition.setFeatureValue(i, features.get(i));
         }
         featureTableDefinition.writeRecord();
-
-        databaseAdapter.closeConnection();
     }
 
 }
