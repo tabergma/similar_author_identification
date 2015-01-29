@@ -11,6 +11,7 @@ public class SchemaConfig {
     public static final String FEATURE_X = "FEATURE_%d";
     public static final String NUMBER_OF_DOCUMENTS = "NUMBER_OF_DOCUMENTS";
     public static final String LABELS = "LABELS";
+    public static final String DOCUMENT_CONTENT = ""; // TODO
 
     public static Schema getSchema(){
         Schema smm_schema = new Schema("SMA1415");
@@ -81,6 +82,11 @@ public class SchemaConfig {
     }
 
     public static String getFeatureTableName (){
+        return "SAI_FEATURES";
+    }
+
+    public static String getDocumentTableName () {
+        //TODO
         return "SAI_FEATURES";
     }
 
