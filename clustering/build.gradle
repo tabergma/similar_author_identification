@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+sourceCompatibility = 1.8
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	testCompile group: 'junit', name: 'junit', version: '4.11'
+	compile 'org.apache.mahout:mahout-core:0.9'
+	compile 'commons-lang:commons-lang:2.3'
+	compile 'org.apache.hadoop:hadoop-core:0.20.2'
+	compile 'org.apache.commons:commons-io:1.3.2'
+	compile files('../res/libsvm-java/libsvm.jar')
+	compile files('../res/ngdbc.jar')
+	compile files('../res/langdetect-03-03-2014/lib/jsonic-1.2.0.jar')
+	compile files('../res/langdetect-03-03-2014/lib/langdetect.jar')
+	compile files('../res/stanford-postagger-full-2014-08-27/stanford-postagger-3.4.1.jar')
+}
