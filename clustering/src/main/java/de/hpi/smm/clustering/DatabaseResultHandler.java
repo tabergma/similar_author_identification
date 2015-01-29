@@ -19,7 +19,7 @@ public class DatabaseResultHandler implements ResultHandler {
     public DatabaseResultHandler(int dataSetId) {
         this.dataSetId = dataSetId;
 
-        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
+        databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
         databaseAdapter.setSchema(SchemaConfig.getSchema());
 
         documentClusterTable = databaseAdapter.getWriteTable(SchemaConfig.getDocumentClusterMappingTableName());
