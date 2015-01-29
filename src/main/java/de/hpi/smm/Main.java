@@ -23,7 +23,8 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Map<String, Object> map = new HashMap<String, Object>();
 
-        ClusterDetermination clusterDetermination = new ClusterDetermination();
+        ClusterDetermination clusterDetermination = new ClusterDetermination(
+                de.hpi.smm.helper.FileReader.readClusterFile(), de.hpi.smm.helper.FileReader.readBlogPostFile());
 
         get("/", (rq, rs) -> {
             map.put("result", false);

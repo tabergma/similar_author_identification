@@ -13,10 +13,12 @@ import java.util.List;
 
 public class ClusterDetermination {
 
-    List<Cluster> clusters = de.hpi.smm.helper.FileReader.readClusterFile();
-    List<BlogPost> blogPosts = de.hpi.smm.helper.FileReader.readBlogPostFile();
+    List<Cluster> clusters;
+    List<BlogPost> blogPosts;
 
-    public ClusterDetermination() throws IOException {
+    public ClusterDetermination(List<Cluster> clusters, List<BlogPost> blogPosts) throws IOException {
+        this.clusters = clusters;
+        this.blogPosts = blogPosts;
         createSvmModel();
     }
 
