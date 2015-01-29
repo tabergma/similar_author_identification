@@ -38,7 +38,7 @@ public class FeatureComponent {
         Detector detector = DetectorFactory.create();
 
         // Load table
-        AbstractTableDefinition table = getTable(databaseAdapter);
+        AbstractTableDefinition table = getTable(databaseAdapter, dataSetId);
 
         // read content and extract features
         while(table.next()) {
@@ -62,7 +62,8 @@ public class FeatureComponent {
         databaseAdapter.closeConnection();
     }
 
-    public static AbstractTableDefinition getTable(DatabaseAdapter databaseAdapter) {
+    private static AbstractTableDefinition getTable(DatabaseAdapter databaseAdapter, int dataSetId) {
+        // TODO
         Schema schema = SchemaConfig.getSchema();
         databaseAdapter.setSchema(schema);
 
