@@ -99,7 +99,7 @@ public class svm_predict {
                     exit_with_help();
             }
         }
-        if (i >= args.length - 1)
+        if (i >= args.length)
             exit_with_help();
 
         // read model
