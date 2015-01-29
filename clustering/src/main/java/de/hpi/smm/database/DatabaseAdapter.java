@@ -123,7 +123,7 @@ public class DatabaseAdapter {
 
     public AbstractTableDefinition getReadTable(AbstractTableDefinition tableDefinition) {
         ResultSet resultSet = this.executeQuery(tableDefinition.formatCompleteReadStatement());
-        tableDefinition.setResultSet(resultSet);
+         tableDefinition.setResultSet(resultSet);
         return tableDefinition;
     }
 }

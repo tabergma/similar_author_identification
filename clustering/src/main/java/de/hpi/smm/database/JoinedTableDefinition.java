@@ -8,6 +8,8 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
     private final String firstJoinKey;
     private final String secondJoinKey;
 
+    private String joinType = "";
+
     public JoinedTableDefinition(AbstractTableDefinition table1, String joinKey1, AbstractTableDefinition table2, String joinKey2) {
         super(String.format("%s_JOIN_%s", table1.getName(), table2.getName()));
         this.firstTable = table1;
@@ -54,6 +56,7 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
         appendColumnNames(stringBuilder);
         stringBuilder.append(" FROM ");
         firstTable.appendTableName(stringBuilder);
+        stringBuilder.append(this.joinType);
         stringBuilder.append(" JOIN ");
         secondTable.appendTableName(stringBuilder);
         stringBuilder.append(" ON ");
@@ -109,5 +112,9 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
     @Override
     public void setRecordValuesToNull() {
         throw new RuntimeException("method not implemented");
+    }
+
+    public void setJoinType(String joinType) {
+        this.joinType = joinType;
     }
 }
