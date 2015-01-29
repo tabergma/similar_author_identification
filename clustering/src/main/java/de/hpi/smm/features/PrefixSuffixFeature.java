@@ -154,8 +154,7 @@ public class PrefixSuffixFeature extends AbstractTokenFeature {
             prefixSuffix = new ArrayList<String>();
             for (String a : letters) {
                 for (String b : letters) {
-                    if (!a.equals(b))
-                        prefixSuffix.add(a + b);
+                    prefixSuffix.add(a + b);
                 }
             }
         }
