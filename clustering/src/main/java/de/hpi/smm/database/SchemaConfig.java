@@ -13,6 +13,8 @@ public class SchemaConfig {
     public static final String LABELS = "LABELS";
     public static final String DOCUMENT_CONTENT = ""; // TODO
 
+    public static final String SCHEMA = "SMA1415";
+
     public static Schema getSchema(){
         Schema smm_schema = new Schema("SMA1415");
         addFeatureTable(smm_schema);
@@ -28,7 +30,7 @@ public class SchemaConfig {
     }
 
     private static void addLabelTable(Schema schema) {
-        AbstractTableDefinition tableDef = new SingleTableDefiniton(getLabelTableName());
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getLabelTableName());
         
         addDatasetColumn(tableDef);
         addClusterIdColumn(tableDef);
@@ -38,7 +40,7 @@ public class SchemaConfig {
     }
 
     private static void addDocumentClusterMappingTable(Schema schema) {
-        AbstractTableDefinition tableDef = new SingleTableDefiniton(getDocumentClusterMappingTableName());
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getDocumentClusterMappingTableName());
         
         addDatasetColumn(tableDef);
         addDocumentIdColumn(tableDef);
@@ -48,7 +50,7 @@ public class SchemaConfig {
     }
 
     private static void addClusterTable(Schema schema) {
-        AbstractTableDefinition tableDef = new SingleTableDefiniton(getClusterTableName());
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getClusterTableName());
         
         addDatasetColumn(tableDef);
         addClusterIdColumn(tableDef);
@@ -59,7 +61,7 @@ public class SchemaConfig {
     }
 
     private static void addFeatureTable(Schema schema) {
-        AbstractTableDefinition tableDef = new SingleTableDefiniton(getFeatureTableName());
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getFeatureTableName());
         
         addDatasetColumn(tableDef);
         addDocumentIdColumn(tableDef);
@@ -70,24 +72,27 @@ public class SchemaConfig {
     }
 
     public static String getLabelTableName () {
-        return "SAI_LABELS";
+        return String.format("%s.%s", SCHEMA, "SAI_LABELS");
     }
 
     public static String getDocumentClusterMappingTableName (){
-        return "SAI_CLUSTER_TO_DOCUMENT";
+        return String.format("%s.%s", SCHEMA, "SAI_CLUSTER_TO_DOCUMENT");
     }
 
     public static String getClusterTableName (){
-        return "SAI_CLUSTERS";
+        return String.format("%s.%s", SCHEMA, "SAI_CLUSTERS");
     }
 
     public static String getFeatureTableName (){
-        return "SAI_FEATURES";
+        return String.format("%s.%s", SCHEMA, "SAI_FEATURES");
     }
 
     public static String getDocumentTableName () {
-        //TODO
-        return "SAI_FEATURES";
+        return String.format("%s.%s", SCHEMA, "SAI_FEATURES");
+    }
+
+    private static String getSchemaName(){
+        return SCHEMA;
     }
 
     private static void addDatasetColumn(AbstractTableDefinition tableDef) {

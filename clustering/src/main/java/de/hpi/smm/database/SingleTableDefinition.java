@@ -3,14 +3,18 @@ package de.hpi.smm.database;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SingleTableDefiniton extends AbstractTableDefinition {
+public class SingleTableDefinition extends AbstractTableDefinition {
     private static final int BATCH_SIZE = 100;
 
     private int currentBatchSize = 0;
     private PreparedStatement preparedStatement = null;
 
-    public SingleTableDefiniton(String name) {
-        super(name);
+    public SingleTableDefinition(String combinedSchemaTableName) {
+        super(combinedSchemaTableName);
+    }
+
+    public SingleTableDefinition(String schema, String name) {
+        super(String.format("%s.%s", schema, name));
     }
 
     @Override
