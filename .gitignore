@@ -19,7 +19,7 @@ tasks.xml
 .mtj.tmp/
 
 # Package Files #
-*.jar
+gradle/wrapper/gradle-wrapper.jar
 *.war
 *.ear
 
