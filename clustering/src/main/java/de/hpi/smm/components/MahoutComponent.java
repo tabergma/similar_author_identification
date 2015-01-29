@@ -56,6 +56,7 @@ public class MahoutComponent {
             int i = 0;
             while (table.getFeatureValue(i) != -1) {
                 features.add((float) table.getFeatureValue(i));
+                i++;
             }
             allFeatures.add(features);
         }

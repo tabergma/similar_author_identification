@@ -69,6 +69,7 @@ public class SvmComponent {
             int i = 0;
             while (table.getFeatureValue(i) != -1) {
                 features.add((float) table.getFeatureValue(i));
+                i++;
             }
             blogPost.setPoint(features.toArray(new Float[features.size()]));
             blogPosts.add(blogPost);

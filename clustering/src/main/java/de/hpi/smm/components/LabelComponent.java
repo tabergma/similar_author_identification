@@ -58,6 +58,7 @@ public class LabelComponent {
             int i = 0;
             while (table.getFeatureValue(i) != -1) {
                 features.add(table.getFeatureValue(i));
+                i++;
             }
             clusters.add(new ClusterCentroid(id, "cluster" + id, features));
         }
