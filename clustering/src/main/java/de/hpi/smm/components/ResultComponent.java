@@ -33,12 +33,16 @@ public class ResultComponent {
         String clusterFile = Config.CLUSTER_FILE;
         String clusterCenterFile = Config.CLUSTER_CENTER_FILE;
 
+        System.out.print("Preparing ... ");
         ClusterAnalyzer analyzer = new ClusterAnalyzer(clusterFile, clusterCenterFile);
         DatabaseResultHandler resultHandler = new DatabaseResultHandler(dataSetId);
+        System.out.println("Done.");
 
         analyzer.analyzeMahout(resultHandler);
 
         resultHandler.closeConnection();
+
+        System.out.println("Finished.");
     }
 
 }

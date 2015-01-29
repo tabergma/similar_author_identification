@@ -1,6 +1,5 @@
 package de.hpi.smm.components;
 
-import de.hpi.smm.Config;
 import de.hpi.smm.cluster_determination.BlogPost;
 import de.hpi.smm.database.*;
 import de.hpi.smm.libsvm.svm_train;
@@ -40,12 +39,18 @@ public class SvmComponent {
      */
     public static void run(String modelFile, int dataSetId) throws IOException {
         // read features and cluster id of all blog posts
-        List<BlogPost> blogPosts = new ArrayList<>();
+        System.out.print("Reading blog posts with features and cluster id ... ");
+        List<BlogPost> blogPosts = read(dataSetId);
+        System.out.print("Done.");
 
         // create model and write it to disk
-        String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_MODEL_FILE};
+        System.out.print("Training the SVM ... ");
+        String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", modelFile};
         svm_train svm_train = new svm_train();
         svm_train.train(args, blogPosts);
+        System.out.print("Done.");
+
+        System.out.print("Finished.");
     }
 
     private static List<BlogPost> read(int dataSetId) {

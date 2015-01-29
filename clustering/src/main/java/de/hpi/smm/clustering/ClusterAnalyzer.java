@@ -30,6 +30,7 @@ public class ClusterAnalyzer {
         FileSystem fs = FileSystem.get(conf);
 
         // Handle blog post
+        System.out.print("Read cluster - blog post file ... ");
         SequenceFile.Reader blogPostReader = new SequenceFile.Reader(fs, new Path(this.clusterFile), conf);
         IntWritable key = new IntWritable();
         WeightedPropertyVectorWritable value = new WeightedPropertyVectorWritable();
@@ -39,8 +40,10 @@ public class ClusterAnalyzer {
             resultHandler.handleBlogPost(value, clusterId, documentId);
         }
         blogPostReader.close();
+        System.out.println("Done.");
 
         // Handle cluster centroids
+        System.out.print("Read cluster centroids file ... ");
         SequenceFile.Reader clusterReader = new SequenceFile.Reader(fs, new Path(getLastClusterFile()), conf);
         IntWritable key1 = new IntWritable();
         ClusterWritable value1 = new ClusterWritable();
@@ -51,6 +54,7 @@ public class ClusterAnalyzer {
             resultHandler.handleCluster(v, clusterId, name);
         }
         clusterReader.close();
+        System.out.println("Done.");
     }
 
     private String getLastClusterFile() {

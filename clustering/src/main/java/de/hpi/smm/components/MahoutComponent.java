@@ -41,6 +41,8 @@ public class MahoutComponent {
         KMeans kMeans = new KMeans();
         kMeans.run(features);
         System.out.println("Done.");
+
+        System.out.println("Finished.");
     }
 
 

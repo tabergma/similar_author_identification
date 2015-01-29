@@ -80,6 +80,7 @@ public class FeatureComponent {
 
         // Close database connection
         databaseAdapter.closeConnection();
+        System.out.println("Finished.");
     }
 
     private static ResultSet getResultSet(int dataSetId, DatabaseAdapter databaseAdapter) {

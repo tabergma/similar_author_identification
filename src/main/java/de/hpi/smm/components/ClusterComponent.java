@@ -37,12 +37,18 @@ public class ClusterComponent {
         Cluster cluster = run(content, method, k, dataSetId);
 
         System.out.println("Result: Cluster " + cluster.getNumber());
+        System.out.print("Finished.");
     }
 
     public static Cluster run(String content, String method, String k, int dataSetId) throws Exception {
+        System.out.print("Reading blog posts with features and cluster id ... ");
         List<BlogPost> blogPosts = readBlogPosts(dataSetId);
+        System.out.print("Done.");
+        System.out.print("Reading cluster centroids ... ");
         List<Cluster> clusters = readClusters(dataSetId);
+        System.out.print("Done.");
 
+        System.out.println("Determining cluster ... ");
         ClusterDetermination clusterDetermination = new ClusterDetermination(clusters, blogPosts);
         return clusterDetermination.run(content, method, k);
     }

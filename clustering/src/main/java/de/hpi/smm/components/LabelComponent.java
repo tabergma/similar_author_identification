@@ -37,12 +37,20 @@ public class LabelComponent {
      * write them into the database
      */
     public static void run(int dataSetId, int labelCount) throws Exception {
+        System.out.print("Reading cluster centroids ... ");
         List<ClusterCentroid> clusters = read(dataSetId);
+        System.out.println("Done.");
 
+        System.out.print("Calculate labels ... ");
         ClusterLabeling labeling = new ClusterLabeling(clusters, FeatureExtractor.getIndexToFeatureMap());
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
+        System.out.println("Done.");
 
+        System.out.print("Writing cluster labels ... ");
         write(clusterCentroids, dataSetId, labelCount);
+        System.out.println("Done.");
+
+        System.out.println("Finished.");
     }
 
     private static List<ClusterCentroid> read(int dataSetId) {
