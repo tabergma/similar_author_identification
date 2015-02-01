@@ -1,11 +1,8 @@
 package de.hpi.smm.database;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -79,16 +76,14 @@ public abstract class AbstractTableDefinition {
         if (getWhereClause().equals("")){
             return formatReadStatement();
         } else {
-            String statement = String.format("%s WHERE %s", formatReadStatement(), getWhereClause());
-            return statement;
+            return String.format("%s WHERE %s", formatReadStatement(), getWhereClause());
         }
     }
 
     public abstract String formatReadStatement();
 
     protected int getCachedIndex(String columnName) {
-        Integer index = nameToIndex.get(columnName);
-        return index;
+        return nameToIndex.get(columnName);
     }
 
     public abstract void setValue(String columnName, int value);

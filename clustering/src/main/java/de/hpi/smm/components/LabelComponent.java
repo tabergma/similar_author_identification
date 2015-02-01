@@ -51,11 +51,15 @@ public class LabelComponent {
         System.out.println("Finished.");
     }
 
-    private static List<ClusterCentroid> read(int dataSetId) {
+    private static List<ClusterCentroid> read(int runId) {
         List<ClusterCentroid> clusters = new ArrayList<>();
 
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
+<<<<<<< HEAD
         databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(dataSetId));
+=======
+        databaseAdapter.setSchema(SchemaConfig.getWholeSchema(runId));
+>>>>>>> rename datasetid to runid
 
         AbstractTableDefinition table = databaseAdapter.getReadTable(SchemaConfig.getClusterTableName());
         while(table.next()) {
@@ -75,15 +79,15 @@ public class LabelComponent {
         return clusters;
     }
 
-    private static void write(List<ClusterCentroid> clusters, int dataSetId, int labelCount) {
+    private static void write(List<ClusterCentroid> clusters, int runId, int labelCount) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(dataSetId));
+        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(runId));
         AbstractTableDefinition table = databaseAdapter.getWriteTable(SchemaConfig.getLabelTableName());
 
         for (ClusterCentroid cluster : clusters) {
             table.setRecordValuesToNull();
             table.setValue(SchemaConfig.CLUSTER_ID, cluster.getId());
-            table.setValue(SchemaConfig.RUN_ID, dataSetId);
+            table.setValue(SchemaConfig.RUN_ID, runId);
 
             List<String> labels = cluster.getMostSignificantLabels(labelCount);
             String label = Joiner.on("; ").join(labels);
