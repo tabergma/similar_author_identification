@@ -136,10 +136,15 @@ public abstract class AbstractTableDefinition {
 
     public double getFeatureValue(int index) {
         try {
-            return resultSet.getInt(firstFeatureColumn + index);
+            double value = resultSet.getDouble(firstFeatureColumn + index);
+            if (resultSet.wasNull()){
+                return -1.0;
+            } else {
+                return value;
+            }
         } catch (SQLException e) {
             readValueExceptionCaught(e);
-            return -1;
+            return -1.0;
         }
     }
 
@@ -157,6 +162,7 @@ public abstract class AbstractTableDefinition {
 
     private void readValueExceptionCaught(SQLException e) {
         e.printStackTrace();
+        throw new RuntimeException("Exception caught while reading a value!");
     }
 
     public abstract void setRecordValuesToNull();
