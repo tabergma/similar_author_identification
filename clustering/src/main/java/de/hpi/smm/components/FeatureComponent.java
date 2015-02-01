@@ -55,7 +55,7 @@ public class FeatureComponent {
 
         // Get documents
         System.out.print("Executing SQL statement ... ");
-        ResultSet resultSet = getResultSet(dataSetId, databaseAdapter);
+        ResultSet resultSet = getResultSet(dataSetId, databaseAdapter, limit);
         System.out.println("Done.");
 
         System.out.print("Extracting features ... ");
@@ -85,7 +85,7 @@ public class FeatureComponent {
         System.out.println("Finished.");
     }
 
-    private static ResultSet getResultSet(int dataSetId, DatabaseAdapter databaseAdapter) {
+    private static ResultSet getResultSet(int dataSetId, DatabaseAdapter databaseAdapter, int limit) {
         String idColumn = null, contentColumn = null, tableName = null;
         if (dataSetId == 1){
             idColumn = SchemaConfig.SMM_ID;
@@ -96,7 +96,7 @@ public class FeatureComponent {
             contentColumn = SchemaConfig.SPINN3R_CONTENT;
             tableName = SchemaConfig.getSpinn3rTableName();
         }
-        String statement = String.format(SELECT_STATEMENT, idColumn, contentColumn, tableName, 1000);
+        String statement = String.format(SELECT_STATEMENT, idColumn, contentColumn, tableName, limit);
 
         return databaseAdapter.executeQuery(statement);
     }
