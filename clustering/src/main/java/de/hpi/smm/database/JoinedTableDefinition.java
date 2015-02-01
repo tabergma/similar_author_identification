@@ -34,6 +34,16 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
         }
     }
 
+    protected int getCachedIndex(String columnName) {
+        String completeColumnName = "";
+        if (firstTable.hasColumn(columnName)){
+            completeColumnName = String.format("%s.%s", firstTable.getName(), columnName);
+        } else {
+            completeColumnName = String.format("%s.%s", secondTable.getName(), columnName);
+        }
+        return super.getCachedIndex(completeColumnName);
+    }
+
     @Override
     public PreparedStatement getPreparedStatement() {
         throw new RuntimeException("method not implemented");

@@ -161,4 +161,8 @@ public abstract class AbstractTableDefinition {
     }
 
     public abstract void setRecordValuesToNull();
+
+    public boolean hasColumn(String columnName) {
+        return nameToIndex.containsKey(columnName);
+    }
 }
