@@ -8,6 +8,7 @@ public class SchemaConfig {
     public static final String CLUSTER_ID = "CLUSTER_ID";
     public static final String DOCUMENT_ID = "DOCUMENT_ID";
     public static final String DATA_SET = "DATA_SET";
+    public static final String RUN_ID = "RUN_ID";
     public static final String FEATURE_X = "FEATURE_%d";
     public static final String NUMBER_OF_DOCUMENTS = "NUMBER_OF_DOCUMENTS";
     public static final String LABELS = "LABELS";
@@ -57,7 +58,7 @@ public class SchemaConfig {
     private static void addLabelTable(Schema schema, int dataSet) {
         AbstractTableDefinition tableDef = new SingleTableDefinition(getLabelTableName(), dataSet);
         
-        addDatasetColumn(tableDef);
+        addRunIdColumn(tableDef);
         addClusterIdColumn(tableDef);
         tableDef.addColumn(new Column(LABELS, Column.STRING));
 
@@ -67,7 +68,7 @@ public class SchemaConfig {
     private static void addDocumentClusterMappingTable(Schema schema, int dataSet) {
         AbstractTableDefinition tableDef = new SingleTableDefinition(getDocumentClusterMappingTableName(), dataSet);
         
-        addDatasetColumn(tableDef);
+        addRunIdColumn(tableDef);
         addDocumentIdColumn(tableDef);
         addClusterIdColumn(tableDef);
 
@@ -77,7 +78,7 @@ public class SchemaConfig {
     private static void addClusterTable(Schema schema, int dataSet) {
         AbstractTableDefinition tableDef = new SingleTableDefinition(getClusterTableName(), dataSet);
         
-        addDatasetColumn(tableDef);
+        addRunIdColumn(tableDef);
         addClusterIdColumn(tableDef);
         tableDef.addColumn(new Column(NUMBER_OF_DOCUMENTS, Column.INT));
         addFeatureColumns(tableDef);
@@ -87,8 +88,8 @@ public class SchemaConfig {
 
     private static void addFeatureTable(Schema schema, int dataSet) {
         AbstractTableDefinition tableDef = new SingleTableDefinition(getFeatureTableName(), dataSet);
-        
-        addDatasetColumn(tableDef);
+
+        tableDef.addColumn(new Column(DATA_SET, Column.INT));
         addDocumentIdColumn(tableDef);
         addFeatureColumns(tableDef);
 
@@ -128,8 +129,8 @@ public class SchemaConfig {
         return MAIN_SCHEMA;
     }
 
-    private static void addDatasetColumn(AbstractTableDefinition tableDef) {
-        tableDef.addColumn(new Column(DATA_SET, Column.STRING));
+    private static void addRunIdColumn(AbstractTableDefinition tableDef) {
+        tableDef.addColumn(new Column(RUN_ID, Column.INT));
     }
 
     private static void addFeatureColumns(AbstractTableDefinition tableDef) {

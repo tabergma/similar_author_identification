@@ -13,9 +13,9 @@ public class SingleTableDefinition extends AbstractTableDefinition {
         super(combinedSchemaTableName);
     }
 
-    public SingleTableDefinition(String combinedSchemaTableName, int dataSet) {
+    public SingleTableDefinition(String combinedSchemaTableName, int runId) {
         super(combinedSchemaTableName);
-        this.addWhereClause(String.format("%s.%s = '%s'", combinedSchemaTableName, SchemaConfig.DATA_SET, dataSet));
+        this.addWhereClause(String.format("%s.%s = '%s'", combinedSchemaTableName, SchemaConfig.RUN_ID, dataSet));
     }
 
     public SingleTableDefinition(String schema, String name) {

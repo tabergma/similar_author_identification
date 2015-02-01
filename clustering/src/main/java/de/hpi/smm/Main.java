@@ -60,7 +60,7 @@ public class Main {
 //
 //        AbstractTableDefinition featureTableDefinition = databaseAdapter.getWriteTable(SchemaConfig.getFeatureTableName());
 //        featureTableDefinition.setRecordValuesToNull(); // this sets all values to NULL, so no value is left unattended
-//        featureTableDefinition.setValue(SchemaConfig.DATA_SET, 1);
+//        featureTableDefinition.setValue(SchemaConfig.RUN_ID, 1);
 //        featureTableDefinition.setValue(SchemaConfig.DOCUMENT_ID, 1);
 //        featureTableDefinition.setFeatureValue(0, 0.0);
 //        featureTableDefinition.setFeatureValue(1, 0.0);
@@ -75,7 +75,7 @@ public class Main {
 //
 //        featureTableDefinition = databaseAdapter.getReadTable(SchemaConfig.getDocumentClusterMappingTableName());
 //        while(featureTableDefinition.next()) {
-//            System.out.println(featureTableDefinition.getInt(SchemaConfig.DATA_SET));
+//            System.out.println(featureTableDefinition.getInt(SchemaConfig.RUN_ID));
 //            System.out.println(featureTableDefinition.getInt(SchemaConfig.DOCUMENT_ID));
 //            System.out.println(featureTableDefinition.getInt(SchemaConfig.CLUSTER_ID));
 //        }

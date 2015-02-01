@@ -27,7 +27,7 @@ public class JoinedTableDefinition extends AbstractTableDefinition {
 
     private void addAllColumnsExcept(AbstractTableDefinition tableDefinition, String exception) {
         for (Column column : tableDefinition.getColumns()){
-            if (!column.getName().equals(exception) && !column.getName().equals(SchemaConfig.DATA_SET)){
+            if (!column.getName().equals(exception) && !column.getName().equals(SchemaConfig.RUN_ID)){
                 Column newColumn = new Column(String.format("%s.%s", tableDefinition.getName(), column.getName()), column.getType());
                 this.addColumn(newColumn);
             }

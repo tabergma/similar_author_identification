@@ -84,7 +84,7 @@ public class LabelComponent {
         for (ClusterCentroid cluster : clusters) {
             table.setRecordValuesToNull();
             table.setValue(SchemaConfig.CLUSTER_ID, cluster.getId());
-            table.setValue(SchemaConfig.DATA_SET, dataSetId);
+            table.setValue(SchemaConfig.RUN_ID, dataSetId);
 
             List<String> labels = cluster.getMostSignificantLabels(labelCount);
             String label = Joiner.on("; ").join(labels);
