@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class DatabaseResultHandler implements ResultHandler {
 
+    private int runId;
     private int dataSetId;
     private DatabaseAdapter databaseAdapter;
     private AbstractTableDefinition documentClusterTable;
@@ -22,11 +23,12 @@ public class DatabaseResultHandler implements ResultHandler {
     private int index = 0;
     private Map<Integer, Integer> nrOfDocuments;
 
-    public DatabaseResultHandler(int dataSetId) {
+    public DatabaseResultHandler(int dataSetId, int runId) {
         this.dataSetId = dataSetId;
+        this.runId = runId;
 
         databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(this.dataSetId));
+        databaseAdapter.setSchema(SchemaConfig.getCompleteSchema(this.dataSetId, this.runId));
 
         documentClusterTable = databaseAdapter.getWriteTable(SchemaConfig.getDocumentClusterMappingTableName());
         clusterTable = databaseAdapter.getWriteTable(SchemaConfig.getClusterTableName());

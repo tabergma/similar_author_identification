@@ -36,7 +36,7 @@ public class ResultComponent {
 
         System.out.print("Preparing ... ");
         ClusterAnalyzer analyzer = new ClusterAnalyzer(clusterFile, clusterCenterFile);
-        DatabaseResultHandler resultHandler = new DatabaseResultHandler(runId);
+        DatabaseResultHandler resultHandler = new DatabaseResultHandler(dataSetId, runId);
         System.out.println("Done.");
 
         analyzer.analyzeMahout(resultHandler);
