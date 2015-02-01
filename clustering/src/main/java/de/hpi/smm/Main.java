@@ -148,7 +148,7 @@ public class Main {
         FileUtils.writeStringToFile(new File(Config.AUTHOR_FILE), org.apache.commons.lang.StringUtils.join(authors, Config.FEATURE_SEPARATOR));
 
         System.out.println("Performing K-Means...");
-        KMeans kMeans = new KMeans();
+        KMeans kMeans = new KMeans(Config.K, Config.MAX_ITERATIONS);
         kMeans.run(FeatureWriter.readFeatureFile());
 
         System.out.println("Analyze clusters...");

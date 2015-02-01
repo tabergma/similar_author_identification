@@ -15,19 +15,17 @@ public class SvmComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar svm_component.jar <data-set-id> <model-file>");
+            System.out.println("  java -jar svm_component.jar <run-id> <model-file>");
             System.out.println("-----------------------------------------------");
-            System.out.println("data-set-id:");
-            System.out.println("  1 -> smm data");
-            System.out.println("  2 -> springer data");
+            System.out.println("run-id:     this id distinguish between different runs");
             System.out.println("model-file: file location for model file");
             return;
         }
 
-        int dataSetId = Integer.parseInt(args[0]);
+        int runId = Integer.parseInt(args[0]);
         String modelFile = args[1];
 
-        run(modelFile, dataSetId);
+        run(modelFile, runId);
     }
 
     /**
@@ -37,10 +35,10 @@ public class SvmComponent {
      *
      * @param modelFile the result model file
      */
-    public static void run(String modelFile, int dataSetId) throws IOException {
+    public static void run(String modelFile, int runId) throws IOException {
         // read features and cluster id of all blog posts
         System.out.print("Reading blog posts with features and cluster id ... ");
-        List<BlogPost> blogPosts = read(dataSetId);
+        List<BlogPost> blogPosts = read(runId);
         System.out.print("Done.");
 
         // create model and write it to disk

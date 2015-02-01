@@ -19,11 +19,9 @@ public class LabelComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar label_component.jar <data-set-id> <label-count>");
+            System.out.println("  java -jar label_component.jar <run-id> <label-count>");
             System.out.println("-----------------------------------------------");
-            System.out.println("data-set-id:");
-            System.out.println("  1 -> smm data");
-            System.out.println("  2 -> springer data");
+            System.out.println("run-id:      this id distinguish between different runs");
             System.out.println("label-count: number of labels for a cluster");
             return;
         }
@@ -36,9 +34,9 @@ public class LabelComponent {
      * calculate labels and
      * write them into the database
      */
-    public static void run(int dataSetId, int labelCount) throws Exception {
+    public static void run(int runId, int labelCount) throws Exception {
         System.out.print("Reading cluster centroids ... ");
-        List<ClusterCentroid> clusters = read(dataSetId);
+        List<ClusterCentroid> clusters = read(runId);
         System.out.println("Done.");
 
         System.out.print("Calculate labels ... ");
@@ -47,7 +45,7 @@ public class LabelComponent {
         System.out.println("Done.");
 
         System.out.print("Writing cluster labels ... ");
-        write(clusterCentroids, dataSetId, labelCount);
+        write(clusterCentroids, runId, labelCount);
         System.out.println("Done.");
 
         System.out.println("Finished.");
@@ -62,13 +60,14 @@ public class LabelComponent {
         AbstractTableDefinition table = databaseAdapter.getReadTable(SchemaConfig.getClusterTableName());
         while(table.next()) {
             int id = table.getInt(SchemaConfig.CLUSTER_ID);
+            int nrOfDocuments = table.getInt(SchemaConfig.NUMBER_OF_DOCUMENTS);
             List<Double> features = new ArrayList<>();
             int i = 0;
             while (table.getFeatureValue(i) != -1) {
                 features.add(table.getFeatureValue(i));
                 i++;
             }
-            clusters.add(new ClusterCentroid(id, "cluster" + id, features));
+            clusters.add(new ClusterCentroid(id, "cluster" + id, nrOfDocuments, features));
         }
 
         databaseAdapter.closeConnection();

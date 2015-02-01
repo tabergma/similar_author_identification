@@ -17,33 +17,31 @@ public class ClusterComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar cluster_component.jar <data-set-id> <method> <k> <content>");
+            System.out.println("  java -jar cluster_component.jar <run-id> <method> <k> <content>");
             System.out.println("-----------------------------------------------");
-            System.out.println("data-set-id:");
-            System.out.println("  1 -> smm data");
-            System.out.println("  2 -> springer data");
-            System.out.println("method: can be either 'k-nearest', 'euclidean' or 'svm'");
-            System.out.println("k: parameter for k-nearest-neighbor");
+            System.out.println("run-id:  this id distinguish between different runs");
+            System.out.println("method:  can be either 'k-nearest', 'euclidean' or 'svm'");
+            System.out.println("k:       parameter for k-nearest-neighbor");
             System.out.println("content: content to cluster");
             return;
         }
 
-        int dataSetId = Integer.parseInt(args[0]);
+        int runId = Integer.parseInt(args[0]);
         String method = args[1];
         String k = args[2];
         String content = args[3];
 
-        Cluster cluster = run(content, method, k, dataSetId);
+        Cluster cluster = run(content, method, k, runId);
 
         System.out.println("Result: Cluster " + cluster.getNumber());
     }
 
-    public static Cluster run(String content, String method, String k, int dataSetId) throws Exception {
+    public static Cluster run(String content, String method, String k, int runId) throws Exception {
         System.out.print("Reading blog posts with features and cluster id ... ");
-        List<BlogPost> blogPosts = readBlogPosts(dataSetId);
+        List<BlogPost> blogPosts = readBlogPosts(runId);
         System.out.print("Done.");
         System.out.print("Reading cluster centroids ... ");
-        List<Cluster> clusters = readClusters(dataSetId);
+        List<Cluster> clusters = readClusters(runId);
         System.out.print("Done.");
 
         System.out.print("Determining cluster ... ");
@@ -56,9 +54,9 @@ public class ClusterComponent {
         return resultCluster;
     }
 
-    private static List<BlogPost> readBlogPosts(int dataSetId) {
+    private static List<BlogPost> readBlogPosts(int runId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getWholeSchema(dataSetId);
+        Schema schema = SchemaConfig.getWholeSchema(runId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
@@ -88,9 +86,9 @@ public class ClusterComponent {
         return blogPosts;
     }
 
-    private static List<Cluster> readClusters(int dataSetId) {
+    private static List<Cluster> readClusters(int runId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getWholeSchema(dataSetId);
+        Schema schema = SchemaConfig.getWholeSchema(runId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition clusterTable = schema.getTableDefinition(SchemaConfig.getClusterTableName());
