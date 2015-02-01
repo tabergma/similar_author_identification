@@ -17,7 +17,7 @@ public class MahoutComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar mahout_component.jar <data-set-id> <k> <max-iterations>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.MahoutComponent <data-set-id> <k> <max-iterations>");
             System.out.println("-----------------------------------------------");
             System.out.println("data-set-id:");
             System.out.println("  1 -> smm data");

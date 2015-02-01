@@ -19,7 +19,7 @@ public class LabelComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar label_component.jar <run-id> <label-count>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.LabelComponent <run-id> <label-count>");
             System.out.println("-----------------------------------------------");
             System.out.println("run-id:      this id distinguish between different runs");
             System.out.println("label-count: number of labels for a cluster");

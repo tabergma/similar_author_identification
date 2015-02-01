@@ -24,7 +24,7 @@ public class FeatureComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar feature_component.jar <data-set-id> <limit>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.FeatureComponent <data-set-id> <limit>");
             System.out.println("-----------------------------------------------");
             System.out.println("data-set-id:");
             System.out.println("  1 -> smm data");

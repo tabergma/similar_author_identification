@@ -13,7 +13,7 @@ public class ResultComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar result_component.jar <data-set-id> <run-id>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.ResultComponent <data-set-id> <run-id>");
             System.out.println("-----------------------------------------------");
             System.out.println("data-set-id:");
             System.out.println("  1 -> smm data");

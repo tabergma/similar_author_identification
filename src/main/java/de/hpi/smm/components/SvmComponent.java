@@ -15,7 +15,7 @@ public class SvmComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar svm_component.jar <data-set-id> <run-id> <svm-model-file>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.SvmComponent <data-set-id> <run-id> <svm-model-file>");
             System.out.println("-----------------------------------------------");
             System.out.println("<data-set-id> and <run-id> have to identical to the ones used for the result component!");
             System.out.println("data-set-id:");

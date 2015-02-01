@@ -18,7 +18,7 @@ public class ClusterComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar cluster_component.jar <data-set-id> <run-id> <method> <k> <svm-model-file> <blog-post-file>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.ClusterComponent <data-set-id> <run-id> <method> <k> <svm-model-file> <blog-post-file>");
             System.out.println("-----------------------------------------------");
             System.out.println("<data-set-id> and <run-id> have to identical to the ones used for the result component!");
             System.out.println("data-set-id:");
