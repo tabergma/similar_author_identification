@@ -5,6 +5,7 @@ import de.hpi.smm.cluster_determination.BlogPost;
 import de.hpi.smm.cluster_determination.Cluster;
 import de.hpi.smm.cluster_determination.ClusterDetermination;
 import de.hpi.smm.database.*;
+import de.hpi.smm.helper.FileReader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +18,7 @@ public class ClusterComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar cluster_component.jar <data-set-id> <run-id> <method> <k> <svm-model-file> <content>");
+            System.out.println("  java -jar cluster_component.jar <data-set-id> <run-id> <method> <k> <svm-model-file> <blog-post-file>");
             System.out.println("-----------------------------------------------");
             System.out.println("<data-set-id> and <run-id> have to identical to the ones used for the result component!");
             System.out.println("data-set-id:");
@@ -27,7 +28,7 @@ public class ClusterComponent {
             System.out.println("method:         can be either 'k-nearest', 'euclidean' or 'svm'");
             System.out.println("k:              parameter for k-nearest-neighbor");
             System.out.println("svm-model-file: file location for svm model file");
-            System.out.println("content:        content to cluster");
+            System.out.println("blog-post-file: file, which content should be clustered");
             return;
         }
 
@@ -36,9 +37,11 @@ public class ClusterComponent {
         String method = args[2];
         String k = args[3];
         String modelFile = args[4];
-        String content = args[5];
+        String content = FileReader.readFile(args[5]);
 
         Cluster cluster = run(runId, dataSetId, content, method, k, modelFile);
+
+
 
         System.out.println("Result: Cluster " + cluster.getNumber());
     }

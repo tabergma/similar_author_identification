@@ -43,12 +43,12 @@ public class SvmComponent {
      */
     public static void run(String modelFile, int runId, int dataSetId) throws IOException {
         // read features and cluster id of all blog posts
-        System.out.println("Reading blog posts with features and cluster id ... ");
+        System.out.print("Reading blog posts with features and cluster id ... ");
         List<BlogPost> blogPosts = read(runId, dataSetId);
         System.out.println("Done.");
 
         // create model and write it to disk
-        System.out.println("Training the SVM ... ");
+        System.out.print("Training the SVM ... ");
         String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", modelFile};
         svm_train svm_train = new svm_train();
         svm_train.train(args, blogPosts);
