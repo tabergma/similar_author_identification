@@ -47,14 +47,14 @@ public class ClusterComponent {
     }
 
     public static Cluster run(int runId, int dataSetId, String content, String method, String k, String modelFile) throws Exception {
-        System.out.println("Reading blog posts with features and cluster id ... ");
+        System.out.print("Reading blog posts with features and cluster id ... ");
         List<BlogPost> blogPosts = readBlogPosts(runId, dataSetId);
         System.out.println("Done.");
-        System.out.println("Reading cluster centroids ... ");
+        System.out.print("Reading cluster centroids ... ");
         List<Cluster> clusters = readClusters(runId);
         System.out.println("Done.");
 
-        System.out.println("Determining cluster ... ");
+        System.out.print("Determining cluster ... ");
         ClusterDetermination clusterDetermination = new ClusterDetermination(clusters, blogPosts, modelFile);
         Cluster resultCluster = clusterDetermination.run(content, method, k);
         System.out.println("Done.");
