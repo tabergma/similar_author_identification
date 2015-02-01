@@ -106,7 +106,7 @@ public class FeatureComponent {
         AbstractTableDefinition featureTableDefinition = databaseAdapter.getWriteTable(SchemaConfig.getFeatureTableName());
 
         featureTableDefinition.setRecordValuesToNull(); // this sets all values to NULL, so no value is left unattended
-        featureTableDefinition.setValue(SchemaConfig.RUN_ID, dataSetId);
+        featureTableDefinition.setValue(SchemaConfig.DATA_SET, dataSetId);
         featureTableDefinition.setValue(SchemaConfig.DOCUMENT_ID, documentId);
         for (int i = 0; i < features.size(); i++) {
             featureTableDefinition.setFeatureValue(i, features.get(i));
