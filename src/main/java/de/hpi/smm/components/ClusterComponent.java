@@ -12,9 +12,8 @@ import java.util.List;
 
 public class ClusterComponent {
 
-    // TODO data set id
     public static void main(String[] args) throws Exception {
-        if (args.length != 3) {
+        if (args.length != 4) {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
@@ -37,7 +36,6 @@ public class ClusterComponent {
         Cluster cluster = run(content, method, k, dataSetId);
 
         System.out.println("Result: Cluster " + cluster.getNumber());
-        System.out.print("Finished.");
     }
 
     public static Cluster run(String content, String method, String k, int dataSetId) throws Exception {
@@ -48,9 +46,14 @@ public class ClusterComponent {
         List<Cluster> clusters = readClusters(dataSetId);
         System.out.print("Done.");
 
-        System.out.println("Determining cluster ... ");
+        System.out.print("Determining cluster ... ");
         ClusterDetermination clusterDetermination = new ClusterDetermination(clusters, blogPosts);
-        return clusterDetermination.run(content, method, k);
+        Cluster resultCluster = clusterDetermination.run(content, method, k);
+        System.out.println("Done.");
+
+        System.out.println("Finished.");
+
+        return resultCluster;
     }
 
     private static List<BlogPost> readBlogPosts(int dataSetId) {

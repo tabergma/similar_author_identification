@@ -19,7 +19,6 @@ public class FeatureComponent {
     public static final String ID = "ID";
     public static final String CONTENT = "POSTCONTENT";
 
-    // TODO check file access!!!
     public static void main(String[] args) throws Exception {
         if (args.length != 2) {
             System.out.println("Wrong number of arguments!");
