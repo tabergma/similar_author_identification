@@ -38,10 +38,11 @@ public class SvmComponent {
      * trains the SVM model and
      * write the resulting model to disk.
      *
-     * @param modelFile the result model file
-     * @param dataSetId
+     * @param runId        distinguish between different runs
+     * @param dataSetId    identifies the original data set, 1 for smm data and 2 for springer data
+     * @param svmModelFile the file location of the svm model file
      */
-    public static void run(String modelFile, int runId, int dataSetId) throws IOException {
+    public static void run(String svmModelFile, int runId, int dataSetId) throws IOException {
         // read features and cluster id of all blog posts
         System.out.print("Reading blog posts with features and cluster id ... ");
         List<BlogPost> blogPosts = readBlogPosts(runId, dataSetId);
@@ -49,7 +50,7 @@ public class SvmComponent {
 
         // create model and write it to disk
         System.out.print("Training the SVM ... ");
-        String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", modelFile};
+        String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", svmModelFile};
         svm_train svm_train = new svm_train();
         svm_train.train(args, blogPosts);
         System.out.println("Done.");

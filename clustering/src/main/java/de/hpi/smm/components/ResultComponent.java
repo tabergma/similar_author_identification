@@ -29,6 +29,9 @@ public class ResultComponent {
      * Read mahout cluster files from disk,
      * extract the results and
      * write them into the database.
+     *
+     * @param runId     distinguish between different runs
+     * @param dataSetId identifies the original data set, 1 for smm data and 2 for springer data
      */
     public static void run(int dataSetId, int runId) throws Exception {
         String clusterFile = Config.CLUSTER_FILE;

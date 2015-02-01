@@ -33,15 +33,18 @@ public class FeatureComponent {
             return;
         }
 
-        run(Integer.parseInt(args[0]));
+        run(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
     }
 
     /**
      * Get all documents where the features were not yet calculated,
      * calculate the features and
      * write them into the database.
+     *
+     * @param dataSetId identifies the original data set, 1 for smm data and 2 for springer data
+     * @param limit     number of documents for which the features should be extracted
      */
-    public static void run(int dataSetId) throws LangDetectException, SQLException {
+    public static void run(int dataSetId, int limit) throws LangDetectException, SQLException {
         FeatureExtractor featureExtractor = new FeatureExtractor();
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
         databaseAdapter.setSchema(SchemaConfig.getSchemaForFeatureAccess(dataSetId));

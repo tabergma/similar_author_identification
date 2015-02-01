@@ -37,6 +37,10 @@ public class MahoutComponent {
     /**
      * Read the features from the database and
      * run the K-Means algorithm using Apache Mahout.
+     *
+     * @param dataSetId     identifies the original data set, 1 for smm data and 2 for springer data
+     * @param k             number of resulting clusters
+     * @param maxIterations max iterations for the k-means algorithm
      */
     public static void run(int dataSetId, int k, int maxIterations) throws Exception {
         System.out.print("Reading features ... ");

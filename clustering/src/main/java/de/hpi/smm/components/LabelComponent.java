@@ -33,6 +33,9 @@ public class LabelComponent {
      * Get cluster centroids from the database,
      * calculate labels and
      * write them into the database
+     *
+     * @param runId      distinguish between different runs
+     * @param labelCount number of labels for a cluster
      */
     public static void run(int runId, int labelCount) throws Exception {
         System.out.print("Reading cluster centroids ... ");

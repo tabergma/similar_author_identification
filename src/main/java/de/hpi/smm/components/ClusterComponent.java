@@ -41,12 +41,21 @@ public class ClusterComponent {
 
         Cluster cluster = run(runId, dataSetId, content, method, k, modelFile);
 
-
-
         System.out.println("Result: Cluster " + cluster.getNumber());
     }
 
-    public static Cluster run(int runId, int dataSetId, String content, String method, String k, String modelFile) throws Exception {
+    /**
+     * Determine to which cluster a given blog posts belongs using a certain method.
+     * @param runId        distinguish between different runs
+     * @param dataSetId    identifies the original data set, 1 for smm data and 2 for springer data
+     * @param content      the content of the blog post, which should be clustered
+     * @param method       the cluster determination method to use, can be either 'k-nearest', 'euclidean' or 'svm'
+     * @param k            the number of neighbors the k-nearest-neighbor algorithm uses
+     * @param svmModelFile the file location of the svm model file
+     * @return the resulting cluster
+     * @throws Exception
+     */
+    public static Cluster run(int runId, int dataSetId, String content, String method, String k, String svmModelFile) throws Exception {
         System.out.print("Reading blog posts with features and cluster id ... ");
         List<BlogPost> blogPosts = SvmComponent.readBlogPosts(runId, dataSetId);
         System.out.println("Done.");
@@ -55,7 +64,7 @@ public class ClusterComponent {
         System.out.println("Done.");
 
         System.out.print("Determining cluster ... ");
-        ClusterDetermination clusterDetermination = new ClusterDetermination(clusters, blogPosts, modelFile);
+        ClusterDetermination clusterDetermination = new ClusterDetermination(clusters, blogPosts, svmModelFile);
         Cluster resultCluster = clusterDetermination.run(content, method, k);
         System.out.println("Done.");
 
