@@ -44,7 +44,7 @@ public class DatabaseResultHandler implements ResultHandler {
         countDocument(clusterId);
 
         documentClusterTable.setRecordValuesToNull();
-        documentClusterTable.setValue(SchemaConfig.RUN_ID, this.dataSetId);
+        documentClusterTable.setValue(SchemaConfig.RUN_ID, this.runId);
         documentClusterTable.setValue(SchemaConfig.DOCUMENT_ID, documentIds.get(index));
         documentClusterTable.setValue(SchemaConfig.CLUSTER_ID, blogPost.getClusterNumber());
 
@@ -58,7 +58,7 @@ public class DatabaseResultHandler implements ResultHandler {
         ClusterCentroid cluster = ClusterCentroid.createFromVector(id, name, centerVector);
 
         clusterTable.setRecordValuesToNull(); // this sets all values to NULL, so no value is left unattended
-        clusterTable.setValue(SchemaConfig.RUN_ID, dataSetId);
+        clusterTable.setValue(SchemaConfig.RUN_ID, runId);
         clusterTable.setValue(SchemaConfig.CLUSTER_ID, cluster.getId());
         clusterTable.setValue(SchemaConfig.NUMBER_OF_DOCUMENTS, this.nrOfDocuments.get(id));
         List<Double> features = cluster.getValues();
