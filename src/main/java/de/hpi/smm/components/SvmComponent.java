@@ -15,14 +15,14 @@ public class SvmComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar svm_component.jar <data-set-id> <run-id> <model-file>");
+            System.out.println("  java -jar svm_component.jar <data-set-id> <run-id> <svm-model-file>");
             System.out.println("-----------------------------------------------");
             System.out.println("<data-set-id> and <run-id> have to identical to the ones used for the result component!");
             System.out.println("data-set-id:");
             System.out.println("  1 -> smm data");
             System.out.println("  2 -> springer data");
-            System.out.println("run-id:     this id distinguish between different runs");
-            System.out.println("model-file: file location for model file");
+            System.out.println("run-id:         this id distinguish between different runs");
+            System.out.println("svm-model-file: file location for model file");
             return;
         }
 

@@ -13,12 +13,12 @@ public class ResultComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar result_component.jar <run-id> <data-set-id>");
+            System.out.println("  java -jar result_component.jar <data-set-id> <run-id>");
             System.out.println("-----------------------------------------------");
-            System.out.println("run-id: this id distinguish between different runs");
             System.out.println("data-set-id:");
             System.out.println("  1 -> smm data");
             System.out.println("  2 -> springer data");
+            System.out.println("run-id: this id distinguish between different runs");
             return;
         }
 
@@ -30,7 +30,7 @@ public class ResultComponent {
      * extract the results and
      * write them into the database.
      */
-    public static void run(int runId, int dataSetId) throws Exception {
+    public static void run(int dataSetId, int runId) throws Exception {
         String clusterFile = Config.CLUSTER_FILE;
         String clusterCenterFile = Config.CLUSTER_CENTER_FILE;
 

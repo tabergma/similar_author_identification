@@ -13,13 +13,15 @@ import java.util.List;
 
 public class ClusterDetermination {
 
-    List<Cluster> clusters;
-    List<BlogPost> blogPosts;
+    private List<Cluster> clusters;
+    private List<BlogPost> blogPosts;
+    private String svmModelFile;
 
-    public ClusterDetermination(List<Cluster> clusters, List<BlogPost> blogPosts) throws IOException {
+
+    public ClusterDetermination(List<Cluster> clusters, List<BlogPost> blogPosts, String svmModelFile) throws IOException {
         this.clusters = clusters;
         this.blogPosts = blogPosts;
-        createSvmModel();
+        this.svmModelFile = svmModelFile;
     }
 
     public Cluster run(String content, String method, String k) throws Exception {
@@ -44,14 +46,14 @@ public class ClusterDetermination {
                 index = EuclideanDistance.getNearestCluster(clusters, featureArray);
                 break;
             case "svm":
-                index = Svm.getNearestCluster(featureList);
+                index = Svm.getNearestCluster(featureList, this.svmModelFile);
         }
 
         return clusters.get(index);
     }
 
-    private void createSvmModel() throws IOException {
-        String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", Config.SVM_MODEL_FILE};
+    public void createSvmModel() throws IOException {
+        String[] args = {"-q", "-t", "2", "-s", "0", "-c", "100", "-b", "1", this.svmModelFile};
         svm_train svmTrain = new svm_train();
         svmTrain.train(args, blogPosts);
     }

@@ -24,7 +24,8 @@ public class Main {
         Map<String, Object> map = new HashMap<String, Object>();
 
         ClusterDetermination clusterDetermination = new ClusterDetermination(
-                de.hpi.smm.helper.FileReader.readClusterFile(), de.hpi.smm.helper.FileReader.readBlogPostFile());
+                de.hpi.smm.helper.FileReader.readClusterFile(), de.hpi.smm.helper.FileReader.readBlogPostFile(), Config.SVM_MODEL_FILE);
+        clusterDetermination.createSvmModel();
 
         get("/", (rq, rs) -> {
             map.put("result", false);
