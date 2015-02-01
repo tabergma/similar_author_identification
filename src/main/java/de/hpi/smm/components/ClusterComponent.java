@@ -56,7 +56,7 @@ public class ClusterComponent {
 
     private static List<BlogPost> readBlogPosts(int runId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getWholeSchema(runId);
+        Schema schema = SchemaConfig.getSchemaForClusterAccess(runId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
@@ -88,7 +88,7 @@ public class ClusterComponent {
 
     private static List<Cluster> readClusters(int runId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getWholeSchema(runId);
+        Schema schema = SchemaConfig.getSchemaForClusterAccess(runId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition clusterTable = schema.getTableDefinition(SchemaConfig.getClusterTableName());

@@ -26,7 +26,7 @@ public class DatabaseResultHandler implements ResultHandler {
         this.dataSetId = dataSetId;
 
         databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getWholeSchema(this.dataSetId));
+        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(this.dataSetId));
 
         documentClusterTable = databaseAdapter.getWriteTable(SchemaConfig.getDocumentClusterMappingTableName());
         clusterTable = databaseAdapter.getWriteTable(SchemaConfig.getClusterTableName());

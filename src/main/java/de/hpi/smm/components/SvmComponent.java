@@ -53,7 +53,7 @@ public class SvmComponent {
 
     private static List<BlogPost> read(int dataSetId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getWholeSchema(dataSetId);
+        Schema schema = SchemaConfig.getSchemaForClusterAccess(dataSetId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());

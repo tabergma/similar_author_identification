@@ -44,7 +44,7 @@ public class FeatureComponent {
     public static void run(int dataSetId) throws LangDetectException, SQLException {
         FeatureExtractor featureExtractor = new FeatureExtractor();
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getWholeSchema(dataSetId));
+        databaseAdapter.setSchema(SchemaConfig.getSchemaForFeatureAccess(dataSetId));
 
         // Create language detector
         DetectorFactory.loadProfile(Config.PROFILES_DIR);

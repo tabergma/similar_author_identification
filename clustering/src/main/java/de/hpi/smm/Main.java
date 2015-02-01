@@ -56,7 +56,7 @@ public class Main {
         // ========= writing =========
 
 //        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-//        databaseAdapter.setSchema(SchemaConfig.getWholeSchema());
+//        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess());
 //
 //        AbstractTableDefinition featureTableDefinition = databaseAdapter.getWriteTable(SchemaConfig.getFeatureTableName());
 //        featureTableDefinition.setRecordValuesToNull(); // this sets all values to NULL, so no value is left unattended
@@ -71,7 +71,7 @@ public class Main {
         // ========== reading ========
 
 //        databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-//        databaseAdapter.setSchema(SchemaConfig.getWholeSchema());
+//        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess());
 //
 //        featureTableDefinition = databaseAdapter.getReadTable(SchemaConfig.getDocumentClusterMappingTableName());
 //        while(featureTableDefinition.next()) {
@@ -85,7 +85,7 @@ public class Main {
         // ========== join + reading ========
 
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getWholeSchema(0);
+        Schema schema = SchemaConfig.getSchemaForClusterAccess(0);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());

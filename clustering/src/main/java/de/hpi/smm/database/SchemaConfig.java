@@ -24,15 +24,32 @@ public class SchemaConfig {
 
     public static final String MAIN_SCHEMA = "SMA1415";
 
-    public static Schema getWholeSchema(int dataSet){
-        Schema completeSchema = new Schema();
-        addFeatureTable(completeSchema, dataSet);
-        addClusterTable(completeSchema, dataSet);
-        addLabelTable(completeSchema, dataSet);
-        addDocumentClusterMappingTable(completeSchema, dataSet);
-        addSpinn3rTable(completeSchema);
-        addSmmTable(completeSchema);
-        return completeSchema;
+
+    public static Schema getCompleteSchema(int dataSet, int runId){
+        Schema schema = new Schema();
+        addSpinn3rTable(schema);
+        addSmmTable(schema);
+        addFeatureTable(schema, dataSet);
+        addClusterTable(schema, runId);
+        addLabelTable(schema, runId);
+        addDocumentClusterMappingTable(schema, runId);
+        return schema;
+    }
+
+    public static Schema getSchemaForFeatureAccess(int dataSet) {
+        Schema schema = new Schema();
+        addSpinn3rTable(schema);
+        addSmmTable(schema);
+        addFeatureTable(schema, dataSet);
+        return schema;
+    }
+
+    public static Schema getSchemaForClusterAccess(int runId){
+        Schema schema = new Schema();
+        addClusterTable(schema, runId);
+        addLabelTable(schema, runId);
+        addDocumentClusterMappingTable(schema, runId);
+        return schema;
     }
 
     private static void addSmmTable(Schema schema) {
@@ -55,8 +72,8 @@ public class SchemaConfig {
         schema.addTable(tableDef);
     }
 
-    private static void addLabelTable(Schema schema, int dataSet) {
-        AbstractTableDefinition tableDef = new SingleTableDefinition(getLabelTableName(), dataSet);
+    private static void addLabelTable(Schema schema, int runId) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getLabelTableName(), runId);
         
         addRunIdColumn(tableDef);
         addClusterIdColumn(tableDef);
@@ -65,8 +82,8 @@ public class SchemaConfig {
         schema.addTable(tableDef);
     }
 
-    private static void addDocumentClusterMappingTable(Schema schema, int dataSet) {
-        AbstractTableDefinition tableDef = new SingleTableDefinition(getDocumentClusterMappingTableName(), dataSet);
+    private static void addDocumentClusterMappingTable(Schema schema, int runId) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getDocumentClusterMappingTableName(), runId);
         
         addRunIdColumn(tableDef);
         addDocumentIdColumn(tableDef);
@@ -75,8 +92,8 @@ public class SchemaConfig {
         schema.addTable(tableDef);
     }
 
-    private static void addClusterTable(Schema schema, int dataSet) {
-        AbstractTableDefinition tableDef = new SingleTableDefinition(getClusterTableName(), dataSet);
+    private static void addClusterTable(Schema schema, int runId) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getClusterTableName(), runId);
         
         addRunIdColumn(tableDef);
         addClusterIdColumn(tableDef);
@@ -87,7 +104,8 @@ public class SchemaConfig {
     }
 
     private static void addFeatureTable(Schema schema, int dataSet) {
-        AbstractTableDefinition tableDef = new SingleTableDefinition(getFeatureTableName(), dataSet);
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getFeatureTableName());
+        tableDef.addWhereClause(String.format("%s.%s = '%s'", getFeatureTableName(), SchemaConfig.DATA_SET, dataSet));
 
         tableDef.addColumn(new Column(DATA_SET, Column.INT));
         addDocumentIdColumn(tableDef);
