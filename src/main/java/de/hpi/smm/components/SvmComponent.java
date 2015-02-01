@@ -44,7 +44,7 @@ public class SvmComponent {
     public static void run(String modelFile, int runId, int dataSetId) throws IOException {
         // read features and cluster id of all blog posts
         System.out.print("Reading blog posts with features and cluster id ... ");
-        List<BlogPost> blogPosts = read(runId, dataSetId);
+        List<BlogPost> blogPosts = readBlogPosts(runId, dataSetId);
         System.out.println("Done.");
 
         // create model and write it to disk
@@ -57,7 +57,7 @@ public class SvmComponent {
         System.out.println("Finished.");
     }
 
-    private static List<BlogPost> read(int runId, int dataSetId) {
+    public static List<BlogPost> readBlogPosts(int runId, int dataSetId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
         Schema schema = SchemaConfig.getCompleteSchema(dataSetId, runId);
         databaseAdapter.setSchema(schema);

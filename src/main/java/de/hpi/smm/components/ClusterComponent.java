@@ -48,7 +48,7 @@ public class ClusterComponent {
 
     public static Cluster run(int runId, int dataSetId, String content, String method, String k, String modelFile) throws Exception {
         System.out.print("Reading blog posts with features and cluster id ... ");
-        List<BlogPost> blogPosts = readBlogPosts(runId, dataSetId);
+        List<BlogPost> blogPosts = SvmComponent.readBlogPosts(runId, dataSetId);
         System.out.println("Done.");
         System.out.print("Reading cluster centroids ... ");
         List<Cluster> clusters = readClusters(runId);
@@ -62,38 +62,6 @@ public class ClusterComponent {
         System.out.println("Finished.");
 
         return resultCluster;
-    }
-
-    private static List<BlogPost> readBlogPosts(int runId, int dataSetId) {
-        DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getCompleteSchema(runId, dataSetId);
-        databaseAdapter.setSchema(schema);
-
-        AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
-        AbstractTableDefinition documentClusterMapping = schema.getTableDefinition(SchemaConfig.getDocumentClusterMappingTableName());
-
-        AbstractTableDefinition table = new JoinedTableDefinition(featureTableDefinition, SchemaConfig.DOCUMENT_ID, documentClusterMapping, SchemaConfig.DOCUMENT_ID);
-
-        table = databaseAdapter.getReadTable(table);
-
-        List<BlogPost> blogPosts = new ArrayList<>();
-        while(table.next()) {
-            BlogPost blogPost = new BlogPost();
-            blogPost.setNumber(table.getInt(SchemaConfig.CLUSTER_ID));
-            blogPost.setDocumentId(table.getString(SchemaConfig.DOCUMENT_ID));
-            List<Float> features = new ArrayList<>();
-            int i = 0;
-            while (table.getFeatureValue(i) != -1) {
-                features.add((float) table.getFeatureValue(i));
-                i++;
-            }
-            blogPost.setPoint(features.toArray(new Float[features.size()]));
-            blogPosts.add(blogPost);
-        }
-
-        databaseAdapter.closeConnection();
-
-        return blogPosts;
     }
 
     private static List<Cluster> readClusters(int runId) {
