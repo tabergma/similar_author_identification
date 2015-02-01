@@ -11,21 +11,26 @@ import java.util.List;
 public class SvmComponent {
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 2) {
+        if (args.length != 3) {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar svm_component.jar <run-id> <model-file>");
+            System.out.println("  java -jar svm_component.jar <data-set-id> <run-id> <model-file>");
             System.out.println("-----------------------------------------------");
+            System.out.println("<data-set-id> and <run-id> have to identical to the ones used for the result component!");
+            System.out.println("data-set-id:");
+            System.out.println("  1 -> smm data");
+            System.out.println("  2 -> springer data");
             System.out.println("run-id:     this id distinguish between different runs");
             System.out.println("model-file: file location for model file");
             return;
         }
 
-        int runId = Integer.parseInt(args[0]);
-        String modelFile = args[1];
+        int dataSetId = Integer.parseInt(args[0]);
+        int runId = Integer.parseInt(args[1]);
+        String modelFile = args[2];
 
-        run(modelFile, runId);
+        run(modelFile, runId, dataSetId);
     }
 
     /**
@@ -34,11 +39,12 @@ public class SvmComponent {
      * write the resulting model to disk.
      *
      * @param modelFile the result model file
+     * @param dataSetId
      */
-    public static void run(String modelFile, int runId) throws IOException {
+    public static void run(String modelFile, int runId, int dataSetId) throws IOException {
         // read features and cluster id of all blog posts
         System.out.print("Reading blog posts with features and cluster id ... ");
-        List<BlogPost> blogPosts = read(runId);
+        List<BlogPost> blogPosts = read(runId, dataSetId);
         System.out.print("Done.");
 
         // create model and write it to disk
@@ -51,9 +57,9 @@ public class SvmComponent {
         System.out.print("Finished.");
     }
 
-    private static List<BlogPost> read(int runId) {
+    private static List<BlogPost> read(int runId, int dataSetId) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        Schema schema = SchemaConfig.getSchemaForClusterAccess(runId);
+        Schema schema = SchemaConfig.getCompleteSchema(dataSetId, runId);
         databaseAdapter.setSchema(schema);
 
         AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
