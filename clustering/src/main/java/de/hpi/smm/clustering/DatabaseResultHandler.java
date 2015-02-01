@@ -7,7 +7,9 @@ import org.apache.mahout.clustering.classify.WeightedPropertyVectorWritable;
 import org.apache.mahout.math.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class DatabaseResultHandler implements ResultHandler {
@@ -18,6 +20,7 @@ public class DatabaseResultHandler implements ResultHandler {
     private AbstractTableDefinition clusterTable;
     private List<String> documentIds;
     private int index = 0;
+    private Map<Integer, Integer> nrOfDocuments;
 
     public DatabaseResultHandler(int dataSetId) {
         this.dataSetId = dataSetId;
@@ -28,11 +31,15 @@ public class DatabaseResultHandler implements ResultHandler {
         documentClusterTable = databaseAdapter.getWriteTable(SchemaConfig.getDocumentClusterMappingTableName());
         clusterTable = databaseAdapter.getWriteTable(SchemaConfig.getClusterTableName());
         documentIds = readDocumentIds();
+
+        this.nrOfDocuments = new HashMap<>();
     }
 
     @Override
     public void handleBlogPost(WeightedPropertyVectorWritable value, int clusterId, int documentId) {
         BlogPost blogPost = BlogPost.createFromVector(clusterId, documentId, value);
+
+        countDocument(clusterId);
 
         documentClusterTable.setRecordValuesToNull();
         documentClusterTable.setValue(SchemaConfig.DATA_SET, this.dataSetId);
@@ -51,6 +58,7 @@ public class DatabaseResultHandler implements ResultHandler {
         clusterTable.setRecordValuesToNull(); // this sets all values to NULL, so no value is left unattended
         clusterTable.setValue(SchemaConfig.DATA_SET, dataSetId);
         clusterTable.setValue(SchemaConfig.CLUSTER_ID, cluster.getId());
+        clusterTable.setValue(SchemaConfig.NUMBER_OF_DOCUMENTS, this.nrOfDocuments.get(id));
         List<Double> features = cluster.getValues();
         for (int i = 0; i < features.size(); i++) {
             clusterTable.setFeatureValue(i, features.get(i));
@@ -63,13 +71,20 @@ public class DatabaseResultHandler implements ResultHandler {
     }
 
     private List<String> readDocumentIds() {
-        // TODO data set id
         List<String> documentIds = new ArrayList<>();
         AbstractTableDefinition table = databaseAdapter.getReadTable(SchemaConfig.getFeatureTableName());
         while(table.next()) {
             documentIds.add(table.getString(SchemaConfig.DOCUMENT_ID));
         }
         return documentIds;
+    }
+
+    private void countDocument(int clusterId) {
+        if (this.nrOfDocuments.containsKey(clusterId)) {
+            this.nrOfDocuments.put(clusterId, this.nrOfDocuments.get(clusterId) + 1);
+        } else {
+            this.nrOfDocuments.put(clusterId, 1);
+        }
     }
 
 }

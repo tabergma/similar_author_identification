@@ -39,7 +39,6 @@ public class ResultComponent {
         System.out.println("Done.");
 
         analyzer.analyzeMahout(resultHandler);
-
         resultHandler.closeConnection();
 
         System.out.println("Finished.");
