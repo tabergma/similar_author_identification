@@ -55,12 +55,8 @@ public class LabelComponent {
         List<ClusterCentroid> clusters = new ArrayList<>();
 
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-<<<<<<< HEAD
-        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(dataSetId));
-=======
-        databaseAdapter.setSchema(SchemaConfig.getWholeSchema(runId));
->>>>>>> rename datasetid to runid
-
+        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(runId));
+        
         AbstractTableDefinition table = databaseAdapter.getReadTable(SchemaConfig.getClusterTableName());
         while(table.next()) {
             int id = table.getInt(SchemaConfig.CLUSTER_ID);
