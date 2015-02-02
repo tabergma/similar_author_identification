@@ -14,6 +14,7 @@ tasks.xml
 /output
 /testdata
 /result
+similar_author.zip
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
