@@ -15,18 +15,19 @@ import java.util.List;
 public class LabelComponent {
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 2) {
+        if (args.length != 3) {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.LabelComponent <run-id> <label-count>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.LabelComponent <run-id> <label-count> <language>");
             System.out.println("-----------------------------------------------");
             System.out.println("run-id:      this id distinguish between different runs");
             System.out.println("label-count: number of labels for a cluster");
+            System.out.println("language: language of the blog posts, can be 'de' or 'en'");
             return;
         }
 
-        run(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        run(Integer.parseInt(args[0]), Integer.parseInt(args[1]), args[2]);
     }
 
     /**
@@ -37,13 +38,13 @@ public class LabelComponent {
      * @param runId      distinguish between different runs
      * @param labelCount number of labels for a cluster
      */
-    public static void run(int runId, int labelCount) throws Exception {
+    public static void run(int runId, int labelCount, String language) throws Exception {
         System.out.print("Reading cluster centroids ... ");
         List<ClusterCentroid> clusters = read(runId);
         System.out.println("Done.");
 
         System.out.print("Calculate labels ... ");
-        ClusterLabeling labeling = new ClusterLabeling(clusters, FeatureExtractor.getIndexToFeatureMap());
+        ClusterLabeling labeling = new ClusterLabeling(clusters, FeatureExtractor.getIndexToFeatureMap(language));
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
         System.out.println("Done.");
 

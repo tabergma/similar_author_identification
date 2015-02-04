@@ -13,7 +13,7 @@ public class MahoutComponent {
 
     // TODO check file access!!!
     public static void main(String[] args) throws Exception {
-        if (args.length != 3) {
+        if (args.length != 4) {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
@@ -31,8 +31,9 @@ public class MahoutComponent {
         int dataSetId = Integer.parseInt(args[0]);
         int k = Integer.parseInt(args[1]);
         int maxIterations = Integer.parseInt(args[2]);
+        String language = args[3];
 
-        run(dataSetId, k, maxIterations);
+        run(dataSetId, k, maxIterations, language);
     }
 
     /**
@@ -43,9 +44,9 @@ public class MahoutComponent {
      * @param k             number of resulting clusters
      * @param maxIterations max iterations for the k-means algorithm
      */
-    public static void run(int dataSetId, int k, int maxIterations) throws Exception {
+    public static void run(int dataSetId, int k, int maxIterations, String language) throws Exception {
         System.out.print("Reading features ... ");
-        List<List<Float>> features = read(dataSetId);
+        List<List<Float>> features = read(dataSetId, language);
         System.out.println("Done.");
 
         System.out.print("Performing K-Means ... ");
@@ -57,7 +58,7 @@ public class MahoutComponent {
     }
 
 
-    private static List<List<Float>> read(int dataSetId) {
+    private static List<List<Float>> read(int dataSetId, String language) {
         List<List<Float>> allFeatures = new ArrayList<>();
 
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();

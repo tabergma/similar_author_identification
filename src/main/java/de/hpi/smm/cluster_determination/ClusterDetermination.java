@@ -33,8 +33,8 @@ public class ClusterDetermination {
         String lang = detector.detect();
 
         // extract features for content
-        FeatureExtractor featureExtractor = new FeatureExtractor();
-        List<Float> featureList = featureExtractor.getFeatures(content, lang);
+        FeatureExtractor featureExtractor = new FeatureExtractor(lang);
+        List<Float> featureList = featureExtractor.getFeatures(content);
         Float[] featureArray = featureList.toArray(new Float[featureList.size()]);
 
         int index = -1;

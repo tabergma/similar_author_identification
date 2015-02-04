@@ -11,11 +11,11 @@ import java.util.List;
 public class SvmComponent {
 
     public static void main(String[] args) throws IOException {
-        if (args.length != 3) {
+        if (args.length != 4) {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.SvmComponent <data-set-id> <run-id> <svm-model-file>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.SvmComponent <data-set-id> <run-id> <language> <svm-model-file>");
             System.out.println("-----------------------------------------------");
             System.out.println("<data-set-id> and <run-id> have to identical to the ones used for the result component!");
             System.out.println("data-set-id:");
@@ -23,14 +23,17 @@ public class SvmComponent {
             System.out.println("  2 -> springer data");
             System.out.println("run-id:         this id distinguish between different runs");
             System.out.println("svm-model-file: file location for model file");
+            System.out.println("language: language of the blog posts, can be 'de' or 'en'");
             return;
         }
 
         int dataSetId = Integer.parseInt(args[0]);
         int runId = Integer.parseInt(args[1]);
-        String modelFile = args[2];
+        String language = args[2];
+        String modelFile = args[3];
 
-        run(modelFile, runId, dataSetId);
+
+        run(modelFile, runId, dataSetId, language);
     }
 
     /**
@@ -42,7 +45,7 @@ public class SvmComponent {
      * @param dataSetId    identifies the original data set, 1 for smm data and 2 for springer data
      * @param svmModelFile the file location of the svm model file
      */
-    public static void run(String svmModelFile, int runId, int dataSetId) throws IOException {
+    public static void run(String svmModelFile, int runId, int dataSetId, String language) throws IOException {
         // read features and cluster id of all blog posts
         System.out.print("Reading blog posts with features and cluster id ... ");
         List<BlogPost> blogPosts = readBlogPosts(runId, dataSetId);
