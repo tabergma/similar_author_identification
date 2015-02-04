@@ -59,7 +59,7 @@ public class ClusterComponent {
      */
     public static Cluster run(int runId, int dataSetId, String content, String method, String k, String svmModelFile, String language) throws Exception {
         System.out.print("Reading blog posts with features and cluster id ... ");
-        List<BlogPost> blogPosts = SvmComponent.readBlogPosts(runId, dataSetId);
+        List<BlogPost> blogPosts = SvmComponent.readBlogPosts(runId, dataSetId, language);
         System.out.println("Done.");
         System.out.print("Reading cluster centroids ... ");
         List<Cluster> clusters = readClusters(runId);
