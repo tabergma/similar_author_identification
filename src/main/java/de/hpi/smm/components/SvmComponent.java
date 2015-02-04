@@ -44,6 +44,7 @@ public class SvmComponent {
      * @param runId        distinguish between different runs
      * @param dataSetId    identifies the original data set, 1 for smm data and 2 for springer data
      * @param svmModelFile the file location of the svm model file
+     * @param language     the language of the blog posts, can be either 'de' or 'en'
      */
     public static void run(String svmModelFile, int runId, int dataSetId, String language) throws IOException {
         // read features and cluster id of all blog posts

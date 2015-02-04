@@ -54,6 +54,7 @@ public class ClusterComponent {
      * @param method       the cluster determination method to use, can be either 'k-nearest', 'euclidean' or 'svm'
      * @param k            the number of neighbors the k-nearest-neighbor algorithm uses
      * @param svmModelFile the file location of the svm model file
+     * @param language  the language of the blog posts, can be either 'de' or 'en'
      * @return the resulting cluster
      * @throws Exception
      */

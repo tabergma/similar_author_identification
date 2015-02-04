@@ -37,6 +37,7 @@ public class LabelComponent {
      *
      * @param runId      distinguish between different runs
      * @param labelCount number of labels for a cluster
+     * @param language   the language of the blog posts, can be either 'de' or 'en'
      */
     public static void run(int runId, int labelCount, String language) throws Exception {
         System.out.print("Reading cluster centroids ... ");

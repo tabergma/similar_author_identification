@@ -15,9 +15,9 @@ import java.util.List;
 
 public class FeatureComponent {
 
-    public static final String SELECT_STATEMENT = "SELECT TABLE1.ID, TABLE1.POSTCONTENT FROM (SELECT %s AS ID, %s AS POSTCONTENT FROM %s LIMIT %d OFFSET %d) AS TABLE1 FULL OUTER JOIN SMA1415.SAI_FEATURES AS TABLE2 ON TABLE1.ID = TABLE2.DOCUMENT_ID WHERE TABLE2.FEATURE_0 IS NULL AND TABLE1.POSTCONTENT IS NOT NULL";
-    public static final String ID = "ID";
-    public static final String CONTENT = "POSTCONTENT";
+    private static final String SELECT_STATEMENT = "SELECT TABLE1.ID, TABLE1.POSTCONTENT FROM (SELECT %s AS ID, %s AS POSTCONTENT FROM %s LIMIT %d OFFSET %d) AS TABLE1 FULL OUTER JOIN SMA1415.SAI_FEATURES AS TABLE2 ON TABLE1.ID = TABLE2.DOCUMENT_ID WHERE TABLE2.FEATURE_0 IS NULL AND TABLE1.POSTCONTENT IS NOT NULL";
+    private static final String ID = "ID";
+    private static final String CONTENT = "POSTCONTENT";
     private static final int CHUNK_SIZE = 1000;
 
     public static void main(String[] args) throws Exception {
@@ -45,6 +45,7 @@ public class FeatureComponent {
      *
      * @param dataSetId identifies the original data set, 1 for smm data and 2 for springer data
      * @param limit     number of documents for which the features should be extracted
+     * @param language  the language of the blog posts, can be either 'de' or 'en'
      */
     public static void run(int dataSetId, int limit, String language) throws LangDetectException, SQLException {
         FeatureExtractor featureExtractor = new FeatureExtractor(language);

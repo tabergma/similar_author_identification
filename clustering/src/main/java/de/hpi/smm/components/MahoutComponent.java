@@ -43,6 +43,7 @@ public class MahoutComponent {
      * @param dataSetId     identifies the original data set, 1 for smm data and 2 for springer data
      * @param k             number of resulting clusters
      * @param maxIterations max iterations for the k-means algorithm
+     * @param language      the language of the blog posts, can be either 'de' or 'en'
      */
     public static void run(int dataSetId, int k, int maxIterations, String language) throws Exception {
         System.out.print("Reading features ... ");
