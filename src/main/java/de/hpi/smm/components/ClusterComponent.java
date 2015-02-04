@@ -67,7 +67,7 @@ public class ClusterComponent {
 
         System.out.print("Determining cluster ... ");
         ClusterDetermination clusterDetermination = new ClusterDetermination(clusters, blogPosts, svmModelFile);
-        Cluster resultCluster = clusterDetermination.run(content, method, k);
+        Cluster resultCluster = clusterDetermination.run(content, method, k, language);
         System.out.println("Done.");
 
         System.out.println("Finished.");

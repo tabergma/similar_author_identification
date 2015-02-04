@@ -28,7 +28,7 @@ public class Main {
         int limit = 20000;
         int minLength = 50;
 
-        testDatabaseAdapter();
+//        testDatabaseAdapter();
 
 //        Util.switchErrorPrint(false);
 
