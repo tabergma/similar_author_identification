@@ -13,18 +13,22 @@ import java.util.*;
 
 public class FeatureExtractor {
 
-    MaxentTagger tagger = null;
-    List<AbstractTokenFeature> tokenFeatureList;
-    List<AbstractTextFeature> textFeatureList;
+    private MaxentTagger tagger = null;
+    private List<AbstractTokenFeature> tokenFeatureList;
+    private List<AbstractTextFeature> textFeatureList;
     private PTBTokenizer.PTBTokenizerFactory<Word> tokenizerFactory;
+    private String functionWordFile;
+    private String abbreviationFile;
 
-    public FeatureExtractor() {
+    public FeatureExtractor(String lang) {
         // get POS tagger
-        tagger = Config.lang2tagger.get(Config.ACCEPTED_LANGUAGE);
+        tagger = Config.lang2tagger.get(lang);
+        functionWordFile = Config.lang2FunctionWordFile.get(lang);
+        abbreviationFile = Config.lang2AbbreviationFile.get(lang);
         tokenizerFactory = PTBTokenizer.PTBTokenizerFactory.newWordTokenizerFactory("untokenizable=noneDelete, normalizeParentheses=false, normalizeOtherBrackets=false");
     }
 
-    public List<Float> getFeatures(String text, String lang) {
+    public List<Float> getFeatures(String text) {
         // Tokenize text
         List<List<HasWord>> sentences = MaxentTagger.tokenizeText(new StringReader(text), tokenizerFactory);
 
@@ -66,8 +70,8 @@ public class FeatureExtractor {
         addAllTextFeatures();
     }
 
-    public static Map<Integer, Feature> getIndexToFeatureMap(){
-        FeatureExtractor featureExtractor = new FeatureExtractor();
+    public static Map<Integer, Feature> getIndexToFeatureMap(String lang){
+        FeatureExtractor featureExtractor = new FeatureExtractor(lang);
         featureExtractor.initializeFeatures();
         return featureExtractor.getIndex2FeatureMap();
     }
@@ -76,7 +80,7 @@ public class FeatureExtractor {
         this.tokenFeatureList.add(new WordLengthFeature(1.0f));
         this.tokenFeatureList.add(new PunctuationFrequencyFeature(1.0f));
         this.tokenFeatureList.add(new NumberFrequencyFeature(1.0f));
-        this.tokenFeatureList.add(new FunctionWordFeature(1.0f));
+        this.tokenFeatureList.add(new FunctionWordFeature(1.0f, functionWordFile, abbreviationFile));
         this.tokenFeatureList.add(new CapitalLetterFeature(1.0f));
         this.tokenFeatureList.add(new UpperCaseFeature(1.0f));
         this.tokenFeatureList.add(new WordFrequencyFeature(1.0f));

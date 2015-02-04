@@ -28,7 +28,7 @@ public class Main {
         int limit = 20000;
         int minLength = 50;
 
-        testDatabaseAdapter();
+//        testDatabaseAdapter();
 
 //        Util.switchErrorPrint(false);
 
@@ -105,16 +105,16 @@ public class Main {
 
     private static void evaluateFeatures(AbstractDataSet testSet) throws Exception {
         System.out.println("Evaluation of features...");
-        FeatureEvaluator.run(FeatureExtractor.getIndexToFeatureMap(), testSet, FeatureWriter.readFeatureFile());
+        FeatureEvaluator.run(FeatureExtractor.getIndexToFeatureMap("de"), testSet, FeatureWriter.readFeatureFile());
     }
 
     private static void extractFeatures(AbstractDataSet testSet) throws Exception {
-        FeatureExtractor featureExtractor = new FeatureExtractor();
+        FeatureExtractor featureExtractor = new FeatureExtractor("de");
         FeatureWriter featureWriter = new FeatureWriter();
 
         // Create language detector
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
-        Detector detector = DetectorFactory.create();
+        Detector detector;
 
         System.out.println("Extracting features...");
         int i = 0;
@@ -124,11 +124,15 @@ public class Main {
             String content = testSet.getText();
             if (content != null) {
                 // detect language
+                detector = DetectorFactory.create();
                 detector.append(content);
                 String lang = detector.detect();
 
+                if (!lang.equals("de"))
+                    continue;;
+
                 // extract features
-                features = featureExtractor.getFeatures(content, lang);
+                features = featureExtractor.getFeatures(content);
 
                 // write features
                 featureWriter.writeFeaturesForDocument(features, testSet.getAuthor().getId());
@@ -161,7 +165,7 @@ public class Main {
         kMeans.cleanUp();
 
         System.out.println("Labeling clusters...");
-        ClusterLabeling labeling = new ClusterLabeling(resultHandler.getClusters(), FeatureExtractor.getIndexToFeatureMap());
+        ClusterLabeling labeling = new ClusterLabeling(resultHandler.getClusters(), FeatureExtractor.getIndexToFeatureMap("de"));
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
 
         System.out.println("Calculate precision...");

@@ -41,7 +41,7 @@ public class Main {
                 String blogPost = rq.queryMap().get("blog-post").value();
                 String method = rq.queryMap().get("method").value();
                 String k = rq.queryMap().get("k-value").value();
-                Cluster assignedCluster = clusterDetermination.run(blogPost, method, k);
+                Cluster assignedCluster = clusterDetermination.run(blogPost, method, k, "de");
 
                 List<String> labels = assignedCluster.getLabels();
                 labels = labels.stream().filter(x -> !x.contains("POS"))

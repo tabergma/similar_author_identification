@@ -7,9 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Config {
-    // accepted language
-    public static final String ACCEPTED_LANGUAGE = "de";
-
     // resource folder
     public final static String RESOURCE_FOLDER = "res/";
     public static final String TEMP_FILE = RESOURCE_FOLDER + "features.tmp";
@@ -106,4 +103,19 @@ public class Config {
         lang2tagger = Collections.unmodifiableMap(aMap);
     }
 
+    public static final Map<String, String> lang2FunctionWordFile;
+    static {
+        Map<String, String> aMap = new HashMap<>();
+        aMap.put("en", Config.FUNCTION_WORD_FILE);
+        aMap.put("de", Config.FUNCTION_WORD_FILE);
+        lang2FunctionWordFile = Collections.unmodifiableMap(aMap);
+    }
+
+    public static final Map<String, String> lang2AbbreviationFile;
+    static {
+        Map<String, String> aMap = new HashMap<>();
+        aMap.put("en", Config.ABBREVIATIONS_FILE);
+        aMap.put("de", Config.ABBREVIATIONS_FILE);
+        lang2AbbreviationFile = Collections.unmodifiableMap(aMap);
+    }
 }

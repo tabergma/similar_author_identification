@@ -24,7 +24,7 @@ public class ClusterDetermination {
         this.svmModelFile = svmModelFile;
     }
 
-    public Cluster run(String content, String method, String k) throws Exception {
+    public Cluster run(String content, String method, String k, String expectedLanguage) throws Exception {
         // determine language of text
         DetectorFactory.clear();
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
@@ -32,9 +32,12 @@ public class ClusterDetermination {
         detector.append(content);
         String lang = detector.detect();
 
+        if (!lang.equals(expectedLanguage))
+            throw new RuntimeException("The language of the blog post does not match the expected language " + expectedLanguage);
+
         // extract features for content
-        FeatureExtractor featureExtractor = new FeatureExtractor();
-        List<Float> featureList = featureExtractor.getFeatures(content, lang);
+        FeatureExtractor featureExtractor = new FeatureExtractor(lang);
+        List<Float> featureList = featureExtractor.getFeatures(content);
         Float[] featureArray = featureList.toArray(new Float[featureList.size()]);
 
         int index = -1;
