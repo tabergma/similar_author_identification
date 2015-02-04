@@ -24,24 +24,25 @@ public class SchemaConfig {
 //    public static final String SPINN3R_AUTHOR = "\"atomname\"";
 
     public static final String MAIN_SCHEMA = "SMA1415";
+    public static final String GENERIC_WHERE_CLAUSE = "%s.%s = '%s'";
 
 
-    public static Schema getCompleteSchema(int dataSet, int runId){
+    public static Schema getCompleteSchema(int dataSet, int runId, String lang){
         Schema schema = new Schema();
         addSpinn3rTable(schema);
         addSmmTable(schema);
-        addFeatureTable(schema, dataSet);
+        addFeatureTable(schema, dataSet, lang);
         addClusterTable(schema, runId);
         addLabelTable(schema, runId);
         addDocumentClusterMappingTable(schema, runId);
         return schema;
     }
 
-    public static Schema getSchemaForFeatureAccess(int dataSet) {
+    public static Schema getSchemaForFeatureAccess(int dataSet, String lang) {
         Schema schema = new Schema();
         addSpinn3rTable(schema);
         addSmmTable(schema);
-        addFeatureTable(schema, dataSet);
+        addFeatureTable(schema, dataSet, lang);
         return schema;
     }
 
@@ -104,9 +105,10 @@ public class SchemaConfig {
         schema.addTable(tableDef);
     }
 
-    private static void addFeatureTable(Schema schema, int dataSet) {
+    private static void addFeatureTable(Schema schema, int dataSet, String lang) {
         AbstractTableDefinition tableDef = new SingleTableDefinition(getFeatureTableName());
-        tableDef.addWhereClause(String.format("%s.%s = '%s'", getFeatureTableName(), SchemaConfig.DATA_SET, dataSet));
+        tableDef.addWhereClause(String.format(GENERIC_WHERE_CLAUSE, getFeatureTableName(), SchemaConfig.DATA_SET, dataSet));
+        tableDef.addWhereClause(String.format(GENERIC_WHERE_CLAUSE, getFeatureTableName(), SchemaConfig.LANGUAGE, lang));
 
         tableDef.addColumn(new Column(DATA_SET, Column.INT));
         tableDef.addColumn(new Column(LANGUAGE, Column.STRING));
