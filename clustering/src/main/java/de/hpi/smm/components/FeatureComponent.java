@@ -35,7 +35,11 @@ public class FeatureComponent {
             return;
         }
 
-        run(Integer.parseInt(args[0]), Integer.parseInt(args[1]), args[2]);
+        int dataSetId = Integer.parseInt(args[0]);
+        int limit = Integer.parseInt(args[1]);
+        String language = args[2];
+
+        run(dataSetId, limit, language);
     }
 
     /**
