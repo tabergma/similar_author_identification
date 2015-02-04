@@ -22,7 +22,11 @@ public class ResultComponent {
             return;
         }
 
-        run(Integer.parseInt(args[0]), Integer.parseInt(args[1]), args[2]);
+        int dataSetId = Integer.parseInt(args[0]);
+        int runId = Integer.parseInt(args[1]);
+        String language= args[2];
+
+        run(dataSetId, runId, language);
     }
 
     /**
