@@ -25,19 +25,19 @@ public class FeatureComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.FeatureComponent <data-set-id> <limit> <language>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.FeatureComponent <data-set-id> <language> <limit>");
             System.out.println("-----------------------------------------------");
             System.out.println("data-set-id:");
             System.out.println("  1 -> smm data");
             System.out.println("  2 -> springer data");
-            System.out.println("limit: number of documents for which the features should be extracted");
             System.out.println("language: language of the blog posts, can be 'de' or 'en'");
+            System.out.println("limit: number of documents for which the features should be extracted");
             return;
         }
 
         int dataSetId = Integer.parseInt(args[0]);
-        int limit = Integer.parseInt(args[1]);
-        String language = args[2];
+        String language = args[1];
+        int limit = Integer.parseInt(args[2]);
 
         run(dataSetId, limit, language);
     }

@@ -22,8 +22,8 @@ public class SvmComponent {
             System.out.println("  1 -> smm data");
             System.out.println("  2 -> springer data");
             System.out.println("run-id:         this id distinguish between different runs");
-            System.out.println("svm-model-file: file location for model file");
             System.out.println("language: language of the blog posts, can be 'de' or 'en'");
+            System.out.println("svm-model-file: file location for model file");
             return;
         }
 

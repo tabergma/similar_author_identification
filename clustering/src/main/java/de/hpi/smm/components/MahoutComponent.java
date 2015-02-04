@@ -11,7 +11,6 @@ import java.util.List;
 
 public class MahoutComponent {
 
-    // TODO check file access!!!
     public static void main(String[] args) throws Exception {
         if (args.length != 4) {
             System.out.println("Wrong number of arguments!");
@@ -22,9 +21,9 @@ public class MahoutComponent {
             System.out.println("data-set-id:");
             System.out.println("  1 -> smm data");
             System.out.println("  2 -> springer data");
+            System.out.println("language: language of the blog posts, can be 'de' or 'en'");
             System.out.println("k:              number of resulting clusters");
             System.out.println("max-iterations: max iterations for the k-means algorithm");
-            System.out.println("language: language of the blog posts, can be 'de' or 'en'");
             return;
         }
 
