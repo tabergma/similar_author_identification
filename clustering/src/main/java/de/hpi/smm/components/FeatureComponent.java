@@ -108,7 +108,7 @@ public class FeatureComponent {
                 write(databaseAdapter, features, id, dataSetId, language);
                 count++;
                 if (count % 100 == 0){
-                    System.out.println(String.format("Feature for %d blog posts calculated...", count));
+                    System.out.println(String.format("Features for %d blog posts calculated...", count));
                 }
             }
         }

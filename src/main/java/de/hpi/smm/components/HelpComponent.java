@@ -8,7 +8,7 @@ public class HelpComponent {
         System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.MahoutComponent");
         System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.ResultComponent");
         System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.LabelComponent");
-        System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.ClusterComponent");
         System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.SvmComponent");
+        System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.ClusterComponent");
     }
 }

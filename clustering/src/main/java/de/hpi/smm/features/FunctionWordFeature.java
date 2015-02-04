@@ -132,7 +132,7 @@ public class FunctionWordFeature extends AbstractTokenFeature {
             if (useAbbreviations){
                 BufferedReader br2 = null;
                 try {
-                    br2 = new BufferedReader(new FileReader(Config.ABBREVIATIONS_FILE));
+                    br2 = new BufferedReader(new FileReader(abbreviationFile));
                     StringBuilder sb = new StringBuilder();
                     String line;
 

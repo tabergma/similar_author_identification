@@ -14,7 +14,7 @@ import java.util.List;
 public class ClusterComponent {
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 6) {
+        if (args.length != 7) {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
