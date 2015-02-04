@@ -1,11 +1,8 @@
 package de.hpi.smm.database;
 
-import org.apache.commons.lang.StringUtils;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +14,7 @@ public abstract class AbstractTableDefinition {
     private String name;
     protected int firstFeatureColumn = -1;
     private ResultSet resultSet = null;
+    String whereClause = "";
 
     public AbstractTableDefinition(String name){
         this.name = name;
@@ -44,9 +42,19 @@ public abstract class AbstractTableDefinition {
         }
     }
 
-    protected void appendTableName(StringBuilder stringBuilder, String schemaName) {
-        stringBuilder.append(schemaName);
-        stringBuilder.append(".");
+    public void addWhereClause(String expression){
+        if (whereClause.equals("")){
+            whereClause = expression;
+        } else {
+            whereClause = String.format("%s AND %s", whereClause, expression);
+        }
+    }
+
+    public String getWhereClause(){
+        return whereClause;
+    }
+
+    protected void appendTableName(StringBuilder stringBuilder) {
         stringBuilder.append(this.name);
     }
 
@@ -62,13 +70,20 @@ public abstract class AbstractTableDefinition {
 
     public abstract void setPreparedStatement(PreparedStatement preparedStatement);
 
-    public abstract String formatInsertStatement(String schemaName);
+    public abstract String formatInsertStatement();
 
-    public abstract String formatReadStatement(String schemaName);
+    public String formatCompleteReadStatement(){
+        if (getWhereClause().equals("")){
+            return formatReadStatement();
+        } else {
+            return String.format("%s WHERE %s", formatReadStatement(), getWhereClause());
+        }
+    }
+
+    public abstract String formatReadStatement();
 
     protected int getCachedIndex(String columnName) {
-        Integer index = nameToIndex.get(columnName) + 1;
-        return index;
+        return nameToIndex.get(columnName);
     }
 
     public abstract void setValue(String columnName, int value);
@@ -98,7 +113,7 @@ public abstract class AbstractTableDefinition {
 
     public String getString(String columnName) {
         try {
-            return resultSet.getString(getCachedIndex(columnName));
+            return resultSet.getString(getCachedIndex(columnName) + 1);
         } catch (SQLException e) {
             readValueExceptionCaught(e);
             return null;
@@ -107,7 +122,7 @@ public abstract class AbstractTableDefinition {
 
     public int getInt(String columnName) {
         try {
-            return resultSet.getInt(getCachedIndex(columnName));
+            return resultSet.getInt(getCachedIndex(columnName) + 1);
         } catch (SQLException e) {
             readValueExceptionCaught(e);
             return -1;
@@ -116,10 +131,15 @@ public abstract class AbstractTableDefinition {
 
     public double getFeatureValue(int index) {
         try {
-            return resultSet.getInt(firstFeatureColumn + index);
+            double value = resultSet.getDouble(firstFeatureColumn + index);
+            if (resultSet.wasNull()){
+                return -1.0;
+            } else {
+                return value;
+            }
         } catch (SQLException e) {
             readValueExceptionCaught(e);
-            return -1;
+            return -1.0;
         }
     }
 
@@ -137,7 +157,12 @@ public abstract class AbstractTableDefinition {
 
     private void readValueExceptionCaught(SQLException e) {
         e.printStackTrace();
+        throw new RuntimeException("Exception caught while reading a value!");
     }
 
     public abstract void setRecordValuesToNull();
+
+    public boolean hasColumn(String columnName) {
+        return nameToIndex.containsKey(columnName);
+    }
 }

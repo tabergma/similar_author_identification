@@ -15,11 +15,14 @@ import java.util.List;
 public class LabelComponent {
 
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
+        if (args.length != 2) {
             System.out.println("Wrong number of arguments!");
+            System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar <jar-name> <data-set-id> <label-count>");
-            System.out.println("data-set-id: 1 -> smm data, 2 -> springer data ");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.LabelComponent <run-id> <label-count>");
+            System.out.println("-----------------------------------------------");
+            System.out.println("run-id:      this id distinguish between different runs");
+            System.out.println("label-count: number of labels for a cluster");
             return;
         }
 
@@ -30,32 +33,44 @@ public class LabelComponent {
      * Get cluster centroids from the database,
      * calculate labels and
      * write them into the database
+     *
+     * @param runId      distinguish between different runs
+     * @param labelCount number of labels for a cluster
      */
-    public static void run(int dataSetId, int labelCount) throws Exception {
-        List<ClusterCentroid> clusters = read(dataSetId);
+    public static void run(int runId, int labelCount) throws Exception {
+        System.out.print("Reading cluster centroids ... ");
+        List<ClusterCentroid> clusters = read(runId);
+        System.out.println("Done.");
 
+        System.out.print("Calculate labels ... ");
         ClusterLabeling labeling = new ClusterLabeling(clusters, FeatureExtractor.getIndexToFeatureMap());
         List<ClusterCentroid> clusterCentroids = labeling.labelClusters();
+        System.out.println("Done.");
 
-        write(clusterCentroids, dataSetId, labelCount);
+        System.out.print("Writing cluster labels ... ");
+        write(clusterCentroids, runId, labelCount);
+        System.out.println("Done.");
+
+        System.out.println("Finished.");
     }
 
-    private static List<ClusterCentroid> read(int dataSetId) {
+    private static List<ClusterCentroid> read(int runId) {
         List<ClusterCentroid> clusters = new ArrayList<>();
 
-        // TODO datasetid
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getSchema());
-
+        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(runId));
+        
         AbstractTableDefinition table = databaseAdapter.getReadTable(SchemaConfig.getClusterTableName());
         while(table.next()) {
             int id = table.getInt(SchemaConfig.CLUSTER_ID);
+            int nrOfDocuments = table.getInt(SchemaConfig.NUMBER_OF_DOCUMENTS);
             List<Double> features = new ArrayList<>();
             int i = 0;
             while (table.getFeatureValue(i) != -1) {
                 features.add(table.getFeatureValue(i));
+                i++;
             }
-            clusters.add(new ClusterCentroid(id, "cluster" + id, features));
+            clusters.add(new ClusterCentroid(id, "cluster" + id, nrOfDocuments, features));
         }
 
         databaseAdapter.closeConnection();
@@ -63,14 +78,15 @@ public class LabelComponent {
         return clusters;
     }
 
-    private static void write(List<ClusterCentroid> clusters, int dataSetId, int labelCount) {
+    private static void write(List<ClusterCentroid> clusters, int runId, int labelCount) {
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
-        databaseAdapter.setSchema(SchemaConfig.getSchema());
+        databaseAdapter.setSchema(SchemaConfig.getSchemaForClusterAccess(runId));
         AbstractTableDefinition table = databaseAdapter.getWriteTable(SchemaConfig.getLabelTableName());
 
         for (ClusterCentroid cluster : clusters) {
+            table.setRecordValuesToNull();
             table.setValue(SchemaConfig.CLUSTER_ID, cluster.getId());
-            table.setValue(SchemaConfig.DATA_SET, dataSetId);
+            table.setValue(SchemaConfig.RUN_ID, runId);
 
             List<String> labels = cluster.getMostSignificantLabels(labelCount);
             String label = Joiner.on("; ").join(labels);

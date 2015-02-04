@@ -28,6 +28,15 @@ public class KMeans {
     private static final String FEATURE_INPUT_PATH = Config.FEATURE_INPUT_PATH;
     private static final String CLUSTER_INPUT_PATH = Config.CLUSTER_INPUT_PATH;
 
+    private int k;
+    private int maxIterations;
+
+
+    public KMeans(int k, int maxIterations) {
+        this.k = k;
+        this.maxIterations = maxIterations;
+    }
+
     public void run(List<List<Float>> documentFeatures) throws Exception {
         Configuration conf = new Configuration();
         FileSystem fs = FileSystem.get(conf);
@@ -58,7 +67,7 @@ public class KMeans {
                 new Path(Config.CLUSTER_INPUT_PATH),
                 output,
                 Config.CONVERGENCE_DELTA,
-                Config.MAX_ITERATIONS,
+                this.maxIterations,
                 Config.RUN_CLUSTERING,
                 Config.CLUSTER_CLASSIFICATION_THRESHOLD,
                 Config.RUN_SEQUENTIAL
@@ -114,7 +123,7 @@ public class KMeans {
 
     public void writeInitialClusters(List<Vector> vectors, Path path, FileSystem fs, Configuration conf) throws IOException {
         SequenceFile.Writer writer = new SequenceFile.Writer(fs, conf, path, Text.class, Kluster.class);
-        for (int i = 0; i < Config.K; i++) {
+        for (int i = 0; i < this.k; i++) {
             Vector vec = vectors.get(i);
             Kluster cluster = new Kluster(vec, i, new EuclideanDistanceMeasure());
             writer.append(new Text(cluster.getIdentifier()), cluster);

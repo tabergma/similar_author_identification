@@ -37,7 +37,7 @@ public class FeatureEvaluator {
 
         double numberOfCombinations = Math.pow(2, index2Feature.size()) - 1; // minus empty set
 
-        KMeans kMeans = new KMeans();
+        KMeans kMeans = new KMeans(Config.K, Config.MAX_ITERATIONS);
         ClusterAnalyzer analyzer = new ClusterAnalyzer(Config.CLUSTER_FILE, Config.CLUSTER_CENTER_FILE);
         Evaluator evaluator = new Evaluator();
 

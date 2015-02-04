@@ -56,7 +56,7 @@ public class TenFoldCrossValidation {
         this.trainingData = new ArrayList<>();
 
         for (BlogPost blogPost: blogPosts) {
-            if (blogPost.getDocumentId() % 10 == k) {
+            if (Integer.parseInt(blogPost.getDocumentId()) % 10 == k) {
                 this.testData.add(blogPost);
             } else {
                 this.trainingData.add(blogPost);

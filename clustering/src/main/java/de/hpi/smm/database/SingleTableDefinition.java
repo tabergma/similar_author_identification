@@ -3,21 +3,30 @@ package de.hpi.smm.database;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class SingleTableDefiniton extends AbstractTableDefinition {
+public class SingleTableDefinition extends AbstractTableDefinition {
     private static final int BATCH_SIZE = 100;
 
     private int currentBatchSize = 0;
     private PreparedStatement preparedStatement = null;
 
-    public SingleTableDefiniton(String name) {
-        super(name);
+    public SingleTableDefinition(String combinedSchemaTableName) {
+        super(combinedSchemaTableName);
+    }
+
+    public SingleTableDefinition(String combinedSchemaTableName, int runId) {
+        super(combinedSchemaTableName);
+        this.addWhereClause(String.format("%s.%s = '%s'", combinedSchemaTableName, SchemaConfig.RUN_ID, runId));
+    }
+
+    public SingleTableDefinition(String schema, String name) {
+        super(String.format("%s.%s", schema, name));
     }
 
     @Override
-    public String formatInsertStatement(String schemaName) {
+    public String formatInsertStatement() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("INSERT INTO ");
-        appendTableName(stringBuilder, schemaName);
+        appendTableName(stringBuilder);
         stringBuilder.append(" (");
         appendColumnNames(stringBuilder);
         stringBuilder.append(") VALUES (");
@@ -32,18 +41,18 @@ public class SingleTableDefiniton extends AbstractTableDefinition {
     }
 
     @Override
-    public String formatReadStatement(String schemaName) {
+    public String formatReadStatement() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("SELECT ");
         appendColumnNames(stringBuilder);
         stringBuilder.append(" FROM ");
-        appendTableName(stringBuilder, schemaName);
+        appendTableName(stringBuilder);
         return stringBuilder.toString();
     }
 
     @Override
     public void setValue(String columnName, String value) {
-        int index = getCachedIndex(columnName);
+        int index = getCachedIndex(columnName) + 1;
         try {
             this.preparedStatement.setString(index, value);
         } catch (SQLException e) {
@@ -53,7 +62,7 @@ public class SingleTableDefiniton extends AbstractTableDefinition {
 
     @Override
     public void setValue(String columnName, int value) {
-        int index = getCachedIndex(columnName);
+        int index = getCachedIndex(columnName) + 1;
         try {
             this.preparedStatement.setInt(index, value);
         } catch (SQLException e) {

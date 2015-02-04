@@ -20,7 +20,15 @@ public class ClusterCentroid {
         this.values = values;
         this.labels = new ArrayList<>();
         this.labelSignificance = new ArrayList<Double>();
-        
+    }
+
+    public ClusterCentroid(int id, String name, int nrOfDocuments, List<Double> values) {
+        this.id = id;
+        this.name = name;
+        this.values = values;
+        this.nrOfDocuments = nrOfDocuments;
+        this.labels = new ArrayList<>();
+        this.labelSignificance = new ArrayList<>();
     }
 
     public static ClusterCentroid createFromVector(int id, String name, Vector centerVector) {

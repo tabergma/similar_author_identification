@@ -8,49 +8,94 @@ public class SchemaConfig {
     public static final String CLUSTER_ID = "CLUSTER_ID";
     public static final String DOCUMENT_ID = "DOCUMENT_ID";
     public static final String DATA_SET = "DATA_SET";
+    public static final String RUN_ID = "RUN_ID";
     public static final String FEATURE_X = "FEATURE_%d";
     public static final String NUMBER_OF_DOCUMENTS = "NUMBER_OF_DOCUMENTS";
     public static final String LABELS = "LABELS";
-    public static final String DOCUMENT_CONTENT = ""; // TODO
+    public static final String DOCUMENT_CONTENT = "DOCUMENT_CONTENT";
 
-    public static Schema getSchema(){
-        Schema smm_schema = new Schema("SMA1415");
-        addFeatureTable(smm_schema);
-        addClusterTable(smm_schema);
-        addLabelTable(smm_schema);
-        addDocumentClusterMappingTable(smm_schema);
-        return smm_schema;
+    public static final String SMM_CONTENT = "POSTCONTENT";
+    public static final String SMM_ID = "ID";
+//    public static final String SMM_AUTHOR = "POSTAUTHOR";
+
+    public static final String SPINN3R_CONTENT = "'\"content_extract\"'";
+    public static final String SPINN3R_ID = "\"guid\"";
+//    public static final String SPINN3R_AUTHOR = "\"atomname\"";
+
+    public static final String MAIN_SCHEMA = "SMA1415";
+
+
+    public static Schema getCompleteSchema(int dataSet, int runId){
+        Schema schema = new Schema();
+        addSpinn3rTable(schema);
+        addSmmTable(schema);
+        addFeatureTable(schema, dataSet);
+        addClusterTable(schema, runId);
+        addLabelTable(schema, runId);
+        addDocumentClusterMappingTable(schema, runId);
+        return schema;
     }
 
-    private void exceptionCaught(SQLException e, String statement) {
-        System.out.println(String.format("Exception caught while executing statement: %s", statement));
-        e.printStackTrace();
+    public static Schema getSchemaForFeatureAccess(int dataSet) {
+        Schema schema = new Schema();
+        addSpinn3rTable(schema);
+        addSmmTable(schema);
+        addFeatureTable(schema, dataSet);
+        return schema;
     }
 
-    private static void addLabelTable(Schema schema) {
-        AbstractTableDefinition tableDef = new SingleTableDefiniton(getLabelTableName());
+    public static Schema getSchemaForClusterAccess(int runId){
+        Schema schema = new Schema();
+        addClusterTable(schema, runId);
+        addLabelTable(schema, runId);
+        addDocumentClusterMappingTable(schema, runId);
+        return schema;
+    }
+
+    private static void addSmmTable(Schema schema) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getSmmTableName());
+
+        tableDef.addColumn(new Column(SMM_CONTENT, Column.STRING));
+        tableDef.addColumn(new Column(SMM_ID, Column.STRING));
+//        tableDef.addColumn(new Column(SMM_AUTHOR, Column.STRING));
+
+        schema.addTable(tableDef);
+    }
+
+    private static void addSpinn3rTable(Schema schema) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getSpinn3rTableName());
+
+        tableDef.addColumn(new Column(SPINN3R_CONTENT, Column.STRING));
+        tableDef.addColumn(new Column(SPINN3R_ID, Column.STRING));
+//        tableDef.addColumn(new Column(SPINN3R_AUTHOR, Column.STRING));
+
+        schema.addTable(tableDef);
+    }
+
+    private static void addLabelTable(Schema schema, int runId) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getLabelTableName(), runId);
         
-        addDatasetColumn(tableDef);
+        addRunIdColumn(tableDef);
         addClusterIdColumn(tableDef);
         tableDef.addColumn(new Column(LABELS, Column.STRING));
 
         schema.addTable(tableDef);
     }
 
-    private static void addDocumentClusterMappingTable(Schema schema) {
-        AbstractTableDefinition tableDef = new SingleTableDefiniton(getDocumentClusterMappingTableName());
+    private static void addDocumentClusterMappingTable(Schema schema, int runId) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getDocumentClusterMappingTableName(), runId);
         
-        addDatasetColumn(tableDef);
+        addRunIdColumn(tableDef);
         addDocumentIdColumn(tableDef);
         addClusterIdColumn(tableDef);
 
         schema.addTable(tableDef);
     }
 
-    private static void addClusterTable(Schema schema) {
-        AbstractTableDefinition tableDef = new SingleTableDefiniton(getClusterTableName());
+    private static void addClusterTable(Schema schema, int runId) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getClusterTableName(), runId);
         
-        addDatasetColumn(tableDef);
+        addRunIdColumn(tableDef);
         addClusterIdColumn(tableDef);
         tableDef.addColumn(new Column(NUMBER_OF_DOCUMENTS, Column.INT));
         addFeatureColumns(tableDef);
@@ -58,10 +103,11 @@ public class SchemaConfig {
         schema.addTable(tableDef);
     }
 
-    private static void addFeatureTable(Schema schema) {
-        AbstractTableDefinition tableDef = new SingleTableDefiniton(getFeatureTableName());
-        
-        addDatasetColumn(tableDef);
+    private static void addFeatureTable(Schema schema, int dataSet) {
+        AbstractTableDefinition tableDef = new SingleTableDefinition(getFeatureTableName());
+        tableDef.addWhereClause(String.format("%s.%s = '%s'", getFeatureTableName(), SchemaConfig.DATA_SET, dataSet));
+
+        tableDef.addColumn(new Column(DATA_SET, Column.INT));
         addDocumentIdColumn(tableDef);
         addFeatureColumns(tableDef);
 
@@ -69,29 +115,40 @@ public class SchemaConfig {
         
     }
 
+    public static String getSpinn3rTableName() {
+        return "SPINN3R.ENTRY";
+    }
+
+    public static String getSmmTableName() {
+        return "SYSTEM.WEBPAGE";
+    }
+
     public static String getLabelTableName () {
-        return "SAI_LABELS";
+        return String.format("%s.%s", MAIN_SCHEMA, "SAI_LABELS");
     }
 
     public static String getDocumentClusterMappingTableName (){
-        return "SAI_CLUSTER_TO_DOCUMENT";
+        return String.format("%s.%s", MAIN_SCHEMA, "SAI_CLUSTER_TO_DOCUMENT");
     }
 
     public static String getClusterTableName (){
-        return "SAI_CLUSTERS";
+        return String.format("%s.%s", MAIN_SCHEMA, "SAI_CLUSTERS");
     }
 
     public static String getFeatureTableName (){
-        return "SAI_FEATURES";
+        return String.format("%s.%s", MAIN_SCHEMA, "SAI_FEATURES");
     }
 
     public static String getDocumentTableName () {
-        //TODO
-        return "SAI_FEATURES";
+        return String.format("%s.%s", MAIN_SCHEMA, "SAI_FEATURES");
     }
 
-    private static void addDatasetColumn(AbstractTableDefinition tableDef) {
-        tableDef.addColumn(new Column(DATA_SET, Column.STRING));
+    private static String getSchemaName(){
+        return MAIN_SCHEMA;
+    }
+
+    private static void addRunIdColumn(AbstractTableDefinition tableDef) {
+        tableDef.addColumn(new Column(RUN_ID, Column.INT));
     }
 
     private static void addFeatureColumns(AbstractTableDefinition tableDef) {
@@ -106,6 +163,11 @@ public class SchemaConfig {
 
     private static void addDocumentIdColumn(AbstractTableDefinition tableDef) {
         tableDef.addColumn(new Column(DOCUMENT_ID, Column.INT));
+    }
+
+    private void exceptionCaught(SQLException e, String statement) {
+        System.out.println(String.format("Exception caught while executing statement: %s", statement));
+        e.printStackTrace();
     }
 
 }

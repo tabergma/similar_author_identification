@@ -7,45 +7,66 @@ import com.cybozu.labs.langdetect.LangDetectException;
 import de.hpi.smm.Config;
 import de.hpi.smm.database.*;
 import de.hpi.smm.features.FeatureExtractor;
+import org.jsoup.Jsoup;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class FeatureComponent {
 
+    public static final String SELECT_STATEMENT = "SELECT TABLE1.ID, TABLE1.POSTCONTENT FROM (SELECT %s AS ID, %s AS POSTCONTENT FROM %s LIMIT %d) AS TABLE1 FULL OUTER JOIN SMA1415.SAI_FEATURES AS TABLE2 ON TABLE1.ID = TABLE2.DOCUMENT_ID WHERE TABLE2.FEATURE_0 IS NULL AND TABLE1.POSTCONTENT IS NOT NULL";
+    public static final String ID = "ID";
+    public static final String CONTENT = "POSTCONTENT";
+
     public static void main(String[] args) throws Exception {
-        if (args.length != 1) {
+        if (args.length != 2) {
             System.out.println("Wrong number of arguments!");
+            System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -jar <jar-name> <data-set-id>");
-            System.out.println("data-set-id: 1 -> smm data, 2 -> springer data ");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.FeatureComponent <data-set-id> <limit>");
+            System.out.println("-----------------------------------------------");
+            System.out.println("data-set-id:");
+            System.out.println("  1 -> smm data");
+            System.out.println("  2 -> springer data");
+            System.out.println("limit: number of documents for which the features should be extracted");
             return;
         }
 
-        run(Integer.parseInt(args[0]));
+        run(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
     }
 
     /**
      * Get all documents where the features were not yet calculated,
      * calculate the features and
      * write them into the database.
+     *
+     * @param dataSetId identifies the original data set, 1 for smm data and 2 for springer data
+     * @param limit     number of documents for which the features should be extracted
      */
-    public static void run(int dataSetId) throws LangDetectException {
+    public static void run(int dataSetId, int limit) throws LangDetectException, SQLException {
         FeatureExtractor featureExtractor = new FeatureExtractor();
         DatabaseAdapter databaseAdapter = DatabaseAdapter.getSmaHanaAdapter();
+        databaseAdapter.setSchema(SchemaConfig.getSchemaForFeatureAccess(dataSetId));
 
         // Create language detector
         DetectorFactory.loadProfile(Config.PROFILES_DIR);
         Detector detector = DetectorFactory.create();
 
-        // Load table
-        AbstractTableDefinition table = getTable(databaseAdapter, dataSetId);
+        // Get documents
+        System.out.print("Executing SQL statement ... ");
+        ResultSet resultSet = getResultSet(dataSetId, databaseAdapter, limit);
+        System.out.println("Done.");
 
-        // read content and extract features
-        while(table.next()) {
-            int id = table.getInt(SchemaConfig.DOCUMENT_ID);
-            String content = table.getString(SchemaConfig.DOCUMENT_CONTENT);
+        System.out.print("Extracting features ... ");
+        while(resultSet.next()) {
+            String id = resultSet.getString(ID);
+            String content = resultSet.getString(CONTENT);
 
             if (content != null) {
+                // clean text
+                content = html2text(content);
+
                 // detect language
                 detector.append(content);
                 String lang = detector.detect();
@@ -54,28 +75,37 @@ public class FeatureComponent {
                 List<Float> features = featureExtractor.getFeatures(content, lang);
 
                 // write features
-                write(databaseAdapter, features, 1, 1);
+                write(databaseAdapter, features, id, dataSetId);
             }
         }
+        System.out.println("Done.");
 
         // Close database connection
         databaseAdapter.closeConnection();
+        System.out.println("Finished.");
     }
 
-    private static AbstractTableDefinition getTable(DatabaseAdapter databaseAdapter, int dataSetId) {
-        // TODO
-        Schema schema = SchemaConfig.getSchema();
-        databaseAdapter.setSchema(schema);
+    private static ResultSet getResultSet(int dataSetId, DatabaseAdapter databaseAdapter, int limit) {
+        String idColumn = null, contentColumn = null, tableName = null;
+        if (dataSetId == 1){
+            idColumn = SchemaConfig.SMM_ID;
+            contentColumn = SchemaConfig.SMM_CONTENT;
+            tableName = SchemaConfig.getSmmTableName();
+        } else if (dataSetId == 2) {
+            idColumn = SchemaConfig.SPINN3R_ID;
+            contentColumn = SchemaConfig.SPINN3R_CONTENT;
+            tableName = SchemaConfig.getSpinn3rTableName();
+        }
+        String statement = String.format(SELECT_STATEMENT, idColumn, contentColumn, tableName, limit);
 
-        AbstractTableDefinition featureTableDefinition = schema.getTableDefinition(SchemaConfig.getFeatureTableName());
-        AbstractTableDefinition documentTableDefinition = schema.getTableDefinition(SchemaConfig.getDocumentTableName());
-
-        AbstractTableDefinition joinedTableDefinition = new JoinedTableDefinition(featureTableDefinition, documentTableDefinition, SchemaConfig.DOCUMENT_ID);
-
-        return databaseAdapter.getReadTable(joinedTableDefinition);
+        return databaseAdapter.executeQuery(statement);
     }
 
-    private static void write(DatabaseAdapter databaseAdapter, List<Float> features, int documentId, int dataSetId) {
+    private static String html2text(String html) {
+        return Jsoup.parse(html).text();
+    }
+
+    private static void write(DatabaseAdapter databaseAdapter, List<Float> features, String documentId, int dataSetId) {
         AbstractTableDefinition featureTableDefinition = databaseAdapter.getWriteTable(SchemaConfig.getFeatureTableName());
 
         featureTableDefinition.setRecordValuesToNull(); // this sets all values to NULL, so no value is left unattended
@@ -85,8 +115,6 @@ public class FeatureComponent {
             featureTableDefinition.setFeatureValue(i, features.get(i));
         }
         featureTableDefinition.writeRecord();
-
-        databaseAdapter.closeConnection();
     }
 
 }

@@ -53,7 +53,7 @@ public class FileReader {
 
             BlogPost blogPost = new BlogPost();
             blogPost.setNumber(Integer.parseInt(l[0]));
-            blogPost.setDocumentId(Integer.parseInt(l[1]));
+            blogPost.setDocumentId(l[1]);
 
             Float[] points = new Float[l.length - 2];
             for (int i = 2; i < l.length; i++) {
