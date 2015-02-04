@@ -70,8 +70,10 @@ public class Config {
     //private final static MaxentTagger spanishTagger = new MaxentTagger(MODEL_DIR + SPANISH_MODEL);
 
     // Features
-    public final static String FUNCTION_WORD_FILE = RESOURCE_FOLDER + "FunctionWords_de.txt";
-    public final static String ABBREVIATIONS_FILE = RESOURCE_FOLDER + "Abbreviations_de.txt";
+    public final static String FUNCTION_WORD_FILE_DE = RESOURCE_FOLDER + "FunctionWords_de.txt";
+    public final static String ABBREVIATIONS_FILE_DE = RESOURCE_FOLDER + "Abbreviations_de.txt";
+    public final static String FUNCTION_WORD_FILE_EN = RESOURCE_FOLDER + "FunctionWords_en.txt";
+    public final static String ABBREVIATIONS_FILE_EN = RESOURCE_FOLDER + "Abbreviations_en.txt";
 
     // Language detector
     public final static String PROFILES_DIR = RESOURCE_FOLDER + "langdetect-03-03-2014/profiles/";
@@ -106,16 +108,16 @@ public class Config {
     public static final Map<String, String> lang2FunctionWordFile;
     static {
         Map<String, String> aMap = new HashMap<>();
-        aMap.put("en", Config.FUNCTION_WORD_FILE);
-        aMap.put("de", Config.FUNCTION_WORD_FILE);
+        aMap.put("en", Config.FUNCTION_WORD_FILE_EN);
+        aMap.put("de", Config.FUNCTION_WORD_FILE_DE);
         lang2FunctionWordFile = Collections.unmodifiableMap(aMap);
     }
 
     public static final Map<String, String> lang2AbbreviationFile;
     static {
         Map<String, String> aMap = new HashMap<>();
-        aMap.put("en", Config.ABBREVIATIONS_FILE);
-        aMap.put("de", Config.ABBREVIATIONS_FILE);
+        aMap.put("en", Config.ABBREVIATIONS_FILE_EN);
+        aMap.put("de", Config.ABBREVIATIONS_FILE_DE);
         lang2AbbreviationFile = Collections.unmodifiableMap(aMap);
     }
 }
