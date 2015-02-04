@@ -13,6 +13,7 @@ public class SchemaConfig {
     public static final String NUMBER_OF_DOCUMENTS = "NUMBER_OF_DOCUMENTS";
     public static final String LABELS = "LABELS";
     public static final String DOCUMENT_CONTENT = "DOCUMENT_CONTENT";
+    public static final String LANGUAGE = "LANG";
 
     public static final String SMM_CONTENT = "POSTCONTENT";
     public static final String SMM_ID = "ID";
@@ -108,6 +109,7 @@ public class SchemaConfig {
         tableDef.addWhereClause(String.format("%s.%s = '%s'", getFeatureTableName(), SchemaConfig.DATA_SET, dataSet));
 
         tableDef.addColumn(new Column(DATA_SET, Column.INT));
+        tableDef.addColumn(new Column(LANGUAGE, Column.STRING));
         addDocumentIdColumn(tableDef);
         addFeatureColumns(tableDef);
 

@@ -17,13 +17,14 @@ public class MahoutComponent {
             System.out.println("Wrong number of arguments!");
             System.out.println("-----------------------------------------------");
             System.out.println("To start the program execute");
-            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.MahoutComponent <data-set-id> <k> <max-iterations>");
+            System.out.println("  java -cp similar_author_identification.jar de.hpi.smm.components.MahoutComponent <data-set-id> <k> <max-iterations> <language>");
             System.out.println("-----------------------------------------------");
             System.out.println("data-set-id:");
             System.out.println("  1 -> smm data");
             System.out.println("  2 -> springer data");
             System.out.println("k:              number of resulting clusters");
             System.out.println("max-iterations: max iterations for the k-means algorithm");
+            System.out.println("language: language of the blog posts, can be 'de' or 'en'");
             return;
         }
 

@@ -19,11 +19,16 @@ public class FunctionWordFeature extends AbstractTokenFeature {
     private Float[] features;
     private int wordCount;
     private final static boolean useAbbreviations = true;
+    private String functionWordFile;
+    private String abbreviationFile;
 
-    public FunctionWordFeature(float weight) {
+    public FunctionWordFeature(float weight, String functionWordFile, String abbreviationFile) {
         super(weight);
-        this.frequencies = new HashMap<String, MutableInt>(getNumberOfFeatures());
-        for (String functionWord : getFunctionWords()){
+        this.functionWordFile = functionWordFile;
+        this.abbreviationFile = abbreviationFile;
+
+        this.frequencies = new HashMap<>(getNumberOfFeatures());
+        for (String functionWord : getFunctionWords(functionWordFile, abbreviationFile)){
             frequencies.put(functionWord, new MutableInt());
         }
         this.features = new Float[getNumberOfFeatures()];
@@ -44,14 +49,14 @@ public class FunctionWordFeature extends AbstractTokenFeature {
     @Override
     public Float[] getFeatures() {
         for(int i = 0; i < features.length; i++) {
-            features[i] = (float) frequencies.get(getFunctionWords().get(i)).get() / this.wordCount;
+            features[i] = (float) frequencies.get(getFunctionWords(this.functionWordFile, this.abbreviationFile).get(i)).get() / this.wordCount;
         }
         return features;
     }
 
     @Override
     public int getNumberOfFeatures() {
-        return getFunctionWords().size();
+        return getFunctionWords(this.functionWordFile, this.abbreviationFile).size();
     }
 
     @Override
@@ -99,13 +104,13 @@ public class FunctionWordFeature extends AbstractTokenFeature {
     	return "with an average amount of known function words.";
     }
 
-    public static List<String> getFunctionWords() {
+    public static List<String> getFunctionWords(String functionWordFile, String abbreviationFile) {
         if (functionWords == null){
             functionWords = new ArrayList<String>();
 
             BufferedReader br = null;
             try {
-                br = new BufferedReader(new FileReader(Config.FUNCTION_WORD_FILE));
+                br = new BufferedReader(new FileReader(functionWordFile));
                 StringBuilder sb = new StringBuilder();
                 String line;
 
