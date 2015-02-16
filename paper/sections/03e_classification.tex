@@ -39,8 +39,12 @@ This also seems correct compared to our human intuition, because the feature vec
 \label{sec:support_vector_machine}
 
 
-A Support Vector Machine creates a model to distinguish between the different clusters.
-(see Fig.~\ref{fig:svm})
+A Support Vector Machine creates a model to distinguish between the different clusters by calculating borders between the clusters.
+These borders can be thought of as functions in the same vector space as the feature vectors.
+If the Support Vector Machine uses a linear model, this might look like Fig.~\ref{fig:svm}, represented in a two-dimensional graph.
+Both the dotted and the dashed line serve as examples for a possible border, but the Support Vector Machine should usually tend to use the model with more distance to all feature vectors.
+In this case the dashed line would more accurately divide cluster 1 and 2.
+
 
 
 \begin{figure}
