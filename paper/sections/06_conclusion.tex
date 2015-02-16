@@ -2,6 +2,19 @@
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
 
+
+\subsection{Conclusion}
+Our system works reasonably well to identify an author by their writing style when using small sets of data.
+When the amount of documents and authors increases into the thousands or even millions, identifying an exact author becomes nearly impossible.
+Since this problem appears to be incredibly hard to solve on such a scale, however, our approach to group similar authors into clusters could still be immensely helpful.
+By reducing the potential candidates by an order of magnitude or more (depending on the selection of k for the k-means algorithm), we can aid the user in getting much closer to the correct author.
+
+Our approach performs very well for the use case of finding blogs similar to ones a user already likes.
+Since we can do so across topics, a new type of recommendation engine could be employed to recommend blogs based on writing style alone.
+Our system could be employed by blogging websites to increase traffic and thus advertising revenue by recommending interesting blogs.
+
+
+\subsection{Future Work}
 Our program’s results and its usability could be improved in various ways: Adding more languages to our program’s repertoire would greatly increase its scope.
 This would merely require adjusting the calculation of some of the features by adding an appropriate Part-of-Speech tagger and a function word list as well as new tests on the performance and feasibility of each feature.
 Utilizing a larger and more diverse data set with a proper gold standard could allow for improved evaluation of our program’s ability to find exact matches for unknown authors.
