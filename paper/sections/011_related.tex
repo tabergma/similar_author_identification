@@ -2,32 +2,34 @@
 
 \section{Related Work}
 \label{sec:related}
-% \begin{itemize}
-% 	\item Who inspired your work?
-% 	\item Which aspect do you improve?
-% 	\item What are the basic foundations?
-% \end{itemize}
 % topic independence, small number of documents
-There is related work in the fields of author identification, based only on a small number of documents~\cite{de2001mining}.
-This paper deals with email content, written by three authors and spread over three topics: movies, food, and travel.
+The field of author identification was already captured by De Vel et al.~\cite{de2001mining}.
+Their work is based on only a small number of emails, written by three authors and spread over three topics: movies, food, and travel.
 To allow author discrimination while covering multiple topics, the used features have to be topic-independent.
 The paper furthermore states, based on~\cite{corney2001identifying}, that about 20 documents per author should be sufficient for a satisfying categorisation performance.
-We desire the same topic-indepence, so in general the same features can be applied to our problem, but we want to deal with a larger data set.
+Compared to our approach, De Vel et al. focuse on email, whereas we want to find similar author in the blogosphere domain.
+The presented features are topic-independ, which is also a goal, we want to achive.
+Nevertheless, emails have different characteristics than blog posts, so that the features may not work for us.
+Also, we want to classify author based on a much larger data set.
 
 
-A different paper, that focuses on a larger scale with 27,000 documents and uses a higher number of more diverse features can be found under~\cite{madigan2005author}.
-The results in this work contain the conclusion that features, such as Bag of Words do work very well for single topic author discrimination.
-However for the topic independent classification other features, for example features based on function words, prefixes, suffixes, and part-of-speech tags, deliver better results.
+\cite{madigan2005author} focuses on a larger scale with 27,000 documents and uses a higher number of more diverse features.
+The results in this work contain the conclusion that features, such as ``Bag of Words'' do work very well for single topic author discrimination.
+However for the topic independent classification other features, e.g. features based on function words, prefixes, suffixes, and part-of-speech tags, deliver better results.
+We chose those topic independent features as basis for our feature selection.
 
 
-One of the few publications which deals with a number of documents close to our desired data set size was~\cite{narayanan2012feasibility}.
+One of the few publications which deals with a number of documents close to our desired data set size is~\cite{narayanan2012feasibility}.
 The authors used 2.4 million blog posts from about 100,000 blogs with roughly the same number of authors.
 This work shows how techniques from prior work do not scale very well and which new techniques were used instead.
-The machine learning approaches used were k-Nearest Neighbor, Naive Bayes, Support Vector Machine, and Regularized Least Squares Classification.
+The machine learning approaches used were k-nearest neighbor, naive bayes, support vector machine, and regularized least squares classification.
 Interesting new features include the frequency of special characters, such as $*$, $=$, $+$, $[$ or $]$ and the word shape, which is the frequency of words with different combinations of upper and lower case letters.
+Because Narayanan et al. have a similar set up, we tried some of their features.
+However, because Narayanan et al. focus on finding the exact author and only identify in 20\% of their cases the correct one, we are focusing on finding similar author gropus.
 
 
 Identifying certain traits of an author which could be used to distinguish between different authors is also a popular research area.
 The authors of \cite{koppel2003automatically} have attempted to discern an author's gender in fictional and non-fictional works.
 Their approach uses function words and part-of-speech tags as singles, tuples, and triples.
 After cross validating their machine learning algorithm, they managed to reach over 80\% precision for the author's gender.
+However, Koppel et al. classified books and articels, which are in gerneal much longer than blog posts.
