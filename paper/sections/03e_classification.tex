@@ -1,3 +1,14 @@
 \subsection{Classification}
 \label{sec:classification}
 
+After we came up with clusters and cluster labels for all blog posts in a database, we need a method to classify new blog posts. % e.g. so new clustering is not needed for every single blog post
+To achieve this we calculate the same features vectors for the single new blog post, as were extracted for the blog posts in the original clustering.
+Based on these feature vectors we can now decide to which cluster the blog post belongs.
+
+
+The first naive idea that came into our mind was to calculate the euclidean distance from the blog post to the center points of the clusters.
+The resulting cluster would then be the one with the lowest distance.
+While this method is computationally simple and fast, the task of classification is a well-researched machine learning problem.
+Therefore we looked at more sophisticated approaches that were used for similar problems before.
+We applied two of those methods, k-nearest Neighbor [TODO: reference!] and a Support Vector Machine [TODO: reference!].
+
