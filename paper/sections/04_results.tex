@@ -39,22 +39,22 @@ Notably, the negative impact of the Prefix/Suffix feature was much stronger than
 	\begin{center}
     \begin{tabular}{l|r|r}
 	Feature name & F-Measure without & Difference to all features \\ \hline
-	WordLength & 0.4152373925 & \colorbox{green}{+0.0000459388} \\ \hline
-	CharacterFrequency & 0.4151904736 & \colorbox{green}{+0.0000928577} \\ \hline
-	FunctionWord  & 0.4150935674 & \colorbox{green}{+0.0001897639} \\ \hline
-	CapitalLetter & 0.4148865024 & \colorbox{green}{+0.0003968289} \\ \hline
-	UpperCase & 0.4144100548 & \colorbox{green}{+0.0008732765} \\ \hline
-	WordFrequency &	0.4130983959 & \colorbox{green}{+0.0021849354} \\ \hline
-	PoSTag & 0.4196359196 & \colorbox{red}{-0.0043525883} \\ \hline
-	Emoticon &	0.3757936508 & \colorbox{green}{+0.0438422688} \\ \hline
-	PostLength & 0.4196359196 & \colorbox{green}{+0.0043525883} \\ \hline
-	PrefixSuffix & 0.4712048408 & \colorbox{red}{-0.0559215095} \\ \hline
-	BlankLine & 0.4074074074 & \colorbox{green}{+0.0078759239} \\ \hline
-	SentenceLength & 0.4152833313 & \colorbox{green}{+0.0000000000} \\
+	WordLength & 0.4152373925 & +0.0000459388 \\ \hline
+	CharacterFrequency & 0.4151904736 & +0.0000928577 \\ \hline
+	FunctionWord  & 0.4150935674 & +0.0001897639 \\ \hline
+	CapitalLetter & 0.4148865024 & +0.0003968289 \\ \hline
+	UpperCase & 0.4144100548 & +0.0008732765 \\ \hline
+	WordFrequency &	0.4130983959 & +0.0021849354 \\ \hline
+	PoSTag & 0.4196359196 & -0.0043525883 \\ \hline
+	Emoticon &	0.3757936508 & +0.0438422688 \\ \hline
+	PostLength & 0.4196359196 & +0.0043525883 \\ \hline
+	PrefixSuffix & 0.4712048408 & -0.0559215095 \\ \hline
+	BlankLine & 0.4074074074 & +0.0078759239 \\ \hline
+	SentenceLength & 0.4152833313 & +0.0000000000 \\
     \end{tabular}
+    \end{center}
 	\caption{The f-measure having all features but one active and the difference to the f-measure having all features active. Having the PoS-Tag feature or the Prefix/Suffix feature active, decreases the overall f-measure.}
 	\label{tab:feature_evaluation_1}
-	\end{center}
 \end{table}
 
 We concluded that the Prefix/Suffix and PoS-Tag features provided merely decent (but not great) results on their own.
@@ -75,6 +75,21 @@ The resulting f-measure for our k-menas algorithm having all but the Prefix/Suff
 
 
 \subsection{Evaluation of Classification}
+For evaluating our classification methods we used a ten-fold cross validation~\cite{kohavi1995study}.
+We break our test data set into ten sets, each set containing nine blog posts.
+Then we train our classification algorithms on nine of these ten sets.
+The last set is used for testing.
+This process is repeated ten times, using a different training and test set each time.
+Each time the precision is calculated and at the end the overall average precision is determined.
 
 
-ten fold cross validation~\ref{kohavi1995study}
+Training the support vector machine means, that a new model based on the training data set is created.
+This model is then used for determining a cluster for each blog posts in the test set.
+
+
+K-nearest neighbor uses the training data set as known data points.
+It calculates the distance of each new blog posts in the test set to this known data set, assigning the blog posts to the cluster which the new blog posts is nearest to.
+
+
+The results of the ten-fold cross validation is $97.77\%$ precision for k-nearest neighbor and $91.86\%$ precision for support vector machine.
+% Hier vielleicht noch was zu schreiben.

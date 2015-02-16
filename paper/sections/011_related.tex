@@ -2,8 +2,28 @@
 
 \section{Related Work}
 \label{sec:related}
-\begin{itemize}
-	\item Who inspired your work?
-	\item Which aspect do you improve?
-	\item What are the basic foundations?
-\end{itemize}
+% \begin{itemize}
+% 	\item Who inspired your work?
+% 	\item Which aspect do you improve?
+% 	\item What are the basic foundations?
+% \end{itemize}
+
+
+% topic independence, small number of documents
+There is related work in the fields of author identification, based only on a small number of documents \cite{de2001mining}.
+This paper deals with email content, written by three authors and spread over three topics: movies, food, and travel.
+To allow author discrimination while covering multiple topics, the used features have to be topic-independent.
+The paper furthermore states, based on \cite{corney2001identifying}, that about 20 documents per author should be sufficient for a satisfying categorisation performance.
+We desire the same topic-indepence, so in general the same features can be applied to our problem, but we want to deal with a larger data set.
+
+
+A different paper, that focuses on a larger scale with 27,000 documents and uses a higher number of more diverse features can be found under \cite{madigan2005author}.
+The results in this work contain the conclusion that features, such as Bag of Words do work very well for single topic author discrimination.
+However for the topic independent classification other features, for example features based on function words, prefixes, suffixes, and part-of-speech tags, deliver better results. 
+
+
+One of the few publications which deals with a number of documents close to our desired data set size was \cite{narayanan2012feasibility}.
+The authors used 2.4 million blog posts from about 100,000 blogs with roughly the same number of authors.
+This work shows how techniques from prior work do not scale very well, and which new techniques were used instead (TODO: Nochmal lesen und herausfinden was die wichtigsten Punkte sind).
+The machine learning approaches used were k-Nearest Neighbor, Naive Bayes, Support Vector Machine, and Regularized Least Squares Classification.
+Interesting new features include the frequency of special characters, such as $*=+[$ or $]$ and the word shape, which is the frequency of words with different combinations of upper and lower case letters.
