@@ -26,18 +26,18 @@ In this case k should be chosen much lower than the actual number of authors.
 % [TODO: Graphic?]
 % [TODO: discuss other algorithms?]
 
-\subsubsection{Cluster Labeling}
+\subsubsection{Cluster Labelling}
 \label{sec:cluster_labeling}
-Labeling the resulting clusters helps the user to distinguish between those.
+Labelling the resulting clusters helps the user to distinguish between those.
 The labels indicate what kind of blog posts are in those clusters, so that the user gets a feeling about what to expect from a blog posts of a specific cluster.
 
-The current research in the field of cluster labeling focuses on topic-dependent labels.
+The current research in the field of cluster labelling focuses on topic-dependent labels.
 Because we focus on the writing style rather as on the topic, we could not use those techniques.
 Searching for universally accepted writing styles leads to labels like ``informative'' or ``opinion piece'', which represents the text's intention [TODO: reference].
 Also this standard could not be used in our approach.
 [TODO: umschreiben!]
 
-Therefore, we implemented our own cluster labeling methods, which consider the most important features of a cluster.
+Therefore, we implemented our own cluster labelling methods, which consider the most important features of a cluster.
 The methods are explained using the following example:
 The current feature is ``length of blog posts'' and we have three clusters with the following values for the current feature:
 \begin{center}
@@ -48,7 +48,7 @@ The current feature is ``length of blog posts'' and we have three clusters with 
 \end{center}
 \paragraph{Method 1}
 For each feature and cluster the highest and lowest value is determined.
-Those cluster are then labeled with appropriate labels.
+Those cluster are then labelled with appropriate labels.
 In the example cluster 2 has the highest value and gets the label ``longest blog posts''.
 The label ``shortest blog posts'' is assigned to cluster 3, because this cluster has the lowest value.
 Using this method only the most significant labels are set.
@@ -57,7 +57,7 @@ But, it can happen that a cluster does not obtain any label.
 \paragraph{Method 2}
 First the average vector of all blog posts is calculated.
 Afterwards the distance for each feature and cluster to that average vector is determined.
-If the distance is over a certain threshold, the cluster is labeled.
+If the distance is over a certain threshold, the cluster is labelled.
 The example is shown in Figure~\ref{cluster_labeling_2}.
 Because cluster 3 is not over the threshold, thus the length of the blog post is not significant for the cluster, no label is assigned to that cluster.
 Cluster 1 and 2 are both over the threshold and obtain the label ``long blog posts''.
@@ -71,5 +71,9 @@ This method assigns more labels to clusters than method 1, but can also lead to 
 \end{figure}
 
 \paragraph{Method 3}
-
-
+As with Method 2, we calculate the difference to the average for each cluster and feature.
+However, we also normalize them to the total range this feature has for our data.
+Then, we pick the $n§ most significant of these differences for each cluster and use them to label it.
+Significance, in this case, is mostly determined by how great the deviation from the average is: The larger the deviation the higher the significance.
+The only exception to this is that being very close to to the average is considered slightly more significant than only being fairly close to it.
+With this method, every cluster is guaranteed to get a set number of labels, even if it has no features that deviate from the average.
