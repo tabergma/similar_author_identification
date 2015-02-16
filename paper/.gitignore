@@ -2,3 +2,7 @@
 paper.pdf
 paper.aux
 paper.synctex.gz
+
+*.bbl
+*.blg
+*.dvi

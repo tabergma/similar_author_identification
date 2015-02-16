@@ -14,7 +14,7 @@ Then, each vector or point is assigned to its nearest cluster centroid according
 Afterwards, the cluster centroids are repositioned to the center of all vectors/points which were assigned to them.
 These last two steps are repeated until the cluster centroids converge.
 The resulting assignment of the vectors (and thus their corresponding blog posts) to the clusters is the same as the final assignment performed by the k-means algorithm.
-For our implementation we used the k-means algorithm offered my Mahout\footnote{\url{https://mahout.apache.org/}}, which can be executed efficiently among a cluster with a large amount of data~\cite{esteves2011k}.
+For our implementation we used the k-means algorithm offered by Mahout\footnote{\url{https://mahout.apache.org/}}, which can be executed efficiently among a cluster with a large amount of data~\cite{esteves2011k}.
 
 To run a k-means algorithm, the value $k$ has to be set beforehand.
 $K$ represents the number of clusters and thus the number of similar writing styles, which should be determined.
