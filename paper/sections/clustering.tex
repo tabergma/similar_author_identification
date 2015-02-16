@@ -1,0 +1,7 @@
+\section{Clustering}
+\label{sec:clustering}
+
+After extracting all features and vectorizing them for each blog post in the database, they are grouped together into clusters according to the similarity of their feature vectors. To this end, we use a k-means algorithm which is a method from vector quantization.
+K-means creates k clusters from n vectors by randomly selecting k points from the vector space as cluster centroids. Then, each vector or point is assigned to its nearest cluster centroid according to its Euclidean distance to those centroids. Afterwards, the cluster centroids are repositioned to the center of all vectors/points which were assigned to them. These last two steps are repeated until the cluster centroids converge. The resulting assignment of the vectors (and thus their corresponding blog posts) to the clusters is the same as the final assignment performed by the k-means algorithm. [TODO: Graphic?]
+[TODO: discuss other algorithms?]
+[TODO: Cluster Labeling]
