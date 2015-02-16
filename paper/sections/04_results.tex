@@ -70,8 +70,9 @@ Ultimately, we decided not to use the Prefix/Suffix feature but hold on to the P
 The benefit of the Prefix/Suffix feature, however, was usually counterproductive and only marginally beneficial in even the best of cases.
 
 
-The resulting f-measure for our k-means algorithm having all but the Prefix/Suffix feature active is $61.64\%$.
-% TODO Hier vielleicht noch mal was zu schreiben.
+The resulting f-measure for our k-means algorithm when having all but the Prefix/Suffix and part-of-speech tag feature enabled is $61.64\%$.
+When looking at the individual documents' classification, we noticed that the documents of two the authors would mostly be sorted into the same cluster due to their feature vectors being quite similar.
+We concluded that these two authors actually had a very similar writing style and that this meant that the f-measure could not become much better due to our gold standard assuming one cluster per author.
 
 
 \subsection{Evaluation of Classification}
