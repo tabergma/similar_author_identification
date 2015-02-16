@@ -1,8 +1,80 @@
 %!TEX root = ../paper.tex
 \section{Results}
 \label{sec:results}
-\begin{itemize}
-	\item Demonstrate that your idea actually works
-	\item Identify possible drawbacks
-\end{itemize}
 
+% TODO: Set up
+
+\subsection{Evaluation of Clustering}
+\label{sec:evaluation_clustering}
+To evaluate our k-means algorithm we evaluated the feasibility and usefulness of our features (see Table~\ref{tab:featureTable}) by splitting them into 12 semantically related groups and then ran our k-means clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_sources}).
+We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster.
+We then used this scenario as a gold standard and calculated precision, recall and F-Measure wrt. an author as shown here:
+\begin{equation}
+	Precision = \frac{TP}{TP + FP} \\
+	\label{eq:precision}
+\end{equation}
+\begin{equation}
+	Recall = \frac{TP}{TP + FN} \\
+	\label{eq:recall}
+\end{equation}
+\begin{equation}
+	F-Measure = \frac{2 \times Recall \times Precision}{Recall + Precision}
+	\label{eq:fMeasure}
+\end{equation}
+Consider the szenario that cluster C belongs to author A and should only contain blog posts of author A.
+$TP$, $FP$ and $FN$ are then defined in the following way: \\
+$TP$: Number of blog posts of author A, which are assigned to cluster C. \\
+$FP$: Number of blog posts from other authors, which are assigned to cluster C. \\
+$FN$: Number of blog posts of author A, which are not assigned to cluster C.
+
+
+From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
+One of these meaningful feature combinations was the one that gave the best overall F-Measure of [TODO].
+This feature combination did not contain the Prefix/Suffix or the PoS-Tag features.
+This was surprising for us because [TODO: Reference] listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
+Looking further into the data, we found that turning off the Prefix/Suffix or the PoS-Tag feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
+Notably, the negative impact of the Prefix/Suffix feature was much stronger than that of the PoS-Tag feature while their individual benefit was a lot more similar.
+
+\begin{table}[h]
+	\begin{center}
+    \begin{tabular}{l|r|r}
+	Feature name & F-Measure without & Difference to all features \\ \hline
+	WordLength & 0.4152373925 & \colorbox{green}{+0.0000459388} \\ \hline
+	CharacterFrequency & 0.4151904736 & \colorbox{green}{+0.0000928577} \\ \hline
+	FunctionWord  & 0.4150935674 & \colorbox{green}{+0.0001897639} \\ \hline
+	CapitalLetter & 0.4148865024 & \colorbox{green}{+0.0003968289} \\ \hline
+	UpperCase & 0.4144100548 & \colorbox{green}{+0.0008732765} \\ \hline
+	WordFrequency &	0.4130983959 & \colorbox{green}{+0.0021849354} \\ \hline
+	PoSTag & 0.4196359196 & \colorbox{red}{-0.0043525883} \\ \hline
+	Emoticon &	0.3757936508 & \colorbox{green}{+0.0438422688} \\ \hline
+	PostLength & 0.4196359196 & \colorbox{green}{+0.0043525883} \\ \hline
+	PrefixSuffix & 0.4712048408 & \colorbox{red}{-0.0559215095} \\ \hline
+	BlankLine & 0.4074074074 & \colorbox{green}{+0.0078759239} \\ \hline
+	SentenceLength & 0.4152833313 & \colorbox{green}{+0.0000000000} \\
+    \end{tabular}
+	\caption{The f-measure having all features but one active and the difference to the f-measure having all features active. Having the PoS-Tag feature or the Prefix/Suffix feature active, decreases the overall f-measure.}
+	\label{tab:feature_evaluation_1}
+	\end{center}
+\end{table}
+
+We concluded that the Prefix/Suffix and PoS-Tag features provided merely decent (but not great) results on their own.
+Due to their high number of features, they already have multiple dimensions by which we can distinguish their vectors.
+Features with only one individual value might provide a clearer separation but only in a single dimension.
+This means that they are not very good for creating a larger number of clusters which is what would have been required for a good performance in our test with only one active feature.
+However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
+If we then add in the high dimensional but only mediocre features like Prefix/Suffix and PoS-Tag as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
+Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
+
+
+Ultimately, we decided not to use the Prefix/Suffix feature but hold on to the PoS-Tag feature, since it performed well in subsequent experiments in different environments.
+The benefit of the Prefix/Suffix feature, however, was usually counterproductive and only marginally beneficial in even the best of cases.
+
+
+The resulting f-measure for our k-menas algorithm having all but the Prefix/Suffix feature active is [TODO].
+% Hier vielleicht noch mal was zu schreiben.
+
+
+\subsection{Evaluation of Classification}
+
+
+ten fold cross validation~\ref{kohavi1995study}

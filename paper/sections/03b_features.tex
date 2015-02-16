@@ -13,48 +13,11 @@ Each attribute of a text can be represented by multiple features, for example th
 After calculating all features, the combination of them is interpreted as a vector for each text and then passed on to the machine learning or classification step.
 
 
-We have selected a number of these topic-independent features from [TODO: References] and added a few of our own, which are more tailored towards blog posts.
+We have selected a number of these topic-independent features from [TODO: References] and added a few of our own, which are more tailored towards blog posts, e.g. emoticons.
 A list of the feature types we initially used can be found in Table~\ref{tab:featureTable} along with their respective individual feature count.
+After evaluating our features (see Section~\ref{sec:evaluation_clustering}) we left the Prefix/Suffix feature out and kept all other.
 %[TODO: If we need to fill room: Explain some features in detail (function words, vocabulary richness, PoS tags)]
 
-
-We evaluated the feasibility and usefulness of our features by splitting them into 12 semantically related groups and then ran a k-means clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_sources}).
-We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster.
-We then used this scenario as a gold standard and calculated precision, recall and F-Measure as shown here: %[TODO: Precision + Recall + F-Measure formulas]
-
-
-From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
-One of these meaningful feature combinations was the one that gave the best overall F-Measure.
-This feature combination did not contain the Prefix/Suffix or the PoS-Tag features.
-This was surprising for us because [TODO: Reference] listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
-Looking further into the data, we found that turning off the Prefix/Suffix or the PoS-Tag feature while all other features remained active provided us with better results than having all features active at a time [TODO: Include graphic].
-Notably, the negative impact of the Prefix/Suffix feature was much stronger than that of the PoS-Tag feature while their individual benefit was a lot more similar.
-
-
-We concluded that the Prefix/Suffix and PoS-Tag features provided merely decent (but not great) results on their own.
-Due to their high number of features, they already have multiple dimensions by which we can distinguish their vectors.
-Features with only one individual value might provide a clearer separation but only in a single dimension.
-This means that they are not very good for creating a larger number of clusters which is what would have been required for a good performance in our test with only one active feature.
-However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
-If we then add in the high dimensional but only mediocre features like Prefix/Suffix and PoS-Tag as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
-Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
-
-
-Ultimately, we decided not to use the Prefix/Suffix feature but hold on to the PoS-Tag feature, since it performed well in subsequent experiments in different environments.
-The benefit of the PrefixSuffix feature, however, was usually counterproductive and only marginally beneficial in even the best of cases.
-
-\begin{equation}
-	Precision = \frac{TP}{TP + FP} \\
-	\label{eq:precision}
-\end{equation}
-\begin{equation}
-	Recall = \frac{TP}{TP + FN} \\
-	\label{eq:recall}
-\end{equation}
-\begin{equation}
-	F-Measure = \frac{2 \times Recall \times Precision}{Recall + Precision}
-	\label{eq:fMeasure}
-\end{equation}
 
 \begin{table}[tbp]
     \begin{tabular}{|p{2.6cm}|p{8.2cm}|p{1.2cm}|}
