@@ -62,7 +62,7 @@ First, the average vector of all blog posts is calculated.
 In a second step, the distance for each feature and cluster to that average vector is determined.
 If the distance is over a certain threshold, the cluster is labelled.
 
-The example is shown in Figure~\ref{cluster_labeling_2}.
+The example is shown in Figure~\ref{fig:cluster_labeling_2}.
 Because cluster 3 is not over the threshold, thus the length of the blog post is not significant for the cluster, no label is assigned to that cluster.
 Cluster 1 and 2 are both over the threshold and obtain the label ``long blog posts''.
 This method assigns more labels to clusters than method 1, but can also lead to clusters without any labels if all of a cluster's feature have average values.
@@ -71,7 +71,7 @@ This method assigns more labels to clusters than method 1, but can also lead to 
 	\centering
 	\includegraphics[width=0.6\textwidth]{images/cluster_labeling_2.pdf}
 	\caption{Cluster labelling method 2: The distance of each cluster to the overall average blog posts is calculated. If the distance is below or over a certrain trheshold (represented as grey shadow), the cluster obtains a label. In this example a label is assigned to cluster 1 and 2.}
-	\label{cluster_labeling_2}
+	\label{fig:cluster_labeling_2}
 \end{figure}
 
 \paragraph{Method 3}
