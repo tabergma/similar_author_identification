@@ -2,22 +2,32 @@
 \section{Conclusion and Future Work}
 \label{sec:conclusion}
 
+Nowadays, everyone can write a blog posts fairly easy.
+Thus, the amount of blog posts and authors increases quickly, making the task of identifying an exact author nearly impossible.
+In this paper, we presented an approach of dividing a set of blog posts into different groups, each group representing an individual writing style and therefore similar authors.
+Thus, we are reducing the potential candidates by an order of magnitude or more and we can aid the user in getting much closer to the correct author.
 
-\subsection{Conclusion}
-Our system works reasonably well to identify an author by their writing style when using small sets of data.
-When the amount of documents and authors increases into the thousands or even millions, identifying an exact author becomes nearly impossible.
-Since this problem appears to be incredibly hard to solve on such a scale, however, our approach to group similar authors into clusters could still be immensely helpful.
-By reducing the potential candidates by an order of magnitude or more (depending on the selection of k for the k-means algorithm), we can aid the user in getting much closer to the correct author.
 
-Our approach performs very well for the use case of finding blogs similar to ones a user already likes.
+For our approach multiple features for identifying different writing styles were tested and evaluated.
+Having a feature, which results in hundreds of subfeatures by having only a few other features, adulterated the results immensly.
+A k-means algorithm is used to cluster the blog posts based on the selected features.
+An evaluation on a small test data set showed that our k-means algorithm has an f-measure of $61.64\%$.
+To determine a cluster, i.e. writing style, of a new blog posts, different classification methods were examained.
+It was shown, that k-nearest neighbor performed slighty better ($97.77\%$) than a support vector machine ($91.86\%$).
+
+
+Our approach performs very well for the use case of finding blog posts similar to ones a user already likes.
 Since we can do so across topics, a new type of recommendation engine could be employed to recommend blogs based on writing style alone.
 Our system could be employed by blogging websites to increase traffic and thus advertising revenue by recommending interesting blogs.
 
 
-\subsection{Future Work}
 Our program’s results and its usability could be improved in various ways: Adding more languages to our program’s repertoire would greatly increase its scope.
 This would merely require adjusting the calculation of some of the features by adding an appropriate Part-of-Speech tagger and a function word list as well as new tests on the performance and feasibility of each feature.
+
+
 Utilizing a larger and more diverse data set with a proper gold standard could allow for improved evaluation of our program’s ability to find exact matches for unknown authors.
 This would also allow for a more in-depth discussion of which additional features to use and how to weight them.
+
+
 Additional work could also be put into our clustering step by adding an additional phase prior to the k-means algorithm to attempt to find the optimal number of clusters for it to use.
 Alternatively, evaluating the feasibility of other clustering algorithms is also an option.
