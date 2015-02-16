@@ -80,14 +80,14 @@ We break our test data set into ten sets, each set containing nine blog posts.
 Then we train our classification algorithms on nine of these ten sets.
 The last set is used for testing.
 This process is repeated ten times, using a different training and test set each time.
-Each time the precision is calcuated and at the end the overall average precision is determined.
+Each time the precision is calculated and at the end the overall average precision is determined.
 
 
 Training the support vector machine means, that a new model based on the training data set is created.
 This model is then used for determining a cluster for each blog posts in the test set.
 
 
-K-nearest neigbor uses the training data set as known data points.
+K-nearest neighbor uses the training data set as known data points.
 It calculates the distance of each new blog posts in the test set to this known data set, assigning the blog posts to the cluster which the new blog posts is nearest to.
 
 
