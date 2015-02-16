@@ -36,3 +36,28 @@ Thus, their good performance is being overshadowed by the high dimensional featu
 \\
 Ultimately, we decided not to use the Prefix/Suffix feature but hold on to the PoS-Tag feature, since it performed well in subsequent experiments in different environments.
 The benefit of the PrefixSuffix feature, however, was usually counterproductive and only marginally beneficial in even the best of cases.
+
+\begin{table}[tbp]
+    \begin{tabular}{|p{2.6cm}|p{8.2cm}|p{1.2cm}|}
+    \hline
+    Feature              & Description                                                                                                                                                                                    & Count             \\ \hline
+    BlankLine            & 1 divided by number of Blank Lines in the text                                                                                                                                     & 1                 \\ \hline
+    CapitalLetter        & Capital letters divided by all letters                                                                                                                                             & 1                 \\ \hline
+    Emoticon             & Boolean value for occurrence of known emoticons                                                                                                                                                & 9                 \\ \hline
+    FunctionWord         & Fraction of words that are a known function word. Function words are words with little or no lexical meaning, mainly used to create the grammatical structure of a sentence [TODO: Reference?] & 280[DE] 280[EN] \\ \hline
+    Abbreviations        & Words that are a known abbreviation [TODO: List in appendix?]                                                                                                                      & 53[DE] 53[EN]   \\ \hline
+    NumberCharacter      & Fraction of characters that are numeric characters (0-9)                                                                                                                                       & 1                 \\ \hline
+    Paragraph            & Number of Paragraphs divided by average Paragraph length                                                                                                                           & 1                 \\ \hline
+    PoSTag               & Fraction of words that have a certain Part-of-Speech Tag [TODO: Reference]                                                                                                                     & ? [TODO]          \\ \hline
+    PostLength           & 1 divided by the number of characters                                                                                                                                              & 1                 \\ \hline
+    PrefixSuffix         & 2-letter Prefixes/Suffixes divided by total number of Prefixes/Suffixes                                                                                                            & 676               \\ \hline
+    Punctuation Character & Fraction of characters that are a known punctuation character [TODO: List in appendix?]                                                                                                        & 11                \\ \hline
+    SentenceLength       & 1 divided by the average sentence length                                                                                                                                           & 1                 \\ \hline
+    singleOccurring Word  & Words that only occur once divided by all distinct words                                                                                                                           & 1                 \\ \hline
+    UpperCaseWord        & Words that are fully in upper case divided by all words                                                                                                                            & 1                 \\ \hline
+    WordFrequency        & 1 divided by the average number of occurrences per word                                                                                                                            & 1                 \\ \hline
+    WordLength           & 1 divided by the average word length                                                                                                                                               & 1                 \\ \hline
+    \end{tabular}
+	\caption{Feature Table. Implemented features with descriptions and the count of individual features they contribute to the feature vector.}
+	\label{tab:featureTable}
+\end{table}
