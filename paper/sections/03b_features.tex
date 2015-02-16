@@ -1,31 +1,36 @@
-\section{Features}
+\subsection{Features}
 \label{sec:feautres}
 
 An individual's writing style can be discerned by various attributes or features inherent to any written text.
 Some of these features are topic-dependent, e.g. the count of occurrence for each existing word in the “Bag of Words” model [TODO: Reference?].
 A text containing an above average number of occurrences of words like “DNA”, “sequence”, “genome”, and “mutation” will most likely be from the field of genome research.
 Thus, this feature will be similar for most texts from this domain and therefore is topic-dependent.
-\\
+
+
 However, since we want to classify blog posts independent of topic, we can only utilize topic-independent features.
 We represent these features as real valued numbers, normalized to be between 0 and 1.
 Each attribute of a text can be represented by multiple features, for example the frequency of punctuation characters can have one feature per punctuation character, denoting that character's frequency as a fraction of all characters.
 After calculating all features, the combination of them is interpreted as a vector for each text and then passed on to the machine learning or classification step.
-\\
+
+
 We have selected a number of these topic-independent features from [TODO: References] and added a few of our own, which are more tailored towards blog posts.
 A list of the feature types we initially used can be found in [TODO: TABLE] along with their respective individual feature count.
 [TODO: If we need to fill room: Explain some features in detail (function words, vocabulary richness, PoS tags)]
-\\
+
+
 We evaluated the feasibility and usefulness of our features by splitting them into 12 semantically related groups and then ran a k-means clustering algorithm on each of the 2\^12 = 4096 [TODO] possible permutations of active features using our small test data set (see [TODO Section]).
 We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster. 
 e then used this scenario as a gold standard and calculated precision, recall and F-Measure as shown here: [TODO: Precision + Recall + F-Measure formulas]
-\\
+
+
 From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
 One of these meaningful feature combinations was the one that gave the best overall F-Measure.
 This feature combination did not contain the Prefix/Suffix or the PoS-Tag features.
 This was surprising for us because [TODO: Reference] listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
 Looking further into the data, we found that turning off the Prefix/Suffix or the PoS-Tag feature while all other features remained active provided us with better results than having all features active at a time [TODO: Include graphic].
 Notably, the negative impact of the Prefix/Suffix feature was much stronger than that of the PoS-Tag feature while their individual benefit was a lot more similar.
-\\
+
+
 We concluded that the Prefix/Suffix and PoS-Tag features provided merely decent (but not great) results on their own.
 Due to their high number of features, they already have multiple dimensions by which we can distinguish their vectors.
 Features with only one individual value might provide a clearer separation but only in a single dimension.
@@ -33,6 +38,32 @@ This means that they are not very good for creating a larger number of clusters 
 However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
 If we then add in the high dimensional but only mediocre features like Prefix/Suffix and PoS-Tag as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
 Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
-\\
+
+
 Ultimately, we decided not to use the Prefix/Suffix feature but hold on to the PoS-Tag feature, since it performed well in subsequent experiments in different environments.
 The benefit of the PrefixSuffix feature, however, was usually counterproductive and only marginally beneficial in even the best of cases.
+
+\begin{table}[tbp]
+    \begin{tabular}{|p{2.6cm}|p{8.2cm}|p{1.2cm}|}
+    \hline
+    Feature              & Description                                                                                                                                                                                    & Count             \\ \hline
+    BlankLine            & 1 divided by number of Blank Lines in the text                                                                                                                                     & 1                 \\ \hline
+    CapitalLetter        & Capital letters divided by all letters                                                                                                                                             & 1                 \\ \hline
+    Emoticon             & Boolean value for occurrence of known emoticons                                                                                                                                                & 9                 \\ \hline
+    FunctionWord         & Fraction of words that are a known function word. Function words are words with little or no lexical meaning, mainly used to create the grammatical structure of a sentence [TODO: Reference?] & 280[DE] 280[EN] \\ \hline
+    Abbreviations        & Words that are a known abbreviation [TODO: List in appendix?]                                                                                                                      & 53[DE] 53[EN]   \\ \hline
+    NumberCharacter      & Fraction of characters that are numeric characters (0-9)                                                                                                                                       & 1                 \\ \hline
+    Paragraph            & Number of Paragraphs divided by average Paragraph length                                                                                                                           & 1                 \\ \hline
+    PoSTag               & Fraction of words that have a certain Part-of-Speech Tag [TODO: Reference]                                                                                                                     & ? [TODO]          \\ \hline
+    PostLength           & 1 divided by the number of characters                                                                                                                                              & 1                 \\ \hline
+    PrefixSuffix         & 2-letter Prefixes/Suffixes divided by total number of Prefixes/Suffixes                                                                                                            & 676               \\ \hline
+    Punctuation Character & Fraction of characters that are a known punctuation character [TODO: List in appendix?]                                                                                                        & 11                \\ \hline
+    SentenceLength       & 1 divided by the average sentence length                                                                                                                                           & 1                 \\ \hline
+    singleOccurring Word  & Words that only occur once divided by all distinct words                                                                                                                           & 1                 \\ \hline
+    UpperCaseWord        & Words that are fully in upper case divided by all words                                                                                                                            & 1                 \\ \hline
+    WordFrequency        & 1 divided by the average number of occurrences per word                                                                                                                            & 1                 \\ \hline
+    WordLength           & 1 divided by the average word length                                                                                                                                               & 1                 \\ \hline
+    \end{tabular}
+	\caption{Feature Table. Implemented features with descriptions and the count of individual features they contribute to the feature vector.}
+	\label{tab:featureTable}
+\end{table}

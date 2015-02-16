@@ -1,4 +1,4 @@
-\section{Data Source}
+\subsection{Data Source}
 \label{sec:data_source}
 
 The main data source we used was the Spinn3r Data Set [TODO: reference], which contains data from about 65 million blog posts.
@@ -7,6 +7,7 @@ Many of them do not have an author attributed which makes them unusable for test
 Even those blog posts which have some author data, only have their username with no way of telling whether that alias is used by multiple authors in the database and thus might also provide faulty results.
 Additionally, due to originating from different blogging websites, the blogs' content had very different formatting: Some of them still contained html tags while some others had their line breaks removed, rendering all features relying on them obsolete [TODO: leave this sentence in?].
 Thus, we concluded that the Spinn3r Data Set, while still being a target data set for running our program on, was useless for testing its performance and determining which techniques work best.
-\\
+
+
 Hence, we manually created our own, small data set, consisting of 15 blog posts for each of six German blogs, for a total of 90 blog posts.
 This small test set provided us with a gold standard for all our future tests and allowed us to run multiple, performance intensive tests in a realistic time frame.
