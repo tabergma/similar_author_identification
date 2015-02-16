@@ -9,21 +9,22 @@ Afterwards the resulting clusters are labeled, so that the user knows what kind 
 
 \subsubsection{K-Means Algorithm}
 \label{sec:k-means}
-K-means creates k clusters from n vectors by randomly selecting k points from the vector space as cluster centroids.
-Then, each vector or point is assigned to its nearest cluster centroid according to its Euclidean distance [TODO: reference] to those centroids.
+K-means creates $k$ clusters from $n$ vectors by randomly selecting $k$ points from the vector space as cluster centroids.
+Then, each vector or point is assigned to its nearest cluster centroid according to its Euclidean distance to those centroids.
 Afterwards, the cluster centroids are repositioned to the center of all vectors/points which were assigned to them.
 These last two steps are repeated until the cluster centroids converge.
 The resulting assignment of the vectors (and thus their corresponding blog posts) to the clusters is the same as the final assignment performed by the k-means algorithm.
+For our implementation we used the k-means algorithm offered my Mahout\footnote{\url{https://mahout.apache.org/}}, which can be executed efficiently among a cluster with a large amount of data~\cite{esteves2011k}.
 
-To run a k-means algorithm, the value k has to be set beforehand.
-K represents the number of clusters and thus the number of similar writing styles, which should be determined.
-Finding an appropriate value for k depends highly on the use case.
+To run a k-means algorithm, the value $k$ has to be set beforehand.
+$K$ represents the number of clusters and thus the number of similar writing styles, which should be determined.
+Finding an appropriate value for $k$ depends highly on the use case.
 One use case could be to find exact authors, so that one cluster, i.e. writing style group, would correspond to one author.
 One cluster would only contain blog posts of one author.
-The value k should therefore be similar to the number of expected authors.
+The value $k$ should therefore be similar to the number of expected authors.
 Another use case could be to find similar writing style groups.
 One cluster would then contain blog posts from multiple authors having a similar writing style.
-In this case k should be chosen much lower than the actual number of authors.
+In this case $k$ should be chosen much lower than the actual number of authors.
 
 % [TODO: Graphic?]
 % [TODO: discuss other algorithms?]

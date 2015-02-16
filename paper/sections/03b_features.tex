@@ -15,12 +15,12 @@ After calculating all features, the combination of them is interpreted as a vect
 
 We have selected a number of these topic-independent features from [TODO: References] and added a few of our own, which are more tailored towards blog posts.
 A list of the feature types we initially used can be found in Table~\ref{tab:featureTable} along with their respective individual feature count.
-[TODO: If we need to fill room: Explain some features in detail (function words, vocabulary richness, PoS tags)]
+%[TODO: If we need to fill room: Explain some features in detail (function words, vocabulary richness, PoS tags)]
 
 
-We evaluated the feasibility and usefulness of our features by splitting them into 12 semantically related groups and then ran a k-means clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see [TODO Section]).
-We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster. 
-We then used this scenario as a gold standard and calculated precision, recall and F-Measure as shown here: [TODO: Precision + Recall + F-Measure formulas]
+We evaluated the feasibility and usefulness of our features by splitting them into 12 semantically related groups and then ran a k-means clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_source}).
+We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster.
+We then used this scenario as a gold standard and calculated precision, recall and F-Measure as shown here: %[TODO: Precision + Recall + F-Measure formulas]
 
 
 From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
