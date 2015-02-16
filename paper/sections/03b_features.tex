@@ -15,30 +15,44 @@ After calculating all features, the combination of them is interpreted as a vect
 
 We have selected a number of these topic-independent features from [TODO: References] and added a few of our own, which are more tailored towards blog posts, e.g. emoticons.
 A list of the feature types we initially used can be found in Table~\ref{tab:featureTable} along with their respective individual feature count.
-After evaluating our features (see Section~\ref{sec:evaluation_clustering}) we left the Prefix/Suffix feature out and kept all other.
-%[TODO: If we need to fill room: Explain some features in detail (function words, vocabulary richness, PoS tags)]
+
+
+One of the features we utilized, the FunctionWord feature might appear to clash with our desire to create a topic-independent algorithm which does not use a Bag of Words model.
+However, function words are words with little or no lexical meaning, mainly used to create the grammatical structure of a sentence. [TODO: Reference?]
+Thus, they are actually topic-independent and the frequency of their usage has been successfully utilized to identify authors [TODO: Reference!].
+We also tried to achieve topic-independence for our list of common abbreviations which we used in the same way.
+
+
+Our emoticon feature is one that we selected to specifically target the blogging realm.
+Since emoticons hardly ever appear in traditional written works, they have not been utilized when trying to identify authors outside of the internet.
+In the blogosphere, however, there are some users who utilize lots of emoticons and others that don't use them at all.
+The types of emoticons used also differ from person to person which is why we decided to implement that feature as a binary value of a certain emoticon appearing in the text or not.
+%[TODO: If we need to fill room: Explain some features in detail (vocabulary richness, PoS tags)]
+
+
+After evaluating our features (see Section~\ref{sec:evaluation_clustering}) we decided to drop the Prefix/Suffix feature and keep all others.
 
 
 \begin{table}[tbp]
     \begin{tabular}{|p{2.6cm}|p{8.2cm}|p{1.2cm}|}
     \hline
-    Feature              & Description                                                                                                                                                                                    & Count             \\ \hline
-    BlankLine            & 1 divided by number of Blank Lines in the text                                                                                                                                     & 1                 \\ \hline
-    CapitalLetter        & Capital letters divided by all letters                                                                                                                                             & 1                 \\ \hline
-    Emoticon             & Boolean value for occurrence of known emoticons                                                                                                                                                & 9                 \\ \hline
-    FunctionWord         & Fraction of words that are a known function word. Function words are words with little or no lexical meaning, mainly used to create the grammatical structure of a sentence [TODO: Reference?] & 280[DE] 280[EN] \\ \hline
-    Abbreviations        & Words that are a known abbreviation [TODO: List in appendix?]                                                                                                                      & 53[DE] 53[EN]   \\ \hline
-    NumberCharacter      & Fraction of characters that are numeric characters (0-9)                                                                                                                                       & 1                 \\ \hline
-    Paragraph            & Number of Paragraphs divided by average Paragraph length                                                                                                                           & 1                 \\ \hline
-    PoSTag               & Fraction of words that have a certain Part-of-Speech Tag [TODO: Reference]                                                                                                                     & ? [TODO]          \\ \hline
-    PostLength           & 1 divided by the number of characters                                                                                                                                              & 1                 \\ \hline
-    PrefixSuffix         & 2-letter Prefixes/Suffixes divided by total number of Prefixes/Suffixes                                                                                                            & 676               \\ \hline
-    Punctuation Character & Fraction of characters that are a known punctuation character [TODO: List in appendix?]                                                                                                        & 11                \\ \hline
-    SentenceLength       & 1 divided by the average sentence length                                                                                                                                           & 1                 \\ \hline
-    singleOccurring Word  & Words that only occur once divided by all distinct words                                                                                                                           & 1                 \\ \hline
-    UpperCaseWord        & Words that are fully in upper case divided by all words                                                                                                                            & 1                 \\ \hline
-    WordFrequency        & 1 divided by the average number of occurrences per word                                                                                                                            & 1                 \\ \hline
-    WordLength           & 1 divided by the average word length                                                                                                                                               & 1                 \\ \hline
+    Feature					& Description																	& Count				\\ \hline
+    BlankLine				& 1 divided by number of Blank Lines in the text								& 1					\\ \hline
+    CapitalLetter			& Capital letters divided by all letters										& 1					\\ \hline
+    Emoticon				& Boolean value for occurrence of known emoticons								& 9					\\ \hline
+    FunctionWord			& Fraction of words that are a known function word. [TODO: List in appendix?]	& 280[DE] 280[EN]	\\ \hline
+    Abbreviations			& Words that are a known abbreviation [TODO: List in appendix?]					& 53[DE] 53[EN]		\\ \hline
+    NumberCharacter			& Fraction of characters that are numeric characters (0-9)						& 1					\\ \hline
+    Paragraph				& Number of Paragraphs divided by average Paragraph								& 1					\\ \hline
+    PoSTag					& Fraction of words that have a certain Part-of-Speech Tag [TODO: Reference]	& ? [TODO]			\\ \hline
+    PostLength				& 1 divided by the number of characters											& 1					\\ \hline
+    PrefixSuffix			& 2-letter Prefixes/Suffixes divided by total number of Prefixes/Suffixes		& 676 			 	\\ \hline
+    Punctuation Character	& Fraction of characters that are a known punctuation character [TODO: List in appendix?]	& 11				\\ \hline
+    SentenceLength			& 1 divided by the average sentence length										& 1 				\\ \hline
+    singleOccurring Word	& Words that only occur once divided by all distinct words						& 1					\\ \hline
+    UpperCaseWord			& Words that are fully in upper case divided by all words						& 1					\\ \hline
+    WordFrequency			& 1 divided by the average number of occurrences per word						& 1					\\ \hline
+    WordLength				& 1 divided by the average word length											& 1					\\ \hline
     \end{tabular}
 	\caption{Feature Table. Implemented features with descriptions and the count of individual features they contribute to the feature vector.}
 	\label{tab:featureTable}
