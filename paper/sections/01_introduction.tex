@@ -22,10 +22,10 @@ Reliably finding the one matching author on this scale might, in fact, be imposs
 Instead, we aimed to create a program which should output a number of blogs with a writing style similar to that of a given document.
 
 
-To that end, we first extract a number of significant features (Section [TODO]) - such as lexical diversity or the use of certain function words - from each blog post which are relevant in determining the writing style.
-Then, we use a clustering step to group blog posts with similar writing styles together (Section [TODO]), based on their features.
-The resulting clusters are then labelled according to their most distinctive shared features (Section [TODO]), to allow the users to see what its containing documents have in common.
-A model generated from these clusters is then fed to a machine learning step (Section [TODO]) which is able to discern the cluster a given new document would belong to.
+To that end, we first extract a number of significant features (Section~\ref{sec:features}) - such as lexical diversity or the use of certain function words - from each blog post which are relevant in determining the writing style.
+Then, we use a clustering step to group blog posts with similar writing styles together (Section~\ref{sec:k-means}), based on their features.
+The resulting clusters are then labelled according to their most distinctive shared features (Section~\ref{sec:cluster_labeling}), to allow the users to see what its containing documents have in common.
+A model generated from these clusters is then fed to a machine learning step (Section~\ref{classification}) which is able to discern the cluster a given new document would belong to.
 To this end, the features of the new document are calculated and then compared to the model of known documents and their clusters.
 
 
