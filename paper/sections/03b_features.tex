@@ -19,9 +19,9 @@ After evaluating our features (see Section~\ref{sec:evaluation_clustering}) we l
 %[TODO: If we need to fill room: Explain some features in detail (function words, vocabulary richness, PoS tags)]
 
 
-\begin{table}[tbp]
-    \begin{tabular}{|p{2.6cm}|p{8.2cm}|p{1.2cm}|}
-    \hline
+\begin{table}[h]
+    \begin{center}
+    \begin{tabular}{p{2.6cm}|p{8.2cm}|p{1.2cm}}
     Feature              & Description                                                                                                                                                                                    & Count             \\ \hline
     BlankLine            & 1 divided by number of Blank Lines in the text                                                                                                                                     & 1                 \\ \hline
     CapitalLetter        & Capital letters divided by all letters                                                                                                                                             & 1                 \\ \hline
@@ -38,8 +38,9 @@ After evaluating our features (see Section~\ref{sec:evaluation_clustering}) we l
     singleOccurring Word  & Words that only occur once divided by all distinct words                                                                                                                           & 1                 \\ \hline
     UpperCaseWord        & Words that are fully in upper case divided by all words                                                                                                                            & 1                 \\ \hline
     WordFrequency        & 1 divided by the average number of occurrences per word                                                                                                                            & 1                 \\ \hline
-    WordLength           & 1 divided by the average word length                                                                                                                                               & 1                 \\ \hline
+    WordLength           & 1 divided by the average word length                                                                                                                                               & 1                 \\
     \end{tabular}
+    \end{center}
 	\caption{Feature Table. Implemented features with descriptions and the count of individual features they contribute to the feature vector.}
 	\label{tab:featureTable}
 \end{table}
