@@ -18,7 +18,11 @@ The types of emoticons used also differ from person to person which is why we de
 A listing of the emoticons our system uses can also be found in Section~\ref{sec:app_emoticons}.
 
 
-Some of the features described in other works on author identification were either topic-dependent or not applicable for the blog domain.
+We added an UpperCase feature which calculates the fraction of all words written in all capital letters since we found that some authors use capitalization as a form of emphasis or to delimit direct speech and the speaker.
+Since only some writers use capitalization in this way, and those that do use it to varying degrees, we found it to be a useful feature.
+
+
+While we re-used many features which have been breviously described in other work, we left out some of them as they were either topic-dependent or not applicable for the blog domain.
 One example for the second case would be a greeting or signature feature~\cite{de2001mining}.
 While some writers do use individual greeting or salutation phrases, far from all of them do.
 This means that, while we might get very good results for those that use them, such features would be counterproductive for all other authors as their first or last lines of a blog entry would vary tremendously from post to post.
