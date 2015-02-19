@@ -23,20 +23,19 @@ Being able to distinguish tens or even hundreds of thousands of authors purely b
 Reliably finding the one matching author on this scale might, in fact, be impossible with today's methods.
 Instead, we aimed to create a program which should output a number of blogs with a writing style similar to that of a given document.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/Figure_1.pdf}
+    \caption{Our approach to find similar authors by their writing style: First features, which consider the writing style of blog posts, are extracted from the blog posts and used to cluster the blog posts into different writing style groups. Afterwards these groups are labeled by their most significant characteristics. In the last step new blog posts are assigned to one of the writing style groups using their features and the results from the previous steps.}
+    \label{fig:figure_1}
+\end{figure}
 
 To that end, we first extract a number of significant features (Section~\ref{sec:features}) - such as lexical diversity or the use of certain function words - from each blog post which are relevant in determining the writing style.
 Then, we use a clustering step to group blog posts with similar writing styles together (Section~\ref{sec:k-means}), based on their features.
 The resulting clusters are then labelled according to their most distinctive shared features (Section~\ref{sec:cluster_labeling}), to allow the users to see what its containing documents have in common.
 A model generated from these clusters is then fed to a machine learning step (Section~\ref{sec:classification}) which is able to discern the cluster a given new document would belong to.
 To this end, the features of the new document are calculated and then compared to the model of known documents and their clusters.
-
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.8\textwidth]{images/Figure_1.pdf}
-    \caption{}
-    \label{fig:naive}
-\end{figure}
+The three different steps are shown in Figure~\ref{fig:figure_1}.
 
 
 Since many of the features which discern a writing style are not comparable across different languages (e.g. the average word length might be vastly different between various languages, making it useless when comparing an English post to a French one), we decided to focus on only two languages: English and German.
