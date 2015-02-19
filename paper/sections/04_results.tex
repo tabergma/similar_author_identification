@@ -50,19 +50,20 @@ Notably, the negative impact of the prefix/suffix feature was much stronger than
 \begin{table}[h]
 	\begin{center}
     \begin{tabular}{l|r|r}
-	Feature name		& F-Measure without & Difference to all features \\ \hline
+	Feature name		& F-Measure without & Difference to all features \\ \hline \hline
+	All features active	& 0.4152833313 & $\pm$0.0 \\ \hline \hline
 	WordLength			& 0.4152373925 & +0.0000459388 \\ \hline
 	CharacterFrequency	& 0.4151904736 & +0.0000928577 \\ \hline
 	FunctionWord		& 0.4150935674 & +0.0001897639 \\ \hline
 	CapitalLetter		& 0.4148865024 & +0.0003968289 \\ \hline
 	UpperCase			& 0.4144100548 & +0.0008732765 \\ \hline
 	WordFrequency		& 0.4130983959 & +0.0021849354 \\ \hline
-	PoSTag				& 0.4196359196 & -0.0043525883 \\ \hline
+	POSTAG				& 0.4196359196 & -0.0043525883 \\ \hline
 	Emoticon			& 0.3757936508 & +0.0438422688 \\ \hline
 	PostLength			& 0.4196359196 & +0.0043525883 \\ \hline
 	Prefix/Suffix		& 0.4712048408 & -0.0559215095 \\ \hline
 	BlankLine			& 0.4074074074 & +0.0078759239 \\ \hline
-	SentenceLength		& 0.4152833313 & +0.0000000000 \\
+	SentenceLength		& 0.4152833313 & $\pm$0.0 \\
     \end{tabular}
     \end{center}
 	\caption{The f-measure having all features but one active and the difference to the f-measure having all features active. Having the POSTAG feature or the prefix/suffix feature active, decreases the overall f-measure.}
