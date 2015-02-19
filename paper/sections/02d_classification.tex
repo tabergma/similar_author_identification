@@ -3,11 +3,9 @@
 \subsection{Classification}
 \label{sec:classification}
 
-% TODO: Features sind die gleichen wie beim Clustering!
-
 
 After we cluster all blog posts, for example in a database, we need a way to deal with new blog posts which are added to it.
-In the best case, we want a new blog post to be in the same cluster, as it would have been, if it were part of the original clustering.
+In the best case, we want a new blog post to be in the same cluster, as it would have been, if it was part of the original clustering.
 To ensure this outcome, we can add the new blog post to the data set, before running the whole clustering for all documents again.
 However this seems inefficient, because of the potentially huge number of documents which would have to be clustered again, compared to the fact, that we want to assign a cluster to a only one new blog post.
 Furthermore we do not want the addition of one blog post to change the cluster assignments of other blog posts, which could happen if the clustering step was repeated.
@@ -16,3 +14,4 @@ Furthermore we do not want the addition of one blog post to change the cluster a
 Instead we use a separate classification step to find a suitable cluster assignment.
 First of all, we extract the same set of features, which was used in the clustering step, from the new blog post.
 Then we compare the resulting feature vector to the cluster center points or the feature vectors from other blog posts, and, based on that, decide which cluster is the best match for the new blog post.
+This process is explained in more detail in Section \ref{sec:impl_classification}.
