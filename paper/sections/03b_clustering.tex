@@ -15,13 +15,14 @@ These last two steps are repeated until the cluster centroids converge.
 The resulting assignment of the vectors (and thus their corresponding blog posts) to the clusters is the same as the final assignment performed by the k-means algorithm.
 
 
-Using our small data set we set $k$ to the number of authors ($6$).
-Under the assumption, that an author has an individual writing style and that this writing style is not changing over time, an author should get its own cluster only containing blog posts written by him.
+Using our small data set we set $k$ to $6$, the number of authors.
+Under the assumption that an author has an individual writing style and that this writing style is not changing over time, an author should get their own cluster only containing blog posts written by him.
 In this way, we could evaluate our k-means algorithm (see Section~\ref{sec:evaluation_clustering}).
 
 
 \subsubsection{Cluster Labelling}
 \label{sec:impl_cluster_labeling}
-For the cluster labelling implementation we used the method 3, presented in Section~\ref{sec:cluster_labeling}.
-This method assigns $n$ label, based on the most significant $n$ features, to a cluster.
-In our final implementation each cluser obtains five different labels, so $n$ was set to $5$.
+For the cluster labelling implementation we used the third method, presented in Section~\ref{sec:cluster_labeling}.
+This method assigns $n$ labels to a cluster, based on the most significant $n$ features.
+We found that providing five labels for each cluster was usually enough to describe them in a unique way while still being little enough to not confuse the user.
+Thus, our final implementation lets each cluser obtain five different labels, so $n$ was set to $5$.
