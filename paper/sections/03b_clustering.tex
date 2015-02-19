@@ -1,9 +1,11 @@
 \subsection{Clustering}
 \label{sec:impl_clustering}
 
+% TODO
+
 \subsubsection{K-Means Algorithm}
 \label{sec:impl_k-means}
-We use a k-means algorithm for the initial clustering of our documents because TODO??.
+For our implementation we used the k-means algorithm offered by Mahout\footnote{\url{https://mahout.apache.org/}}, which can be executed efficiently among a cluster with a large amount of data~\cite{esteves2011k}.
 
 
 K-means creates $k$ clusters from $n$ vectors by randomly selecting $k$ points from the vector space as cluster centroids.
@@ -11,66 +13,15 @@ Then, each vector or point is assigned to its nearest cluster centroid according
 Afterwards, the cluster centroids are repositioned to the center of all vectors/points which were assigned to them.
 These last two steps are repeated until the cluster centroids converge.
 The resulting assignment of the vectors (and thus their corresponding blog posts) to the clusters is the same as the final assignment performed by the k-means algorithm.
-For our implementation we used the k-means algorithm offered by Mahout\footnote{\url{https://mahout.apache.org/}}, which can be executed efficiently among a cluster with a large amount of data~\cite{esteves2011k}.
 
 
-To run a k-means algorithm, the value $k$ has to be set beforehand.
-$K$ represents the number of clusters and thus the number of similar writing styles, which should be determined.
-Finding an appropriate value for $k$ depends highly on the use case.
-One use case could be to find exact authors, so that one cluster, i.e. writing style group, would correspond to one author.
-One cluster would only contain blog posts of one author.
-The value $k$ should therefore be similar to the number of expected authors.
-Another use case could be to find similar writing style groups.
-One cluster would then contain blog posts from multiple authors having a similar writing style.
-In this case $k$ should be chosen much lower than the actual number of authors.
+Using our small data set we set $k$ to the number of authors ($6$).
+Under the assumption, that an author has an individual writing style and that this writing style is not changing over time, an author should get its own cluster only containing blog posts written by him.
+In this way, we could evaluate our k-means algorithm (see Section~\ref{sec:evaluation_clustering}).
 
-% [TODO: Graphic?]
 
 \subsubsection{Cluster Labelling}
-\label{sec:cluster_labeling}
-We implemented three cluster labelling methods to try and add meaningful labels to the clusters we determined in the previous step.
-These methods use the clusters' feature vectors to discern their interesting and meaningful properties.
-They are explained using the following example:
-The current feature is ``length of blog posts'' and we have three clusters with the following values for the current feature:
-\begin{center}
-\begin{tabular}{c|c|c}
-  Cluster 1 & Cluster 2 & Cluster 3 \\ \hline
-  0.7 & 1 & 0.1 \\
- \end{tabular}
-\end{center}
-\paragraph{Method 1}
-For each feature and cluster, the highest and lowest value is determined.
-Those clusters are then labelled with appropriate labels.
-
-In the example cluster 2 has the highest value and gets the label ``longest blog posts''.
-The label ``shortest blog posts'' is assigned to cluster 3, because this cluster has the lowest value.
-Using this method only the most significant labels are set.
-But a cluster may not obtain any label when it does not have any extreme features.
-
-\paragraph{Method 2}
-First, the average vector of all blog posts is calculated.
-In a second step, the distance for each feature and cluster to that average vector is determined.
-If the distance is over a certain threshold, the cluster is labelled.
-
-The example is shown in Figure~\ref{fig:cluster_labeling_2}.
-Because cluster 3 is not over the threshold, thus the length of the blog post is not significant for the cluster, no label is assigned to that cluster.
-Cluster 1 and 2 are both over the threshold and obtain the label ``long blog posts''.
-This method assigns more labels to clusters than method 1, but can also lead to clusters without any labels if all of a cluster's feature have average values.
-
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=0.6\textwidth]{images/cluster_labeling_2.pdf}
-	\caption{Cluster labelling method 2: The distance of each cluster to the overall average blog posts is calculated. If the distance is below or over a certain threshold (shaded in grey), the cluster obtains a label. In this example a label is assigned to cluster 1 and 2.}
-	\label{fig:cluster_labeling_2}
-\end{figure}
-
-\paragraph{Method 3}
-As with method 2, we calculate the difference to the average for each cluster and feature.
-However, we also normalize them to the total range this feature has for our data.
-Then, we pick the $n$ most significant of these differences for each cluster and use them to label it.
-Significance, in this case, is mostly determined by how great the deviation from the average is: The larger the deviation the higher the significance.
-The only exception to this is that being very close to to the average is considered slightly more significant than only being fairly close to it.
-
-In our example, clusters 2 and 3 would most likely get the label ``longest'' or ``shortest blog posts'' respectively.
-Cluster 1 on the other hand would be eligible for the low significance label ``average length blog posts'' but might not get it if it has $n$ more significant labels.
-With this method, every cluster is guaranteed to get a set number of labels, even if it has no features that deviate from the average.
+\label{sec:impl_cluster_labeling}
+For the cluster labelling implementation we used the method 3, presented in Section~\ref{sec:cluster_labeling}.
+This method assigns $n$ label, based on the most significant $n$ features, to a cluster.
+In our final implementation each cluser obtains five different labels, so $n$ was set to $5$.
