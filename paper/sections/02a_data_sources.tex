@@ -3,17 +3,16 @@
 \subsection{Data Sources}
 \label{sec:data_sources}
 
-% TODO Anders aufziehen: Wir brauchen unseren eigenen Datensatz, da ... Springer Datensatz dafür nicht gut genug..
 
 To evaluate and improve our system we needed a data source with certain characteristics:
-The data source should contain only blog posts written in one langauge and blog posts having metadata about who wrote the blog post.
-With the help of the author information we can evaluate our system under the assumption that one author has the same writing style over a serie of blog posts he wrote.
+The data source should contain only blog posts written in one language and blog posts having author metadata attributed to them.
+With the help of the author information we can evaluate our system under the assumption that one author has the same writing style over a series of blog posts they wrote.
 
 Because we could not find such an open, free data source, we manually created our own small data set.
 This data set consists of 15 blog posts for each of six German blogs, for a total of 90 blog posts.
-This small test set provided us with a gold standard for all our future tests and allowed us to run multiple, performance intensive tests in a realistic time frame.
+This small test set provided us with a gold standard for all our future tests and allowed us to run multiple, performance intensive tests in a feasible time frame.
 
-After evaluating and imporving our system with our small data set, we ran our system on the the 2011 Spinn3r data set\footnote{\url{http://www.icwsm.org/data/}}, which contains data from about 65 million blog posts.
+After evaluating and improving our system with our small data set, we ran it with the 2011 Spinn3r data set\footnote{\url{http://www.icwsm.org/data/}}, which contains data from about 65 million blog posts.
 These blog posts come in various different languages and only with sparse metadata.
 Many of them do not have an author attributed which makes them unusable for testing our algorithm's performance.
 %Even those blog posts which have some author data, only have their username with no way of telling whether that alias is used by multiple authors in the database and thus might also provide faulty results.
