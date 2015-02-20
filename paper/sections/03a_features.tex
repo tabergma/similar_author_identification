@@ -4,30 +4,30 @@
 In Table~\ref{tab:featureTable} we describe all the features we used along with their respective individual feature count.
 
 
-One of the features we utilized, the FunctionWord feature might appear to clash with our desire to create a topic-independent algorithm which does not use a bag of words model.
+One of the features we utilized, the FunctionWord feature might appear to clash with our desire to create a topic-independent algorithm, which does not use a bag of words model.
 However, function words are words with little or no lexical meaning, mainly used to create the grammatical structure of a sentence.
 Thus, they are actually topic-independent and the frequency of their usage has been successfully utilized to identify authors~\cite{mosteller1962applied}.
-We also tried to achieve topic-independence for our list of common abbreviations which we used in the same way.
+We also tried to achieve topic-independence for our list of common abbreviations, which we used in the same way.
 The full list of function words and abbreviations we used for German and English can be found in Appendix~\ref{sec:app_function_words} and~\ref{sec:app_abbreviations}).
 
 
 Our emoticon feature is one that we selected to specifically target the blogging realm.
 Since emoticons hardly ever appear in traditional written works, they have not been utilized when trying to identify authors outside of the internet.
 In the blogosphere, however, there are some users who utilize lots of emoticons and others that don't use them at all.
-The types of emoticons used also differ from person to person which is why we decided to implement that feature as a binary value of a certain emoticon appearing in the text or not.
+The types of emoticons used also differ from person to person, which is why we decided to implement that feature as a binary value of a certain emoticon appearing in the text or not.
 A listing of the emoticons our system uses can also be found in Appendix~\ref{sec:app_emoticons}.
 
 
-We added an UpperCase feature which calculates the fraction of all words written in all capital letters since we found that some authors use capitalization as a form of emphasis or to delimit direct speech and the speaker.
+We added an UpperCase feature, which calculates the fraction of all words written in all capital letters since we found that some authors use capitalization as a form of emphasis or to delimit direct speech and the speaker.
 Since only some writers use capitalization in this way, and those that do use it to varying degrees, we found it to be a useful feature.
 
 
-While we re-used many features which have been previously described in other work, we left out some of them as they were either topic-dependent or not applicable for the blog domain.
+While we re-used many features, which have been previously described in other work, we left out some of them as they were either topic-dependent or not applicable for the blog domain.
 One example for the second case would be a greeting or signature feature~\cite{de2001mining}.
 While some writers do use individual greeting or salutation phrases, far from all of them do.
-This means that, while we might get very good results for those that use them, such features would be counterproductive for all other authors as their first or last lines of a blog entry would vary tremendously from post to post.
+This means that, while we might receive good results for those that use them, such features would be counterproductive for all other authors as their first or last lines of a blog entry would vary tremendously from post to post.
 Additionally, they are rather useless for determining the actual style of someone's writing.
-Using a list of known greetings or signatures to determine if one was used might be an option but we decided against doing so because of the sheer amount of individual phrases we came across during our research on the topic.
+Using a list of known greetings or signatures to determine if one was used might be an option but we decided against doing so, because of the sheer amount of individual phrases we came across during our research on the topic.
 
 
 After evaluating our features (see Section~\ref{sec:evaluation_clustering}) we decided to drop the Prefix/Suffix and PoSTag features and keep all others.
@@ -49,7 +49,7 @@ After evaluating our features (see Section~\ref{sec:evaluation_clustering}) we d
     PrefixSuffix			& 2-letter Prefixes/Suffixes divided by total number of Prefixes/Suffixes	& 676 			 	& \cite{madigan2005author}\\ \hline
     Punctuation Character	& Fraction of characters that are a known punctuation character				& 11				& \cite{madigan2005author} \cite{narayanan2012feasibility}\\ \hline
     SentenceLength			& 1 divided by the average sentence length									& 1 				& \cite{de2001mining}\\ \hline
-    singleOccurring Word	& Words that only occur once divided by all distinct words					& 1					& \cite{madigan2005author} \cite{narayanan2012feasibility}\\ \hline
+    singleOccurring Word	& Words that occur only once divided by all distinct words					& 1					& \cite{madigan2005author} \cite{narayanan2012feasibility}\\ \hline
     UpperCaseWord			& Words that are fully in upper case divided by all words					& 1					& original\\ \hline
     WordFrequency			& 1 divided by the average number of occurrences per word					& 1					& \cite{madigan2005author} \cite{narayanan2012feasibility}\\ \hline
     WordLength				& 1 divided by the average word length										& 1					& \cite{argamon2003style} \cite{narayanan2012feasibility}\\
