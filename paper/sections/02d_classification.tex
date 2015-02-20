@@ -6,7 +6,7 @@
 
 After we cluster all blog posts, e.g. in a database, we need a way to deal with new blog posts which are added at a later point.
 Optimally, we want a new blog post to be sorted into the cluster it would have also landed in if it were part of the original clustering.
-To ensure this outcome, we could add the new blog post to the data set and then runn the whole clustering again on all documents.
+To ensure this outcome, we could add the new blog post to the data set and then run the whole clustering again on all documents.
 However this seems inefficient because of the potentially huge number of documents which would have to be clustered again, compared to the fact that we want to assign a cluster to only one new blog post.
 Furthermore we do not want the addition of one blog post to change the cluster assignments of other blog posts, which could happen if the clustering step was repeated.
 
