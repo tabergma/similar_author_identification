@@ -6,13 +6,13 @@ For our implementation we used the k-means algorithm offered by Mahout\footnote{
 
 K-means creates $k$ clusters from $n$ vectors by randomly selecting $k$ points from the vector space as cluster centroids.
 Then, each vector or point is assigned to its nearest cluster centroid according to its Euclidean distance to those centroids.
-Afterwards, the cluster centroids are repositioned to the center of all vectors/points which were assigned to them.
+Afterwards, the cluster centroids are repositioned to the center of all vectors/points, which were assigned to them.
 These last two steps are repeated until the cluster centroids converge.
 The resulting assignment of the vectors (and thus their corresponding blog posts) to the clusters is the same as the final assignment performed by the k-means algorithm.
 
 
-Using our small data set we set $k$ to $6$, the number of authors.
-Under the assumption that an author has an individual writing style and that this writing style is not changing over time, an author should get their own cluster only containing blog posts written by him.
+Using our small data set we set $k$ to 6, the number of authors.
+Under the assumption that an author has an individual writing style and that this writing style is not changing over time, an author should obtain their own cluster containing only blog posts written by him.
 In this way, we could evaluate our k-means algorithm (see Section~\ref{sec:evaluation_clustering}).
 
 
