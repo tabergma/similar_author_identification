@@ -3,12 +3,12 @@
 
 An individual's writing style can be discerned by various attributes or features inherent to any written text.
 Some of these features are topic-dependent, e.g. the count of occurrence for each existing word in the bag of words model.
-A text containing an above average number of occurrences of words like ``DNA'', ``sequence'', ``genome'', and ``mutation'' will most likely be from the field of genome research.
+A text containing an above average number of occurrences of words, such as ``DNA'', ``sequence'', ``genome'', and ``mutation'' will most likely be from the field of genome research.
 Thus, this feature will be similar for most texts from this domain and therefore is topic-dependent.
 
 
-However, since we want to classify blog posts independent of topic, we can only utilize topic-independent features.
-We represent these features as real valued numbers, normalized to be between $0$ and $1$.
+However, since we want to classify blog posts independent of topic, we can utilize only topic-independent features.
+We represent these features as real valued numbers, normalized to be between 0  and 1.
 Each attribute of a text can be represented by multiple features, for example the frequency of punctuation characters can have one feature per punctuation character, denoting that character's frequency as a fraction of all characters.
 After calculating all features, the combination of them is interpreted as a vector for each text and then passed on to the clustering or classification step.
 
