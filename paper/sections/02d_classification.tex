@@ -4,6 +4,7 @@
 \label{sec:classification}
 
 
+
 After we cluster all blog posts, e.g. in a database, we need a way to deal with new blog posts which are added at a later point.
 Optimally, we want a new blog post to be sorted into the cluster it would have also landed in if it were part of the original clustering.
 To ensure this outcome, we could add the new blog post to the data set and then run the whole clustering again on all documents.
@@ -13,4 +14,5 @@ Furthermore we do not want the addition of one blog post to change the cluster a
 
 Instead, we use a separate classification step to find a suitable cluster assignment.
 For this, we first extract the same set of features from the new blog post that were previously extracted before the clustering of all posts.
-Then, we use the results from the clustering step, the feature vectors of the clustered blog posts and their cluster assignments, to determine the best match for the new blog post (see Section~\ref{sec:impl_classification}).
+Then, we use the results from the clustering step, the feature vectors of the clustered blog posts and their cluster assignments, to determine the best match for the new blog post.
+To this end, we used machine learning techniques which are explained in Section~\ref{sec:impl_classification} in detail.
