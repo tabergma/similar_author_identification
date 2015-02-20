@@ -6,18 +6,18 @@
 % Wie kann man auf einzlenen Autoren schließen?
 % Welches Gender, Beruf, Alter... haben die Autoren?
 
-Nowadays, everyone can write a blog posts fairly easy.
+Nowadays, everyone can write a blog post fairly easily.
 Thus, the amount of blog posts and authors increases quickly, making the task of identifying an exact author nearly impossible.
-In this paper, we presented an approach of dividing a set of blog posts into different groups, each group representing an individual writing style and therefore similar authors.
+In this paper, we present an approach of dividing a set of blog posts into different groups, each group representing an individual writing style and therefore similar authors.
 Thus, we are reducing the potential candidates by an order of magnitude or more and we can aid the user in getting much closer to the correct author.
 
 
-For our approach multiple features for identifying different writing styles were tested and evaluated.
-Having a feature, which results in hundreds of subfeatures by having only a few other features, adulterated the results immensly.
-A k-means algorithm is used to cluster the blog posts based on the selected features.
-An evaluation on a small test data set showed that our k-means algorithm has an f-measure of $61.64\%$.
-To determine a cluster, i.e. writing style, of a new blog posts, different classification methods were examained.
-It was shown, that k-nearest neighbor performed slighty better ($97.77\%$) than a support vector machine ($91.86\%$).
+We tested and  evaluated multiple features for identifying different writing styles.
+Having a feature, which results in hundreds of subfeatures while having only a few other features, adulterates the results immensely.
+We use a k-means algorithm to cluster the blog posts based on the selected features.
+Our evaluation on a small test data set shows that our k-means algorithm has an f-measure of $61.64\%$.
+To determine a cluster, i.e. writing style, of a new blog posts, we examined different classification methods.
+K-nearest neighbor performed slighty worse ($97.77\%$) than a support vector machine ($98.89\%$).
 
 
 Our approach performs very well for the use case of finding blog posts similar to ones a user already likes.
