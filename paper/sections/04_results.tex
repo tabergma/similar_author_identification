@@ -45,7 +45,6 @@ One of these meaningful feature combinations was the one that gave the best over
 This feature combination did not contain the prefix/suffix and the Part Of Speech TAG (POSTAG) features.
 This was surprising for us because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
 Looking further into the data, we found that turning off the prefix/suffix or the POSTAG feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
-Notably, the negative impact of the prefix/suffix feature was much stronger than that of the POSTAG feature while their individual benefit was a lot more similar.
 
 \begin{table}[h]
 	\begin{center}
@@ -79,8 +78,8 @@ If we then add in the high dimensional but only mediocre features like prefix/su
 Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
 
 
-Ultimately, we decided not to use the prefix/suffix feature but hold on to the POSTAG feature, since it performed well in subsequent experiments in different environments.
-The benefit of the prefix/suffix feature, however, was usually counterproductive and only marginally beneficial in even the best of cases.
+Ultimately, we decided not to use the prefix/suffix and POSTAG features, since they both lowered performance significantly.
+Dropping them both meant that the number of features we had in a vector was now only a fraction of the previous amount, which gave our small but well-performing features much more impact.
 
 
 The resulting f-measure for our k-means algorithm when having all but the prefix/suffix and part-of-speech tag feature enabled is $61.64\%$.
