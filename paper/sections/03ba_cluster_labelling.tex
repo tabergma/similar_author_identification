@@ -1,13 +1,9 @@
 \subsection{Cluster Labelling}
 \label{sec:impl_cluster_labeling}
-For the cluster labelling implementation we used the third method, presented in Section~\ref{sec:cluster_labeling}.
-This method assigns $n$ labels to a cluster, based on the most significant $n$ features.
-We found that providing five labels for each cluster was usually enough to describe them in a unique way while still being little enough to not confuse the user.
-Thus, our final implementation lets each cluster obtain five different labels, so $n$ was set to $5$.
 
-Therefore, we implemented our own cluster labelling methods, which consider the most important features of a cluster.
-They are explained using the following example:
-The current feature is ``length of blog posts'' and we have three clusters with the following values for the current feature:
+We implemented our own cluster labelling methods, which consider the most important features of a cluster.
+They will be explained using the following example:
+The current feature is ``length of blog posts'' and we have three clusters with the following values for the feature:
 \begin{center}
 \begin{tabular}{c|c|c}
   Cluster 1 & Cluster 2 & Cluster 3 \\ \hline
@@ -18,7 +14,7 @@ The current feature is ``length of blog posts'' and we have three clusters with 
 
 \paragraph{Method 1}
 For each feature and cluster, the highest and lowest value is determined.
-Those clusters are then labelled with appropriate labels.
+Those clusters are then given the appropriate labels.
 
 In the example cluster 2 has the highest value and gets the label ``longest blog posts''.
 The label ``shortest blog posts'' is assigned to cluster 3, because this cluster has the lowest value.
@@ -55,3 +51,7 @@ In our example, clusters 2 and 3 would most likely get the label ``longest'' or 
 Cluster 1 on the other hand would be eligible for the low significance label ``average length blog posts'' but might not get it if it has $n$ more significant labels.
 With this method, every cluster is guaranteed to get a set number of labels, even if it has no features that deviate from the average.
 
+
+Our final implementation uses method 3 since it guarantees us a set number of feature labels for each cluster.
+We found that providing five labels for each cluster was usually enough to describe them in a unique way while still being few enough not to confuse the user.
+Thus, our final implementation of method 3 lets each cluster obtain five different labels, so $n$ was set to $5$.
