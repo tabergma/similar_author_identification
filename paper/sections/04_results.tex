@@ -2,8 +2,6 @@
 \section{Evaluation and Results}
 \label{sec:results}
 
-% TODO Gleiches Maß zum Vergleich mit andern Papern
-% Mehr Bezug zu anderen Papern
 
 There are two separate steps we want to evaluate.
 Firstly we want to measure the performance of our clustering into similar author groups.
@@ -86,8 +84,7 @@ We concluded that these two authors actually had a very similar writing style an
 
 
 \subsection{Evaluation of Classification}
-
-% TODO: Results mit Related Work vergleichen
+\label{sec:evaluation_classification}
 
 For evaluating our classification methods we used ten-fold cross validation~\cite{kohavi1995study}.
 We divide our test data set into ten sets, each set containing nine blog posts.
@@ -101,5 +98,12 @@ This model is then used for determining a cluster for each blog posts in the tes
 The k-nearest neighbor algorithm uses the training data set as known data points (see Section~\ref{sec:k_nearest_neighbor}).
 
 
-The result of the ten-fold cross validation is $97.77\%$ precision for k-nearest neighbor and $98.89\%$ precision for a support vector machine.
-% TODO Hier vielleicht noch was zu schreiben.
+After finding the optimal parameters for both methods, we achieved $97.77\%$ precision for k-nearest neighbor and $98.89\%$ precision for a support vector machine in our ten-fold cross validation.
+
+
+Thus, our results of $~60\%$ F-Measure appear to be a lot better than those of much of the related work on the topic.
+This is mainly due to the different problem domain though:
+We merely try to find similar writing style groups, while most of the related work tried to identify the exact author to a document.
+Since this problem is harder than ours, simply because the solution space is a lot larger, results that appear worse at first glance (like the $20\%$ accuracy of Narayanan et al.~\cite{narayanan2012feasibility}) are to be expected.
+On the other hand, Koppel et al.~\cite{koppel2003automatically}, who try to correctly identify an author's gender by their writing style, achieve a precision of over $80\%$ since this problem is smaller than even our six assumed writing styles.
+The fact that our results lie somewhere between these two other approaches to (respectively) more and less difficult problems is thus exactly what was to be expected.

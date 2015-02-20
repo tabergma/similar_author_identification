@@ -8,10 +8,10 @@ The field of author identification was already captured by De Vel et al.~\cite{d
 Their work is based on only a small number of emails, written by three authors and spread over three topics: movies, food, and travel.
 To allow author discrimination while covering multiple topics, the used features have to be topic-independent.
 The paper furthermore states, based on~\cite{corney2001identifying}, that about 20 documents per author should be sufficient for a satisfying categorisation performance.
-De Vel et al. reach an average precision of 92,5\% for their author classification, when using both their structural features and style markers.
+De Vel et al. reach an average precision of $92.5\%$ for their author classification, when using both their structural features and style markers.
 Compared to our approach, De Vel et al. focus on email, whereas we want to find similar author in the blogosphere domain.
 The presented features are topic-independent, which is also a goal we want to achive.
-Nevertheless, emails have different characteristics than blog posts, so some of the features may not work for our domain, blog posts.
+Nevertheless, emails have different characteristics than blog posts, so some of the characteristic features may not work for our domain, blog posts.
 Also, we want to classify authors based on a much larger data set.
 
 
@@ -27,11 +27,11 @@ This work shows how techniques from prior work do not scale very well and which 
 The machine learning approaches used were k-nearest neighbor, naive bayes, support vector machine, and regularized least squares classification.
 Interesting new features include the frequency of special characters, such as $*$, $=$, $+$, $[$ or $]$ and the word shape, which is the frequency of words with different combinations of upper and lower case letters.
 Because Narayanan et al. have a similar set up, we tried some of their features.
-However, because Narayanan et al. focus on finding the exact author and identify the correct one with about 20\% accuracy, we are focusing on finding similar author gropus.
+However, because Narayanan et al. focus on finding the exact author and identify the correct one with about $20\%$ accuracy, we are focusing on finding similar author groups.
 
 
 Identifying certain traits of an author which could be used to distinguish between different authors is also a popular research area.
 The authors of \cite{koppel2003automatically} have attempted to discern an author's gender in fictional and non-fictional works.
 Their approach uses function words and part-of-speech tags as singles, tuples, and triples.
-After cross validating their machine learning algorithm, they managed to reach over 80\% precision for the author's gender.
+After cross validating their machine learning algorithm, they managed to reach over $80\%$ precision for the author's gender.
 However, Koppel et al. classified books and articels, which are in gerneal much longer than blog posts.

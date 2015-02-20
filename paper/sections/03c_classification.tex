@@ -42,9 +42,10 @@ In this case, the dashed line would more accurately divide cluster 1 and 2.
 
 
 We used the support vector machine implementation LIBSVM\footnote{\url{http://www.csie.ntu.edu.tw/~cjlin/libsvm/}}, as described by Fan et al.~\cite{fan2005working}.
-We followed the configuration procedure proposed by Hsu et al.~\ref{hsu2003practical}.
+We followed the configuration procedure proposed by Hsu et al.~\cite{hsu2003practical}.
 In the end we used the default configuration of type C-SVC and a radial basis function kernel for the support vector machine.
-The only parameter we adapted, was $c=1000$, which was done using cross-validation to prevent overfitting.
+The only parameter we adapted was $c=1000$, which was done using cross-validation, as recommended by Hsu et al. to prevent overfitting on our data set.
+
 
 \begin{figure}[h]
     \centering
