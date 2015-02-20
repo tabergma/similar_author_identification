@@ -12,7 +12,7 @@ Thus, we are reducing the potential candidates by an order of magnitude or more 
 We tested and evaluated multiple features for identifying different writing styles.
 Having a feature, which results in hundreds of subfeatures while having only a few other features, adulterates the results immensely.
 We use a k-means algorithm to cluster the blog posts based on the selected features.
-Our evaluation on a small test data set shows that our k-means algorithm has an f-measure of $61.64\%$.
+Our evaluation on a small test data set shows that our k-means algorithm has a f-measure of $61.64\%$.
 To determine a cluster, i.e. writing style, of a new blog posts, we examined different classification methods.
 K-nearest neighbor performed slighty worse ($97.77\%$) than a support vector machine ($98.89\%$).
 
@@ -35,7 +35,7 @@ Additional work could also be put into our clustering step by adding an addition
 Alternatively, evaluating the feasibility of other clustering algorithms is also an option.
 
 
-Furthermore, our approach could be expanded by additional features, which helps to identify for example the gender, the occupation or the age of the authors.
+Furthermore, our approach could be expanded by additional features, which helps to identify for example the gender, the occupation, or the age of the authors.
 Maybe woman use more adjectives than men and therefore blog posts can be divided into gender groups.
 A group would no longer just represent the writing style of blog posts but would also give the user information about what kind of author wrote those blog posts.
 

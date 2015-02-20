@@ -39,7 +39,7 @@ Based on this assumption, if author A has the dominant cluster C, we then define
 From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
 One of these meaningful feature combinations was the one that gave the best overall F-Measure of $61.62\%$.
 This feature combination did not contain the prefix/suffix and the PoSTag features.
-This was surprising for us because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
+This was surprising for us, because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
 Looking further into the data, we found that turning off the prefix/suffix or the PoSTag feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
 
 \begin{table}[h]
@@ -68,9 +68,9 @@ Looking further into the data, we found that turning off the prefix/suffix or th
 We concluded that the prefix/suffix and PoSTag features provided merely decent (but not great) results on their own.
 Due to their high number of features, they already have multiple dimensions by which we can distinguish their vectors.
 Features with only one individual value might provide a clearer separation but only in a single dimension.
-This means that they are not very good for creating a larger number of clusters which is what would have been required for a good performance in our test with only one active feature.
+This means that they are not good for creating a larger number of clusters, which is what would have been required for a good performance in our test with only one active feature.
 However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
-If we then add in the high dimensional but only mediocre features like prefix/suffix and PoSTag as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
+If we then add in the high dimensional but only mediocre features such as prefix/suffix and POSTAG as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
 Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
 
 
@@ -80,7 +80,7 @@ Dropping them both meant that the number of features we had in a vector was now 
 
 The resulting f-measure for our k-means algorithm when having all but the prefix/suffix and part-of-speech tag feature enabled is $61.64\%$.
 When looking at the individual documents' classification, we noticed that the documents of two the authors would mostly be sorted into the same cluster due to their feature vectors being quite similar.
-We concluded that these two authors actually had a very similar writing style and that this meant that the f-measure could not become much better due to our gold standard assuming one cluster per author.
+We concluded that these two authors actually had a similar writing style and that this meant that the f-measure could not become much better due to our gold standard assuming one cluster per author.
 
 
 \subsection{Evaluation of Classification}
