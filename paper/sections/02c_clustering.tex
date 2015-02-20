@@ -4,11 +4,14 @@
 \label{sec:clustering}
 
 After extracting all features and vectorizing them for each blog post in our data set, we group them into clusters according to the similarity of their feature vectors.
+Thus, the blog posts are grouped by their writing style into clusters.
+One cluster represents one writing style, so that one cluster only contains blog posts with similar writing styles.
+
+
 To this end, we use a k-means algorithm which is a method from vector quantization.
 K-means is one of the most popular and simplest clustering algorithms.
 Using a k-means algorithm the number of resulting clusters can be configured easily.
 
-%TODO Genereller Satz fehlt: Wieso clustern wir? Was ist das Ergebnis des Clustering?
 
 To run a k-means algorithm, the value $k$ has to be set beforehand.
 $K$ represents the number of clusters and thus the number of similar writing styles, which should be determined.
@@ -20,8 +23,12 @@ Another use case could be to find similar writing style groups.
 One cluster would then contain blog posts from multiple authors having a similar writing style.
 In this case $k$ should be chosen much lower than the actual number of authors.
 
+
+
+
 \subsection{Cluster Labelling}
 \label{sec:cluster_labeling}
+
 Labelling the resulting clusters helps the user to distinguish between them.
 The labels indicate what kind of blog posts are in those clusters, so that the user gets an idea what to expect from blog posts in this cluster.
 
@@ -32,4 +39,5 @@ However, trying to find universally accepted writing styles leads to labels like
 Thus, these types of labels were also not applicable for our use case.
 
 
-%TODO Satz was wir jetzt gemacht haben.
+Therefore, we implemented our own cluster labelling methods, which consider the most important features of a cluster.
+These methods are described in Section~\ref{sec:impl_cluster_labeling}.
