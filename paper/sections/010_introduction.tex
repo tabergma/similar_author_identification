@@ -28,7 +28,7 @@ A model generated from these clusters is then fed to a machine learning step (Se
 To this end, the features of the new document are calculated and then compared to the model of known documents and their clusters.
 Figure~\ref{fig:figure_1} gives an overview of our approach showing all three steps.
 
-\begin{figure}[h]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.8\textwidth]{images/Figure_1.pdf}
     \caption{Our approach to find similar authors by their writing style. Step 1: We extract features from the blog posts, which assess the writing style, and use them to cluster the blog posts into different writing style groups. Step 2: These groups are labeled by their most significant characteristics. Step 3: We assign new blog posts to one of the writing style groups using their features and the results from the previous steps.}
@@ -37,3 +37,4 @@ Figure~\ref{fig:figure_1} gives an overview of our approach showing all three st
 
 Since many of the features, which discern a writing style are not comparable across different languages (e.g. the average word length might be vastly different between various languages, making it useless when comparing an English post to a French one), we decided to focus on only two languages: English and German.
 For the reason mentioned above, our program still work with only one of these languages at a time but it can function with documents from either of them.
+
