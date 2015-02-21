@@ -48,7 +48,7 @@ As with method 2, we calculate the difference to the average for each cluster an
 However, we also normalize them to the total range this feature has for our data.
 Then, we pick the $n$ most significant of these differences for each cluster and use them to label it.
 Significance, in this case, is mostly determined by how great the deviation from the average is: The larger the deviation the higher the significance.
-The only exception to this is that being close to to the average is considered slightly more significant than being fairly close to it.
+The only exception to this is that being close to the average is considered slightly more significant than being fairly close to it.
 
 In our example, clusters 2 and 3 would most likely obtain the label ``longest'' or ``shortest blog posts'' respectively.
 Cluster 1 on the other hand would be eligible for the low significance label ``average length blog posts'' but might not receive it if it has $n$ more significant labels.

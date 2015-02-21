@@ -72,7 +72,7 @@ Due to their high number of features, they already have multiple dimensions by w
 Features with only one individual value might provide a clearer separation but only in a single dimension.
 This means that they are not good for creating a larger number of clusters, which is what would have been required for a good performance in our test with only one active feature.
 However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
-If we then add in the high dimensional but only mediocre features such as prefix/suffix and PosTag as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
+If we then add in the high dimensional but only mediocre features such as prefix/suffix and PoSTag as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
 Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
 
 
@@ -95,7 +95,7 @@ This process is repeated ten times, so each one of these sets was a test set onc
 Each time the precision is calculated and at the end the overall average precision is determined.
 
 
-Training the support vector machine means, that a new model based on the training data set is created.
+Training the support vector machine means that a new model based on the training data set is created.
 This model is then used for determining a cluster for each blog posts in the test set.
 The k-nearest neighbor algorithm uses the training data set as known data points (see Section~\ref{sec:k_nearest_neighbor}).
 
