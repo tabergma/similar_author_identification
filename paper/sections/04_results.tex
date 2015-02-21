@@ -39,9 +39,9 @@ Based on this assumption, if author A has the dominant cluster C, we then define
 
 From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
 One of these meaningful feature combinations was the one that gave the best overall f-measure of $61.62\%$.
-This feature combination did not contain the prefix/suffix and the PoSTag features.
+This feature combination did not contain the \textit{prefix/suffix} and the \textit{PoSTag} features.
 This was surprising for us, because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
-Looking further into the data, we found that turning off the prefix/suffix or the PoSTag feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
+Looking further into the data, we found that turning off the \textit{prefix/suffix} or the \textit{PoSTag} feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
 
 \begin{table}[ht!]
 	\begin{center}
@@ -49,38 +49,38 @@ Looking further into the data, we found that turning off the prefix/suffix or th
 	Feature name		& F-Measure without & Difference to all features \\ \hline \hline
 	All features active	& 0.4152833313 & $\pm$0.0 \\ \hline \hline
 	Emoticon			& 0.3757936508 & +0.0438422688 \\ \hline
-	BlankLine			& 0.4074074074 & +0.0078759239 \\ \hline
-	PostLength			& 0.4196359196 & +0.0043525883 \\ \hline
-	WordFrequency		& 0.4130983959 & +0.0021849354 \\ \hline
-	UpperCase			& 0.4144100548 & +0.0008732765 \\ \hline
-	CapitalLetter		& 0.4148865024 & +0.0003968289 \\ \hline
-	FunctionWord		& 0.4150935674 & +0.0001897639 \\ \hline
-	CharacterFrequency	& 0.4151904736 & +0.0000928577 \\ \hline
-	WordLength			& 0.4152373925 & +0.0000459388 \\ \hline
-	SentenceLength		& 0.4152833313 & $\pm$0.0 	   \\ \hline
+	Blank line			& 0.4074074074 & +0.0078759239 \\ \hline
+	Post length			& 0.4196359196 & +0.0043525883 \\ \hline
+	Word frequency		& 0.4130983959 & +0.0021849354 \\ \hline
+	Upper case			& 0.4144100548 & +0.0008732765 \\ \hline
+	Capital letter		& 0.4148865024 & +0.0003968289 \\ \hline
+	Function word		& 0.4150935674 & +0.0001897639 \\ \hline
+	Character frequency	& 0.4151904736 & +0.0000928577 \\ \hline
+	Word length			& 0.4152373925 & +0.0000459388 \\ \hline
+	Sentence length		& 0.4152833313 & $\pm$0.0 	   \\ \hline
 	PoSTag				& 0.4196359196 & -0.0043525883 \\ \hline
-	Prefix/Suffix		& 0.4712048408 & -0.0559215095 \\
+	Prefix/suffix		& 0.4712048408 & -0.0559215095 \\
     \end{tabular}
     \end{center}
-	\caption{The f-measure having all features but one active and the difference to the f-measure having all features active. Having the PoSTag feature or the prefix/suffix feature active, decreases the overall f-measure.}
+	\caption{The f-measure having all features but one active and the difference to the f-measure having all features active. Having the \textit{PoSTag} feature or the \textit{prefix/suffix} feature active, decreases the overall f-measure.}
 	\label{tab:feature_evaluation_1}
 \end{table}
 
-We concluded that the prefix/suffix and PoSTag features provided merely decent (but not great) results on their own.
+We concluded that the \textit{prefix/suffix} and \textit{PoSTag} features provided merely decent (but not great) results on their own.
 Due to their high number of features, they already have multiple dimensions by which we can distinguish their vectors.
 %TODO: Nicht gut verständlich
 Features with only one individual value might provide a clearer separation but only in a single dimension.
 This means that they are not good for creating a larger number of clusters, which is what would have been required for a good performance in our test with only one active feature.
 However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
-If we then add in the high dimensional but only mediocre features such as prefix/suffix and PoSTag as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
+If we then add in the high dimensional but only mediocre features such as \textit{prefix/suffix} and \textit{PoSTag} as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
 Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
 
 
-Ultimately, we decided not to use the prefix/suffix and PoSTag features, since they both lowered performance significantly.
+Ultimately, we decided not to use the \textit{prefix/suffix} and \textit{PoSTag} features, since they both lowered performance significantly.
 Dropping them both meant that the number of features we had in a vector was now only a fraction of the previous amount, which gave our small but well-performing features much more impact.
 
 
-The resulting f-measure for our \textit{k-means} algorithm when having all but the prefix/suffix and PoSTag feature enabled is $61.64\%$.
+The resulting f-measure for our \textit{k-means} algorithm when having all but the \textit{prefix/suffix} and \textit{PoSTag} feature enabled is $61.64\%$.
 When looking at the individual blog posts' classification, we noticed that the blog posts of two authors would mostly be sorted into the same cluster due to their feature vectors being quite similar.
 We concluded that these two authors actually had a similar writing style and that this meant that the f-measure could not become much better due to our gold standard assuming one cluster per author.
 
