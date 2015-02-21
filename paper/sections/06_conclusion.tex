@@ -10,9 +10,10 @@ Thus, we are reducing the potential candidates by an order of magnitude or more 
 
 
 We tested and evaluated multiple features for identifying different writing styles.
-Having a feature, which results in hundreds of subfeatures while having only a few other features, adulterates the results immensely.
+Therefore, we used established features, but also added some new ones, such as an emoticon feature.
 We use a k-means algorithm to cluster the blog posts based on the selected features.
 Our evaluation on a small test data set shows that our k-means algorithm has a f-measure of $61.64\%$.
+Labelling the clusters by the most significant writing style characteristics helps the user to distinguish between them.
 To determine a cluster, i.e. writing style, of a new blog posts, we examined different classification methods.
 K-nearest neighbor performed slighty worse ($97.77\%$) than a support vector machine ($98.89\%$).
 
@@ -24,7 +25,7 @@ This might improve recommendation quality or even find good matches for blogs pr
 
 
 Our program's results and its usability could be improved in various ways: Adding more languages to our program’s repertoire would greatly increase its scope.
-This would merely require adjusting the calculation of some of the features by adding an appropriate Part-of-Speech tagger and a function word list as well as new tests on the performance and feasibility of each feature.
+This would merely require adjusting the calculation of some of the features by adding an appropriate part-of-speech tagger and a function word list as well as new tests on the performance and feasibility of each feature.
 
 
 Utilizing a larger and more diverse data set with a proper gold standard could allow for improved evaluation of our program’s ability to find exact matches for unknown authors.

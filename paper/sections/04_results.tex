@@ -7,6 +7,7 @@ There are two separate steps we want to evaluate.
 Firstly we want to measure the performance of our clustering into similar author groups.
 Based on how this performance changes, when adding or removing features, we can also evaluate the value gain of features.
 After we have the results from the clustering, we then use this mapping of blog posts to a cluster to evaluate the prediction of new blog posts.
+%TODO: Der Satz ist ziemlich kompliziert geschrieben!
 For example the cluster a blog post belongs to in the clustering result, is also the one we want to identify the blog post as, if it was not part of the clustering and classified afterwards.
 
 
@@ -14,7 +15,7 @@ For example the cluster a blog post belongs to in the clustering result, is also
 \label{sec:evaluation_clustering}
 To evaluate our k-means algorithm we evaluated the feasibility and usefulness of our features (see Table~\ref{tab:featureTable}) by splitting them into 12 semantically related groups and then ran our k-means clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_sources}).
 We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster.
-We then used this scenario as a gold standard and calculated precision, recall and F-Measure wrt. an author as shown here:
+We then used this scenario as a gold standard and calculated precision, recall and f-measure wrt. an author as shown here:
 \begin{equation}
 	Precision = \frac{TP}{TP + FP} \\
 	\label{eq:precision}
@@ -37,7 +38,7 @@ Based on this assumption, if author A has the dominant cluster C, we then define
 \end{itemize}
 
 From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
-One of these meaningful feature combinations was the one that gave the best overall F-Measure of $61.62\%$.
+One of these meaningful feature combinations was the one that gave the best overall f-measure of $61.62\%$.
 This feature combination did not contain the prefix/suffix and the PoSTag features.
 This was surprising for us, because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
 Looking further into the data, we found that turning off the prefix/suffix or the PoSTag feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
@@ -58,7 +59,7 @@ Looking further into the data, we found that turning off the prefix/suffix or th
 	WordLength			& 0.4152373925 & +0.0000459388 \\ \hline
 	SentenceLength		& 0.4152833313 & $\pm$0.0 	   \\ \hline
 	PoSTag				& 0.4196359196 & -0.0043525883 \\ \hline
-	Prefix/Suffix		& 0.4712048408 & -0.0559215095 \\ \hline
+	Prefix/Suffix		& 0.4712048408 & -0.0559215095 \\
     \end{tabular}
     \end{center}
 	\caption{The f-measure having all features but one active and the difference to the f-measure having all features active. Having the PoSTag feature or the prefix/suffix feature active, decreases the overall f-measure.}
@@ -67,10 +68,11 @@ Looking further into the data, we found that turning off the prefix/suffix or th
 
 We concluded that the prefix/suffix and PoSTag features provided merely decent (but not great) results on their own.
 Due to their high number of features, they already have multiple dimensions by which we can distinguish their vectors.
+%TODO: Nicht gut verständlich
 Features with only one individual value might provide a clearer separation but only in a single dimension.
 This means that they are not good for creating a larger number of clusters, which is what would have been required for a good performance in our test with only one active feature.
 However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
-If we then add in the high dimensional but only mediocre features such as prefix/suffix and POSTAG as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
+If we then add in the high dimensional but only mediocre features such as prefix/suffix and PosTag as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
 Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
 
 
@@ -78,8 +80,8 @@ Ultimately, we decided not to use the prefix/suffix and PoSTag features, since t
 Dropping them both meant that the number of features we had in a vector was now only a fraction of the previous amount, which gave our small but well-performing features much more impact.
 
 
-The resulting f-measure for our k-means algorithm when having all but the prefix/suffix and part-of-speech tag feature enabled is $61.64\%$.
-When looking at the individual documents' classification, we noticed that the documents of two the authors would mostly be sorted into the same cluster due to their feature vectors being quite similar.
+The resulting f-measure for our k-means algorithm when having all but the prefix/suffix and PoSTag feature enabled is $61.64\%$.
+When looking at the individual blog posts' classification, we noticed that the blog posts of two authors would mostly be sorted into the same cluster due to their feature vectors being quite similar.
 We concluded that these two authors actually had a similar writing style and that this meant that the f-measure could not become much better due to our gold standard assuming one cluster per author.
 
 
@@ -98,12 +100,12 @@ This model is then used for determining a cluster for each blog posts in the tes
 The k-nearest neighbor algorithm uses the training data set as known data points (see Section~\ref{sec:k_nearest_neighbor}).
 
 
-After finding the optimal parameters for both methods, we achieved $97.77\%$ precision for k-nearest neighbor and $98.89\%$ precision for a support vector machine in our ten-fold cross validation.
+After finding the optimal parameters for both methods, we achieved $97.77\%$ precision for k-nearest neighbor and $98.89\%$ precision for our support vector machine in the ten-fold cross validation.
 
 
-Thus, our results of $~60\%$ F-Measure appear to be a lot better than those of much of the related work on the topic.
+Thus, our result of $\sim60\%$ f-measure for clustering appears to be a lot better than those from related work in this field.
 This is mainly due to the different problem domain though:
 We merely try to find similar writing style groups, while most of the related work tried to identify the exact author to a document.
-Since this problem is harder than ours, simply because the solution space is a lot larger, results that appear worse at first glance (like the $20\%$ accuracy of Narayanan et al.~\cite{narayanan2012feasibility}) are to be expected.
+Since this problem is harder than ours, simply because the solution space is a lot larger, results that appear worse at first glance (such as the $20\%$ accuracy of Narayanan et al.~\cite{narayanan2012feasibility}) are to be expected.
 On the other hand, Koppel et al.~\cite{koppel2003automatically}, who try to correctly identify an author's gender by their writing style, achieve a precision of over $80\%$ since this problem is smaller than even our six assumed writing styles.
 The fact that our results lie somewhere between these two other approaches to (respectively) more and less difficult problems is thus exactly what was to be expected.

@@ -15,14 +15,12 @@ Using a k-means algorithm the number of resulting clusters can be configured eas
 
 To run a k-means algorithm, the value $k$ has to be set beforehand.
 $K$ represents the number of clusters and thus the number of similar writing styles, which should be determined.
-Finding an appropriate value for $k$ depends highly on the use case.
-One use case could be to find exact authors, so that one cluster, i.e. writing style group, would correspond to one author.
-One cluster would contain only blog posts of one author.
-The value $k$ should therefore be similar to the number of expected authors.
-Another use case could be to find similar writing style groups.
-One cluster would then contain blog posts from multiple authors having a similar writing style.
-In this case, $k$ should be chosen much lower than the actual number of authors.
-
+Depending on the value of $k$ the use case can differ.
+Setting the value $k$ similar to the number of expected authors, the exact author should be found.
+If $k$ is euqal to the number of authors, one cluster, i.e. writing style group, would correspond to one author.
+So one cluster would contain only blog posts of one author.
+Choosing a value much lower than the actual number of authors for $k$, would allow us to find similar authors.
+In this case, one cluster would contain blog posts from multiple authors having a similar writing style.
 
 
 
