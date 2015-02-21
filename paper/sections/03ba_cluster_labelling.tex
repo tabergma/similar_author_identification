@@ -43,9 +43,9 @@ This method assigns more labels to clusters than method 1, but can also lead to 
 
 
 \paragraph{Method 3}
-% TODO: Finde ich nicht so verständlich beschrieben (Tanja), evtl. nochmal umschreiben!
-As with method 2, we calculate the difference to the average for each cluster and feature.
-However, we also normalize them to the total range this feature has for our data.
+Similarly to method 2, we look at each feature and discern the average for that feature.
+We then calculate the difference between this average and the average value of every cluster.
+However, we also normalize it to the total range this feature has for our data.
 Then, we pick the $n$ most significant of these differences for each cluster and use them to label it.
 Significance, in this case, is mostly determined by how great the deviation from the average is: The larger the deviation the higher the significance.
 The only exception to this is that being close to the average is considered slightly more significant than being fairly close to it.

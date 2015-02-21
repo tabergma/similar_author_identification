@@ -6,7 +6,7 @@
 There are two separate steps we want to evaluate.
 Firstly we want to measure the performance of our clustering into similar author groups.
 Based on how this performance changes, when adding or removing features, we can also evaluate the value gain of features.
-After we have the results from the clustering, we then use this mapping of blog posts to a cluster to evaluate the prediction of new blog posts.
+After we have the results from the clustering, we then use this mapping of blog posts on clusters to evaluate the prediction of new blog posts.
 %TODO: Der Satz ist ziemlich kompliziert geschrieben!
 For example the cluster a blog post belongs to in the clustering result, is also the one we want to identify the blog post as, if it was not part of the clustering and classified afterwards.
 
@@ -67,8 +67,7 @@ Looking further into the data, we found that turning off the \textit{prefix/suff
 \end{table}
 
 We concluded that the \textit{prefix/suffix} and \textit{PoSTag} features provided merely decent (but not great) results on their own.
-Due to their high number of features, they already have multiple dimensions by which we can distinguish their vectors.
-%TODO: Nicht gut verständlich
+Due to their high number of individual features, we can use them alone quite well to distinguish blog posts, however the overall quality is not as good as other single features combined.
 Features with only one individual value might provide a clearer separation but only in a single dimension.
 This means that they are not good for creating a larger number of clusters, which is what would have been required for a good performance in our test with only one active feature.
 However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
