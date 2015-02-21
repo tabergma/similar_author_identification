@@ -13,7 +13,7 @@ For example the cluster a blog post belongs to in the clustering result, is also
 
 \subsection{Evaluation of Clustering}
 \label{sec:evaluation_clustering}
-To evaluate our k-means algorithm we evaluated the feasibility and usefulness of our features (see Table~\ref{tab:featureTable}) by splitting them into 12 semantically related groups and then ran our k-means clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_sources}).
+To evaluate our \textit{k-means} algorithm we evaluated the feasibility and usefulness of our features (see Table~\ref{tab:featureTable}) by splitting them into 12 semantically related groups and then ran our \textit{k-means} clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_sources}).
 We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster.
 We then used this scenario as a gold standard and calculated precision, recall and f-measure wrt. an author as shown here:
 \begin{equation}
@@ -80,7 +80,7 @@ Ultimately, we decided not to use the prefix/suffix and PoSTag features, since t
 Dropping them both meant that the number of features we had in a vector was now only a fraction of the previous amount, which gave our small but well-performing features much more impact.
 
 
-The resulting f-measure for our k-means algorithm when having all but the prefix/suffix and PoSTag feature enabled is $61.64\%$.
+The resulting f-measure for our \textit{k-means} algorithm when having all but the prefix/suffix and PoSTag feature enabled is $61.64\%$.
 When looking at the individual blog posts' classification, we noticed that the blog posts of two authors would mostly be sorted into the same cluster due to their feature vectors being quite similar.
 We concluded that these two authors actually had a similar writing style and that this meant that the f-measure could not become much better due to our gold standard assuming one cluster per author.
 
@@ -95,12 +95,12 @@ This process is repeated ten times, so each one of these sets was a test set onc
 Each time the precision is calculated and at the end the overall average precision is determined.
 
 
-Training the support vector machine means that a new model based on the training data set is created.
+Training the \textit{support vector machine} means that a new model based on the training data set is created.
 This model is then used for determining a cluster for each blog posts in the test set.
-The k-nearest neighbor algorithm uses the training data set as known data points (see Section~\ref{sec:k_nearest_neighbor}).
+The \textit{k-nearest neighbor} algorithm uses the training data set as known data points (see Section~\ref{sec:k_nearest_neighbor}).
 
 
-After finding the optimal parameters for both methods, we achieved $97.77\%$ precision for k-nearest neighbor and $98.89\%$ precision for our support vector machine in the ten-fold cross validation.
+After finding the optimal parameters for both methods, we achieved $97.77\%$ precision for \textit{k-nearest neighbor} and $98.89\%$ precision for our \textit{support vector machine} in the ten-fold cross validation.
 
 
 Thus, our result of $\sim60\%$ f-measure for clustering appears to be a lot better than those from related work in this field.

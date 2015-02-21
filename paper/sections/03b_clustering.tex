@@ -1,18 +1,18 @@
 \subsection{Clustering}
 \label{sec:impl_clustering}
 
-For our implementation we used the k-means algorithm offered by Mahout\footnote{\url{https://mahout.apache.org/}}, which can be executed efficiently among a cluster with a large amount of data~\cite{esteves2011k}.
+For our implementation we used the \textit{k-means} algorithm offered by Mahout\footnote{\url{https://mahout.apache.org/}}, which can be executed efficiently among a cluster with a large amount of data~\cite{esteves2011k}.
 
 
-K-means creates $k$ clusters from $n$ vectors by randomly selecting $k$ points from the vector space as cluster centroids.
+\textit{K-means} creates $k$ clusters from $n$ vectors by randomly selecting $k$ points from the vector space as cluster centroids.
 Then, each vector or point is assigned to its nearest cluster centroid according to its Euclidean distance to those centroids.
 Afterwards, the cluster centroids are repositioned to the center of all vectors/points, which were assigned to them.
 These last two steps are repeated until the cluster centroids converge.
-The resulting assignment of the vectors (and thus their corresponding blog posts) to the clusters is the same as the final assignment performed by the k-means algorithm.
+The resulting assignment of the vectors (and thus their corresponding blog posts) to the clusters is the same as the final assignment performed by the \textit{k-means} algorithm.
 
 
 Using our small data set we set $k$ to 6, the number of authors.
 Under the assumption that each author has an individual writing style and that this writing style is not changing over time, an author should obtain their own cluster containing only blog posts written by him.
-In this way, we could evaluate our k-means algorithm (see Section~\ref{sec:evaluation_clustering}).
+In this way, we could evaluate our \textit{k-means} algorithm (see Section~\ref{sec:evaluation_clustering}).
 
 

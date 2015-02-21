@@ -6,7 +6,7 @@ The first naive idea, which assigns a cluster to a blog post, is to calculate th
 The resulting cluster would then be the one with the lowest distance.
 While this method is computationally simple and fast, it might not provide the best possible results.
 Therefore we looked at more sophisticated approaches that were used for similar problems before.
-We applied two of those methods, a k-nearest neighbor algorithm~\cite{peterson2009k} and a support vector machine~\cite{kolari2006svms}.
+We applied two of those methods, a \textit{k-nearest neighbor} algorithm~\cite{peterson2009k} and a \textit{support vector machine}~\cite{kolari2006svms}.
 The training data for these algorithms is based on the clustering results, as described in Section~\ref{sec:impl_clustering}.
 
 
@@ -14,18 +14,18 @@ The training data for these algorithms is based on the clustering results, as de
 \label{sec:k_nearest_neighbor}
 
 
-The k-nearest Neighbor algorithm selects the $k$ vectors from the training data, which are closest to the feature vector of the new blog post.
+The \textit{k-nearest neighbor} algorithm selects the $k$ vectors from the training data, which are closest to the feature vector of the new blog post.
 Then it returns the cluster that is prevalent amongst these neighbors as a result.
 For example consider the scenario depicted in Figure~\ref{fig:naive}.
 The naive method of calculating the Euclidean distance between the cluster center and the feature vector of the new blog post would have cluster 1 as a result.
-However the k-nearest Neighbor algorithm with, for example $k=5$, returns cluster 2, because four out of the five closest neighbors belong to cluster 2.
+However the \textit{k-nearest neighbor} algorithm with, for example $k=5$, returns cluster 2, because four out of the five closest neighbors belong to cluster 2.
 Intuitively, this appears as the better solution, because the feature vector of the new blog post seems to be naturally belonging to cluster two.
 
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.6\textwidth]{images/naive.pdf}
-    \caption{The naive approach, which calculates the Euclidean distance to the center of the cluster, would put the new blog post into cluster 1. The k-Nearest Neighbor algorithm would return cluster 2 as a result.}
+    \caption{The naive approach, which calculates the Euclidean distance to the center of the cluster, would put the new blog post into cluster 1. The \textit{k-nearest neighbor} algorithm would return cluster 2 as a result.}
     \label{fig:naive}
 \end{figure}
 
@@ -34,22 +34,22 @@ Intuitively, this appears as the better solution, because the feature vector of 
 \label{sec:support_vector_machine}
 
 
-A support vector machine creates a model to distinguish between the different clusters of the training data by calculating borders between them.
+A \textit{support vector machine} creates a model to distinguish between the different clusters of the training data by calculating borders between them.
 These borders can be thought of as functions in the same vector space as the feature vectors.
-If the support vector machine uses a linear model, this might look such as shown in Figure~\ref{fig:svm}, represented in a two-dimensional graph.
-Both, the dotted and the dashed line serve as examples for a possible border, but the support vector machine should usually tend to use the model with more distance to all feature vectors.
+If the \textit{support vector machine} uses a linear model, this might look such as shown in Figure~\ref{fig:svm}, represented in a two-dimensional graph.
+Both, the dotted and the dashed line serve as examples for a possible border, but the \textit{support vector machine} should usually tend to use the model with more distance to all feature vectors.
 In this case, the dashed line would more accurately divide cluster 1 and 2.
 
 
-We used the support vector machine implementation LIBSVM\footnote{\url{http://www.csie.ntu.edu.tw/~cjlin/libsvm/}}, as described by Fan et al.~\cite{fan2005working}.
+We used the \textit{support vector machine} implementation LIBSVM\footnote{\url{http://www.csie.ntu.edu.tw/~cjlin/libsvm/}}, as described by Fan et al.~\cite{fan2005working}.
 We followed the configuration procedure proposed by Hsu et al.~\cite{hsu2003practical}.
-In the end we used the default configuration of type C-SVC and a radial basis function kernel for the support vector machine.
+In the end we used the default configuration of type C-SVC and a radial basis function kernel for the \textit{support vector machine}.
 The only parameter we adapted was $c=1000$, which was done using cross-validation, as recommended by Hsu et al. to prevent overfitting on our data set.
 
 
 \begin{figure}[ht!]
     \centering
     \includegraphics[width=0.6\textwidth]{images/svm.pdf}
-    \caption{Two differently configured support vector machines might provide the two different lines as borders between the different clusters. The dotted line would result in the blog post belonging to cluster 1, while the dashed line would return cluster 2 as a result.}
+    \caption{Two differently configured \textit{support vector machine}s might provide the two different lines as borders between the different clusters. The dotted line would result in the blog post belonging to cluster 1, while the dashed line would return cluster 2 as a result.}
     \label{fig:svm}
 \end{figure}
