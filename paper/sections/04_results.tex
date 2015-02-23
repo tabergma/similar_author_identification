@@ -15,9 +15,9 @@ For example the cluster a blog post belongs to in the clustering result, is also
 
 \subsection{Evaluation of Clustering}
 \label{sec:evaluation_clustering}
-To evaluate our \textit{k-means} algorithm we evaluated the feasibility and usefulness of our features (see Table~\ref{tab:featureTable}) by splitting them into 12 semantically related groups and then ran our \textit{k-means} clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_sources}).
+To evaluate our \textit{k-means} algorithm we evaluated the feasibility and usefulness of our features (see Table~\ref{tab:featureTable}) by splitting them into 12 semantically related groups and then ran our \textit{k-means} clustering algorithm on each of the $2^{12} = 4,096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_sources}).
 We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster.
-We then used this scenario as a gold standard and calculated precision, recall and F-measure wrt. an author as shown here:
+We then used this scenario as a gold standard and calculated precision, recall, and F-measure wrt. an author as shown here:
 \begin{equation}
 	Precision = \frac{TP}{TP + FP} \\
 	\label{eq:precision}
@@ -39,11 +39,11 @@ Based on this assumption, if author A has the dominant cluster C, we then define
 	\item[$FN$:] Number of blog posts of author A, which are not assigned to cluster C.
 \end{itemize}
 
-From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
+From these $4,096$ individual test runs we selected some meaningful data points to base our conclusions on.
 One of these meaningful feature combinations was the one that gave the best overall F-measure of $61.62\%$.
 This feature combination did not contain the \textit{prefix/suffix} and the \textit{part-of-speech tag} features.
-This was surprising for us, because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
-Looking further into the data, we found that turning off the \textit{prefix/suffix} or the \textit{part-of-speech tag} feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
+This was surprising for us, because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that having only these features active on their own provided us with better results than having only one of the other features turned on.
+Looking further into the data, we found that turning off the \textit{prefix/suffix} or the \textit{PoSTag} feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
 
 \begin{table}[ht!]
 	\begin{center}
@@ -73,7 +73,7 @@ Due to their high number of individual features, we can use them alone quite wel
 Features with only one individual value might provide a clearer separation but only in a single dimension.
 This means that they are not good for creating a larger number of clusters, which is what would have been required for a good performance in our test with only one active feature.
 However, due to the clear separation they provide, adding more small features (and thus dimensions) drastically improves the test results.
-If we then add in the high dimensional but only mediocre features such as \textit{prefix/suffix} and \textit{part-of-speech tag} as well, the test results become worse because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
+If we then add in the high dimensional but only mediocre features, such as \textit{prefix/suffix} and \textit{part-of-speech tag} as well, the test results become worse, because the positive impact of the low dimensional features is lessened by the sheer amount of dimensions added to the feature vector.
 Thus, their good performance is being overshadowed by the high dimensional features' mediocrity.
 
 

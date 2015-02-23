@@ -5,7 +5,7 @@
 
 
 
-After we cluster all blog posts, e.g. in a database, we need a way to deal with new blog posts, which are added at a later point.
+After we cluster all blog posts, e.g., in a database, we need a way to deal with new blog posts, which are added at a later point.
 Optimally, we want a new blog post to be sorted into the cluster it would have also landed in if it were part of the original clustering.
 To ensure this outcome, we could add the new blog post to the data set and then run the entire clustering again on all blog posts.
 However this seems inefficient, because of the potentially huge number of blog posts, which would have to be clustered again, compared to the fact that we want to assign a cluster to only one new blog post.

@@ -2,6 +2,6 @@
 \label{sec:impl_cluster_labeling}
 
 To guarantee a set number of feature labels for each cluster we use the third cluster labelling method, which was presented in Section~\ref{sec:cluster_labeling}, for our final implementation.
-This method assigns the $n$ most significant feature labels to a cluster, i.e. it assigns those $n$ feature labels to a cluster which have the largest deviation to the average.
+This method assigns the $n$ most significant feature labels to a cluster, i.e., it assigns those $n$ feature labels to a cluster, which have the largest deviation to the average.
 We found that providing five labels for each cluster was usually enough to describe them in a unique way while still being few enough not to confuse the user.
 Thus, we set $n$ to 5 so that each cluster obtains five different labels.
