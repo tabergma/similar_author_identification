@@ -5,16 +5,16 @@
 
 Nowadays, everyone can write a blog post fairly easily.
 Thus, the amount of blog posts and authors increases quickly, making the task of identifying an exact author hard to conclude.
-In this paper, we present an approach of dividing a set of blog posts into different groups, each group representing an individual writing style and therefore similar authors.
+In this paper, we presented an approach of dividing a set of blog posts into different groups, each group representing an individual writing style and therefore similar authors.
 Thus, we are reducing the potential candidates by an order of magnitude or more and we can aid the user in getting much closer to the correct author.
 
 
 We tested and evaluated multiple features for identifying different writing styles.
-Therefore, we used established features, but also added some new ones, such as an emoticon feature.
+Therefore, we used established features, but also added some new ones, such as an \textit{emoticon} feature.
 We use a \textit{k-means} algorithm to cluster the blog posts based on the selected features.
 Our evaluation on a small test data set shows that our \textit{k-means} algorithm has an F-measure of $61.64\%$.
 Labelling the clusters by the most significant writing style characteristics helps the user to distinguish between them.
-To determine a cluster, i.e., writing style, of a new blog posts, we examined different classification methods.
+To determine a cluster, i.e., writing style, of new blog posts, we examined different classification methods.
 \textit{K-nearest neighbor} performed slightly worse ($97.77\%$) than a \textit{support vector machine} ($98.89\%$).
 
 
@@ -25,7 +25,7 @@ This might improve recommendation quality or even find good matches for blogs pr
 
 
 Our program's results and its usability could be improved in various ways: Adding more languages to our program’s repertoire would greatly increase its scope.
-This would merely require adjusting the calculation of some of the features by adding an appropriate part-of-speech tagger and a function word list as well as new tests on the performance and feasibility of each feature.
+This would merely require adjusting the calculation of some of the features by adding an abbreviation and a function word list as well as new tests on the performance and feasibility of each feature.
 
 
 Utilizing a larger and more diverse data set with a proper gold standard could allow for improved evaluation of our program’s ability to find exact matches for unknown authors.
@@ -36,7 +36,7 @@ Additional work could also be put into our clustering step by adding an addition
 Alternatively, evaluating the feasibility of other clustering algorithms is also an option.
 
 
-Furthermore, our approach could be expanded by additional features, which helps to identify for example the gender, the occupation, or the age of the authors.
+Furthermore, our approach could be expanded by additional features, which helps to identify for example the gender, the occupation, or the age of authors.
 Maybe woman use more adjectives than men and therefore blog posts can be divided into gender groups.
 A group would no longer just represent the writing style of blog posts but would also give the user information about what kind of author wrote those blog posts.
 

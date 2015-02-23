@@ -19,13 +19,13 @@ Advanced scenarios from the security domain might be trying to find the author o
 One of the main issues in designing a classification program of this kind is the pure scale of the problem when regarding the blogosphere as a whole.
 Being able to distinguish tens or even hundreds of thousands of authors purely by their writing style is much harder than it would be for only a few dozen authors.
 Reliably finding the one matching author on this scale might, in fact, be hard to achieve with today's methods.
-Instead, we aimed to create a program, which should output a number of blogs with a writing style similar to that of a given document.
+Instead, we aimed to create a program, which should output a number of blogs with a writing style similar to that of a given blog post.
 
 To that end, we first extract a number of significant features (Section~\ref{sec:features}) - such as lexical diversity or the use of certain function words - from each blog post, which are relevant in determining the writing style.
-Then, we use a clustering step to group blog posts with similar writing styles together (Section~\ref{sec:clustering}), based on their features.
-The resulting clusters are then labelled according to their most distinctive shared features (Section~\ref{sec:cluster_labeling}), to allow the users to see what its containing documents have in common.
-A model generated from these clusters is then fed to a machine learning step (Section~\ref{sec:classification}), which is able to discern the cluster a given new document would belong to.
-To this end, the features of the new document are calculated and then compared to the model of known documents and their clusters.
+Then, we use a clustering step to group blog posts with similar writing styles together (Section~\ref{sec:clustering}) based on their features.
+The resulting clusters are then labelled according to their most distinctive shared features (Section~\ref{sec:cluster_labeling}), to allow the users to see what its containing blog posts have in common.
+A model generated from these clusters is then fed to a machine learning step (Section~\ref{sec:classification}), which is able to discern the cluster a given new blog post would belong to.
+To this end, the features of the new blog post are calculated and then compared to the model of known blog posts and their clusters.
 Figure~\ref{fig:figure_1} gives an overview of our approach showing all three steps.
 
 \begin{figure}[ht!]
@@ -36,5 +36,5 @@ Figure~\ref{fig:figure_1} gives an overview of our approach showing all three st
 \end{figure}
 
 Since many of the features, which discern a writing style are not comparable across different languages (e.g., the average word length might be vastly different between various languages, making it useless when comparing an English post to a French one), we decided to focus on only two languages: English and German.
-For the reason mentioned above, our program still work with only one of these languages at a time but it can function with documents from either of them.
+For the reason mentioned above, our program still work with only one of these languages at a time but it can function with blog posts from either of them.
 

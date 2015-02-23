@@ -30,8 +30,8 @@ We then used this scenario as a gold standard and calculated precision, recall, 
 	F-measure = \frac{2 \times Recall \times Precision}{Recall + Precision}
 	\label{eq:fMeasure}
 \end{equation}
-For each author we find the cluster, which contains the highest number of documents from that author, the dominant cluster.
-We assume that this is the best matching cluster for the author, so all documents from that author should belong to that cluster.
+For each author we find the cluster, which contains the highest number of blog posts from that author, called dominant cluster.
+We assume that this is the best matching cluster for the author, so all blog posts from that author should belong to that cluster.
 Based on this assumption, if author A has the dominant cluster C, we then define $TP$, $FP$ and $FN$ in the following way:
 \begin{itemize}
 	\item[$TP$:] Number of blog posts of author A, which are assigned to cluster C. \\
@@ -43,7 +43,7 @@ From these $4,096$ individual test runs we selected some meaningful data points 
 One of these meaningful feature combinations was the one that gave the best overall F-measure of $61.62\%$.
 This feature combination did not contain the \textit{prefix/suffix} and the \textit{part-of-speech tag} features.
 This was surprising for us, because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that having only these features active on their own provided us with better results than having only one of the other features turned on.
-Looking further into the data, we found that turning off the \textit{prefix/suffix} or the \textit{PoSTag} feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
+Looking further into the data, we found that turning off the \textit{prefix/suffix} or the \textit{part-of-speech tag} feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
 
 \begin{table}[ht!]
 	\begin{center}
