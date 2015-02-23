@@ -5,6 +5,11 @@
 
 
 In Table~\ref{tab:featureTable} we describe all the features we used along with their respective individual feature count.
+One of the features we utilized, the \textit{function word} feature might appear to clash with our desire to create a topic-independent algorithm, which does not use a \textit{bag of words} model.
+However, function words are words with little or no lexical meaning, mainly used to create the grammatical structure of a sentence.
+Thus, they are actually topic-independent and the frequency of their usage has been successfully utilized to identify authors~\cite{mosteller1962applied}.
+We also tried to achieve topic-independence for our list of common abbreviations, which we used in the same way.
+The full list of function words and abbreviations we used for German and English can be found in Appendix~\ref{sec:app_function_words} and~\ref{sec:app_abbreviations}).
 
 
 \begin{table}[ht!]
@@ -30,7 +35,7 @@ In Table~\ref{tab:featureTable} we describe all the features we used along with 
     Word length              & 1 divided by the average word length                                      & 1                 & \cite{argamon2003style} \cite{narayanan2012feasibility}\\
     \end{tabular}
     \end{center}
-    \caption{Implemented features with descriptions and the count of individual features they contribute to the feature vector and papers they have previously been utilized in.}
+    \caption{Implemented features with descriptions, the count of individual features they contribute to the feature vector, and papers they have previously been utilized in.}
     \label{tab:featureTable}
 \end{table}
 
