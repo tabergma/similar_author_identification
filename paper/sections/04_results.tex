@@ -17,7 +17,7 @@ For example the cluster a blog post belongs to in the clustering result, is also
 \label{sec:evaluation_clustering}
 To evaluate our \textit{k-means} algorithm we evaluated the feasibility and usefulness of our features (see Table~\ref{tab:featureTable}) by splitting them into 12 semantically related groups and then ran our \textit{k-means} clustering algorithm on each of the $2^{12} = 4096$ possible permutations of active features using our small test data set (see Section~\ref{sec:data_sources}).
 We set the number of desired clusters to six, allowing for the possibility of each author getting their own cluster.
-We then used this scenario as a gold standard and calculated precision, recall and f-measure wrt. an author as shown here:
+We then used this scenario as a gold standard and calculated precision, recall and F-measure wrt. an author as shown here:
 \begin{equation}
 	Precision = \frac{TP}{TP + FP} \\
 	\label{eq:precision}
@@ -27,7 +27,7 @@ We then used this scenario as a gold standard and calculated precision, recall a
 	\label{eq:recall}
 \end{equation}
 \begin{equation}
-	F-Measure = \frac{2 \times Recall \times Precision}{Recall + Precision}
+	F-measure = \frac{2 \times Recall \times Precision}{Recall + Precision}
 	\label{eq:fMeasure}
 \end{equation}
 For each author we find the cluster, which contains the highest number of documents from that author, the dominant cluster.
@@ -40,7 +40,7 @@ Based on this assumption, if author A has the dominant cluster C, we then define
 \end{itemize}
 
 From these 4096 individual test runs we selected some meaningful data points to base our conclusions on.
-One of these meaningful feature combinations was the one that gave the best overall f-measure of $61.62\%$.
+One of these meaningful feature combinations was the one that gave the best overall F-measure of $61.62\%$.
 This feature combination did not contain the \textit{prefix/suffix} and the \textit{part-of-speech tag} features.
 This was surprising for us, because~\cite{madigan2005author} listed these as some of the features that performed best for them and because our own tests showed that only having these features active on their own provided us with better results than only having one of the other features turned on.
 Looking further into the data, we found that turning off the \textit{prefix/suffix} or the \textit{part-of-speech tag} feature while all other features remained active provided us with better results than having all features active at a time (see Table~\ref{tab:feature_evaluation_1}).
@@ -48,7 +48,7 @@ Looking further into the data, we found that turning off the \textit{prefix/suff
 \begin{table}[ht!]
 	\begin{center}
     \begin{tabular}{l|r|r}
-	Feature name		& F-Measure without & Difference to all features \\ \hline \hline
+	Feature name		& F-measure without & Difference to all features \\ \hline \hline
 	All features active	& 0.4152833313 & $\pm$0.0 \\ \hline \hline
 	Emoticon			& 0.3757936508 & +0.0438422688 \\ \hline
 	Blank line			& 0.4074074074 & +0.0078759239 \\ \hline
@@ -64,7 +64,7 @@ Looking further into the data, we found that turning off the \textit{prefix/suff
 	Prefix/suffix		& 0.4712048408 & -0.0559215095 \\
     \end{tabular}
     \end{center}
-	\caption{The f-measure having all features but one active and the difference to the f-measure having all features active. Having the \textit{part-of-speech tag} feature or the \textit{prefix/suffix} feature active, decreases the overall f-measure.}
+	\caption{The F-measure having all features but one active and the difference to the F-measure having all features active. Having the \textit{part-of-speech tag} feature or the \textit{prefix/suffix} feature active, decreases the overall F-measure.}
 	\label{tab:feature_evaluation_1}
 \end{table}
 
@@ -81,9 +81,9 @@ Ultimately, we decided not to use the \textit{prefix/suffix} and \textit{part-of
 Dropping them both meant that the number of features we had in a vector was now only a fraction of the previous amount, which gave our small but well-performing features much more impact.
 
 
-The resulting f-measure for our \textit{k-means} algorithm when having all but the \textit{prefix/suffix} and \textit{part-of-speech tag} feature enabled is $61.64\%$.
+The resulting F-measure for our \textit{k-means} algorithm when having all but the \textit{prefix/suffix} and \textit{part-of-speech tag} feature enabled is $61.64\%$.
 When looking at the individual blog posts' classification, we noticed that the blog posts of two authors would mostly be sorted into the same cluster due to their feature vectors being quite similar.
-We concluded that these two authors actually had a similar writing style and that this meant that the f-measure could not become much better due to our gold standard assuming one cluster per author.
+We concluded that these two authors actually had a similar writing style and that this meant that the F-measure could not become much better due to our gold standard assuming one cluster per author.
 
 
 \subsection{Evaluation of Classification}
@@ -104,7 +104,7 @@ The \textit{k-nearest neighbor} algorithm uses the training data set as known da
 After finding the optimal parameters for both methods, we achieved $97.77\%$ precision for \textit{k-nearest neighbor} and $98.89\%$ precision for our \textit{support vector machine} in the ten-fold cross validation.
 
 
-Thus, our result of $\sim60\%$ f-measure for clustering appears to be a lot better than those from related work in this field.
+Thus, our result of $\sim60\%$ F-measure for clustering appears to be a lot better than those from related work in this field.
 This is mainly due to the different problem domain though:
 We merely try to find similar writing style groups, while most of the related work tried to identify the exact author to a document.
 Since this problem is harder than ours, simply because the solution space is a lot larger, results that appear worse at first glance (such as the $20\%$ accuracy of Narayanan et al.~\cite{narayanan2012feasibility}) are to be expected.
