@@ -15,9 +15,8 @@ Using a \textit{k-means} algorithm the number of resulting clusters can be confi
 
 To run a \textit{k-means} algorithm, the value $k$ has to be set beforehand.
 $K$ represents the number of clusters and thus the number of similar writing styles, which should be determined.
-Depending on the value of $k$ the use case can differ.
-Setting the value $k$ similar to the number of expected authors, the exact author should be found.
-If $k$ is equal to the number of authors, one cluster, i.e., writing style group, would correspond to one author.
+The value of $k$ can differ depending on the use case.
+If $k$ is set to the number of authors, one cluster, i.e., writing style group, should correspond to one author.
 So one cluster would contain only blog posts of one author.
 Choosing a value much lower than the actual number of authors for $k$, would allow us to find similar authors.
 In this case, one cluster would contain blog posts from multiple authors having a similar writing style.
@@ -56,7 +55,7 @@ In the example cluster 2 has the highest value and obtains the label ``longest b
 The label ``shortest blog posts'' is assigned to cluster 3, because this cluster has the lowest value.
 
 Using this method only the most significant labels are set.
-But a cluster may not obtain any label when it does not have any extreme features.
+But a cluster might not obtain any label if it does not have any features with extreme values.
 
 
 \paragraph{Method 2}
@@ -65,10 +64,10 @@ In a second step, the distance for each feature and cluster to that average vect
 If the distance is over or below a certain threshold, the cluster is labelled.
 
 The example is shown in Figure~\ref{fig:cluster_labeling_2}.
-Because cluster 3 is not over or below the threshold, thus the length of the blog post is not significant for the cluster, no label is assigned to that cluster.
+Cluster 3 is not over or below the threshold, thus the length of the blog post is not significant for the cluster, so no label is assigned to that cluster.
 Cluster 1 and 2 are both over the threshold and obtain the label ``long blog posts''.
 
-This method assigns more labels to clusters than method 1, but can also lead to clusters without any labels if all of a cluster's feature have average values.
+This method assigns more labels to clusters than method 1, but can also lead to clusters without any labels if all features of a cluster have average values.
 
 \begin{figure}[ht!]
 	\centering
